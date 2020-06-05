@@ -1,0 +1,144 @@
+{
+    "books" : [
+        {
+            "age_range": "Teen",
+            "author": "Cory Doctorow",
+            "category": "Technology",
+            "cover": "https://images.gr-assets.com/books/1349673129l/954674.jpg",
+            "description" : "Marcus aka “w1n5t0n,” is only seventeen years old, but he figures he already knows how the system works–and how to work the system. Smart, fast, and wise to the ways of the networked world, he has no trouble outwitting his high school’s intrusive but clumsy surveillance systems.\n\nBut his whole world changes when he and his friends find themselves caught in the aftermath of a major terrorist attack on San Francisco. In the wrong place at the wrong time, Marcus and his crew are apprehended by the Department of Homeland Security and whisked away to a secret prison where they’re mercilessly interrogated for days.\n\nWhen the DHS finally releases them, his injured best friend Darryl does not come out. The city has become a police state where every citizen is treated like a potential terrorist. He knows that no one will believe his story, which leaves him only one option: \"M1k3y\" will take down the DHS himself.",
+            "download_links": {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1HyT5jJN4KbKEUSmsZrKoDFfhzjOiHddr/view?usp=sharing"
+            },
+            "source" : "http://craphound.com/littlebrother/download/",
+            "title" : "Little Brother",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Teen",
+            "author" : "Cory Doctorow",
+            "category" : "Technology",
+            "cover" : "https://images-na.ssl-images-amazon.com/images/I/81ULgaLyjRL._AC_UL320_SR214,320_.jpg",
+            "description" : "Marcus Yallow was arbitrarily detained and brutalized by the government in the wake of a terrorist attack on San Francisco―an experience that led him to become a leader of the whole movement of technologically clued-in teenagers, fighting back against the tyrannical security state.\n\nA few years later, California's economy collapses, but Marcus's hacktivist past lands him a job as webmaster for a crusading politician who promises reform. Soon his former nemesis Masha emerges from the political underground to gift him with a thumbdrive containing a Wikileaks-style cable-dump of hard evidence of corporate and governmental perfidy. It's incendiary stuff―and if Masha goes missing, Marcus is supposed to release it to the world. Then Marcus sees Masha being kidnapped by the same government agents who detained and tortured Marcus years earlier.\n\nMarcus can leak the archive Masha gave him―but he can't admit to being the leaker, because that will cost his employer the election. He's surrounded by friends who remember what he did a few years ago and regard him as a hacker hero. He can't even attend a demonstration without being dragged onstage and handed a mike. He's not at all sure that just dumping the archive onto the Internet, before he's gone through its millions of words, is the right thing to do.\n\nMeanwhile, people are beginning to shadow him, people who look like they're used to inflicting pain until they get the answers they want.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1_YQAMspxA_Og-Sa9eYa2hx3fAJQvYfp_/view?usp=sharing"
+            },
+            "source" : "http://craphound.com/homeland/download/",
+            "title" : "Homeland",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Teen",
+            "author" : "Orville Wright and Wilbur Wright",
+            "category" : "Engineering",
+            "cover" : "https://www.gutenberg.org/cache/epub/25420/pg25420.cover.medium.jpg",
+            "description" : "A report about the Wright Brothers about their experiments and experience in inventing powered flight.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1tCAjuD3SAWmZXGL3I22lgMLb8XyAqRCl/view?usp=sharing"
+            },
+            "source" : "http://www.gutenberg.org/ebooks/25420",
+            "title" : "The Early History of the Airplane",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Teen",
+            "author" : "Archibald Williams",
+            "category" : "Engineering",
+            "cover" : "https://pictures.abebooks.com/MGODDINGLTD/md/md22319249283.jpg",
+            "description" : "Manual of how things work, with 233 illustrations, first published around 1905. \"Dealing in Simple Language With Steam, Electricity, Light, Heat, Sound Hydraulics, Optics etc.\"",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1Kz8iOJ9csi31WEE8xoZiQEqE_wBM-nza/view?usp=sharing"
+            },
+            "source" : "http://www.gutenberg.org/ebooks/28553",
+            "title" : "How It Works",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Middle Grade",
+            "author" : "Michelle Matthews",
+            "category" : "Science",
+            "cover" : "https://drive.google.com/uc?export=view&id=14igbt29E0Qk_Htfa7cMWcUx47Ps-pHrJ",
+            "description" : "The story of Magaret Ann Bulkly, who became Dr James Barry.\n\nThis exciting and inspiring biography details the career of a woman who pretended to be a man so she could be a Doctor.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/13B1n96bQ9ss1WA1PC89W67fve8qXHhYc/view?usp=sharing"
+            },
+            "source" : "https://freekidsbooks.org/wp-content/uploads/2017/09/the-cottonwool-doctor_english_20170712.pdf",
+            "title" : "The Cottonwool Doctor",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Teen",
+            "author" : "Rupert S. Holland",
+            "category" : "Engineering",
+            "cover" : "https://images.gr-assets.com/books/1497957768l/26420008.jpg",
+            "description" : "Read stories about various historic inventions and the people who created them.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1ZDR5gz9HSZ_SKELdFRmzU1JfMWp7Mdao/view?usp=sharing"
+            },
+            "source" : "http://www.gutenberg.org/ebooks/42517",
+            "title" : "Historic Inventions",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Child",
+            "author" : "Ryan Somma",
+            "category" : "Science",
+            "cover" : "https://drive.google.com/uc?export=view&id=1TV00Bbs2RJrxTyqAR6FizGuX51UeE31C",
+            "description" : "Learn the ABC's and about the variety of creatures on the Earth.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1kopdPgPKKkPmGK0gtdxkr3OOVl0o7wQZ/view?usp=sharing"
+            },
+            "source" : "https://freekidsbooks.org/abcs-of-biodiversity-a-truly-amazing-alphabet/",
+            "title" : "The ABC's of Biodiversity",
+            "type" : "Book"
+        },
+        {
+            "age_range" : "Middle Grade",
+            "author" : "Mozzadrella",
+            "category" : "Technology",
+            "cover" : "https://drive.google.com/uc?export=view&id=1DTgorDQbqnXOmmCyR2JIpU0rqc3EAX_V",
+            "description" : "Learn about the power of GitHub through this riveting tale of robots.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/1w5ZHVKhZPIKyASu9oDrL5KnbgKtJ2_xY/view?usp=sharing"
+            },
+            "source" : "https://education.github.community/t/github-for-robotics-comic-book-soft-copy/6189",
+            "title" : "GitHub Robotics",
+            "type" : "Graphic Novel"
+        },
+        {
+            "age_range" : "Middle Grade",
+            "author" : "Hattie E. Macomber",
+            "category" : "Engineering",
+            "cover" : "https://images.gr-assets.com/books/1500767057l/35781211.jpg",
+            "description" : "Robert Fulton (1765-1815) was an American engineer and inventor who is widely credited with developing the first commercially successful steamboat. He also designed a new type of steam warship. In 1800 he was commissioned by Napoleon Bonaparte to design Nautilus, which was the first practical submarine in history. Eli Whitney (1765-1825) was an American inventor best known as the inventor of the cotton gin. This was one of the key inventions of the industrial revolution and shaped the economy of the antebellum South. Whitney's invention made short staple cotton into a profitable crop, which strengthened the economic foundation of slavery. Samuel Finley Breese Morse (1791-1872) was an American painter of portraits and historic scenes, the creator of a single wire telegraph system, and Morse Code. Peter Cooper (1791-1883) was an American industrialist, inventor, philanthropist, and candidate for President of the United States. Thomas Alva Edison (1847-1931) was an American inventor and businessman who developed many devices that greatly influenced life around the world, including the phonograph and the long-lasting, practical electric light bulb.",
+            "download_links" : {
+                "epub" : "",
+                "pdf" : "https://drive.google.com/file/d/12yDqoG0xpLOcnLnGo9yp_dO1EU52nYU5/view?usp=sharing"
+            },
+            "source" : "http://www.gutenberg.org/ebooks/19533",
+            "title" : "Stories of Great Inventors Fulton, Whitney, Morse, Cooper, Edison",
+            "type" : "Book"
+        }
+    ],
+    "resources": [
+        {
+            "resource_description" : "A wealth of lessons and resources for Web Literacy and Basic to Intermediate HTML programming.",
+            "resource_link" : "https://learning.mozilla.org/en-US/activities",
+            "resource_name" : "Mozilla Learning Activities",
+            "tags" : [ "Technology", "Computer Science", "Elementary School", "Middle School", "High School", "HTML", "Web Literacy" ]
+        },
+        {
+            "resource_description" : "Fun JavaScript coding activities that are short in length, and offer a view into the Vidcode platform.",
+            "resource_link" : "https://www.vidcode.com/hour-of-code/",
+            "resource_name" : "Vidcode Hour of Code",
+            "tags" : [ "Computer Science", "Elementary School", "Middle School", "High School", "JavaScript" ]
+        }
+    ]
+}
