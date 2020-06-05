@@ -114,8 +114,8 @@ window.onload = () => {
         let editor = document.querySelector('.CodeMirror').CodeMirror;
 
         // Check if the user has code saved before
-        if (localStorage.getItem("hoc"))
-            editor.setValue(localStorage.getItem("hoc"));
+        if (localStorage.getItem("pixel-studio"))
+            editor.setValue(localStorage.getItem("pixel-studio"));
     }
 
     // attach an event listener for changes
@@ -129,12 +129,12 @@ window.onload = () => {
 
             // if localStorage is available, save the code
             if (hasLocalStorage)
-                localStorage.setItem("hoc", editor.getValue());
+                localStorage.setItem("pixel-studio", editor.getValue());
         }
         else {
             // if localStorage is available, save the code
             if (hasLocalStorage)
-                localStorage.setItem("hoc", editor.getValue());
+                localStorage.setItem("pixel-studio", editor.getValue());
         }
     });
 
