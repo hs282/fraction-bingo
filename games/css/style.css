@@ -47,6 +47,10 @@ nav ul li.active {
     background-color: #3954AE
 }
 
+#bottomShelf {
+    display: none;
+}
+
 /* Mobile displays */
 @media only screen and (max-width: 768px) {
     .splitter { display: none; }
