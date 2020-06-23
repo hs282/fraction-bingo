@@ -101,6 +101,8 @@ function startTimer() {
  * 
  */
 document.getElementById("input").addEventListener('keyup', () => {
+    let inputEl = document.querySelector("#input");
+
     let input = document.getElementById("input").value;
     input = input.trim();
     
@@ -119,9 +121,8 @@ document.getElementById("input").addEventListener('keyup', () => {
         wordTray.appendChild(span);
         
         // clear input box
-        let inputEl = document.querySelector("input");
         inputEl.value = "";
-        inputEl.parentNode.parentNode.style.color = "";
+        inputEl.style.color = "";
     
         // keep track of the word that was just typed
         numWords++;
@@ -154,11 +155,11 @@ document.getElementById("input").addEventListener('keyup', () => {
     }
     // If the input is correct
     else if (input == currentWord.substring(0, input.length)) {
-        inputEl.parentNode.style.color = "green";
+        inputEl.style.color = "green";
     }
     // If the input is incorrect
     else if (input != currentWord.substring(0, input.length)) {
-        inputEl.parentNode.style.color = "red";
+        inputEl.style.color = "red";
     }
 });
 
