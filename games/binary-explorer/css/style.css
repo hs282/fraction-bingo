@@ -1,0 +1,32 @@
+.num {
+    font-size: 40px;
+    
+    border: 1px solid black;
+    border-radius: 4px;
+
+    padding: 5px;
+
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+button {
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.result {
+    font-size: 40px;
+}
+
+#binary-container {
+    text-align: center
+}
+
+.letter {
+    margin-bottom: 10px;
+}
+
+.removeButton {
+    margin-right: 10px;
+}
