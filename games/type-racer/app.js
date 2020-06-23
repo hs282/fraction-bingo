@@ -1,41 +1,65 @@
-// Word list
-var words = ["Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"];
-words = shuffle(words);
+// the list of words that can show up for the user to type
+const words = shuffle([
+    "Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"
+]);
 
-// Word stats
-var wordIndex;
-var numWords;
+// variables to keep track of user typing statistics
+let wordIndex;
+let numWords;
 
-// Timer variables
-var timer;
-var timerID;
+// variables keep track of the timer
+let timer;
+let timerID;
 
-// Show instructions modal
-$("#myModal").modal("show");
+(function initUI() {
+    // show instructions modal
+    $("#myModal").modal("show");
 
+    // adjust road sprite
+    adjustRoad();
+
+})();
+
+/**
+ * 
+ */
+function adjustRoad() {
+    let bodyRect = document.body.getBoundingClientRect();
+    let car = document.querySelector("#player").getBoundingClientRect();
+    let offset = car.top - bodyRect.top - 90;
+
+    let road = document.querySelector("#road");
+
+    road.style.width = document.body.width + "px";
+    road.style.marginTop = offset + "px";
+    road.style.height = 150 + "px";
+}
+
+/**
+ * Start the game.
+ */
 function startGame() {
+    // reset stts
     numWords = 0;
     timer = 120;
     wordIndex = 2;
     
-    // Stay focused on the text input bar
-    var el = document.getElementById('input');
-    
-    el.value = "";
-    el.disabled = false;
+    // clear value and allow user input
+    let input = document.querySelector("#input");
+    input.value = "";
+    input.disabled = false;
 
-    el.focus();
-    
-    el.onblur = function () {
-        setTimeout(function () {
-            el.focus();
-        });
-    };
+    // always stay focused on input element
+    input.focus();
+    input.onblur = () => setTimeout(() => input.focus());
     
     populateWordTray();
     startTimer();
 }
 
+/**
+ * 
+ */
 function startTimer() {
     document.getElementById("timer").innnerHTML = "2:00";
     
@@ -43,7 +67,7 @@ function startTimer() {
     document.getElementById("end").style.display = "none";
     
     // Timer function that counts down the seconds
-    timerID = setInterval(function() {
+    timerID = setInterval(() => {
         timer--;
             
         // If is over a minute
@@ -68,74 +92,93 @@ function startTimer() {
         }
         
         // Calculate words per minute
-        var seconds = 120 - timer;
+        let seconds = 120 - timer;
         document.getElementById("wpmBox").innerHTML = ((numWords * 60)/ seconds).toFixed() + " wpm";
     }, 1000);
 }
-    
-document.getElementById("input").addEventListener('keyup', function() {
-    var input = document.getElementById("input").value;
+
+/**
+ * 
+ */
+document.getElementById("input").addEventListener('keyup', () => {
+    let input = document.getElementById("input").value;
     input = input.trim();
     
-    var currentWord = document.getElementById("wordTray").children[0].innerHTML;
+    let currentWord = document.getElementById("wordTray").children[0].innerHTML;
         
     if (input == currentWord) {
-        // Update word tray
-        var html = "";
-        for (var i = (wordIndex - 1); i < (wordIndex + 4); i++)
-            html += "<span>" + words[i].toLowerCase() + "</span>";
-        document.getElementById("wordTray").innerHTML = html;
+        // get ref to wordTray element
+        let wordTray = document.querySelector("#wordTray");
         
-        // Clear input box
-        document.getElementById("input").value = "";
-        document.getElementById("input").parentNode.parentNode.style.color = "";
+        // remove the word that was just typed
+        wordTray.removeChild(wordTray.firstChild);
+
+        // add a new word to the end
+        let span = document.createElement("span");
+        span.innerText = words[wordIndex++].toLowerCase();
+        wordTray.appendChild(span);
+        
+        // clear input box
+        let inputEl = document.querySelector("input");
+        inputEl.value = "";
+        inputEl.parentNode.parentNode.style.color = "";
     
-        // Increase word index and num words typed
-        wordIndex++;
+        // keep track of the word that was just typed
         numWords++;
             
-        // Calculate how much the player will move
-        var left = document.getElementById("player").style.left;
-        var width = document.getElementById("wordRace").offsetWidth;
+        // calculate how much the player will move
+        let left = document.getElementById("player").style.left;
+        let width = document.getElementById("wordRace").offsetWidth;
             
-        if (parseInt(left.replace("px", ""), 10) >= width)
+        // if user is at end of screen. end the game
+        if (parseInt(left.replace("px", ""), 10) >= width) {
             endWordRace();
+        }
         
-        var newLeft;
-        if (!left.includes("px")) 
+        // calcualte new position of the player
+        let newLeft;
+        if (!left.includes("px")) {
             newLeft = "30px";
+        }
         else {
             left = left.replace("px", "");
             newLeft = (parseInt(left, 10) + 30) + "px";
         }
             
-        // Move the player div
-        $("#player").animate({
-            "left": newLeft
-        }, 200, "linear");
+        // move the player div
+        $("#player").animate({ "left": newLeft }, 200, "linear");
             
         // Calculate words per minute
-        var seconds = 120 - timer;
+        let seconds = 120 - timer;
         document.getElementById("wpmBox").innerHTML = ((numWords * 60) / seconds).toFixed() + " wpm";
     }
-    
     // If the input is correct
-    else if (input == currentWord.substring(0, input.length))
-        document.getElementById("input").parentNode.style.color = "green";
+    else if (input == currentWord.substring(0, input.length)) {
+        inputEl.parentNode.style.color = "green";
+    }
     // If the input is incorrect
-    else if (input != currentWord.substring(0, input.length))
-        document.getElementById("input").parentNode.style.color = "red";
+    else if (input != currentWord.substring(0, input.length)) {
+        inputEl.parentNode.style.color = "red";
+    }
 });
-    
+
+/**
+ * 
+ */
 function populateWordTray() {
-    var html = "";
-        
-    for (var i = 0; i < 5; i++) 
-        html += "<span>" + words[i].toLowerCase() + "</span>";
-    
-    document.getElementById("wordTray").innerHTML = html;
+    let wordTray = document.querySelector("#wordTray");
+
+    for (let i = 0; i < 5; i++) {
+        let span = document.createElement("span");
+        span.innerText = words[i].toLowerCase();
+
+        wordTray.appendChild(span);
+    }
 }
 
+/**
+ * 
+ */
 function endWordRace() {
     // Stop timer
     clearInterval(timerID);
@@ -152,13 +195,17 @@ function endWordRace() {
     document.getElementById("end").style.display = "";
     
     // Show stats
-    var seconds = 120 - timer;
+    let seconds = 120 - timer;
     document.getElementById("wpmStat").innerHTML = ((numWords * 60) / seconds).toFixed() + " wpm";
     document.getElementById("wordCountStat").innerHTML = numWords;
 }
 
+/**
+ * 
+ * @param {any[]} array 
+ */
 function shuffle(array) {
-  var m = array.length, t, i;
+  let m = array.length, t, i;
 
   // While there remain elements to shuffle…
   while (m) {

@@ -1,0 +1,43 @@
+body {
+    background-color: #3ea01f;
+}
+
+#timer,
+#wpmBox {
+    font-size: 18px;
+    color: #fff;
+    padding-top: 10px;
+}
+
+#end {
+    color: white;
+}
+
+#wordTray {
+    font-size: 18px;
+    text-align: center;
+}
+
+#player {
+    margin-top: 100px;
+    position: relative;
+    left: 0;
+}
+
+#player img {
+    height: 150px;
+    width: 150px;
+}
+
+#wordTray span {
+    margin-right: 1.2em;
+    color: #fff;
+}
+
+#wordTray span:first-child {
+    color: black;
+    background-color: #ffe359;
+
+    padding: 5px;
+    border-radius: 4px;
+}
