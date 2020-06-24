@@ -4,6 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="../codemirror/codemirror.css">
+        <link rel="stylesheet" href="../css/bootstrap4.5.0.min.css">
         <link rel="stylesheet" href="../css/style.css">
 
         <style id="userStyle">
@@ -40,7 +41,27 @@
     </head>
 
     <body>
-        <nav>
+        <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+            <a class="navbar-brand" href="#">TeCanal Kids' Corner</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../../games">Games</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../stem-library">STEM Library</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <nav id="fileMenu">
             <ul>
                 <li class="active">index.html</li>
                 <li>style.css</li>
@@ -96,6 +117,9 @@
             </div>
         </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
         <script src="../codemirror/codemirror.js"></script>
 
         <script src="../codemirror/mode/xml/xml.js"></script>
@@ -103,7 +127,6 @@
 
         <script src="../codemirror/addon/selection/active-line.js"></script>
 
-        <script src="../js/jquery.slim.min.js"></script>
         <script src="../js/jquery-resizable.min.js"></script>
 
         <script src="../js/lzma.js"></script>

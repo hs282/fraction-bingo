@@ -138,13 +138,13 @@ window.onload = function() {
     updatePreview();
 
     // Add click listener to the menu file tabs
-    for (const li of document.getElementsByTagName("li")) {
+    for (const li of document.querySelectorAll("#fileMenu ul li")) {
         li.addEventListener("click", e => {
             // do not modify content if clicking on already active tab
             if (e.srcElement.className == "active") return;
 
             // get rid of previously active element
-            document.getElementsByClassName("active")[0].className = "";
+            document.querySelector("#fileMenu ul li.active").className = "";
 
             // make the clicked tab active and change the current tab
             e.srcElement.className = "active";

@@ -2,10 +2,10 @@
 
 <head>
     <title>Math Matrix</title>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="../css/bootstrap4.5.0.min.css">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 
     <style>
@@ -158,37 +158,26 @@
 </head>
 
 <body>
-    <div class="sitebody">
-        <nav class="navbar navbar-inverse" style="background-color: #fafafa; border: none;">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
-                    <a class="navbar-brand" href="http://kids.tecanal.org" style="width: auto; font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 13px;"
-                        href="http://www.kids.tecanal.org">Kids' Corner</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a style="font-family: 'Oxygen', sans-serif; height: 58px;" href="http://kids.tecanal.org/games/">
-                                <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
-                        </li>
-                        <li>
-                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/stem-library">
-                                <i class="fa fa-book" style="font-size:2em; margin-right: 3px;"></i>STEM Library</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-</body>
+    <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+        <a class="navbar-brand" href="#">TeCanal Kids' Corner</a>
 
-<body>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../../games">Games</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../stem-library">STEM Library</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <center>
         <h1>Math Matrix</h1>
 
@@ -273,7 +262,9 @@
         <button id="checkAnswer" onclick="checkAnswer()">✓</button>
     </center>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script>
         // Get the modal

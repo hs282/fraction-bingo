@@ -13,13 +13,13 @@ body {
     height: 100%; 
 }
 
-nav {
+#fileMenu {
     display: flex;
     align-items: center;
     height: 3rem;
 }
 
-nav ul {
+#fileMenu ul {
     display: flex;
     justify-content: flex-start;
 
@@ -29,11 +29,11 @@ nav ul {
     list-style: none;
 }
 
-nav ul:first-child {
+#fileMenu ul:first-child {
     margin-left: 1px;
 }
 
-nav ul li {
+#fileMenu ul li {
     display: flex;
     
     border: 1px solid #000;
@@ -42,9 +42,13 @@ nav ul li {
     margin-right: 5px;
 }
 
-nav ul li.active {
+#fileMenu ul li.active {
     color: #fff;
     background-color: #3954AE
+}
+
+button {
+    border: 1px solid;
 }
 
 #bottomShelf {
