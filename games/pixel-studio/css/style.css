@@ -9,9 +9,9 @@ td { padding: 20px; }
 button[disabled] { opacity: .65; }
 a.disabled:hover { color: white; cursor: default; }
 
-nav { background-color: #3954AE; }
+#progress { background-color: #3954AE; }
 
-nav ul {
+#progress ul {
     display: flex;
     justify-content: flex-start;
 
@@ -21,7 +21,7 @@ nav ul {
     list-style: none;
 }
 
-nav ul li a { 
+#progress ul li a { 
     display: flex;
 
     margin: 5px 0 5px 5px;
@@ -36,7 +36,7 @@ nav ul li a {
     text-decoration: none;
 }
 
-nav ul li a.completed {
+#progress ul li a.completed {
     background-color: green;
     color: white;
 }
@@ -93,7 +93,7 @@ nav ul li a.completed {
     margin-top: .5rem;
 }
 
-.active, .accordion:hover {
+#progress .active, .accordion:hover {
     background-color: #ccc;
 }
 
@@ -105,7 +105,7 @@ nav ul li a.completed {
     margin-left: 5px;
 }
 
-.active:after {
+#progress .active:after {
     content: "\2212";
 }
 
@@ -122,8 +122,8 @@ nav ul li a.completed {
 .copyToEditor { position: absolute; top: 5px; right: 5px; content: "Copy to Editor"; }
 .copyToEditor:hover { text-decoration: underline; }
 
-nav a.active { background-color: #4CAF50; color: white; }
-nav a:hover { background-color: #ddd; color: black; }
+#progress a.active { background-color: #4CAF50; color: white; }
+#progress a:hover { background-color: #ddd; color: black; }
 
 #bottomShelf { display: none; }
 
