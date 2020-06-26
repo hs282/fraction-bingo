@@ -1,0 +1,165 @@
+* { 
+    box-sizing: border-box; 
+}
+
+html {  
+    font-family: sans-serif; 
+}
+
+body { 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+}
+
+#instruments img {
+    width: 200px;
+}
+
+button {
+    border: 1px solid;
+}
+
+#bottomShelf {
+    display: none;
+}
+
+/* Mobile displays */
+@media only screen and (max-width: 768px) {
+    .splitter { display: none; }
+
+    .panel-right { display: none; }
+
+    .panel-container { height: 93% !important; }
+    #editor, #preview { width: 100vw; }
+    
+    #edit, #execute { width: 50vw; height: 100%; font-size: 1em; }
+    #edit { background-color: #3954AE; color: white; }
+    #execute { background-color: #4CAF50; color: white; float: right; }
+
+    #bottomShelf { display: block; height: 7%; }
+}
+
+.pull-right { 
+    margin-left: auto; 
+}
+
+#optionsButton {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    height: 100%;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 1px;
+}
+
+.modal { 
+    display: none;  
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 4;
+    padding-top: 1%;
+    width: 100%;
+    height: 100%;
+}
+
+.modal button {
+    color: white;
+    background-color: #28A745;
+    border-color: #28A745;
+    font-size: 1rem;
+    padding: .375rem .75rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal h2 { 
+    margin-bottom: 0px; 
+}
+
+.modal h1 { 
+    margin: 0px; 
+}
+
+.modal-content {
+    position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 0;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+
+    overflow-y: scroll;
+
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.modal-body { 
+    height: 80vh; 
+    box-sizing: border-box; 
+    padding: 1rem; 
+}
+
+.modal-footer { 
+    padding: 2px 16px; 
+    background-color: #fefefe; 
+}
+
+.close { 
+    float: right; 
+    padding-right: 10px; 
+    font-size: 28px; 
+    font-weight: bold; 
+}
+
+.close:hover, .close:focus { 
+    text-decoration: none; 
+    cursor: pointer; 
+}
+
+.panel-container { 
+    display: flex; 
+    flex-direction: row; 
+    overflow: hidden; 
+    height: 100%; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.panel-left { 
+    flex: 0 0 auto; 
+    width: 50%; 
+    background: #eee; 
+    color: #fff; 
+    padding: 10px;
+}
+
+.panel-right { 
+    flex: 1 1 auto; 
+    width: 100%; 
+    background: #eee; 
+    overflow: scroll; 
+    white-space: nowrap; 
+}
+
+.splitter {
+    flex: 0 0 auto;
+    width: 18px;
+    background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+    min-height: 200px;
+    cursor: col-resize;
+}
+
+.CodeMirror { 
+    height: 100%; 
+}
+
+.CodeMirror-activeline-background { 
+    background: #f5f5f5; 
+}
