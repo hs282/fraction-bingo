@@ -1,0 +1,16 @@
+.card {
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+    margin: 1em;
+}
+
+.card img {
+    height: 300px;
+    width: 200px;
+}
+
+.grid-container {
+    display: grid;  
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

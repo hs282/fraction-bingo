@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="stem-library">
+<html>
     <head>
         <title>STEM Library</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-
-        <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
-
         <link rel="stylesheet" href="../css/bootstrap4.5.0.min.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
 
-    <body style="background-color: #fff;">
+    <body>
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../">TeCanal Kids Corner</a>
 
@@ -33,16 +28,15 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
-            <h3 id="headerText">TeCanal STEM Library</h3>
+        <section class="container-fluid mt-3">
+            <h1 id="headerText" class="text-center">TeCanal STEM Library</h1>
 
-            <div id="table"></div>
-        </div>
+            <section id="showcase" class="grid-container"></section>
+        </section>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         
-        <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.production.min.js"></script>
-        <script src="app.js"></script>
+        <script src="js/app.js"></script>
     </body>
 </html>
