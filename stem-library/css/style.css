@@ -1,3 +1,7 @@
+body {
+    background-color: #2ca1db;
+}
+
 .card {
     overflow: hidden;
     word-wrap: break-word;

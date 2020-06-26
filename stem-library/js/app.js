@@ -20,6 +20,9 @@
 
                     <div class="card-body pt-2">
                         <p class="card-text text-left">${truncate(book.description)}</p>
+
+                        <span class="badge badge-secondary">${book.category}</span>
+                        <span class="badge badge-secondary">${book.age_range}</span>
                     </div>
                 </div>
 
