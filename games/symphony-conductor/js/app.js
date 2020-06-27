@@ -1,3 +1,4 @@
+const APP_NAME = "symphony-conductor";
 const hasLocalStorage = checkForLocalStorage();
 
 const INSTRUMENTS = [
@@ -24,7 +25,7 @@ const editor = CodeMirror(document.getElementById("editor"), {
     indentUnit: 4,
     lineWrapping: true,
     styleActiveLine: { nonEmpty: true },
-    value: hasLocalStorage ? localStorage.getItem("symphony-conductor") : "",
+    value: "",
     extraKeys: {
         "Ctrl-/": instance => commentSelection(),
         "Cmd-/": instance => commentSelection()
@@ -73,10 +74,17 @@ function play(instrument) {
     document.querySelector("#runCode").onclick = executeCode;
     document.querySelector("#options").onclick = openModal;
 
+    // if has something stored
+    if (hasLocalStorage) {
+        if (localStorage.getItem(APP_NAME)) {
+            editor.setValue(localStorage.getItem(APP_NAME));
+        }
+    }
+
     // save data on change
     editor.on("change", () => {
         if (hasLocalStorage) {
-            localStorage.setItem("symphony-creator", editor.getValue());
+            localStorage.setItem(APP_NAME, editor.getValue());
         }
     });
 })();
