@@ -51,30 +51,9 @@ footer {
 }
 
 @media only screen and (max-width: 768px) {
-    #example {
+    #code, #answer {
         width: 90%;
     }
-}
-
-button {
-    color: #333;
-    background-color: #fff;
-    border-color: #ccc;
-    padding: .5rem 1rem;
-    font-size: 14px;
-    border-radius: 4px;
-}
-
-button:hover {
-    color: #333;
-    background-color: #e6e6e6;
-    border-color: #adadad;
-}
-
-#submit {
-    background-color: #28A745;
-    border-color: #28A745;
-    color: white;
 }
 
 #notification {
