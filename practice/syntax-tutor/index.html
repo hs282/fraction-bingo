@@ -3,11 +3,36 @@
         <title>Syntax Tutor</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
         <link rel="stylesheet" href="../codemirror/codemirror.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
 
     <body>
+        <nav class="navbar navbar-expand-md bg-secondary navbar-dark mb-3">
+            <a class="navbar-brand" href="../">TeCanal Kids Corner</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../games">Games</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Practice</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../stem-library">STEM Library</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         <section>
             <div id="notification" style="display: none;"></div>
 
@@ -22,15 +47,15 @@
                 <pre id="example"></pre>
 
                 <h2 id="prompt">Is this correct syntax?</h2>
-                <button id="correct">Yes</button>
-                <button id="incorrect">No</button>
+                <button class="btn btn-success" id="correct">Yes</button>
+                <button class="btn btn-danger" id="incorrect">No</button>
 
                 <div id="makeCorrections" style="display: none;">
                     <h3>How could you correct the syntax?</h3>
 
                     <div id="editor"></div>
 
-                    <button id="submit">Submit</button>
+                    <button id="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </section>

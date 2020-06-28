@@ -10,14 +10,19 @@ section {
     flex: 1 0 auto;
 }
 
-ul {
+#problemTypes {
     padding-left: 5px;
     list-style: none;
+    margin-bottom: 0;
 }
 
-ul li {
+#problemTypes li {
     display: inline;
     margin-right: 5px;
+}
+
+label {
+    margin-bottom: 0;
 }
 
 footer {
@@ -43,39 +48,6 @@ footer {
     }
 }
 
-button {
-    color: #333;
-    background-color: #fff;
-    border-color: #ccc;
-    padding: .5rem 1rem;
-    font-size: 14px;
-    border-radius: 4px;
-}
-
-button:hover {
-    color: #333;
-    background-color: #e6e6e6;
-    border-color: #adadad;
-}
-
-#correct {
-    background-color: #28A745;
-    border-color: #28A745;
-    color: white;
-}
-
-#incorrect {
-    background-color: #DC3545;
-    border-color: #DC3545;
-    color: white;
-}
-
-#submit {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-}
-
 #notification {
     position: absolute;
     right: 5px;
@@ -96,13 +68,6 @@ button:hover {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
-}
-
-.container {
-    padding-right: 2rem;
-    padding-left: 2rem;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 #editor {
