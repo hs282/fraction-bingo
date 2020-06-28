@@ -78,13 +78,6 @@ footer {
     border-color: #f5c6cb;
 }
 
-.container {
-    padding-right: 2rem;
-    padding-left: 2rem;
-    margin-right: auto;
-    margin-left: auto;
-}
-
 #editor {
     margin-top: 1rem;
     margin-bottom: .5rem;
