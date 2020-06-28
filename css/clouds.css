@@ -7,10 +7,6 @@ body {
   height: 100%;
 }
 
-* {
-  position: relative;
-}
-
 .frame {
   height: auto;
   margin: 5% auto 0;
@@ -119,17 +115,7 @@ svg {
   overflow: hidden;
   transform: translateZ(0);
 }
-.navbar-inverse .navbar-toggle {
-    background-color: #9d9d9d;
-}
-.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
-    background-color: #2ca1db;
-    border: none;
-}
-.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
-    border-color: #d2d0d0;
-    z-index:200;
-}
+
 @media only screen and (min-width: 555px) and (max-width: 1130px) {
   .clouds{
     margin-top: 7%;
