@@ -58,6 +58,9 @@ function startGame() {
 
     populateWordTray();
     startTimer();
+
+    // fixes focus bug: focuses on input after timer start
+    document.getElementById("input").focus();
 }
 
 /**
