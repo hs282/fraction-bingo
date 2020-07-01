@@ -39,7 +39,7 @@ function adjustRoad() {
  * Start the game.
  */
 function startGame() {
-    // reset stts
+    // reset stats
     numWords = 0;
     timer = 120;
     wordIndex = 2;
@@ -52,7 +52,10 @@ function startGame() {
     // always stay focused on input element
     input.focus();
     input.onblur = () => setTimeout(() => input.focus());
-    
+
+    // reset the player's car
+    document.querySelector("#player").style.left = "0px";
+
     populateWordTray();
     startTimer();
 }
