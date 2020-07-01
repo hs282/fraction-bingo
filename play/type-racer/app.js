@@ -26,7 +26,7 @@ let timerID;
 function adjustRoad() {
     let bodyRect = document.body.getBoundingClientRect();
     let car = document.querySelector("#player").getBoundingClientRect();
-    let offset = car.top - bodyRect.top - 90;
+    let offset = car.top - bodyRect.top - 127;
 
     let road = document.querySelector("#road");
 
