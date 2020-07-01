@@ -55,11 +55,20 @@ button {
   margin: .2em;
 }
 
+.difficultyBtn:active {
+  background-color: #666;
+}
+
+.difficultyBtn:focus {
+  background-color: #666;
+}
+
+
 /* For Mobile use */
 
 /*
 * The canvas element is only determ by the percentage but javascipt controls the pixels and
-* general size :max-width and max-height 
+* general size :max-width and max-height
 */
 @media only screen and (max-width: 1024px) {
   canvas {

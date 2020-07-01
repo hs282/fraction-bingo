@@ -1,8 +1,20 @@
 //global objects for the game
-let player, enemy, enemys, bullet, bullets, boss, gameHandler;
+let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler;
 //global boolean for the game engine
 let gamePlaying;
 
+//difficulty level for game preset to 1 for easier
+let difficultyLevel = 1
+
+/**
+* used to set the difficulty level from the html main menu buttons
+* @param {String} Level
+**/
+function setLevel(level) {
+  intLevel = parseInt(level)
+  difficultyLevel = intLevel;
+  console.log(difficultyLevel);
+}
 /**
   MoveableCanvasObject class is all objects that are moveable on the canavs
 **/
@@ -135,8 +147,17 @@ class Game_Handler {
   * If enemies or boss pass the player and touch the bottom of canavs then game over
   **/
   checkWin() {
+    //for enemies
     for (let i = 0; i < enemys.length; i++) {
       if (enemys[i].y > 590 && enemys[i].x != undefined && enemys[i].y != undefined) {
+        gamePlaying = false;
+        myGameArea.gameOver();
+        myGameArea.scoreMenu();
+      }
+    }
+    //for bosses
+    for (let i = 0; i < boss.length; i++) {
+      if (boss[i].y > 590 && boss[i].x != undefined && boss[i].y != undefined) {
         gamePlaying = false;
         myGameArea.gameOver();
         myGameArea.scoreMenu();
@@ -187,7 +208,7 @@ class Game_Handler {
   checkCrashHandleBoss() {
     for (let i = 0; i < bullets.length; i++) {
       for (let j = 0; j < boss.length; j++) {
-        if (bullets[i].crashWith(boss[j]) && boss[j].x != undefined && boss[j].y != undefined) {
+        if (bullets[i].crashWith(boss[j]) && boss[j] != undefined) {
           boss.splice(boss.indexOf(boss[j]), 1);
         }
       }
@@ -316,6 +337,17 @@ class Game_Handler {
   }
 }
 
+class MathClassHandler {
+  constructor(level) {
+    this.level = level;
+    //all the equations used depending on level
+    this.kindergarten = [];
+    this.gradeSchool = [];
+    this.middleSchool = [];
+    this.highSchool = [];
+  }
+}
+
 
 
 
@@ -329,6 +361,7 @@ let startGame = () => {
   gamePlaying = true;
   player = new Player(30, 30, 150, 550, 'red', 0, 0);
   gameHandler = new Game_Handler(0);
+  mathHandler = new MathClassHandler(difficultyLevel);
 
   myGameArea.start();
 }
@@ -367,7 +400,7 @@ let myGameArea = {
 
     //if its a mobile devise display the mobile buttons otherwise just let player use arrow keys
     if(this.isMobile()) {
-      this.displayMoile();
+      this.displayMobile();
     } else {
       this.displayComputer()
     }
@@ -427,7 +460,7 @@ let myGameArea = {
   },
 
   //mobile display for the game interface
-  displayMoile: function() {
+  displayMobile: function() {
     //appending canavs and shooting buttons !needs to be this order for mobile!
     this.shootButton.innerHTML = "Shoot";
     document.querySelector("main").appendChild(this.shootButton);
@@ -473,7 +506,7 @@ let myGameArea = {
     /**
     * @param {Event} e
     * create event listeners for the game disable the arrow keys and space bar for scrolling use
-    * keyup is to disable the players movement on lift aka stop the player from moving when the arrow is not pressed 
+    * keyup is to disable the players movement on lift aka stop the player from moving when the arrow is not pressed
     **/
     window.addEventListener("keyup", (e) => {
       if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) {
