@@ -8,12 +8,12 @@ let difficultyLevel = 1
 
 /**
 * used to set the difficulty level from the html main menu buttons
+* difficultyLevel is used to set up the MathClassHandler
 * @param {String} Level
 **/
 function setLevel(level) {
   intLevel = parseInt(level)
   difficultyLevel = intLevel;
-  console.log(difficultyLevel);
 }
 /**
   MoveableCanvasObject class is all objects that are moveable on the canavs
@@ -286,8 +286,11 @@ class Game_Handler {
   }
 
   /**
+  * This is called from the game engine every 20millsec so having a count variable limits the amout of
+  * bosses. equation is: time(millsec), count(int) round(int) spawn(int):
+  * equation = while(round is a boss round aka round % 3 == 0 and count  < round) spawn = time*count
+  * this equation and method is only run depending on spawn enemies equation 120-playerkillCount % 1 === 0
   * @param {number} count
-  * boss spawn depends on round
   **/
   spawnBoss(count) {
     let randomX = Math.floor(Math.random() * 240);
@@ -337,6 +340,10 @@ class Game_Handler {
   }
 }
 
+/**
+* MathClassHandler is used to display and control the math equations presented to the user
+* roundHandler is what calls these methods this is simply to keep all the equations and methods together
+**/
 class MathClassHandler {
   constructor(level) {
     this.level = level;
