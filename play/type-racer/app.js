@@ -11,6 +11,11 @@ let numWords;
 let timer;
 let timerID;
 
+// offset value needed to center player car
+const CENTER_CAR = 127;
+// stagger stop light times by 1000ms
+const STOP_LIGHT_TIME = 1000;
+
 (function initUI() {
     // show instructions modal
     $("#myModal").modal("show");
@@ -26,13 +31,59 @@ let timerID;
 function adjustRoad() {
     let bodyRect = document.body.getBoundingClientRect();
     let car = document.querySelector("#player").getBoundingClientRect();
-    let offset = car.top - bodyRect.top - 127;
+    let offset = car.top - bodyRect.top - CENTER_CAR;
 
     let road = document.querySelector("#road");
 
     road.style.width = document.body.width + "px";
     road.style.marginTop = offset + "px";
     road.style.height = 150 + "px";
+}
+
+/*
+* Reset the stop light and input, then startTimer() after stopLight turns green
+*/
+function stopLightStart() {
+    // reset timer and display the main game screen
+    document.getElementById("timer").innerHTML = "2:00";
+    document.getElementById("wordRace").style.display = "";
+    document.getElementById("end").style.display = "none";
+
+    // reset and keep input disabled until stopLight is over
+    let input = document.querySelector("#input");
+    input.disabled = true;
+    input.value = "";
+
+    // keep the player focused on the text box at all times
+    input.onblur = () => setTimeout(() => input.focus());
+
+    // get all lights to change light display with timer
+    let redLight = document.getElementById("redLight");
+    let yellowLight = document.getElementById("yellowLight");
+    let greenLight = document.getElementById("greenLight");
+    redLight.style.display = "block";
+    yellowLight.style.display = "none";
+    greenLight.style.display = "none";
+
+    // starts on redLight, then yellowLight, then greenLight
+    setTimeout(() => {
+        redLight.style.display = "none";
+        yellowLight.style.display = "block";
+        setTimeout(() => {
+            yellowLight.style.display = "none";
+            greenLight.style.display = "block";
+            setTimeout(() => {
+                greenLight.style.display = "none";
+
+                // enable input and then start the timer
+                input.disabled = false;
+                startTimer();
+
+                // focus on input box after starting
+                input.focus();
+            }, STOP_LIGHT_TIME)
+        }, STOP_LIGHT_TIME)
+    }, STOP_LIGHT_TIME);
 }
 
 /**
@@ -43,35 +94,20 @@ function startGame() {
     numWords = 0;
     timer = 120;
     wordIndex = 2;
-    
-    // clear value and allow user input
-    let input = document.querySelector("#input");
-    input.value = "";
-    input.disabled = false;
-
-    // always stay focused on input element
-    input.focus();
-    input.onblur = () => setTimeout(() => input.focus());
 
     // reset the player's car
     document.querySelector("#player").style.left = "0px";
 
     populateWordTray();
-    startTimer();
 
-    // fixes focus bug: focuses on input after timer start
-    document.getElementById("input").focus();
+    // handles the stopLight, input resetting, and startTimer()
+    stopLightStart();
 }
 
 /**
- * 
+ * Start the main gameplay timer
  */
 function startTimer() {
-    document.getElementById("timer").innnerHTML = "2:00";
-    
-    document.getElementById("wordRace").style.display = "";
-    document.getElementById("end").style.display = "none";
-    
     // Timer function that counts down the seconds
     timerID = setInterval(() => {
         timer--;
