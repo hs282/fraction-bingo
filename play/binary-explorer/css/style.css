@@ -23,6 +23,15 @@ button {
     text-align: center
 }
 
+#message-container {
+    text-align: center;
+    position: static;
+}
+
+#message {
+    font-size: 40px;
+}
+
 .letter {
     margin-bottom: 10px;
 }

@@ -69,3 +69,26 @@ function translateBinaryString() {
     // convert ASCII code to a character and show in result element
     resultEl.innerHTML = String.fromCharCode(asciiCode);
 }
+
+/**
+ * Add letters translated from binary string rows to the message.
+ */
+function addMessage() {
+
+    // create message span if not created before
+    let messageContainer = document.getElementById("message-container");
+    if (document.getElementById("message") == null) {
+        let span = document.createElement("span");
+        span.id = "message";
+        messageContainer.appendChild(span);
+    }
+
+    // insert message to span
+    let message = [];
+    let span = document.getElementById("message");
+    let letters = document.querySelectorAll(".result");
+    for (let i = 0; i < letters.length; i++) {
+        message[i] = letters[i].innerHTML;
+    }
+    span.innerText = message.join("");
+}
