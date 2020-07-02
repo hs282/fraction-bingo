@@ -9,10 +9,14 @@ const words = shuffle([
 // variables to keep track of user typing statistics
 let wordIndex;
 let numWords;
+let typingErrors;
 
 // variables keep track of the timer
 let timer;
 let timerID;
+
+// track whether a substring mistake is made or not
+let countsAsError;
 
 // offset value needed to center player car
 const CENTER_CAR = 127;
@@ -72,9 +76,11 @@ function stopLightStart() {
     setTimeout(() => {
         redLight.style.display = "none";
         yellowLight.style.display = "block";
+
         setTimeout(() => {
             yellowLight.style.display = "none";
             greenLight.style.display = "block";
+
             setTimeout(() => {
                 greenLight.style.display = "none";
 
@@ -97,6 +103,10 @@ function startGame() {
     numWords = 0;
     timer = 120;
     wordIndex = 2;
+    typingErrors = 0;
+
+    // first mistake should count as a typing error
+    countsAsError = true;
 
     // reset the player's car
     document.querySelector("#player").style.left = "0px";
@@ -201,10 +211,21 @@ document.getElementById("input").addEventListener('keyup', () => {
     // If the input is correct
     else if (input == currentWord.substring(0, input.length)) {
         inputEl.style.color = "green";
+
+        // reset error tracker upon correctly entered text
+        if (countsAsError == false) {
+            countsAsError = true;
+        }
     }
     // If the input is incorrect
     else if (input != currentWord.substring(0, input.length)) {
         inputEl.style.color = "red";
+
+        // if error has already been discovered, increment typingErrors, stop tracking
+        if (countsAsError == true) {
+            typingErrors++;
+            countsAsError = false;
+        }
     }
 });
 
@@ -244,6 +265,7 @@ function endWordRace() {
     let seconds = 120 - timer;
     document.getElementById("wpmStat").innerHTML = ((numWords * 60) / seconds).toFixed() + " wpm";
     document.getElementById("wordCountStat").innerHTML = numWords;
+    document.getElementById("wordAccuracyStat").innerHTML = (((numWords - typingErrors) / numWords) * 100).toFixed(1) + "%";
 }
 
 /**
