@@ -302,15 +302,17 @@ class DataManager {
      * @returns {Object[]} accountsList
      */
     retrieveAllUsers() {
-        return JSON.parse(localStorage.getItem("userAccounts")) || null;
-    }
+        if (this.hasLocalStorage) {
+            // get userAccounts from localStorage
+            let item = localStorage.getItem("userAccounts");
 
-    /**
-     * Get a user object by username
-     * @param {String} username 
-     */
-    retrieveUser(username) {
-        return JSON.parse(localStorage.getItem(username)) || null;
+            // if there was actually an object there
+            if (item) {
+                return JSON.parse(item);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -318,7 +320,17 @@ class DataManager {
      * @returns {Object} currentUser
      */
     retrieveCurrentUser() {
-        return JSON.parse(localStorage.getItem("currentUser")) || null;
+        if (this.hasLocalStorage) {
+            // get currentUser from localStorage
+            let item = localStorage.getItem("currentUser");
+
+            // if there was actually an object there
+            if (item) {
+                return JSON.parse();
+            }
+        }
+
+        return null;
     }
 
     /**
