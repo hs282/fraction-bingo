@@ -308,7 +308,12 @@ class DataManager {
 
             // if there was actually an object there
             if (item) {
-                return JSON.parse(item);
+                try {
+                    return JSON.parse(item);
+                }
+                catch (e) {
+                    return null;
+                }
             }
         }
 
@@ -326,7 +331,12 @@ class DataManager {
 
             // if there was actually an object there
             if (item) {
-                return JSON.parse();
+                try {
+                    return JSON.parse(item);
+                }
+                catch (e) {
+                    return null;
+                }
             }
         }
 
