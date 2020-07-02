@@ -1,3 +1,6 @@
+const APP_NAME = "type-racer";
+const DM = new DataManager(APP_NAME);
+
 // the list of words that can show up for the user to type
 const words = shuffle([
     "Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"
@@ -10,6 +13,11 @@ let numWords;
 // variables keep track of the timer
 let timer;
 let timerID;
+
+// offset value needed to center player car
+const CENTER_CAR = 127;
+// stagger stop light times by 1000ms
+const STOP_LIGHT_TIME = 1000;
 
 (function initUI() {
     // show instructions modal
@@ -26,7 +34,7 @@ let timerID;
 function adjustRoad() {
     let bodyRect = document.body.getBoundingClientRect();
     let car = document.querySelector("#player").getBoundingClientRect();
-    let offset = car.top - bodyRect.top - 90;
+    let offset = car.top - bodyRect.top - CENTER_CAR;
 
     let road = document.querySelector("#road");
 
@@ -35,37 +43,74 @@ function adjustRoad() {
     road.style.height = 150 + "px";
 }
 
+/*
+* Reset the stop light and input, then startTimer() after stopLight turns green
+*/
+function stopLightStart() {
+    // reset timer and display the main game screen
+    document.getElementById("timer").innerHTML = "2:00";
+    document.getElementById("wordRace").style.display = "";
+    document.getElementById("end").style.display = "none";
+
+    // reset and keep input disabled until stopLight is over
+    let input = document.querySelector("#input");
+    input.disabled = true;
+    input.value = "";
+
+    // keep the player focused on the text box at all times
+    input.onblur = () => setTimeout(() => input.focus());
+
+    // get all lights to change light display with timer
+    let redLight = document.getElementById("redLight");
+    let yellowLight = document.getElementById("yellowLight");
+    let greenLight = document.getElementById("greenLight");
+    redLight.style.display = "block";
+    yellowLight.style.display = "none";
+    greenLight.style.display = "none";
+
+    // starts on redLight, then yellowLight, then greenLight
+    setTimeout(() => {
+        redLight.style.display = "none";
+        yellowLight.style.display = "block";
+        setTimeout(() => {
+            yellowLight.style.display = "none";
+            greenLight.style.display = "block";
+            setTimeout(() => {
+                greenLight.style.display = "none";
+
+                // enable input and then start the timer
+                input.disabled = false;
+                startTimer();
+
+                // focus on input box after starting
+                input.focus();
+            }, STOP_LIGHT_TIME)
+        }, STOP_LIGHT_TIME)
+    }, STOP_LIGHT_TIME);
+}
+
 /**
  * Start the game.
  */
 function startGame() {
-    // reset stts
+    // reset stats
     numWords = 0;
     timer = 120;
     wordIndex = 2;
-    
-    // clear value and allow user input
-    let input = document.querySelector("#input");
-    input.value = "";
-    input.disabled = false;
 
-    // always stay focused on input element
-    input.focus();
-    input.onblur = () => setTimeout(() => input.focus());
-    
+    // reset the player's car
+    document.querySelector("#player").style.left = "0px";
+
     populateWordTray();
-    startTimer();
+
+    // handles the stopLight, input resetting, and startTimer()
+    stopLightStart();
 }
 
 /**
- * 
+ * Start the main gameplay timer
  */
 function startTimer() {
-    document.getElementById("timer").innnerHTML = "2:00";
-    
-    document.getElementById("wordRace").style.display = "";
-    document.getElementById("end").style.display = "none";
-    
     // Timer function that counts down the seconds
     timerID = setInterval(() => {
         timer--;

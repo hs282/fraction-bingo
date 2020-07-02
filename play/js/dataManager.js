@@ -2,7 +2,8 @@
  * This API module exists so that in the future, if we want to switch to an online database, the code within games will not have
  * to change, but rather just the DataManger code will change to provide minimal code rewrites.
  */
-export default class DataManager {
+// export default 
+class DataManager {
     /**
      * Initialize class data members and check if the user's browser has localStorage
      * capabilities.

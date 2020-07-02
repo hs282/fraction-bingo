@@ -41,3 +41,9 @@ body {
     padding: 5px;
     border-radius: 4px;
 }
+
+#redLight, #yellowLight, #greenLight, #stopLight {
+    z-index: 1;
+    margin: auto;
+    display: none;
+}
