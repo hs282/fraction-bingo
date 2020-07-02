@@ -83,13 +83,13 @@ function addToMessage() {
     }
 
     // insert message to span
-    let message = [""];
+    let message = "";
     let span = document.getElementById("message");
     let letters = document.querySelectorAll(".result");
     for (let i = 0; i < letters.length; i++) {
-        message.push(letters[i].innerHTML);
+        message += letters[i].innerHTML;
     }
-    span.innerText += message.join("");
+    span.innerText += message;
 
     // reset binary rows
     let div = document.getElementById("binary-container");
