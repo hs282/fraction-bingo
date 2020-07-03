@@ -83,24 +83,36 @@ function addToMessage() {
     }
 
     // insert message to span
-    let message = [""];
+    let message = "";
     let span = document.getElementById("message");
     let letters = document.querySelectorAll(".result");
     for (let i = 0; i < letters.length; i++) {
-        message.push(letters[i].innerHTML);
+        message += letters[i].innerHTML;
     }
-    span.innerText += message.join("");
+    span.innerHTML += message;
 
     // reset binary rows
     let div = document.getElementById("binary-container");
     while (div.firstChild) {
-        //div.removeChild(div.lastChild);
         deleteRow(div.querySelector(".letter"));
     }
     addRow();
 }
 
+/**
+ * Deletes message.
+ */
 function deleteMessage() {
     let span = document.getElementById("message");
     document.getElementById("message-container").removeChild(span);
+}
+
+/**
+ * Copies message to clipboard.
+ */
+function copyMessage() {
+    let copyText = document.getElementById("message").innerHTML;
+    navigator.clipboard.writeText(copyText)
+        .then(() => alert("Copied the text: " + copyText))
+        .catch(err => alert("Error in copying text"));
 }
