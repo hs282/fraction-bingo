@@ -111,30 +111,8 @@ function deleteMessage() {
  * Copies message to clipboard.
  */
 function copyMessage() {
-    /*
-    // create textArea to store message temporarily
-    let copyText = document.getElementById("message");
-    let textArea = document.createElement("textArea");
-    textArea.value = copyText.innerHTML;
-    copyText.appendChild(textArea);
-
-    // select message and copy to clipboard
-    textArea.select();
-    document.execCommand("copy");
-
-    // remove textArea
-    copyText.removeChild(textArea);
-
-    // alert to confirm which text has been copied
-    alert("Copied the text: " + textArea.value);
-     */
-
     let copyText = document.getElementById("message").innerHTML;
     navigator.clipboard.writeText(copyText)
-        .then(() => {
-            alert("Copied the text: " + copyText);
-        })
-        .catch(err => {
-            alert("Error in copying text");
-        });
+        .then(() => alert("Copied the text: " + copyText))
+        .catch(err => alert("Error in copying text"));
 }
