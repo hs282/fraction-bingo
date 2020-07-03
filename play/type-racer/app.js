@@ -18,6 +18,11 @@ let timerID;
 // track whether a substring mistake is made or not
 let countsAsError;
 
+
+let roadLoopsDone;
+let roadExtensionLoopsDone;
+let firstTime;
+
 // offset value needed to center player car
 const CENTER_CAR = 127;
 // stagger stop light times by 1000ms
@@ -38,13 +43,48 @@ const STOP_LIGHT_TIME = 1000;
 function adjustRoad() {
     let bodyRect = document.body.getBoundingClientRect();
     let car = document.querySelector("#player").getBoundingClientRect();
-    let offset = car.top - bodyRect.top - CENTER_CAR;
+    //let offset = car.top - bodyRect.top - CENTER_CAR;
 
     let road = document.querySelector("#road");
 
     road.style.width = document.body.width + "px";
-    road.style.marginTop = offset + "px";
+    //road.style.marginTop = offset + "px";
+    document.querySelector("#player").style.marginTop = "8.65%";
+    road.style.marginTop = "8%";
     road.style.height = 150 + "px";
+}
+
+function animateRoadLoop(roadName="road") {
+    // calculate how much the player will move
+    let left = document.getElementById(roadName).style.left;
+    //let width = document.getElementById("wordRace").offsetWidth;
+    let width = window.width;
+        
+    // if user is at end of screen. end the game
+    // if (parseInt(left.replace("px", ""), 10) >= width) {
+    //     endWordRace();
+    // }
+    // calculate new position of the road
+    let newLeft;
+    if (!left.includes("px")) {
+        newLeft = "-" + width + "px";
+        if (left == "100%") {newLeft = "0px";}
+    }
+    else {
+        left = left.replace("px", "");
+        newLeft = (parseInt(left, 10) - width) + "px";
+    }
+    // move the road div
+    $("#" + roadName).animate({ "left": newLeft }, 999, "linear");
+
+    if (roadName == "roadExtension") {roadExtensionLoopsDone++;}
+    else if (roadName == "road") {roadLoopsDone++;}
+
+    let aLeft = newLeft.replace("px", "");
+    myLeft = parseInt(aLeft, 10);
+    if (myLeft < 0) {
+        document.getElementById(roadName).style.left = width + "px";
+    }
 }
 
 /*
@@ -87,6 +127,9 @@ function stopLightStart() {
                 // enable input and then start the timer
                 input.disabled = false;
                 startTimer();
+
+                // set road to start moving underneath the player
+                document.getElementById("road").style.animation = "slide 10s linear infinite";
 
                 // focus on input box after starting
                 input.focus();
@@ -247,6 +290,9 @@ function populateWordTray() {
  * 
  */
 function endWordRace() {
+    // stop road animation
+    document.getElementById("road").style.animation = "none";
+
     // Stop timer
     clearInterval(timerID);
         

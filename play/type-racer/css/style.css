@@ -1,5 +1,6 @@
 body {
     background-color: #3ea01f;
+    overflow-x: hidden;
 }
 
 #timer,
@@ -46,4 +47,18 @@ body {
     z-index: 1;
     margin: auto;
     display: none;
+}
+
+#road {
+    animation: none;
+    left: 0%;
+}
+
+@keyframes slide{
+    0%{
+        transform: translate3d(0, 0, 0);
+    }
+    100%{
+        transform: translate3d(-65%, 0, 0);
+    }
 }
