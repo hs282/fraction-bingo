@@ -81,7 +81,9 @@
                 <div class="col-sm-2"></div>
             </div>
             <div class="row" style="padding-left: 0px;">
-                <div id="road" style="position: absolute; width: 100%; background: url('img/typeracerroad.jpg');"></div>
+                
+                <div id="road" style="position: absolute; width: 1200%; background: url('img/typeracerroad.jpg') repeat-x;">
+                </div>
                 <div id="player" style="z-index: 1; position: absolute; overflow:hidden;">
                     <img src="img/typeracercar.png">
                 </div>
@@ -95,14 +97,19 @@
 
         <div class="container-fluid" id="end" style="display: none">
             <div class="row mt-3">
-                <div class="col-sm-6 text-center">
+                <div class="col-sm-4 text-center">
                     <h3>Words Per Minute</h3>
                     <h1 id="wpmStat"></h1>
                 </div>
 
-                <div class="col-sm-6 text-center">
+                <div class="col-sm-4 text-center">
                     <h3>Words Typed</h3>
                     <h1 id="wordCountStat"></h1>
+                </div>
+
+                <div class="col-sm-4 text-center">
+                    <h3>Spelling Accuracy</h3>
+                    <h1 id="wordAccuracyStat"></h1>
                 </div>
             </div>
 
