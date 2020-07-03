@@ -10,14 +10,11 @@ const words = shuffle([
 let wordIndex;
 let numWords;
 let typingErrors;
+let lettersTyped;
 
 // variables keep track of the timer
 let timer;
 let timerID;
-
-// track whether a substring mistake is made or not
-let countsAsError;
-
 
 // offset value needed to center player car and road
 const CENTER_VALUE = "8%";
@@ -26,7 +23,7 @@ const CENTER_VALUE = "8%";
 const STOP_LIGHT_TIME = 1000;
 
 // set the animation value to create a sliding road
-const ROAD_ANIMATION = "slide 10s linear infinite";
+const ROAD_ANIMATION = "slide 120s linear infinite";
 
 (function initUI() {
     // show instructions modal
@@ -110,9 +107,7 @@ function startGame() {
     timer = 120;
     wordIndex = 2;
     typingErrors = 0;
-
-    // first mistake should count as a typing error
-    countsAsError = true;
+    lettersTyped = 0;
 
     // reset the player's car
     document.querySelector("#player").style.left = "0px";
@@ -217,22 +212,15 @@ document.getElementById("input").addEventListener('keyup', () => {
     // If the input is correct
     else if (input == currentWord.substring(0, input.length)) {
         inputEl.style.color = "green";
-
-        // reset error tracker upon correctly entered text
-        if (countsAsError == false) {
-            countsAsError = true;
-        }
     }
     // If the input is incorrect
     else if (input != currentWord.substring(0, input.length)) {
-        inputEl.style.color = "red";
 
-        // if error has already been discovered, increment typingErrors, stop tracking
-        if (countsAsError == true) {
-            typingErrors++;
-            countsAsError = false;
-        }
+        inputEl.style.color = "red";
+        typingErrors++;
     }
+    
+    lettersTyped++;
 });
 
 /**
@@ -274,7 +262,17 @@ function endWordRace() {
     let seconds = 120 - timer;
     document.getElementById("wpmStat").innerHTML = ((numWords * 60) / seconds).toFixed() + " wpm";
     document.getElementById("wordCountStat").innerHTML = numWords;
-    document.getElementById("wordAccuracyStat").innerHTML = (((numWords - typingErrors) / numWords) * 100).toFixed(1) + "%";
+
+    // set default accuracy to 0
+    let wordAccuracyStat = 0.0;
+
+    // if the lettersTyped are greater than 0, then calculate a proper wordAccuracyStat
+    if (lettersTyped > 0) {
+        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100).toFixed(1);
+    }
+
+    // set the actual wordAccuracyStat in HTML
+    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat + "%";
 }
 
 /**
