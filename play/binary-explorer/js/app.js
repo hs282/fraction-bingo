@@ -89,18 +89,52 @@ function addToMessage() {
     for (let i = 0; i < letters.length; i++) {
         message += letters[i].innerHTML;
     }
-    span.innerText += message;
+    span.innerHTML += message;
 
     // reset binary rows
     let div = document.getElementById("binary-container");
     while (div.firstChild) {
-        //div.removeChild(div.lastChild);
         deleteRow(div.querySelector(".letter"));
     }
     addRow();
 }
 
+/**
+ * Deletes message.
+ */
 function deleteMessage() {
     let span = document.getElementById("message");
     document.getElementById("message-container").removeChild(span);
+}
+
+/**
+ * Copies message to clipboard.
+ */
+function copyMessage() {
+    /*
+    // create textArea to store message temporarily
+    let copyText = document.getElementById("message");
+    let textArea = document.createElement("textArea");
+    textArea.value = copyText.innerHTML;
+    copyText.appendChild(textArea);
+
+    // select message and copy to clipboard
+    textArea.select();
+    document.execCommand("copy");
+
+    // remove textArea
+    copyText.removeChild(textArea);
+
+    // alert to confirm which text has been copied
+    alert("Copied the text: " + textArea.value);
+     */
+
+    let copyText = document.getElementById("message").innerHTML;
+    navigator.clipboard.writeText(copyText)
+        .then(() => {
+            alert("Copied the text: " + copyText);
+        })
+        .catch(err => {
+            alert("Error in copying text");
+        });
 }
