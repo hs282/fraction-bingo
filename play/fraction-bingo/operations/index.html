@@ -2,6 +2,9 @@
     <head>
         <title>Operations</title>
 
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<link rel="stylesheet" href="style.css">
+
         <!-- Special jQuery UI Settings -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -230,16 +233,16 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
         <!-- Operations checklist-->
         <b>Fraction Operations:</b><br>
         <div class="checkbox">
-            <label><input id="fractAdd" type="checkbox" value="add" onclick="operationDifficulty('fractAdd', 'fractAddDiff')">Addition</label>
+            <label><input id="fractAdd" type="checkbox" value="add" onclick="operationDiffDisplay('fractAdd', 'fractAddDiff')">Addition</label>
         </div>
 	<div class="checkbox">
-	      <label><input id="fractSub" type="checkbox" value="sub" onclick="operationDifficulty('fractSub', 'fractSubDiff')">Subtraction</label>
+	      <label><input id="fractSub" type="checkbox" value="sub" onclick="operationDiffDisplay('fractSub', 'fractSubDiff')">Subtraction</label>
         </div>
 	<div class="checkbox">
-	      <label><input id="fractMult" type="checkbox" value="mult" onclick="operationDifficulty('fractMult', 'fractMultDiff')">Multiplication</label>
+	      <label><input id="fractMult" type="checkbox" value="mult" onclick="operationDiffDisplay('fractMult', 'fractMultDiff')">Multiplication</label>
         </div>
 	<div class="checkbox">
-	      <label><input id="fractDiv" type="checkbox" value="div" onclick="operationDifficulty('fractDiv', 'fractDivDiff')">Division</label>
+	      <label><input id="fractDiv" type="checkbox" value="div" onclick="operationDiffDisplay('fractDiv', 'fractDivDiff')">Division</label>
         </div>
         
         <!-- Addition Problem Difficulty -->
@@ -309,7 +312,7 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
 	<!-- Board dimensions -->
         <b>Board size:</b><br>
         <div class="radio">
-            <label><input id="three" type="radio" name="size" value="three" checked>3 x 3</label>
+            <label><input id="three" type="radio" name="size" value="three">3 x 3</label>
         </div>
         <div class="radio">
             <label><input id="four" type="radio" name="size" value="four">4 x 4</label>
@@ -323,6 +326,106 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
             <button class="btn btn-primary" onclick="startGame()">Start Game</button>
         </p>
     </div>
+
+        <!-- Game Panel -->
+        <div id="game" style="display: none">
+            <p style="text-align: left">
+                <button id="quitGame" onclick="endGame()" class="btn btn-danger">End Game</button>
+            </p>
+
+            <!-- Problem Display -->
+            <h2 id="problem" style="text-align: center"></h2>
+
+            <!-- 3x3 Bingo Board -->
+            <table id="board" name="board3" style="display: none">
+              <tr>
+                <td id="cell1">&nbsp;</td>
+                <td id="cell2">&nbsp;</td>
+                <td id="cell3">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell4">&nbsp;</td>
+                <td id="cell5">&nbsp;</td>
+                <td id="cell6">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell7">&nbsp;</td>
+                <td id="cell8">&nbsp;</td>
+                <td id="cell9">&nbsp;</td>
+              </tr>
+            </table>
+
+            <!-- 4x4 Bingo Board -->
+            <table id="board" name="board4" style="display: none">
+              <tr>
+                <td id="cell1">&nbsp;</td>
+                <td id="cell2">&nbsp;</td>
+                <td id="cell3">&nbsp;</td>
+                <td id="cell4">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell5">&nbsp;</td>
+                <td id="cell6">&nbsp;</td>
+                <td id="cell7">&nbsp;</td>
+                <td id="cell8">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell9">&nbsp;</td>
+                <td id="cell10">&nbsp;</td>
+                <td id="cell11">&nbsp;</td>
+                <td id="cell12">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell13">&nbsp;</td>
+                <td id="cell14">&nbsp;</td>
+                <td id="cell15">&nbsp;</td>
+                <td id="cell16">&nbsp;</td>
+              </tr>
+            </table>
+
+            <!-- 5x5 Bingo Board -->
+            <table id="board" name="board5" style="display: none">
+              <tr>
+                <td id="cell1">&nbsp;</td>
+                <td id="cell2">&nbsp;</td>
+                <td id="cell3">&nbsp;</td>
+                <td id="cell4">&nbsp;</td>
+                <td id="cell5">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell6">&nbsp;</td>
+                <td id="cell7">&nbsp;</td>
+                <td id="cell8">&nbsp;</td>
+                <td id="cell9">&nbsp;</td>
+                <td id="cell10">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell11">&nbsp;</td>
+                <td id="cell12">&nbsp;</td>
+                <td id="cell13">&nbsp;</td>
+                <td id="cell14">&nbsp;</td>
+                <td id="cell15">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell16">&nbsp;</td>
+                <td id="cell17">&nbsp;</td>
+                <td id="cell18">&nbsp;</td>
+                <td id="cell19">&nbsp;</td>
+                <td id="cell20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="cell21">&nbsp;</td>
+                <td id="cell22">&nbsp;</td>
+                <td id="cell23">&nbsp;</td>
+                <td id="cell24">&nbsp;</td>
+                <td id="cell25">&nbsp;</td>
+              </tr>
+           </table>
+            <!-- Button for when board does not contain solution -->
+            <p style="text-align: center">
+                <button id="noSolution" onclick="generateProblem()" class="btn btn-info">Solution Not On Board</button>
+            </p>
+      </div>
 
         <!-- jQuery JavaScript -->
         <!-- <script>
