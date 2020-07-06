@@ -405,4 +405,5 @@ function toggleProblems(){
     problemEl.classList.toggle("hide");
     timerEl.classList.toggle("hide");
     scoreEl.classList.toggle("hide");
+    inputEl.focus();
 }
