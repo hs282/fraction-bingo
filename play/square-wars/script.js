@@ -348,10 +348,34 @@ class MathClassHandler {
   constructor(level) {
     this.level = level;
     //all the equations used depending on level
-    this.kindergarten = [];
-    this.gradeSchool = [];
-    this.middleSchool = [];
-    this.highSchool = [];
+    //basic equations right now just for testing use
+    this.kindergarten = ["2 + 2 = "];
+    this.gradeSchool = ["2 * 2 = "];
+    this.middleSchool = ["24 / 2 = "];
+    this.highSchool = ["2x = 2 = "];
+  }
+  displayPopUp() {
+    let equationArea = document.getElementById("equation");
+    let arr = getLevel();
+    let randomEquation = 
+  }
+
+  //used to get the array depending upon the users level
+  getLevel() {
+    switch(this.level) {
+      case 1:
+        return this.kindergarten;
+        break;
+      case 2:
+        return this.gradeSchool;
+        break;
+      case 3:
+        return this.middleSchool;
+        break;
+      case 4:
+        return this.highSchool;
+        break;
+    }
   }
 }
 
