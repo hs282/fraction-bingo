@@ -368,6 +368,8 @@ class MathClassHandler {
     this.gradeSchoolMax = 100;
     this.middleSchoolAndUpMax = 1000;
   }
+
+  //a method for displaying the popup window that shows the equation
   displayPopUp() {
     const equationArea = document.getElementById("equation");
     const input = document.getElementById("answerInput");
@@ -383,32 +385,35 @@ class MathClassHandler {
       }
     });
 
-    answerBtn.addEventListener('click',() => {
+    answerBtn.addEventListener('click',(e) => {
       let answer = input.value;
       this.checkAnswer(equation, answer);
     });
   }
 
-  //used to get the array depending upon the users level
+  /**
+  * a method used to create math equations depending upton the difficulty level
+  * @returns {String} equation - a Sting containing the generated equation
+  **/
   getEquation() {
-    let num1, num2, randomSign, sign;
+    let num1, num2, randomSign, sign, equation;
 
     switch(this.level) {
       //kindergargen single and digit add and subtract
       case 1:
-         num1 = Math.floor(Math.random() * this.kindergartenMax);
-         num2 = Math.floor(Math.random() * this.kindergartenMax);
-         randomSign = Math.floor(Math.random() * this.kindergarten.length);
-         sign = this.kindergarten[randomSign];
-        return `${num1} ${sign} ${num2}`;
-        break;
+        num1 = Math.floor(Math.random() * this.kindergartenMax);
+        num2 = Math.floor(Math.random() * this.kindergartenMax);
+        randomSign = Math.floor(Math.random() * this.kindergarten.length);
+        sign = this.kindergarten[randomSign];
+        equation = `${num1} ${sign} ${num2}`;
+      break;
 
 
       //grade school add subtract divide and multiply small numbers
       case 2:
          randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
          sign = this.gradeSchoolAndUp[randomSign];
-        //if multiply or dividing keep
+        //if multiply or dividing keep one number small
         if(sign == "x" || sign == "/") {
           num1 = Math.floor(Math.random() * this.kindergartenMax);
         } else {
@@ -416,22 +421,41 @@ class MathClassHandler {
         }
 
         num2 = Math.floor(Math.random() * this.gradeSchoolMax);
-        if(sign == "/" && num2 == 0) {
-          num2 = 1;
-        }
-        return `${num1} ${sign} ${num2}`;
-        break;
+        equation = `${num1} ${sign} ${num2}`;
+      break;
 
-
+      //middle school add subract and multiply big numbers
       case 3:
-        return this.middleSchool;
-        break;
+        randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
+        sign = this.gradeSchoolAndUp[randomSign];
+        num1 = Math.floor(Math.random() * this.gradeSchoolMax);
+        num2 = Math.floor(Math.random() * this.gradeSchoolMax);
+        equation = `${num1} ${sign} ${num2}`;
+      break;
+
+      //highschool is the same as middle school but has a change of algebra problem
+      //NEED TO ADD ALGEBRA PROBLEMS
       case 4:
-        return this.highSchool;
-        break;
+        randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
+        sign = this.gradeSchoolAndUp[randomSign];
+        num1 = Math.floor(Math.random() * this.gradeSchoolMax);
+        num2 = Math.floor(Math.random() * this.gradeSchoolMax);
+        equation = `${num1} ${sign} ${num2}`;
+      break;
     }
+    //to make sure you dont divide by 0
+    if(sign == "/" && num2 == 0) {
+      num2 = 1;
+    }
+
+    return equation;
   }
 
+  /**
+  * Method used to find the answer to an equation
+  * @param {String} equation
+  * @param {number} answer
+  **/
   checkAnswer(equation, answer) {
     if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
       this.continueGame();
@@ -440,6 +464,7 @@ class MathClassHandler {
     }
   }
 
+  //a method used continue the game if the answer is right!
   continueGame() {
     document.getElementById("popUpWindow").style.display = "none";
     document.getElementById("answerInput").style.borderStyle = "none";
