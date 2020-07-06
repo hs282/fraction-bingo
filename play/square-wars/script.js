@@ -49,6 +49,7 @@ class Player extends MoveableCanvasObject {
     this.killCount = killCount;
     this.roundCount = roundCount;
     this.ArrowButtons = false;
+    this.booleanEquation = true;
   }
   /**
   * if a arrow button is pressed arrowButton is true this runs the code only once
@@ -188,6 +189,7 @@ class Game_Handler {
   * subroutine for handling rounds
   * rounds fomula is killCount % 10 == 0 then add a round
   * round 80 is max round
+  * eqution round is every 3 rounds
   **/
   roundHandler() {
     let maxRound = 80;
@@ -199,9 +201,15 @@ class Game_Handler {
       this.round += 1;
     }
 
-    if(this.round % 3 == 0) {
+    //this is to luanch the eqution before boss rounds every three rounds
+    if(this.round % 3 == 0 && player.booleanEquation) {
       gamePlaying = false;
+      player.booleanEquation = false;
       mathHandler.displayPopUp();
+    }
+    //set the other rounds to true
+    if(this.round % 3 != 0) {
+      player.booleanEquation = true;
     }
   }
 
@@ -383,18 +391,38 @@ class MathClassHandler {
 
   //used to get the array depending upon the users level
   getEquation() {
+    let num1, num2, randomSign, sign;
+
     switch(this.level) {
       //kindergargen single and digit add and subtract
       case 1:
-        let num1 = Math.floor(Math.random() * this.kindergartenMax);
-        let num2 = Math.floor(Math.random() * this.kindergartenMax);
-        let randomSign = Math.floor(Math.random() * this.kindergarten.length);
-        let sign = this.kindergarten[randomSign];
+         num1 = Math.floor(Math.random() * this.kindergartenMax);
+         num2 = Math.floor(Math.random() * this.kindergartenMax);
+         randomSign = Math.floor(Math.random() * this.kindergarten.length);
+         sign = this.kindergarten[randomSign];
         return `${num1} ${sign} ${num2}`;
         break;
+
+
+      //grade school add subtract divide and multiply small numbers
       case 2:
-        return this.gradeSchool;
+         randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
+         sign = this.gradeSchoolAndUp[randomSign];
+        //if multiply or dividing keep
+        if(sign == "x" || sign == "/") {
+          num1 = Math.floor(Math.random() * this.kindergartenMax);
+        } else {
+          num1 = Math.floor(Math.random() * this.gradeSchoolMax);
+        }
+
+        num2 = Math.floor(Math.random() * this.gradeSchoolMax);
+        if(sign == "/" && num2 == 0) {
+          num2 = 1;
+        }
+        return `${num1} ${sign} ${num2}`;
         break;
+
+
       case 3:
         return this.middleSchool;
         break;
@@ -405,7 +433,7 @@ class MathClassHandler {
   }
 
   checkAnswer(equation, answer) {
-    if(eval(equation) == answer) {
+    if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
       this.continueGame();
     } else {
       document.getElementById("answerInput").style.border = ".1em solid red";
