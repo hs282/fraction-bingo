@@ -125,5 +125,11 @@
 
         <script src="../js/dataManager.js"></script>
         <script src="app.js"></script>
+
+        <!-- Fixes the bootstrap default behavior, now clicking away from the dialogue box causes
+        the game to start instead of pause -->
+        <script>
+            $("#myModal").on("hidden.bs.modal", function () {startGame();});
+        </script>
     </body>
 </html>
