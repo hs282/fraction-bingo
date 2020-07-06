@@ -60,12 +60,29 @@
 			<hr>
 
 			<p style="text-align: right">
-				<button class="btn btn-primary" onclick="addRow()">Add Letter</button>
-				<button class="btn btn-success" onclick="addToMessage()">Add Letters to Message</button>
-				<button class="btn btn-warning" onclick="deleteMessage()">Delete Message</button>
-				<button class="btn btn-secondary" onclick="copyMessage()">
+				<button class="btn btn-primary" onclick="addRow()">
+					<i class="fas fa-plus"></i>
+					Add Letter
+				</button>
+
+				<button class="btn btn-success" onclick="addToMessage()">
+					<i class="fas fa-pen"></i>
+					Write Letters to Message
+				</button>
+
+				<button class="btn btn-warning" onclick="deleteMessage()">
+					<i class="fas fa-trash-alt"></i>
+					Delete Message
+				</button>
+
+				<button class="btn btn-secondary" id="copy-button" onclick="copyMessage()" disabled>
 					<i class="fas fa-copy"></i>
 					Copy Message
+				</button>
+
+				<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#options">
+					<i class="fas fa-cog"></i>
+					Options
 				</button>
 			</p>
 
@@ -116,6 +133,32 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Options Modal -->
+		<div class="modal fade" id="options" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Options</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<p>Select the way you would like to copy your message.</p>
+						<form>
+							<input type="radio" id="character" name="copy" value="character" checked>
+							<label for="character">Copy Message using Characters</label><br>
+							<input type="radio" id="binary" name="copy" value="binary">
+							<label for="binary">Copy Binary Message (eg. "1001000 1101001")</label><br>
+						</form>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>

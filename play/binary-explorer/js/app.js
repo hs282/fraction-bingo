@@ -97,6 +97,9 @@ function addToMessage() {
         deleteRow(div.querySelector(".letter"));
     }
     addRow();
+
+    // enable "Copy Message" button
+    if (span.innerHTML) document.getElementById("copy-button").disabled = false;
 }
 
 /**
@@ -105,14 +108,32 @@ function addToMessage() {
 function deleteMessage() {
     let span = document.getElementById("message");
     document.getElementById("message-container").removeChild(span);
+
+    // disable "Copy Message" button
+    document.getElementById("copy-button").disabled = true;
 }
 
 /**
  * Copies message to clipboard.
  */
 function copyMessage() {
-    let copyText = document.getElementById("message").innerHTML;
-    navigator.clipboard.writeText(copyText)
-        .then(() => alert("Copied the text: " + copyText))
-        .catch(err => alert("Error in copying text"));
+    // copy message using characters
+    if (document.getElementById("character").checked) {
+        let copyText = document.getElementById("message").innerHTML;
+        navigator.clipboard.writeText(copyText)
+            .then(() => alert(`Copied the message \"${copyText}\".`))
+            .catch(err => alert("Error in copying text"));
+    }
+
+    // copy message using binary
+    if (document.getElementById("binary").checked) {
+        let copyText = document.getElementById("message").innerHTML;
+        let binaryText = "";
+        for (let i = 0; i < copyText.length; i++) {
+            binaryText += copyText[i].charCodeAt(0).toString(2) + " ";
+        }
+        navigator.clipboard.writeText(binaryText)
+            .then(() => alert(`Copied the string \"${binaryText}\", which translates to \"${copyText}\".`))
+            .catch(err => alert("Error in copying text"));
+    }
 }
