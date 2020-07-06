@@ -19,8 +19,9 @@ button {
     font-size: 40px;
 }
 
-#binary-container {
-    text-align: center
+#message {
+    font-size: 40px;
+    margin-bottom: 10px;
 }
 
 .letter {
