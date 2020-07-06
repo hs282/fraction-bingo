@@ -198,6 +198,11 @@ class Game_Handler {
     if (player.killCount % 10 === 0) {
       this.round += 1;
     }
+
+    if(this.round % 3 == 0) {
+      gamePlaying = false;
+      mathHandler.displayPopUp();
+    }
   }
 
   /**
@@ -349,22 +354,43 @@ class MathClassHandler {
     this.level = level;
     //all the equations used depending on level
     //basic equations right now just for testing use
-    this.kindergarten = ["2 + 2 = "];
-    this.gradeSchool = ["2 * 2 = "];
-    this.middleSchool = ["24 / 2 = "];
-    this.highSchool = ["2x = 2 = "];
+    this.kindergarten = ["+", "-"];
+    this.gradeSchoolAndUp = ["+", "-", "x", "/"];
+    this.kindergartenMax = 10;
+    this.gradeSchoolMax = 100;
+    this.middleSchoolAndUpMax = 1000;
   }
   displayPopUp() {
-    let equationArea = document.getElementById("equation");
-    let arr = getLevel();
-    let randomEquation = 
+    const equationArea = document.getElementById("equation");
+    const input = document.getElementById("answerInput");
+    const answerBtn = document.getElementById("checkAnswer");
+    let equation = this.getEquation();
+    equationArea.textContent = equation + " =";
+    document.getElementById("popUpWindow").style.display = "block";
+
+    input.addEventListener("keyup", (e) => {
+      if(e.keyCode === 13) {
+        let answer = input.value;
+        this.checkAnswer(equation, answer);
+      }
+    });
+
+    answerBtn.addEventListener('click',() => {
+      let answer = input.value;
+      this.checkAnswer(equation, answer);
+    });
   }
 
   //used to get the array depending upon the users level
-  getLevel() {
+  getEquation() {
     switch(this.level) {
+      //kindergargen single and digit add and subtract
       case 1:
-        return this.kindergarten;
+        let num1 = Math.floor(Math.random() * this.kindergartenMax);
+        let num2 = Math.floor(Math.random() * this.kindergartenMax);
+        let randomSign = Math.floor(Math.random() * this.kindergarten.length);
+        let sign = this.kindergarten[randomSign];
+        return `${num1} ${sign} ${num2}`;
         break;
       case 2:
         return this.gradeSchool;
@@ -376,6 +402,20 @@ class MathClassHandler {
         return this.highSchool;
         break;
     }
+  }
+
+  checkAnswer(equation, answer) {
+    if(eval(equation) == answer) {
+      this.continueGame();
+    } else {
+      document.getElementById("answerInput").style.border = ".1em solid red";
+    }
+  }
+
+  continueGame() {
+    document.getElementById("popUpWindow").style.display = "none";
+    document.getElementById("answerInput").style.borderStyle = "none";
+    gamePlaying = true;
   }
 }
 
@@ -545,8 +585,10 @@ let myGameArea = {
       }
     });
     window.addEventListener("keydown", (e) => {
-      e.preventDefault();
-      myGameArea.key = e.keyCode;
+      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 32) {
+        e.preventDefault();
+        myGameArea.key = e.keyCode;
+      }
     });
 
   }
