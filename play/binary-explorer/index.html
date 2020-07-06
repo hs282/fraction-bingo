@@ -60,13 +60,26 @@
 			<hr>
 
 			<p style="text-align: right">
-				<button class="btn btn-primary" onclick="addRow()">Add Letter</button>
-				<button class="btn btn-success" onclick="addToMessage()">Add Letters to Message</button>
-				<button class="btn btn-warning" onclick="deleteMessage()">Delete Message</button>
+				<button class="btn btn-primary" onclick="addRow()">
+					<i class="fas fa-plus"></i>
+					Add Letter
+				</button>
+
+				<button class="btn btn-success" onclick="addToMessage()">
+					<i class="fas fa-pen"></i>
+					Write Letters to Message
+				</button>
+
+				<button class="btn btn-warning" onclick="deleteMessage()">
+					<i class="fas fa-trash-alt"></i>
+					Delete Message
+				</button>
+
 				<button class="btn btn-secondary" id="copy-button" onclick="copyMessage()" disabled>
 					<i class="fas fa-copy"></i>
 					Copy Message
 				</button>
+
 				<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#options">
 					<i class="fas fa-cog"></i>
 					Options
@@ -140,7 +153,7 @@
 							<input type="radio" id="character" name="copy" value="character" checked>
 							<label for="character">Copy Message using Characters</label><br>
 							<input type="radio" id="binary" name="copy" value="binary">
-							<label for="binary">Copy Message using Binary</label><br>
+							<label for="binary">Copy Binary Message (eg. "1001000 1101001")</label><br>
 						</form>
 					</div>
 
