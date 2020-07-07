@@ -1,6 +1,8 @@
-const types = [ "integer", "decimal", "fraction" ];
+//jshint esversion: 6
 
-const operations = [
+const TYPES = [ "integer", "decimal", "fraction", "exponent" ];
+
+const OPERATIONS = [
     {
         name: "addition",
         sign: "+"
@@ -16,37 +18,77 @@ const operations = [
     {
         name: "division",
         sign: "/"
-    }
+    },
 ];
 
 const OPERATION_SETTINGS = [];
-types.forEach(type => {
-    operations.forEach(operation => {
-        let obj = {};
+TYPES.forEach(type => {
 
-        obj.name = operation.name;
-        obj.type = type;
-        obj.sign = operation.sign;
-        obj.difficultyLevel = 1;
+    if (type != "exponent") {
+        OPERATIONS.forEach(operation => {
+            let obj = {};
 
-        // integer operations are enabled by default
-        obj.enabled = type == "integer";
+            obj.name = operation.name;
+            obj.type = type;
+            obj.sign = operation.sign;
+            obj.difficultyLevel = 1;
 
-        OPERATION_SETTINGS.push(obj);
-    });
+            // integer operations are enabled by default
+            obj.enabled = type == "integer";
+
+            OPERATION_SETTINGS.push(obj);
+        })
+    }
+    else {
+        // custom singular object for exponent settings
+        let exponentSettings = {
+            name: type,
+            type: type,
+            sign: "^",
+            difficultyLevel: 1,
+            enabled: false
+        };
+
+        OPERATION_SETTINGS.push(exponentSettings);
+    }
 });
 
 const ALLOW_NEGATIVE_NUMBERS = false;
+
+// current player score
+let playerScore = 0;
+
+// current problem
+let currentProblem = {
+  operandOne: "",
+  operandTwo: "",
+  sign: "",
+  answer: "",
+
+  // holds formatted fraction strings
+  fractions: []
+};
+
+// array of answered problems
+// let answeredProblems = [];
 
 // references to HTML elements
 const problemEl = document.querySelector("#problem");
 const inputEl = document.querySelector("#input");
 const changeSettingsEl = document.querySelector("#changeSettingsView");
+const timerEl = document.querySelector("#gameTimer");
+const countdownEl = document.querySelector("#countdown");
+const startingEl = document.querySelector("#startScreen");
+const startButtonEl = document.querySelector("#startButton");
+const scoreEl = document.querySelector("#score");
 
 /**
  * Initialize the UI components when the script is loaded.
  */
 (function initUI() {
+    // starting sequence
+    startScreen();
+
     // create a new problem and show it to the user
     newProblem();
 
@@ -147,7 +189,7 @@ function changeSettingsView() {
 
     // hide all the checkbox lists
     problemTypes.querySelectorAll("#problemTypes ul").forEach(el => el.classList.add("hide"));
-    
+
     // change the mode to whatever the button says
     let buttonText = changeSettingsEl.innerText;
     if (buttonText.includes("Decimal")) {
@@ -157,7 +199,7 @@ function changeSettingsView() {
         document.querySelector("#decimal").classList.remove("hide");
     }
     else if (buttonText.includes("Fraction")) {
-        changeSettingsEl.innerText = "View Integer Operation Settings";
+        changeSettingsEl.innerText = "View Exponent Operation Settings";
 
         customizeProblemTypesEl.innerText = "Customize Fraction Problem Types";
         document.querySelector("#fraction").classList.remove("hide");
@@ -168,6 +210,12 @@ function changeSettingsView() {
         customizeProblemTypesEl.innerText = "Customize Integer Problem Types";
         document.querySelector("#integer").classList.remove("hide");
     }
+    else if (buttonText.includes("Exponent")) {
+        changeSettingsEl.innerText = "View Integer Operation Settings";
+
+        customizeProblemTypesEl.innerText = "Customize Exponent Problem Types";
+        document.querySelector("#exponent").classList.remove("hide");
+    }
 }
 
 /**
@@ -176,7 +224,7 @@ function changeSettingsView() {
 function checkAnswer() {
     // get the user's answer and the actual answer
     let userAnswer = inputEl.value;
-    let actualAnswer = getAnswer();
+    let actualAnswer = currentProblem.answer;
 
     // if the user answers with a fraction, calculate decimal form
     if (userAnswer.includes("/")) {
@@ -185,6 +233,10 @@ function checkAnswer() {
 
     // if the user's answer is correct with float tolerance taken into account as well
     if (Math.abs(userAnswer - actualAnswer) < .00000000000001) {
+
+        // update score
+        playerScore += 10;
+        scoreEl.innerHTML = "Score: " + playerScore;
         newProblem();
     }
     // if the user's answer is incorrect
@@ -201,6 +253,13 @@ function newProblem() {
     inputEl.value = "";
     inputEl.style.border = "";
 
+    // reset current problem
+    currentProblem.operandOne = "";
+    currentProblem.operandTwo = "";
+    currentProblem.sign = "";
+    currentProblem.answer = "";
+    currentProblem.fractions = [];
+
     // randomly select an enabled operation
     let possibleOperations = OPERATION_SETTINGS.filter(operation => operation.enabled);
     let operation = selectRandom(possibleOperations);
@@ -208,13 +267,30 @@ function newProblem() {
     // get operands for that operation
     let [ operandOne, operandTwo ] = getOperands(operation);
 
+    // log current problem
+    currentProblem.operandOne = operandOne;
+    currentProblem.operandTwo = operandTwo;
+    currentProblem.sign = operation.sign;
+    currentProblem.answer = getAnswer();
+
+    // apply fraction formatting
+    if (operation.type == "fraction") {
+      operandOne = currentProblem.fractions[0];
+      operandTwo = currentProblem.fractions[1];
+    }
+
     // set the problem display to the newly generated problem
-    problemEl.innerHTML = `${operandOne} ${operation.sign} ${operandTwo} = ?`;
+    if (operation.type != "exponent") {
+      problemEl.innerHTML = `${operandOne} ${operation.sign} ${operandTwo} = ?`;
+    }
+    else {
+      problemEl.innerHTML = `${operandOne}<sup>${operandTwo}</sup> = ?`;
+    }
 }
 
 /**
  * Get proper operands depending on the operation.
- * @param {String} operation 
+ * @param {String} operation
  * @returns {Number[]} operands
  */
 function getOperands(operation) {
@@ -248,6 +324,11 @@ function getOperands(operation) {
             operands = getOperands(operation);
         }
     }
+    // exponent problems need a smaller power for easier math
+    else if (operation.name == "exponent") {
+      operands[0] = getRandomNumber(0, 10 * difficultyLevel, operation.type);
+      operands[1] = getRandomNumber(0, 4 * difficultyLevel, operation.type);
+    }
     // if no special validation is needed
     else {
         operands[0] = getRandomNumber(0, 10 * difficultyLevel, operation.type);
@@ -258,25 +339,23 @@ function getOperands(operation) {
 }
 
 /**
- * Calculate the answer to the problem that is currently being shown to the user.
- * @returns {Number} answer
+ * Calculates answer to current problem
+ * @returns {Number}
  */
 function getAnswer() {
-    // get the mathematical problem from the problem text shown to the user
-    // also replace fractional sign with division sign
-    let problem = problemEl.innerHTML.replace(" = ?", "").replace(new RegExp("⁄", "g"), " / ");
 
-    // TODO Fix fraction division answer calculation
-
-    // create a function object and execute it to get the answer
-    let answer = new Function(`return ${problem}`)();
-
-    return answer;
+    // if problem is an exponent
+    if (currentProblem.sign == "^") {
+        return (Math.pow(currentProblem.operandOne, currentProblem.operandTwo));
+    }
+    else {
+        return eval(currentProblem.operandOne + currentProblem.sign + currentProblem.operandTwo);
+    }
 }
 
 /**
  * Given an array, it selects a random element and returns it.
- * @param {any[]} items 
+ * @param {any[]} items
  * @returns {any} randomItem
  */
 function selectRandom(items) {
@@ -285,8 +364,8 @@ function selectRandom(items) {
 
 /**
  * Get a random number [min, max].
- * @param {Number} min 
- * @param {Number} max 
+ * @param {Number} min
+ * @param {Number} max
  * @returns {Number}
  */
 function getRandomNumber(min, max, type) {
@@ -303,10 +382,11 @@ function getRandomNumber(min, max, type) {
         if (min === 0) {
             min = 1;
         }
-        
+
         let denominator = Math.floor(Math.random() * (max - min + 1)) + min;
 
-        num = `${numerator}&frasl;${denominator}`;
+        currentProblem.fractions.push(`${numerator}&frasl;${denominator}`);
+        num = numerator / denominator;
     }
     else {
         num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -317,9 +397,68 @@ function getRandomNumber(min, max, type) {
 
 /**
  * Capitalizes the first letter of the word.
- * @param {String} str 
+ * @param {String} str
  * @returns {String} properCaptitalizedStr
  */
 function getProperCapitalization(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+ * Display start screen, then initial countdown.
+ */
+function startScreen(){
+  toggleProblems();
+  startButtonEl.onclick = countdown;
+}
+
+/**
+ * Counts down from 3, then starts game
+ */
+function countdown(){
+    let count = 3;
+    startingEl.classList.toggle("hide");
+
+    const INTERVAL = setInterval( () => {
+
+        if (count < 1) {
+            clearInterval(INTERVAL);
+            countdownEl.classList.toggle("hide");
+
+            // show the UI
+            toggleProblems();
+            startTimer();
+        }
+
+        countdownEl.innerHTML = count;
+        count--;
+    }, 1000);
+}
+
+/**
+ * Counts down from 60, then displays result screen
+ */
+function startTimer(){
+    let timeRemaining = 60;
+
+    const INTERVAL = setInterval( () => {
+
+        if (timeRemaining <= 1) {
+            clearInterval(INTERVAL);
+        }
+
+          timeRemaining--;
+          timerEl.innerHTML = "Time: " + timeRemaining;
+    }, 1000);
+}
+
+/**
+ * Toggles the problem, timer, and score elements
+ */
+function toggleProblems(){
+    inputEl.classList.toggle("hide");
+    inputEl.focus();
+    problemEl.classList.toggle("hide");
+    timerEl.classList.toggle("hide");
+    scoreEl.classList.toggle("hide");
 }

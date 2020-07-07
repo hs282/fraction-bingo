@@ -69,3 +69,71 @@ function translateBinaryString() {
     // convert ASCII code to a character and show in result element
     resultEl.innerHTML = String.fromCharCode(asciiCode);
 }
+
+/**
+ * Add letters translated from binary string rows to the message.
+ */
+function addToMessage() {
+    // create message span if not created before
+    let messageContainer = document.getElementById("message-container");
+    if (document.getElementById("message") == null) {
+        let span = document.createElement("span");
+        span.id = "message";
+        messageContainer.appendChild(span);
+    }
+
+    // insert message to span
+    let message = "";
+    let span = document.getElementById("message");
+    let letters = document.querySelectorAll(".result");
+    for (let i = 0; i < letters.length; i++) {
+        message += letters[i].innerHTML;
+    }
+    span.innerHTML += message;
+
+    // reset binary rows
+    let div = document.getElementById("binary-container");
+    while (div.firstChild) {
+        deleteRow(div.querySelector(".letter"));
+    }
+    addRow();
+
+    // enable "Copy Message" button
+    if (span.innerHTML) document.getElementById("copy-button").disabled = false;
+}
+
+/**
+ * Deletes message.
+ */
+function deleteMessage() {
+    let span = document.getElementById("message");
+    document.getElementById("message-container").removeChild(span);
+
+    // disable "Copy Message" button
+    document.getElementById("copy-button").disabled = true;
+}
+
+/**
+ * Copies message to clipboard.
+ */
+function copyMessage() {
+    // copy message using characters
+    if (document.getElementById("character").checked) {
+        let copyText = document.getElementById("message").innerHTML;
+        navigator.clipboard.writeText(copyText)
+            .then(() => alert(`Copied the message \"${copyText}\".`))
+            .catch(err => alert("Error in copying text"));
+    }
+
+    // copy message using binary
+    if (document.getElementById("binary").checked) {
+        let copyText = document.getElementById("message").innerHTML;
+        let binaryText = "";
+        for (let i = 0; i < copyText.length; i++) {
+            binaryText += copyText[i].charCodeAt(0).toString(2) + " ";
+        }
+        navigator.clipboard.writeText(binaryText)
+            .then(() => alert(`Copied the string \"${binaryText}\", which translates to \"${copyText}\".`))
+            .catch(err => alert("Error in copying text"));
+    }
+}

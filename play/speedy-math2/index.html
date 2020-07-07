@@ -9,6 +9,15 @@
 
     <body>
         <section class="container mt-3">
+          <div id="startScreen">
+            <p>Adjust the types and difficulty of the math problems below. Click Start when ready.</p>
+            <button id="startButton" class="btn btn-success btn-lg">Start</button>
+          </div>
+
+          <h1 id="countdown"></h1>
+          <h3 id="gameTimer">Time: 60</h3>
+          <h3 id="score">Score: 0</h3>
+
             <h2 id="problem" class="text-center"></h2>
 
             <p class="text-center">
@@ -25,7 +34,7 @@
                 <button id="changeSettingsView" class="btn btn-primary">View Decimal Operation Settings</button>
             </div>
         </footer>
-        
+
         <script src="js/app.js"></script>
     </body>
 </html>
