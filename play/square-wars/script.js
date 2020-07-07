@@ -16,6 +16,18 @@ function setLevel(level) {
   difficultyLevel = intLevel;
   document.getElementById("gameBtn").style.display = "inline";
 }
+
+/**
+* Fucntion to validate the numbers only in the input text box
+* @param (Event) evt
+**/
+function isNumber(evt) {
+  var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+  if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+    return false;
+
+  return true;
+ }
 /**
   MoveableCanvasObject class is all objects that are moveable on the canavs
 **/
@@ -202,7 +214,7 @@ class Game_Handler {
       this.round += 1;
     }
 
-    //this is to luanch the eqution before boss rounds every three rounds
+    //this is to launch the eqution before boss rounds every three rounds
     if(this.round % 3 == 0 && player.booleanEquation) {
       gamePlaying = false;
       player.booleanEquation = false;
