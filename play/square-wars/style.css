@@ -26,7 +26,7 @@ canvas {
   border: .2em solid #ddd;
   margin-left: 14%;
   margin-right: 14%;
-  padding-bottom: 2em;
+  padding-bottom: .7em;
 }
 ol {
   list-style-type: none;
@@ -75,11 +75,13 @@ h3 {
 
 #popUpWindow {
   display: none;
-  position: fixed;
+  position: absolute;
   top: 30%;
-  left: 40%;
-  background-color: #909090;
-  padding: 2em;
+  left: 10%;
+  right: 10%;
+  background-color: #BEBEBE;
+  padding-top: 2em;
+  padding-bottom: 2em;
   z-index: 1;
 }
 

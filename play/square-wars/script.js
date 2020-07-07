@@ -400,12 +400,20 @@ class MathClassHandler {
     let num1, num2, randomSign, sign, equation;
 
     switch(this.level) {
-      //kindergargen single and digit add and subtract
+
+      //kindergargen single and digit add and subtract no negatives
       case 1:
         num1 = Math.floor(Math.random() * this.kindergartenMax);
         num2 = Math.floor(Math.random() * this.kindergartenMax);
         randomSign = Math.floor(Math.random() * this.kindergarten.length);
         sign = this.kindergarten[randomSign];
+
+        //if the first number is bigger swtich the two numbers so subtracting is easier
+        if(num1 > num2) {
+          let hold = num1;
+          num1 = num2;
+          num2 = hold;
+        }
         equation = `${num1} ${sign} ${num2}`;
       break;
 
@@ -471,6 +479,7 @@ class MathClassHandler {
     document.getElementById("popUpWindow").style.borderStyle = "none";
     document.getElementById("popUpWindow").style.display = "none";
     document.getElementById("answerInput").style.borderStyle = "none";
+    document.getElementById("answerInput").value = "";
     gamePlaying = true;
   }
 }
