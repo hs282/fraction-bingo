@@ -7,7 +7,7 @@ let words = [
 ];
 
 // variables to keep track of user typing statistics
-let wordIndex;
+let wordIndex = 0;
 let numWords;
 let typingErrors;
 let lettersTyped;
@@ -239,7 +239,7 @@ function populateWordTray() {
 
     for (let i = 0; i < 5; i++) {
         let span = document.createElement("span");
-        span.innerText = words[i].toLowerCase();
+        span.innerText = words[wordIndex++].toLowerCase();
 
         wordTray.appendChild(span);
     }
