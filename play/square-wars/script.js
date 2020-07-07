@@ -14,6 +14,7 @@ let difficultyLevel = 1
 function setLevel(level) {
   intLevel = parseInt(level)
   difficultyLevel = intLevel;
+  document.getElementById("gameBtn").style.display = "inline";
 }
 /**
   MoveableCanvasObject class is all objects that are moveable on the canavs
@@ -460,12 +461,14 @@ class MathClassHandler {
     if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
       this.continueGame();
     } else {
+      document.getElementById("popUpWindow").style.border = ".1em solid red";
       document.getElementById("answerInput").style.border = ".1em solid red";
     }
   }
 
   //a method used continue the game if the answer is right!
   continueGame() {
+    document.getElementById("popUpWindow").style.borderStyle = "none";
     document.getElementById("popUpWindow").style.display = "none";
     document.getElementById("answerInput").style.borderStyle = "none";
     gamePlaying = true;

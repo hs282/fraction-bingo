@@ -26,7 +26,7 @@ canvas {
   border: .2em solid #ddd;
   margin-left: 14%;
   margin-right: 14%;
-  padding-bottom: 5em;
+  padding-bottom: 2em;
 }
 ol {
   list-style-type: none;
@@ -41,6 +41,7 @@ ol {
 }
 
 #gameBtn {
+  display: none;
   padding: .7em;
   font-size: 1.3em;
   background-color: #f00;
@@ -59,8 +60,17 @@ button {
   background-color: #666;
 }
 
+h3 {
+  text-align: center;
+  padding: 2em;
+}
+
+.difficultyBtn:hover {
+  background-color: #665;
+}
+
 .difficultyBtn:focus {
-  background-color: #666;
+  background-color: #665;
 }
 
 #popUpWindow {
