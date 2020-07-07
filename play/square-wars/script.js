@@ -3,7 +3,7 @@ let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler;
 //global boolean for the game engine
 let gamePlaying;
 
-//difficulty level for game preset to 1 for easier
+//difficulty level for game preset to 1
 let difficultyLevel = 1
 
 /**
@@ -23,11 +23,13 @@ function setLevel(level) {
 **/
 function isNumber(evt) {
   var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-  if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+  if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57)) {
     return false;
-
+  }
   return true;
  }
+
+
 /**
   MoveableCanvasObject class is all objects that are moveable on the canavs
 **/
@@ -143,7 +145,7 @@ class Bullet extends MoveableCanvasObject {
         crash = false;
       }
     }
-      return crash;
+    return crash;
   }
 }
 
@@ -420,8 +422,8 @@ class MathClassHandler {
         randomSign = Math.floor(Math.random() * this.kindergarten.length);
         sign = this.kindergarten[randomSign];
 
-        //if the first number is bigger swtich the two numbers so subtracting is easier
-        if(num1 > num2) {
+        //if the first number is smaller swtich the two numbers so subtracting is easier
+        if(num1 < num2) {
           let hold = num1;
           num1 = num2;
           num2 = hold;
