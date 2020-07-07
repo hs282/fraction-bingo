@@ -300,19 +300,24 @@ function endWordRace() {
         if (playerScore > pastPlayerScore) {
             DM.saveItem("score", playerScore);
         }
+
+        // display the higher score as the player's high score
+        document.getElementById("playerHighScore").innerHTML = playerScore > pastPlayerScore ? playerScore : pastPlayerScore;
     }
+
     // save playerScore, if unable, then popup a warning message
     else if (DM.saveItem("score", playerScore) == false) {
         alert("Error: Could not save your score. If you would like to save your score, please login first.");
         document.getElementById("playerHighScore").innerHTML = "Not logged in";
-        document.getElementById("playerScore").innerHTML = playerScore;
-        return;
     }
 
-    // display the user's scores as a stat
-    document.getElementById("playerHighScore").innerHTML = playerScore > pastPlayerScore ? playerScore : pastPlayerScore;
-    document.getElementById("playerScore").innerHTML = playerScore;
+    // only other behavior would be to display current playerScore as highest
+    else {
+        document.getElementById("playerHighScore").innerHTML = playerScore;
+    }
 
+    // display score and reset gameStarted
+    document.getElementById("playerScore").innerHTML = playerScore;
     gameStarted = false;
 }
 
