@@ -20,11 +20,6 @@ class DataManager {
             // get the currentUser from storage
             this.currentUser = this.retrieveCurrentUser();
 
-            // if this is the first time in localStorage that this app has been used, define it
-            if (this.currentUser && !this.currentUser[this.appName]) {
-                this.currentUser[this.appName] = {};
-            }
-
             // get the users from storage
             this.users = this.retrieveAllUsers();
 
@@ -176,6 +171,11 @@ class DataManager {
         if (this.hasLocalStorage && this.currentUser) {
             // find the user in the users list
             let user = this.users.find(x => x.username == this.currentUser.username);
+
+            // if this is the first time in localStorage that this app has been used, define it
+            if (this.currentUser && !this.currentUser[this.appName]) {
+                this.currentUser[this.appName] = {};
+            }
 
             // save the value to the user
             this.currentUser[this.appName][key] = JSON.stringify(value);
