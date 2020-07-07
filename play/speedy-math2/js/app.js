@@ -271,7 +271,7 @@ function newProblem() {
     currentProblem.operandOne = operandOne;
     currentProblem.operandTwo = operandTwo;
     currentProblem.sign = operation.sign;
-    currentProblem.answer = newGetAnswer();
+    currentProblem.answer = getAnswer();
 
     // apply fraction formatting
     if (operation.type == "fraction") {
@@ -343,15 +343,14 @@ function getOperands(operation) {
  * @returns {Number}
  */
 function getAnswer() {
-    let operandOne = parseFloat(currentProblem.operandOne);
-    let operandTwo = parseFloat(currentProblem.operandTwo);
-    let sign = currentProblem.sign;
 
+    // if problem is an exponent
     if (currentProblem.sign == "^") {
-        return (Math.pow(operandOne, operandTwo));
+        return (Math.pow(currentProblem.operandOne, currentProblem.operandTwo));
     }
-
-    return eval(operandOne + sign + operandTwo);
+    else {
+        return eval(currentProblem.operandOne + currentProblem.sign + currentProblem.operandTwo);
+    }
 }
 
 /**
