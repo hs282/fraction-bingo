@@ -16,6 +16,9 @@ let lettersTyped;
 let timer;
 let timerID;
 
+// prevent startGame() from being called more than once before ending
+let gameStarted = false;
+
 // offset value needed to center player car and road
 const CENTER_VALUE = "8%";
 
@@ -101,6 +104,10 @@ function stopLightStart() {
  * Start the game.
  */
 function startGame() {
+    // prevent startGame() from being called multiple times before ending
+    if (gameStarted) {return;}
+    gameStarted = true;
+
     // reset stats
     numWords = 0;
     timer = 120;
@@ -261,7 +268,8 @@ function endWordRace() {
     
     // Show stats
     let seconds = 120 - timer;
-    document.getElementById("wpmStat").innerHTML = ((numWords * 60) / seconds).toFixed() + " wpm";
+    let wpm = ((numWords * 60) / seconds);
+    document.getElementById("wpmStat").innerHTML = wpm.toFixed() + " wpm";
     document.getElementById("wordCountStat").innerHTML = numWords;
 
     // set default accuracy to 0
@@ -269,11 +277,43 @@ function endWordRace() {
 
     // if the lettersTyped are greater than 0, then calculate a proper wordAccuracyStat
     if (lettersTyped > 0) {
-        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100).toFixed(1);
+        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100);
     }
 
     // set the actual wordAccuracyStat in HTML
-    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat + "%";
+    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat.toFixed(1) + "%";
+
+    // calculate current and past playerScore
+    let playerScore = 0;
+    playerScore = (wpm + seconds) * numWords * (wordAccuracyStat / 100);
+    playerScore = playerScore.toFixed();
+    let pastPlayerScore = DM.getItem("score");
+
+    // if getItem() didn't return undefined
+    if (pastPlayerScore != undefined) {
+
+        // convert pastPlayerScore to a valid numeric score
+        pastPlayerScore = JSON.stringify(pastPlayerScore).slice(3);
+        pastPlayerScore = parseInt(pastPlayerScore);
+
+        // save playerScore in DM if new score is higher than the old one
+        if (playerScore > pastPlayerScore) {
+            DM.saveItem("score", playerScore);
+        }
+    }
+    // save playerScore, if unable, then popup a warning message
+    else if (DM.saveItem("score", playerScore) == false) {
+        alert("Error: Could not save your score. If you would like to save your score, please login first.");
+        document.getElementById("playerHighScore").innerHTML = "Not logged in";
+        document.getElementById("playerScore").innerHTML = playerScore;
+        return;
+    }
+
+    // display the user's scores as a stat
+    document.getElementById("playerHighScore").innerHTML = playerScore > pastPlayerScore ? playerScore : pastPlayerScore;
+    document.getElementById("playerScore").innerHTML = playerScore;
+
+    gameStarted = false;
 }
 
 /**
