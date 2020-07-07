@@ -24,27 +24,53 @@ const OPERATIONS = [
 const OPERATION_SETTINGS = [];
 TYPES.forEach(type => {
 
+    if (type != "exponent") {
+        OPERATIONS.forEach(operation => {
+            let obj = {};
 
-    OPERATIONS.forEach(operation => {
-        let obj = {};
+            obj.name = operation.name;
+            obj.type = type;
+            obj.sign = operation.sign;
+            obj.difficultyLevel = 1;
 
-        obj.name = operation.name;
-        obj.type = type;
-        obj.sign = operation.sign;
-        obj.difficultyLevel = 1;
+            // integer operations are enabled by default
+            obj.enabled = type == "integer";
 
-        // integer operations are enabled by default
-        obj.enabled = type == "integer";
+            OPERATION_SETTINGS.push(obj);
+        })
+    }
+    else {
+        // custom singular object for exponent settings
+        let exponentSettings = {
+            name: type,
+            type: type,
+            sign: "^",
+            difficultyLevel: 1,
+            enabled: false
+        };
 
-        OPERATION_SETTINGS.push(obj);
-    });
+        OPERATION_SETTINGS.push(exponentSettings);
+    }
 });
-
 
 const ALLOW_NEGATIVE_NUMBERS = false;
 
 // current player score
 let playerScore = 0;
+
+// current problem
+let currentProblem = {
+  operandOne: "",
+  operandTwo: "",
+  sign: "",
+  answer: "",
+
+  // holds formatted fraction strings
+  fractions: []
+};
+
+// array of answered problems
+// let answeredProblems = [];
 
 // references to HTML elements
 const problemEl = document.querySelector("#problem");
@@ -173,7 +199,7 @@ function changeSettingsView() {
         document.querySelector("#decimal").classList.remove("hide");
     }
     else if (buttonText.includes("Fraction")) {
-        changeSettingsEl.innerText = "View Integer Operation Settings";
+        changeSettingsEl.innerText = "View Exponent Operation Settings";
 
         customizeProblemTypesEl.innerText = "Customize Fraction Problem Types";
         document.querySelector("#fraction").classList.remove("hide");
@@ -184,6 +210,12 @@ function changeSettingsView() {
         customizeProblemTypesEl.innerText = "Customize Integer Problem Types";
         document.querySelector("#integer").classList.remove("hide");
     }
+    else if (buttonText.includes("Exponent")) {
+        changeSettingsEl.innerText = "View Integer Operation Settings";
+
+        customizeProblemTypesEl.innerText = "Customize Exponent Problem Types";
+        document.querySelector("#exponent").classList.remove("hide");
+    }
 }
 
 /**
@@ -192,7 +224,7 @@ function changeSettingsView() {
 function checkAnswer() {
     // get the user's answer and the actual answer
     let userAnswer = inputEl.value;
-    let actualAnswer = getAnswer();
+    let actualAnswer = currentProblem.answer;
 
     // if the user answers with a fraction, calculate decimal form
     if (userAnswer.includes("/")) {
@@ -221,6 +253,13 @@ function newProblem() {
     inputEl.value = "";
     inputEl.style.border = "";
 
+    // reset current problem
+    currentProblem.operandOne = "";
+    currentProblem.operandTwo = "";
+    currentProblem.sign = "";
+    currentProblem.answer = "";
+    currentProblem.fractions = [];
+
     // randomly select an enabled operation
     let possibleOperations = OPERATION_SETTINGS.filter(operation => operation.enabled);
     let operation = selectRandom(possibleOperations);
@@ -228,12 +267,24 @@ function newProblem() {
     // get operands for that operation
     let [ operandOne, operandTwo ] = getOperands(operation);
 
+    // log current problem
+    currentProblem.operandOne = operandOne;
+    currentProblem.operandTwo = operandTwo;
+    currentProblem.sign = operation.sign;
+    currentProblem.answer = newGetAnswer();
+
+    // apply fraction formatting
+    if (operation.type == "fraction") {
+      operandOne = currentProblem.fractions[0];
+      operandTwo = currentProblem.fractions[1];
+    }
+
     // set the problem display to the newly generated problem
     if (operation.type != "exponent") {
       problemEl.innerHTML = `${operandOne} ${operation.sign} ${operandTwo} = ?`;
     }
     else {
-      // TODO Display exponent problem with special formatting
+      problemEl.innerHTML = `${operandOne}<sup>${operandTwo}</sup> = ?`;
     }
 }
 
@@ -273,6 +324,11 @@ function getOperands(operation) {
             operands = getOperands(operation);
         }
     }
+    // exponent problems need a smaller power for easier math
+    else if (operation.name == "exponent") {
+      operands[0] = getRandomNumber(0, 10 * difficultyLevel, operation.type);
+      operands[1] = getRandomNumber(0, 4 * difficultyLevel, operation.type);
+    }
     // if no special validation is needed
     else {
         operands[0] = getRandomNumber(0, 10 * difficultyLevel, operation.type);
@@ -283,20 +339,19 @@ function getOperands(operation) {
 }
 
 /**
- * Calculate the answer to the problem that is currently being shown to the user.
- * @returns {Number} answer
+ * Calculates answer to current problem
+ * @returns {Number}
  */
 function getAnswer() {
-    // get the mathematical problem from the problem text shown to the user
-    // also replace fractional sign with division sign
-    let problem = problemEl.innerHTML.replace(" = ?", "").replace(new RegExp("⁄", "g"), " / ");
+    let operandOne = parseFloat(currentProblem.operandOne);
+    let operandTwo = parseFloat(currentProblem.operandTwo);
+    let sign = currentProblem.sign;
 
-    // TODO Fix fraction division answer calculation
+    if (currentProblem.sign == "^") {
+        return (Math.pow(operandOne, operandTwo));
+    }
 
-    // create a function object and execute it to get the answer
-    let answer = new Function(`return ${problem}`)();
-
-    return answer;
+    return eval(operandOne + sign + operandTwo);
 }
 
 /**
@@ -331,7 +386,8 @@ function getRandomNumber(min, max, type) {
 
         let denominator = Math.floor(Math.random() * (max - min + 1)) + min;
 
-        num = `${numerator}&frasl;${denominator}`;
+        currentProblem.fractions.push(`${numerator}&frasl;${denominator}`);
+        num = numerator / denominator;
     }
     else {
         num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -402,8 +458,8 @@ function startTimer(){
  */
 function toggleProblems(){
     inputEl.classList.toggle("hide");
+    inputEl.focus();
     problemEl.classList.toggle("hide");
     timerEl.classList.toggle("hide");
     scoreEl.classList.toggle("hide");
-    inputEl.focus();
 }
