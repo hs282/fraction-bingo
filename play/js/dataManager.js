@@ -23,6 +23,8 @@ class DataManager {
             // get the users from storage
             this.users = this.retrieveAllUsers();
 
+            
+
             this.initUI();
         }
         // if no localStorage, there can be no users
@@ -204,7 +206,7 @@ class DataManager {
         // only access localStorage if present on browser
         if (this.hasLocalStorage && this.currentUser) {
             // if the key is in user object
-            if (key in this.currentUser[this.appName]) {
+            if (this.currentUser[this.appName] && key in this.currentUser[this.appName]) {
                 data = this.currentUser[this.appName][key];
             }
         }
