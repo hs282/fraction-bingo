@@ -382,6 +382,10 @@ class MathClassHandler {
     this.kindergartenMax = 10;
     this.gradeSchoolMax = 100;
     this.middleSchoolAndUpMax = 1000;
+    this.isAlgebra = false;
+    //JUST FOR TESTING ALGEBRA DECISION TREE
+    this.algebraEquations = ["2x = 2", "2x + 4 = 2", "4x -2 = 6"];
+    this.algebraEquationsAnswers = ["1", "-1", "2"];
   }
 
   //a method for displaying the popup window that shows the equation
@@ -407,7 +411,7 @@ class MathClassHandler {
   }
 
   /**
-  * a method used to create math equations depending upton the difficulty level
+  * a method used to generate math equations depending upton the difficulty level
   * @returns {String} equation - a Sting containing the generated equation
   **/
   getEquation() {
@@ -457,13 +461,21 @@ class MathClassHandler {
       break;
 
       //highschool is the same as middle school but has a change of algebra problem
-      //NEED TO ADD ALGEBRA PROBLEMS
+
       case 4:
-        randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
-        sign = this.gradeSchoolAndUp[randomSign];
-        num1 = Math.floor(Math.random() * this.gradeSchoolMax);
-        num2 = Math.floor(Math.random() * this.gradeSchoolMax);
-        equation = `${num1} ${sign} ${num2}`;
+        let randomNumber = Math.random();
+        //30 percent chance of getting an algebra equation
+        if(randomNumber <= .30) {
+          this.isAlgebra = true;
+          let randomEquation = Math.floor(Math.random() * this.algebraEquations.length);
+          equation = this.algebraEquations[randomEquation];
+        } else {
+          randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
+          sign = this.gradeSchoolAndUp[randomSign];
+          num1 = Math.floor(Math.random() * this.gradeSchoolMax);
+          num2 = Math.floor(Math.random() * this.gradeSchoolMax);
+          equation = `${num1} ${sign} ${num2}`;
+        }
       break;
     }
     //to make sure you dont divide by 0
