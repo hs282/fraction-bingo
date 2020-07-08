@@ -70,7 +70,7 @@ let currentProblem = {
 };
 
 // array of answered problems
-// let answeredProblems = [];
+let answeredProblems = [];
 
 // references to HTML elements
 const problemEl = document.querySelector("#problem");
@@ -81,6 +81,11 @@ const countdownEl = document.querySelector("#countdown");
 const startingEl = document.querySelector("#startScreen");
 const startButtonEl = document.querySelector("#startButton");
 const scoreEl = document.querySelector("#score");
+const resultEl = document.querySelector("#resultScreen");
+const totalScoreEl = document.querySelector("#totalScore");
+const problemsAnsweredEl = document.querySelector("#problemsAnswered");
+const correctProblemsEl = document.querySelector("#correctProblems");
+const correctProblemListEl = document.querySelector("#correctProblemList");
 
 /**
  * Initialize the UI components when the script is loaded.
@@ -237,6 +242,12 @@ function checkAnswer() {
         // update score
         playerScore += 10;
         scoreEl.innerHTML = "Score: " + playerScore;
+
+        // store the current problem
+        storeProblem();
+
+        console.log(answeredProblems);
+
         newProblem();
     }
     // if the user's answer is incorrect
@@ -272,6 +283,7 @@ function newProblem() {
     currentProblem.operandTwo = operandTwo;
     currentProblem.sign = operation.sign;
     currentProblem.answer = getAnswer();
+    console.log(currentProblem);
 
     // apply fraction formatting
     if (operation.type == "fraction") {
@@ -309,7 +321,21 @@ function getOperands(operation) {
         if (ALLOW_NEGATIVE_NUMBERS == false) {
             // if the second operand is greater, then the result would be negative, which is not allowed in this mode
             if (operands[0] < operands[1]) {
-                operands = getOperands(operation);
+                // if fractions, just switch them
+                if (operation.type == "fraction") {
+                    // switch the actual numbers
+                    let temp = operands[0];
+                    operands[0] = operands[1];
+                    operands[1] = temp;
+
+                    // switch the formatted strings
+                    temp = currentProblem.fractions[0];
+                    currentProblem.fractions[0] = currentProblem.fractions[1];
+                    currentProblem.fractions[1] = temp;
+                }
+                else {
+                    operands = getOperands(operation);
+                }
             }
         }
     }
@@ -343,14 +369,17 @@ function getOperands(operation) {
  * @returns {Number}
  */
 function getAnswer() {
+    let answer;
 
     // if problem is an exponent
     if (currentProblem.sign == "^") {
-        return (Math.pow(currentProblem.operandOne, currentProblem.operandTwo));
+        answer = Math.pow(currentProblem.operandOne, currentProblem.operandTwo);
     }
     else {
-        return eval(currentProblem.operandOne + currentProblem.sign + currentProblem.operandTwo);
+        answer = eval(currentProblem.operandOne + currentProblem.sign + currentProblem.operandTwo);
     }
+
+    return answer;
 }
 
 /**
@@ -408,8 +437,11 @@ function getProperCapitalization(str) {
  * Display start screen, then initial countdown.
  */
 function startScreen(){
-  toggleProblems();
-  startButtonEl.onclick = countdown;
+    // Hide result screen
+    resultEl.classList.toggle("hide");
+
+    toggleProblems();
+    startButtonEl.onclick = countdown;
 }
 
 /**
@@ -445,6 +477,7 @@ function startTimer(){
 
         if (timeRemaining <= 1) {
             clearInterval(INTERVAL);
+            resultScreen();
         }
 
           timeRemaining--;
@@ -461,4 +494,107 @@ function toggleProblems(){
     problemEl.classList.toggle("hide");
     timerEl.classList.toggle("hide");
     scoreEl.classList.toggle("hide");
+}
+
+/**
+ * Stores the current problem in the answered problems array
+ */
+function storeProblem(){
+    // creating a new temporary object for storage
+    let tempCurrentProblem = {
+        operandOne: currentProblem.operandOne,
+        operandTwo: currentProblem.operandTwo,
+        sign: currentProblem.sign,
+        answer: currentProblem.answer,
+        fractions: currentProblem.fractions
+    }
+    console.log(tempCurrentProblem);
+    answeredProblems.push(tempCurrentProblem);
+}
+
+/**
+ * Ends game, shows all answered problems and score
+ */
+function resultScreen(){
+    toggleProblems();
+    resultEl.classList.toggle("hide");
+
+    totalScoreEl.innerHTML = "Total Score: " + playerScore;
+    problemsAnsweredEl.innerHTML = "Problems Answered: " +  answeredProblems.length;
+
+    answeredProblems.forEach( (problem) => {
+        let answer;
+        let li = document.createElement("li");
+        li.classList.add("list-group-item");
+
+        // if exponent problem
+        if (problem.sign == "^") {
+            answer = `${problem.operandOne}<sup>${problem.operandTwo}</sup> = ` + problem.answer;
+        }
+        // if it's a fraction problem
+        else if (problem.fractions.length) {
+            answer = problem.fractions[0] + " " + problem.sign + " " + problem.fractions[1] + " = " + fractionize(problem.answer);
+        }
+        // normal problem
+        else {
+              answer = problem.operandOne + " " + problem.sign + " " + problem.operandTwo + " = " + parseFloat(problem.answer.toPrecision(10));
+        }
+
+        li.innerHTML = answer;
+        console.log(problem);
+        correctProblemListEl.appendChild(li);
+    })
+
+}
+
+/**
+ * Converts a decimal into a formatted fraction string via Stern-Brocot Binary Search Tree
+ * @param {Number} decimal to be converted
+ * @return {string} formatted fraction string
+ */
+function fractionize(decimal){
+    // desired precision
+    let error = 0.000001;
+
+    let numerator, denominator;
+    let roundedDecimal = parseInt(Math.floor(decimal));
+    decimal -= roundedDecimal;
+
+    if (decimal < error) {
+        return (roundedDecimal + 1, 1);
+    }
+
+    // The lower fraction limit is 0/1
+    lowerNumerator = 0;
+    lowerDenominator = 1;
+
+    // The upper fraction limit is 1/1
+    upperNumerator = 1;
+    upperDenominator = 1;
+
+    while (true) {
+        // The middle fraction is (lowerNumerator + upperNumerator) / (lowerDenominator + upperDenominator)
+        let middleNumerator = lowerNumerator + upperNumerator;
+        let middleDenominator = lowerDenominator + upperDenominator;
+
+        // if decimal + error < middle
+        if (middleDenominator * (decimal + error) < middleNumerator) {
+            // middle is our new upper
+            upperNumerator = middleNumerator;
+            upperDenominator = middleDenominator;
+        }
+        // else if middle < decimal - error
+        else if (middleNumerator < (decimal - error) * middleDenominator) {
+            // middle is our new lower
+            lowerNumerator = middleNumerator;
+            lowerDenominator = middleDenominator;
+        }
+        // else middle is our best fraction approximation
+        else {
+            numerator = (roundedDecimal * middleDenominator + middleNumerator);
+            denominator = (middleDenominator);
+
+            return `${numerator}&frasl;${denominator}`
+        }
+    }
 }
