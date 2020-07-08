@@ -7,7 +7,7 @@ let words = [
 ];
 
 // variables to keep track of user typing statistics
-let wordIndex;
+let wordIndex = 0;
 let numWords;
 let typingErrors;
 let lettersTyped;
@@ -15,6 +15,12 @@ let lettersTyped;
 // variables keep track of the timer
 let timer;
 let timerID;
+
+// prevent startGame() from being called more than once before ending
+let gameStarted = false;
+
+// track window width as the game progresses, so players cannot use resizing to their advantage
+let windowWidth;
 
 // offset value needed to center player car and road
 const CENTER_VALUE = "8%";
@@ -24,6 +30,9 @@ const STOP_LIGHT_TIME = 1000;
 
 // set the animation value to create a sliding road
 const ROAD_ANIMATION = "slide 120s linear infinite";
+
+// number of words typed that will be required to move the player fully to the other side of the screen
+const WORDS_REQUIRED = 50;
 
 (function initUI() {
     // show instructions modal
@@ -101,6 +110,38 @@ function stopLightStart() {
  * Start the game.
  */
 function startGame() {
+    // prevent startGame() from being called multiple times before ending
+    if (gameStarted) {return;}
+    gameStarted = true;
+
+    // set appropriate global window width
+    windowWidth = document.getElementById("wordRace").offsetWidth;
+
+    // upon resizing the window, move the car appropriately left or right to prevent cheating
+    window.onresize = () => {
+
+        let newWindowWidth = document.getElementById("wordRace").offsetWidth;
+        let widthRatio = newWindowWidth / windowWidth;
+        windowWidth = newWindowWidth;
+
+        // calculate how much the player will move
+        let left = document.getElementById("player").style.left;
+
+        // calculate new position of the player
+        let newLeft;
+        if (!left.includes("px")) {
+            newLeft = "0px";
+        }
+        else {
+            left = left.replace("px", "");
+            newLeft = (parseInt(left, 10) * widthRatio) + "px";
+        }
+            
+        // move the player div
+        document.getElementById("player").style.left = newLeft;
+
+    };
+
     // reset stats
     numWords = 0;
     timer = 120;
@@ -187,6 +228,10 @@ document.getElementById("input").addEventListener('keyup', () => {
         // calculate how much the player will move
         let left = document.getElementById("player").style.left;
         let width = document.getElementById("wordRace").offsetWidth;
+
+        // the width to animate the car every time a word is typed
+        let animateWidth = width / WORDS_REQUIRED;
+        console.log(animateWidth);
             
         // if user is at end of screen. end the game
         if (parseInt(left.replace("px", ""), 10) >= width) {
@@ -196,11 +241,11 @@ document.getElementById("input").addEventListener('keyup', () => {
         // calcualte new position of the player
         let newLeft;
         if (!left.includes("px")) {
-            newLeft = "30px";
+            newLeft = animateWidth + "px";
         }
         else {
             left = left.replace("px", "");
-            newLeft = (parseInt(left, 10) + 30) + "px";
+            newLeft = (parseInt(left, 10) + animateWidth) + "px";
         }
             
         // move the player div
@@ -232,7 +277,7 @@ function populateWordTray() {
 
     for (let i = 0; i < 5; i++) {
         let span = document.createElement("span");
-        span.innerText = words[i].toLowerCase();
+        span.innerText = words[wordIndex++].toLowerCase();
 
         wordTray.appendChild(span);
     }
@@ -261,7 +306,8 @@ function endWordRace() {
     
     // Show stats
     let seconds = 120 - timer;
-    document.getElementById("wpmStat").innerHTML = ((numWords * 60) / seconds).toFixed() + " wpm";
+    let wpm = ((numWords * 60) / seconds);
+    document.getElementById("wpmStat").innerHTML = wpm.toFixed() + " wpm";
     document.getElementById("wordCountStat").innerHTML = numWords;
 
     // set default accuracy to 0
@@ -269,11 +315,48 @@ function endWordRace() {
 
     // if the lettersTyped are greater than 0, then calculate a proper wordAccuracyStat
     if (lettersTyped > 0) {
-        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100).toFixed(1);
+        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100);
     }
 
     // set the actual wordAccuracyStat in HTML
-    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat + "%";
+    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat.toFixed(1) + "%";
+
+    // calculate current and past playerScore
+    let playerScore = 0;
+    playerScore = (wpm + seconds) * numWords * (wordAccuracyStat / 100);
+    playerScore = playerScore.toFixed();
+    let pastPlayerScore = DM.getItem("score");
+
+    // if getItem() didn't return undefined
+    if (pastPlayerScore != undefined) {
+
+        // convert pastPlayerScore to a valid numeric score
+        pastPlayerScore = JSON.stringify(pastPlayerScore).slice(3);
+        pastPlayerScore = parseInt(pastPlayerScore);
+
+        // save playerScore in DM if new score is higher than the old one
+        if (playerScore > pastPlayerScore) {
+            DM.saveItem("score", playerScore);
+        }
+
+        // display the higher score as the player's high score
+        document.getElementById("playerHighScore").innerHTML = playerScore > pastPlayerScore ? playerScore : pastPlayerScore;
+    }
+
+    // save playerScore, if unable, then popup a warning message
+    else if (DM.saveItem("score", playerScore) == false) {
+        alert("Error: Could not save your score. If you would like to save your score, please login first.");
+        document.getElementById("playerHighScore").innerHTML = "Not logged in";
+    }
+
+    // only other behavior would be to display current playerScore as highest
+    else {
+        document.getElementById("playerHighScore").innerHTML = playerScore;
+    }
+
+    // display score and reset gameStarted
+    document.getElementById("playerScore").innerHTML = playerScore;
+    gameStarted = false;
 }
 
 /**

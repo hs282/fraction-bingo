@@ -112,11 +112,22 @@
                     <h1 id="wordAccuracyStat"></h1>
                 </div>
             </div>
-
+            <hr>
             <div class="text-center mt-2">
                 <h3>Race Again?</h3>
 
                 <button onclick="startGame()" class="btn btn-primary">Let's Go!</button>
+            </div>
+            <hr>
+            <div class="row mt-3">
+                <div class="col-sm-6 text-center">
+                    <h3>Your New Score</h3>
+                    <h1 id="playerScore"></h1>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <h3>Your High Score</h3>
+                    <h1 id="playerHighScore"></h1>
+                </div>
             </div>
         </div>
 
@@ -125,5 +136,11 @@
 
         <script src="../js/dataManager.js"></script>
         <script src="app.js"></script>
+
+        <!-- Fixes the bootstrap default behavior, now clicking away from the dialogue box causes
+        the game to start instead of pause -->
+        <script>
+            $("#myModal").on("hidden.bs.modal", function () {startGame();});
+        </script>
     </body>
 </html>
