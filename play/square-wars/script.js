@@ -400,13 +400,21 @@ class MathClassHandler {
     input.addEventListener("keyup", (e) => {
       if(e.keyCode === 13) {
         let answer = input.value;
-        this.checkAnswer(equation, answer);
+        if(this.isAlgebra) {
+          this.checkAlgebraAnswer(equation, answer);
+        } else {
+          this.checkAnswer(equation, answer);
+        }
       }
     });
 
     answerBtn.addEventListener('click',(e) => {
       let answer = input.value;
-      this.checkAnswer(equation, answer);
+      if(this.isAlgebra) {
+        this.checkAlgebraAnswer(equation, answer);
+      } else {
+        this.checkAnswer(equation, answer);
+      }
     });
   }
 
@@ -493,22 +501,37 @@ class MathClassHandler {
   **/
   checkAnswer(equation, answer) {
     if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
-      this.continueGame();
+      this.rightAnswer();
     } else {
-      document.getElementById("popUpWindow").style.border = ".1em solid red";
-      document.getElementById("answerInput").style.border = ".1em solid red";
+      this.wrongAnswer();
+    }
+  }
+
+  checkAlgebraAnswer(equation, answer) {
+    let i = this.algebraEquations.indexOf(equation);
+    if(answer == this.algebraEquationsAnswers[i]) {
+      this.rightAnswer()
+    } else {
+      this.wrongAnswer();
     }
   }
 
   //a method used continue the game if the answer is right!
-  continueGame() {
+  rightAnswer() {
     document.getElementById("popUpWindow").style.borderStyle = "none";
     document.getElementById("popUpWindow").style.display = "none";
     document.getElementById("answerInput").style.borderStyle = "none";
     document.getElementById("answerInput").value = "";
     gamePlaying = true;
+    this.isAlgebra = false;
+  }
+
+  wrongAnswer() {
+    document.getElementById("popUpWindow").style.border = ".1em solid red";
+    document.getElementById("answerInput").style.border = ".1em solid red";
   }
 }
+
 
 
 
