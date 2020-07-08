@@ -23,8 +23,6 @@ class DataManager {
             // get the users from storage
             this.users = this.retrieveAllUsers();
 
-            
-
             this.initUI();
         }
         // if no localStorage, there can be no users
