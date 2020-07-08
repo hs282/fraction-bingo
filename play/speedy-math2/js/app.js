@@ -246,8 +246,6 @@ function checkAnswer() {
         // store the current problem
         storeProblem();
 
-        console.log(answeredProblems);
-
         newProblem();
     }
     // if the user's answer is incorrect
@@ -283,7 +281,6 @@ function newProblem() {
     currentProblem.operandTwo = operandTwo;
     currentProblem.sign = operation.sign;
     currentProblem.answer = getAnswer();
-    console.log(currentProblem);
 
     // apply fraction formatting
     if (operation.type == "fraction") {
@@ -508,7 +505,6 @@ function storeProblem(){
         answer: currentProblem.answer,
         fractions: currentProblem.fractions
     }
-    console.log(tempCurrentProblem);
     answeredProblems.push(tempCurrentProblem);
 }
 
@@ -541,7 +537,6 @@ function resultScreen(){
         }
 
         li.innerHTML = answer;
-        console.log(problem);
         correctProblemListEl.appendChild(li);
     })
 
