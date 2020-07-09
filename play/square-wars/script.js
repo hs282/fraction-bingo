@@ -383,9 +383,6 @@ class MathClassHandler {
     this.gradeSchoolMax = 100;
     this.middleSchoolAndUpMax = 1000;
     this.isAlgebra = false;
-    //JUST FOR TESTING ALGEBRA DECISION TREE
-    this.algebraEquations = ["2x = 2", "2x + 4 = 2", "4x -2 = 6"];
-    this.algebraEquationsAnswers = ["1", "-1", "2"];
   }
 
   //a method for displaying the popup window that shows the equation
@@ -395,6 +392,7 @@ class MathClassHandler {
     const answerBtn = document.getElementById("checkAnswer");
     let equation = this.getEquation();
     if(this.isAlgebra) {
+      document.getElementById("answerSpan").textContent = "x = ";
       equationArea.textContent = equation;
     } else {
       equationArea.textContent = equation + " =";
@@ -473,7 +471,6 @@ class MathClassHandler {
       break;
 
       //highschool is the same as middle school but has a change of algebra problem
-
       case 4:
         let randomNumber = Math.random();
         //30 percent chance of getting an algebra equation (change to 99 for algebra testing)
@@ -510,7 +507,7 @@ class MathClassHandler {
     }
   }
 
-  //method used to generate single varibale algebra equations in format ax(+/-)-b=c
+  //method used to generate single varibale algebra equations in format ax(+/-)b=c
   generateAlgebraEquation() {
     let equation;
     let randomSign = Math.floor(Math.random() * this.kindergarten.length);
