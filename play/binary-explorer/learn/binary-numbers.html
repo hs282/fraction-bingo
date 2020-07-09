@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Binary Explorer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
+        <link rel="stylesheet" href="css/style.css">
+
+        <script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+            <a class="navbar-brand" href="../../..">TeCanal Kids Corner</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../..">
+                            <i class="fa fa-gamepad"></i>
+                            Play
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../../study">
+                            <i class="fa fa-paperclip"></i>
+                            Study
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../../read">
+                            <i class="fa fa-book"></i>
+                            Read
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h1 class="text-center mt-2">
+                Counting in Binary
+            </h1>
+
+            <p>
+                <button type="button" class="btn btn-success" onclick="location.href='introduction.html'">Previous</button>
+                <button type="button" class="btn btn-success float-right" onclick="location.href='binary-letters.html'">Next</button>
+            </p>
+            <hr>
+
+            <p>
+                Here, we will learn how to count using binary.
+            </p>
+            <p>
+                In binary, just like our normal base-10 decimal system, the different places in our numbers have different values. For example, in the number 563, the "5" represents the 100's place, the "6" represents the 10's place, and "3" represents the 1's place. Each place in a decimal number represents a power of 10 (eg. 10^0 = 1, 10^1 = 10, 10^2 = 100). For binary, each place represents a power of 2.
+            </p>
+            <p>
+                Let's look at the number 1101 in binary. The four different places in this number represent the 1's, 2's, 4's, and 8's places. Starting on the right, we see that the 1's place is turned on. That means our number contains has a 1. The 2's place is turned off, so our number does not contain a 2. The next two places are turned on, so our number contains 4 and 8. To find out what our binary number is, we need to add together the values of the places which are turned on, which are 1, 4, and 8.
+            </p>
+            <p>
+                1 + 4 + 8 = 13
+            </p>
+            <p>
+                That means 1101 in binary equals 13.
+            </p>
+            <p>
+                Try to create different numbers in binary by turning the boxes on and off.
+            </p>
+
+            <div id="binary-container" class="text-center"></div>
+
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+        <script src="js/numbers.js"></script>
+    </body>
+</html>

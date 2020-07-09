@@ -3,6 +3,7 @@
  */
 (function initUI() {
     addRow();
+    $("#introduction").modal("show");
 })();
 
 /**

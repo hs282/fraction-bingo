@@ -1,0 +1,249 @@
+<html>
+	<head>
+		<title>Binary Explorer</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+		<link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
+		<link rel="stylesheet" href="css/style.css">
+
+		<script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+			<a class="navbar-brand" href="../../..">TeCanal Kids Corner</a>
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<a class="nav-link" href="../..">
+							<i class="fa fa-gamepad"></i>
+							Play
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="../../../study">
+							<i class="fa fa-paperclip"></i>
+							Study
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="../../../read">
+							<i class="fa fa-book"></i>
+							Read
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+			<h1 class="text-center mt-2">
+				Binary Explorer
+			</h1>
+			
+			<p style="text-align: left; display: inline">
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#alphabet">
+					Alphabet in Binary
+				</button>
+
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#special_characters">
+					Special Characters in Binary
+				</button>
+			</p>
+			<hr>
+
+			<p style="text-align: right">
+				<button class="btn btn-primary" onclick="addRow()">
+					<i class="fas fa-plus"></i>
+					Add Letter
+				</button>
+
+				<button class="btn btn-success" onclick="addToMessage()">
+					<i class="fas fa-pen"></i>
+					Write Letters to Message
+				</button>
+
+				<button class="btn btn-warning" onclick="deleteMessage()">
+					<i class="fas fa-trash-alt"></i>
+					Delete Message
+				</button>
+
+				<button class="btn btn-secondary" id="copy-button" onclick="copyMessage()" disabled>
+					<i class="fas fa-copy"></i>
+					Copy Message
+				</button>
+
+				<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#options">
+					<i class="fas fa-cog"></i>
+					Options
+				</button>
+			</p>
+
+			<div id="binary-container" class="text-center"></div>
+
+			<div id="message-container" class="text-center"></div>
+
+			<div id="clipboard"></div>
+		</div>
+
+		<div class="modal-container">
+			<!-- Introduction Modal -->
+			<div class="modal fade" id="introduction" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Binary Explorer</h4>
+						</div>
+
+						<div class="modal-body">
+							<p>Binary is the language of computers. In binary, the only possible digits are 1's or 0's, which represent on or off in computers.</p>
+							<p>Click on the number boxes to switch between 1's and 0's to create different binary strings, which can be used to create your message.</p>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" data-dismiss="modal">Start</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Alphabet in Binary Modal -->
+			<div class="modal fade" id="alphabet" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Alphabet in Binary</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						
+						<div class="modal-body">
+							<div class="row mt-2">
+								<div class="column">
+									<p>A: 1000001</p>
+									<p>B: 1000010</p>
+									<p>C: 1000011</p>
+									<p>D: 1000100</p>
+									<p>E: 1000101</p>
+									<p>F: 1000110</p>
+									<p>G: 1000111</p>
+									<p>H: 1001000</p>
+									<p>I: 1001001</p>
+									<p>J: 1001010</p>
+									<p>K: 1001011</p>
+									<p>L: 1001100</p>
+									<p>M: 1001101</p>
+								</div>
+								<div class="column">
+									<p>N: 1001110</p>
+									<p>O: 1001111</p>
+									<p>P: 1010000</p>
+									<p>Q: 1010001</p>
+									<p>R: 1010010</p>
+									<p>S: 1010011</p>
+									<p>T: 1010100</p>
+									<p>U: 1010101</p>
+									<p>V: 1010110</p>
+									<p>W: 1010111</p>
+									<p>X: 1011000</p>
+									<p>Y: 1011001</p>
+									<p>Z: 1011010</p>
+								</div>
+							</div>
+							<br>
+							<p>To use lower-case letters, switch the second number to "1".</p>
+						</div>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Special Characters in Binary Modal -->
+			<div class="modal fade" id="special_characters" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Special Characters in Binary</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						
+						<div class="modal-body">
+							<div class="row mt-2">
+								<div class="column">
+									<p>0: 0110000</p>
+									<p>1: 0110001</p>
+									<p>2: 0110010</p>
+									<p>3: 0110011</p>
+									<p>4: 0110100</p>
+									<p>5: 0110101</p>
+									<p>6: 0110110</p>
+									<p>7: 0110111</p>
+									<p>8: 0111000</p>
+									<p>9: 0111001</p>
+								</div>
+								<div class="column">
+									<p>!: 0100001</p>
+									<p>?: 0111111</p>
+									<p>,: 0101100</p>
+									<p>.: 0101110</p>
+									<p>': 0100111</p>
+									<p>": 0100010</p>
+									<p>#: 0100011</p>
+									<p>$: 0100100</p>
+									<p>%: 0100101</p>
+									<p>&: 0100110</p>
+								</div>
+							</div>
+							<br>
+							<p>A "space" is represented by: 0100000</p>
+						</div>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Options Modal -->
+			<div class="modal fade" id="options" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Options</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<div class="modal-body">
+							<p>Select the way you would like to copy your message.</p>
+							<form>
+								<input type="radio" id="character" name="copy" value="character" checked>
+								<label for="character">Copy Message using Characters</label><br>
+								<input type="radio" id="binary" name="copy" value="binary">
+								<label for="binary">Copy Binary Message (eg. "1001000 1101001")</label><br>
+							</form>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		
+		<script src="js/app.js"></script>
+	</body>
+</html>
