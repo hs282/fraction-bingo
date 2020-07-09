@@ -476,8 +476,8 @@ class MathClassHandler {
 
       case 4:
         let randomNumber = Math.random();
-        //30 percent chance of getting an algebra equation
-        if(randomNumber <= .99) {
+        //30 percent chance of getting an algebra equation (change to 99 for algebra testing)
+        if(randomNumber <= .30) {
           this.isAlgebra = true;
           equation = this.generateAlgebraEquation();
         } else {
@@ -500,7 +500,7 @@ class MathClassHandler {
   /**
   * Method used to find the answer to an equation
   * @param {String} equation
-  * @param {number} answer
+  * @param {String} answer
   **/
   checkAnswer(equation, answer) {
     if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
@@ -510,6 +510,7 @@ class MathClassHandler {
     }
   }
 
+  //method used to generate single varibale algebra equations in format ax(+/-)-b=c
   generateAlgebraEquation() {
     let equation;
     let randomSign = Math.floor(Math.random() * this.kindergarten.length);
@@ -522,6 +523,11 @@ class MathClassHandler {
 
   }
 
+  /**
+  * method used to check algebra equations in format ax(+/-)b=c
+  * @param {String} equation
+  * @param {String} answer
+  **/
   checkAlgebraAnswer(equation, answer) {
     let compAnswer;
     let arr = equation.split(" ");
@@ -544,7 +550,6 @@ class MathClassHandler {
     } else {
       this.wrongAnswer();
     }
-    console.log(`a: ${a} b: ${b} sign ${sign} c: ${c}`);
   }
 
   //a method used continue the game if the answer is right!
@@ -557,9 +562,11 @@ class MathClassHandler {
     this.isAlgebra = false;
   }
 
+  //method to display a redbox when a wrong answer is entered
   wrongAnswer() {
     document.getElementById("popUpWindow").style.border = ".1em solid red";
     document.getElementById("answerInput").style.border = ".1em solid red";
+    document.getElementById("answerInput").value = "";
   }
 }
 
