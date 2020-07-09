@@ -66,7 +66,9 @@ let currentProblem = {
   answer: "",
 
   // holds formatted fraction strings
-  fractions: []
+  fractions: [],
+
+  isCorrect: ""
 };
 
 // array of answered problems
@@ -87,6 +89,8 @@ const problemsAnsweredEl = document.querySelector("#problemsAnswered");
 const correctProblemsEl = document.querySelector("#correctProblems");
 const correctProblemListEl = document.querySelector("#correctProblemList");
 
+
+
 /**
  * Initialize the UI components when the script is loaded.
  */
@@ -100,7 +104,14 @@ const correctProblemListEl = document.querySelector("#correctProblemList");
     createProblemDifficultyAdjusters();
 
     // whenever the user types something, check their answer
-    inputEl.oninput = checkAnswer;
+    // inputEl.oninput = checkAnswer;
+
+    // on enter, check user answer
+    inputEl.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    });
 
     // always stay focused on input element
     // inputEl.onblur = () => inputEl.focus();
@@ -244,12 +255,15 @@ function checkAnswer() {
         scoreEl.innerHTML = "Score: " + playerScore;
 
         // store the current problem
-        storeProblem();
+        storeProblem(true,currentProblem.answer);
 
         newProblem();
     }
     // if the user's answer is incorrect
     else {
+        // store the current problem
+        storeProblem(false, eval(userAnswer));
+
         inputEl.style.border = "2px solid rgba(255, 0, 0, .75)";
     }
 }
@@ -495,15 +509,18 @@ function toggleProblems(){
 
 /**
  * Stores the current problem in the answered problems array
+ * @param {Boolean} isCorrect is the answer correct or not
+ * @param {Number/String} answer either the real answer, or the user's wrong answer
  */
-function storeProblem(){
+function storeProblem(isCorrect, answer){
     // creating a new temporary object for storage
     let tempCurrentProblem = {
         operandOne: currentProblem.operandOne,
         operandTwo: currentProblem.operandTwo,
         sign: currentProblem.sign,
-        answer: currentProblem.answer,
-        fractions: currentProblem.fractions
+        answer: answer,
+        fractions: currentProblem.fractions,
+        isCorrect: isCorrect
     }
     answeredProblems.push(tempCurrentProblem);
 }
@@ -512,11 +529,13 @@ function storeProblem(){
  * Ends game, shows all answered problems and score
  */
 function resultScreen(){
+    let correctProblems = 0;
+
     toggleProblems();
     resultEl.classList.toggle("hide");
 
     totalScoreEl.innerHTML = "Total Score: " + playerScore;
-    problemsAnsweredEl.innerHTML = "Problems Answered: " +  answeredProblems.length;
+
 
     answeredProblems.forEach( (problem) => {
         let answer;
@@ -536,16 +555,26 @@ function resultScreen(){
               answer = problem.operandOne + " " + problem.sign + " " + problem.operandTwo + " = " + parseFloat(problem.answer.toPrecision(10));
         }
 
+        // check if answer is correct or not
+        if (problem.isCorrect) {
+            li.classList.add("list-group-item-success");
+            correctProblems++;
+        }
+        else {
+          li.classList.add("list-group-item-danger");
+        }
+
         li.innerHTML = answer;
         correctProblemListEl.appendChild(li);
     })
 
+    problemsAnsweredEl.innerHTML = "Problems Answered Correctly: " +  correctProblems;
 }
 
 /**
  * Converts a decimal into a formatted fraction string via Stern-Brocot Binary Search Tree
  * @param {Number} decimal to be converted
- * @return {string} formatted fraction string
+ * @return {string}
  */
 function fractionize(decimal){
     // desired precision
@@ -555,8 +584,9 @@ function fractionize(decimal){
     let roundedDecimal = parseInt(Math.floor(decimal));
     decimal -= roundedDecimal;
 
+    // If integer
     if (decimal < error) {
-        return (roundedDecimal + 1, 1);
+        return (roundedDecimal);
     }
 
     // The lower fraction limit is 0/1
