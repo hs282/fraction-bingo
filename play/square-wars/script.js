@@ -394,7 +394,11 @@ class MathClassHandler {
     const input = document.getElementById("answerInput");
     const answerBtn = document.getElementById("checkAnswer");
     let equation = this.getEquation();
-    equationArea.textContent = equation + " =";
+    if(this.isAlgebra) {
+      equationArea.textContent = equation;
+    } else {
+      equationArea.textContent = equation + " =";
+    }
     document.getElementById("popUpWindow").style.display = "block";
 
     input.addEventListener("keyup", (e) => {
@@ -459,7 +463,7 @@ class MathClassHandler {
         equation = `${num1} ${sign} ${num2}`;
       break;
 
-      //middle school add subract and multiply big numbers
+      //middle school add subract, divide  and multiply big numbers
       case 3:
         randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
         sign = this.gradeSchoolAndUp[randomSign];
@@ -473,10 +477,9 @@ class MathClassHandler {
       case 4:
         let randomNumber = Math.random();
         //30 percent chance of getting an algebra equation
-        if(randomNumber <= .30) {
+        if(randomNumber <= .99) {
           this.isAlgebra = true;
-          let randomEquation = Math.floor(Math.random() * this.algebraEquations.length);
-          equation = this.algebraEquations[randomEquation];
+          equation = this.generateAlgebraEquation();
         } else {
           randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
           sign = this.gradeSchoolAndUp[randomSign];
@@ -507,13 +510,41 @@ class MathClassHandler {
     }
   }
 
+  generateAlgebraEquation() {
+    let equation;
+    let randomSign = Math.floor(Math.random() * this.kindergarten.length);
+    let sign = this.kindergarten[randomSign];
+    let num1 = Math.floor(Math.random() * this.kindergartenMax);
+    let num2 = Math.floor(Math.random() * this.kindergartenMax);
+    let num3 = Math.floor(Math.random() * this.kindergartenMax);
+    equation = `${num1}x ${sign} ${num2} = ${num3}`;
+    return equation;
+
+  }
+
   checkAlgebraAnswer(equation, answer) {
-    let i = this.algebraEquations.indexOf(equation);
-    if(answer == this.algebraEquationsAnswers[i]) {
+    let compAnswer;
+    let arr = equation.split(" ");
+    let a = parseInt(arr[0].charAt(0));
+    let sign = arr[1];
+    let b = parseInt(arr[2]);
+    let c = parseInt(arr[4]);
+
+    switch(sign) {
+      case '+':
+        compAnswer = (b - c) / a;
+        break;
+      case '-':
+        compAnswer = (b + c) / a;
+        break;
+    }
+
+    if(parseFloat(compAnswer).toFixed(2) == parseFloat(answer).toFixed(2)) {
       this.rightAnswer()
     } else {
       this.wrongAnswer();
     }
+    console.log(`a: ${a} b: ${b} sign ${sign} c: ${c}`);
   }
 
   //a method used continue the game if the answer is right!
