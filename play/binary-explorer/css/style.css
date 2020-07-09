@@ -8,22 +8,12 @@ body {
 
 #title {
     padding-top: 220px;
-    margin-bottom: 140px;
     color: white;
     font-size: 80px;
 }
 
-a, a:hover {
-    color: white;
-    text-decoration: none;
-}
-
-.text-center {
+.btn-large {
     font-size: 50px;
-    margin-bottom: 40px;
-}
-
-.text-center a:hover {
-    text-shadow: 1px 0px 10px #1000ff;
-    font-size: 51px;
+    border-radius: 12px;
+    margin-bottom: 30px;
 }
