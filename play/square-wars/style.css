@@ -2,32 +2,32 @@ html, body {
   width: 100%;
   height: 100%;
   margin: 0;
-  background-image: url("space.jpeg");
+  background-color: #white;
 }
 main {
   text-align: center;
 }
 canvas {
   border: .2em solid #000;
-  background-color: white;
+  background-color: #fafafa;
 }
 
 #scores {
   display: none;
   visibility: hidden;
-  color: white;
+  color: black;
 }
 
 #scoreMenu {
   display: none;
   visibility: hidden;
   font-size: 1.5em;
-  color: white;
+  color: black;
 }
 #gameMenu {
   text-align: center;
   font-size: 1.1em;
-  border: .2em solid #ddd;
+  border: .2em solid #696969;
   margin-left: 14%;
   margin-right: 14%;
   padding-bottom: .7em;
@@ -79,15 +79,18 @@ h3 {
 }
 
 #popUpWindow {
+  text-align: center;
   display: none;
   position: absolute;
   top: 30%;
   left: 10%;
   right: 10%;
-  background-color: #BEBEBE;
+  background-color: #dbdbdb;
   padding-top: 2em;
   padding-bottom: 2em;
   z-index: 1;
+  border: .1em solid black;
+  border-radius: 5%;
 }
 
 

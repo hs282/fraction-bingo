@@ -378,7 +378,7 @@ class MathClassHandler {
     //all the equations used depending on level
     //basic equations right now just for testing use
     this.kindergarten = ["+", "-"];
-    this.gradeSchoolAndUp = ["+", "-", "x", "/"];
+    this.gradeSchoolAndUp = ["+", "-", "*", "/"];
     this.kindergartenMax = 10;
     this.gradeSchoolMax = 100;
     this.middleSchoolAndUpMax = 1000;
@@ -390,6 +390,8 @@ class MathClassHandler {
     const equationArea = document.getElementById("equation");
     const input = document.getElementById("answerInput");
     const answerBtn = document.getElementById("checkAnswer");
+    const mainDiv = document.querySelector("main");
+    mainDiv.style.opacity = "0.2";
     let equation = this.getEquation();
     if(this.isAlgebra) {
       document.getElementById("answerSpan").textContent = "x = ";
@@ -555,6 +557,7 @@ class MathClassHandler {
     document.getElementById("popUpWindow").style.display = "none";
     document.getElementById("answerInput").style.borderStyle = "none";
     document.getElementById("answerInput").value = "";
+    document.querySelector("main").style.opacity = "1.0";
     gamePlaying = true;
     this.isAlgebra = false;
   }
@@ -630,7 +633,7 @@ class MyGameArea {
     this.arrowLeftButton.style.display = "none";
     this.arrowRightButton.style.display = "none";
     document.getElementById('yourScore').textContent = " " + player.killCount;
-    //document.getElementById("playAgainBtn").addEventListener("click", () => { startGame() })
+    document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
   }
 
   /**
@@ -739,7 +742,12 @@ let startGame = () => {
   document.getElementById("scoreMenu").style.display = "none";
 
   myGameArea.start();
-}
+};
+
+//reload the whole document - easier for resetting objects and keeps canvas element created in JS and not HTML
+let resetGame = () => {
+  location.reload();
+};
 
 
 

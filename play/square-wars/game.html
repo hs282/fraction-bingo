@@ -61,22 +61,23 @@
           <h3><span id="widthError"></span></h3>
         </div>
 
-        <div id="popUpWindow">
-          <h4>Quiz Time!</h4>
-          <span id="equation"></span><br>
-          <span id="answerSpan">Answer: </span><input id="answerInput" onkeypress="javascript:return isNumber(event)">
-          <button id="checkAnswer">Submit</button><br>
-          <span>Answer is decimal format. Round to the 2nd decimal place if needed.</span>
-        </div>
+
 
         <!-- ending score menu -->
         <div id="scoreMenu">
           <h1 style="text-align:center">Your score:<span id="yourScore"></span><h1>
-          <!--
-            <button id="playAgainBtn" type="button" class="btn btn-light">Play Again</button>
-          -->
+          <button id="playAgainBtn" type="button" class="btn btn-secondary">Play Again</button>
+        </div>
 
     </main>
+
+    <div id="popUpWindow">
+      <h4>Quiz Time!</h4>
+      <span id="equation"></span><br>
+      <span id="answerSpan">Answer: </span><input id="answerInput" onkeypress="javascript:return isNumber(event)">
+      <button id="checkAnswer">Submit</button><br>
+      <span>Answer is decimal format. Round to the 2nd decimal place if needed.</span>
+    </div>
   </body>
 
       <!-- bootstrap and javascript files -->
