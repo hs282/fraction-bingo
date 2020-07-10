@@ -1,5 +1,5 @@
 //global objects for the game
-let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler;
+let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler, myGameArea;
 //global boolean for the game engine
 let gamePlaying;
 
@@ -23,7 +23,7 @@ function setLevel(level) {
 **/
 function isNumber(evt) {
   var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-  if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57)) {
+  if ((iKeyCode != 46 && iKeyCode != 45) && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57)) {
     return false;
   }
   return true;
@@ -378,10 +378,11 @@ class MathClassHandler {
     //all the equations used depending on level
     //basic equations right now just for testing use
     this.kindergarten = ["+", "-"];
-    this.gradeSchoolAndUp = ["+", "-", "x", "/"];
+    this.gradeSchoolAndUp = ["+", "-", "*", "/"];
     this.kindergartenMax = 10;
     this.gradeSchoolMax = 100;
     this.middleSchoolAndUpMax = 1000;
+    this.isAlgebra = false;
   }
 
   //a method for displaying the popup window that shows the equation
@@ -389,25 +390,40 @@ class MathClassHandler {
     const equationArea = document.getElementById("equation");
     const input = document.getElementById("answerInput");
     const answerBtn = document.getElementById("checkAnswer");
+    const mainDiv = document.querySelector("main");
+    mainDiv.style.opacity = "0.2";
     let equation = this.getEquation();
-    equationArea.textContent = equation + " =";
+    if(this.isAlgebra) {
+      document.getElementById("answerSpan").textContent = "x = ";
+      equationArea.textContent = equation;
+    } else {
+      equationArea.textContent = equation + " =";
+    }
     document.getElementById("popUpWindow").style.display = "block";
 
     input.addEventListener("keyup", (e) => {
       if(e.keyCode === 13) {
         let answer = input.value;
-        this.checkAnswer(equation, answer);
+        if(this.isAlgebra) {
+          this.checkAlgebraAnswer(equation, answer);
+        } else {
+          this.checkAnswer(equation, answer);
+        }
       }
     });
 
     answerBtn.addEventListener('click',(e) => {
       let answer = input.value;
-      this.checkAnswer(equation, answer);
+      if(this.isAlgebra) {
+        this.checkAlgebraAnswer(equation, answer);
+      } else {
+        this.checkAnswer(equation, answer);
+      }
     });
   }
 
   /**
-  * a method used to create math equations depending upton the difficulty level
+  * a method used to generate math equations depending upton the difficulty level
   * @returns {String} equation - a Sting containing the generated equation
   **/
   getEquation() {
@@ -447,7 +463,7 @@ class MathClassHandler {
         equation = `${num1} ${sign} ${num2}`;
       break;
 
-      //middle school add subract and multiply big numbers
+      //middle school add subract, divide  and multiply big numbers
       case 3:
         randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
         sign = this.gradeSchoolAndUp[randomSign];
@@ -457,13 +473,19 @@ class MathClassHandler {
       break;
 
       //highschool is the same as middle school but has a change of algebra problem
-      //NEED TO ADD ALGEBRA PROBLEMS
       case 4:
-        randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
-        sign = this.gradeSchoolAndUp[randomSign];
-        num1 = Math.floor(Math.random() * this.gradeSchoolMax);
-        num2 = Math.floor(Math.random() * this.gradeSchoolMax);
-        equation = `${num1} ${sign} ${num2}`;
+        let randomNumber = Math.random();
+        //30 percent chance of getting an algebra equation (change to 99 for algebra testing)
+        if(randomNumber <= .30) {
+          this.isAlgebra = true;
+          equation = this.generateAlgebraEquation();
+        } else {
+          randomSign = Math.floor(Math.random() * this.gradeSchoolAndUp.length);
+          sign = this.gradeSchoolAndUp[randomSign];
+          num1 = Math.floor(Math.random() * this.gradeSchoolMax);
+          num2 = Math.floor(Math.random() * this.gradeSchoolMax);
+          equation = `${num1} ${sign} ${num2}`;
+        }
       break;
     }
     //to make sure you dont divide by 0
@@ -477,57 +499,90 @@ class MathClassHandler {
   /**
   * Method used to find the answer to an equation
   * @param {String} equation
-  * @param {number} answer
+  * @param {String} answer
   **/
   checkAnswer(equation, answer) {
     if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
-      this.continueGame();
+      this.rightAnswer();
     } else {
-      document.getElementById("popUpWindow").style.border = ".1em solid red";
-      document.getElementById("answerInput").style.border = ".1em solid red";
+      this.wrongAnswer();
+    }
+  }
+
+  //method used to generate single varibale algebra equations in format ax(+/-)b=c
+  generateAlgebraEquation() {
+    let equation;
+    let randomSign = Math.floor(Math.random() * this.kindergarten.length);
+    let sign = this.kindergarten[randomSign];
+    let num1 = Math.floor(Math.random() * this.kindergartenMax);
+    let num2 = Math.floor(Math.random() * this.kindergartenMax);
+    let num3 = Math.floor(Math.random() * this.kindergartenMax);
+    equation = `${num1}x ${sign} ${num2} = ${num3}`;
+    return equation;
+
+  }
+
+  /**
+  * method used to check algebra equations in format ax(+/-)b=c
+  * @param {String} equation
+  * @param {String} answer
+  **/
+  checkAlgebraAnswer(equation, answer) {
+    let compAnswer;
+    let arr = equation.split(" ");
+    let a = parseInt(arr[0].charAt(0));
+    let sign = arr[1];
+    let b = parseInt(arr[2]);
+    let c = parseInt(arr[4]);
+
+    switch(sign) {
+      case '+':
+        compAnswer = (b - c) / a;
+        break;
+      case '-':
+        compAnswer = (b + c) / a;
+        break;
+    }
+
+    if(parseFloat(compAnswer).toFixed(2) == parseFloat(answer).toFixed(2)) {
+      this.rightAnswer()
+    } else {
+      this.wrongAnswer();
     }
   }
 
   //a method used continue the game if the answer is right!
-  continueGame() {
+  rightAnswer() {
     document.getElementById("popUpWindow").style.borderStyle = "none";
     document.getElementById("popUpWindow").style.display = "none";
     document.getElementById("answerInput").style.borderStyle = "none";
     document.getElementById("answerInput").value = "";
+    document.querySelector("main").style.opacity = "1.0";
     gamePlaying = true;
+    this.isAlgebra = false;
+  }
+
+  //method to display a redbox when a wrong answer is entered
+  wrongAnswer() {
+    document.getElementById("popUpWindow").style.border = ".1em solid red";
+    document.getElementById("answerInput").style.border = ".1em solid red";
+    document.getElementById("answerInput").value = "";
   }
 }
 
-
-
-
-//The starting function for the game
-let startGame = () => {
-  document.getElementById("scores").style.display = "inline";
-  document.getElementById("scores").style.visibility = "visible";
-  enemys = [];
-  boss = [];
-  bullets = [];
-  gamePlaying = true;
-  player = new Player(30, 30, 150, 550, 'red', 0, 0);
-  gameHandler = new Game_Handler(0);
-  mathHandler = new MathClassHandler(difficultyLevel);
-
-  myGameArea.start();
-}
-
-
-//This is for the creating and maintaining of canvas object and other html elements STATIC CLASS
-let myGameArea = {
-  //game interface objects
-  canvas: document.createElement('canvas'), //canvas object
-  arrowLeftButton: document.createElement("button"),
-  arrowRightButton: document.createElement("button"),
-  shootButton: document.createElement("button"),
+/**
+* Class for handling the Game Area aka the canvas and buttons of the game
+**/
+class MyGameArea {
+  constructor() {
+    this.canvas = document.createElement('canvas'); //canvas object
+    this.arrowLeftButton = document.createElement("button");
+    this.arrowRightButton = document.createElement("button");
+    this.shootButton = document.createElement("button");
+  }
 
   //function for creating the canavs element and adding event listeners to the canvas element
-  start: function() {
-
+  start() {
     /**
     * css handles canvas size for mobile but this handles the pixel size
     * If need to chnage the pixels do so here CSS is only for phone display
@@ -559,16 +614,15 @@ let myGameArea = {
 
     //this calls the game engine
     this.interval = setInterval(updateGameArea, 20);
-
-  },
+  }
 
   //clear the canvas and update
-  clear: function() {
+  clear() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  },
+  }
 
   //the display function for game over
-  gameOver: function() {
+  gameOver() {
     this.canvas.style.display = "none";
     this.canvas.style.visibility = "hidden";
     document.getElementById("scores").style.display = "none";
@@ -579,38 +633,38 @@ let myGameArea = {
     this.arrowLeftButton.style.display = "none";
     this.arrowRightButton.style.display = "none";
     document.getElementById('yourScore').textContent = " " + player.killCount;
-  },
+    document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
+  }
 
   /**
   * @param {Number} n
   * @returns {boolean}
   **/
-  everyInterval: function(n) {
+  everyInterval(n) {
     if ((myGameArea.framNo / n) % 1 === 0) {
       return true;
     }
     return false;
-  },
+  }
 
   //score menu handler
-  scoreMenu: function() {
-    myGameArea.canvas.display = "hidden";
+  scoreMenu() {
+    this.canvas.display = "hidden";
     document.getElementById('scoreMenu').style.display = 'hidden';
     document.getElementById('gameMenu').style.display = "none";
-  },
+  }
 
   //check if the user is on a mobile device
-  isMobile: function() {
+  isMobile() {
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       return true;
     } else {
       return false;
     }
-
-  },
+  }
 
   //mobile display for the game interface
-  displayMobile: function() {
+  displayMobile() {
     //appending canavs and shooting buttons !needs to be this order for mobile!
     this.shootButton.innerHTML = "Shoot";
     document.querySelector("main").appendChild(this.shootButton);
@@ -642,10 +696,10 @@ let myGameArea = {
       player.ArrowButtons = true;
       player.speedX = 30
     });
-  },
+  }
 
   //desktop and laptop game interface display
-  displayComputer: function() {
+  displayComputer() {
     //appending canavs
     this.context = this.canvas.getContext('2d');
     document.querySelector("main").appendChild(this.canvas);
@@ -669,10 +723,33 @@ let myGameArea = {
         myGameArea.key = e.keyCode;
       }
     });
-
   }
-
 }
+
+//The starting function for the game
+let startGame = () => {
+  document.getElementById("scores").style.display = "inline";
+  document.getElementById("scores").style.visibility = "visible";
+  enemys = [];
+  boss = [];
+  bullets = [];
+  gamePlaying = true;
+  player = new Player(30, 30, 150, 550, 'red', 0, 0);
+  gameHandler = new Game_Handler(0);
+  mathHandler = new MathClassHandler(difficultyLevel);
+  myGameArea = new MyGameArea();
+  //for restart game
+  document.getElementById("scoreMenu").style.display = "none";
+
+  myGameArea.start();
+};
+
+//reload the whole document - easier for resetting objects and keeps canvas element created in JS and not HTML
+let resetGame = () => {
+  location.reload();
+};
+
+
 
 //----------------------------------------------------------------------------------------------------
 //  GAME ENGINE CONSTANTLY RUNNING !!
