@@ -1,5 +1,5 @@
 //global objects for the game
-let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler;
+let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler, myGameArea;
 //global boolean for the game engine
 let gamePlaying;
 
@@ -567,37 +567,19 @@ class MathClassHandler {
   }
 }
 
-
-
-
-
-//The starting function for the game
-let startGame = () => {
-  document.getElementById("scores").style.display = "inline";
-  document.getElementById("scores").style.visibility = "visible";
-  enemys = [];
-  boss = [];
-  bullets = [];
-  gamePlaying = true;
-  player = new Player(30, 30, 150, 550, 'red', 0, 0);
-  gameHandler = new Game_Handler(0);
-  mathHandler = new MathClassHandler(difficultyLevel);
-
-  myGameArea.start();
-}
-
-
-//This is for the creating and maintaining of canvas object and other html elements STATIC CLASS
-let myGameArea = {
-  //game interface objects
-  canvas: document.createElement('canvas'), //canvas object
-  arrowLeftButton: document.createElement("button"),
-  arrowRightButton: document.createElement("button"),
-  shootButton: document.createElement("button"),
+/**
+* Class for handling the Game Area aka the canvas and buttons of the game
+**/
+class MyGameArea {
+  constructor() {
+    this.canvas = document.createElement('canvas'); //canvas object
+    this.arrowLeftButton = document.createElement("button");
+    this.arrowRightButton = document.createElement("button");
+    this.shootButton = document.createElement("button");
+  }
 
   //function for creating the canavs element and adding event listeners to the canvas element
-  start: function() {
-
+  start() {
     /**
     * css handles canvas size for mobile but this handles the pixel size
     * If need to chnage the pixels do so here CSS is only for phone display
@@ -629,16 +611,15 @@ let myGameArea = {
 
     //this calls the game engine
     this.interval = setInterval(updateGameArea, 20);
-
-  },
+  }
 
   //clear the canvas and update
-  clear: function() {
+  clear() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  },
+  }
 
   //the display function for game over
-  gameOver: function() {
+  gameOver() {
     this.canvas.style.display = "none";
     this.canvas.style.visibility = "hidden";
     document.getElementById("scores").style.display = "none";
@@ -649,38 +630,38 @@ let myGameArea = {
     this.arrowLeftButton.style.display = "none";
     this.arrowRightButton.style.display = "none";
     document.getElementById('yourScore').textContent = " " + player.killCount;
-  },
+    //document.getElementById("playAgainBtn").addEventListener("click", () => { startGame() })
+  }
 
   /**
   * @param {Number} n
   * @returns {boolean}
   **/
-  everyInterval: function(n) {
+  everyInterval(n) {
     if ((myGameArea.framNo / n) % 1 === 0) {
       return true;
     }
     return false;
-  },
+  }
 
   //score menu handler
-  scoreMenu: function() {
-    myGameArea.canvas.display = "hidden";
+  scoreMenu() {
+    this.canvas.display = "hidden";
     document.getElementById('scoreMenu').style.display = 'hidden';
     document.getElementById('gameMenu').style.display = "none";
-  },
+  }
 
   //check if the user is on a mobile device
-  isMobile: function() {
+  isMobile() {
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       return true;
     } else {
       return false;
     }
-
-  },
+  }
 
   //mobile display for the game interface
-  displayMobile: function() {
+  displayMobile() {
     //appending canavs and shooting buttons !needs to be this order for mobile!
     this.shootButton.innerHTML = "Shoot";
     document.querySelector("main").appendChild(this.shootButton);
@@ -712,10 +693,10 @@ let myGameArea = {
       player.ArrowButtons = true;
       player.speedX = 30
     });
-  },
+  }
 
   //desktop and laptop game interface display
-  displayComputer: function() {
+  displayComputer() {
     //appending canavs
     this.context = this.canvas.getContext('2d');
     document.querySelector("main").appendChild(this.canvas);
@@ -739,10 +720,28 @@ let myGameArea = {
         myGameArea.key = e.keyCode;
       }
     });
-
   }
-
 }
+
+//The starting function for the game
+let startGame = () => {
+  document.getElementById("scores").style.display = "inline";
+  document.getElementById("scores").style.visibility = "visible";
+  enemys = [];
+  boss = [];
+  bullets = [];
+  gamePlaying = true;
+  player = new Player(30, 30, 150, 550, 'red', 0, 0);
+  gameHandler = new Game_Handler(0);
+  mathHandler = new MathClassHandler(difficultyLevel);
+  myGameArea = new MyGameArea();
+  //for restart game
+  document.getElementById("scoreMenu").style.display = "none";
+
+  myGameArea.start();
+}
+
+
 
 //----------------------------------------------------------------------------------------------------
 //  GAME ENGINE CONSTANTLY RUNNING !!
