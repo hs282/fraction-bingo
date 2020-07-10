@@ -3,7 +3,7 @@
 		<title>Binary Explorer</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-		<link rel="stylesheet" href="../css/bootstrap4.5.0.min.css">
+		<link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
 		<link rel="stylesheet" href="css/style.css">
 
 		<script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
@@ -11,7 +11,7 @@
 
 	<body>
 		<nav class="navbar navbar-expand-md bg-secondary navbar-dark">
-			<a class="navbar-brand" href="../../">TeCanal Kids Corner</a>
+			<a class="navbar-brand" href="../..">TeCanal Kids Corner</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
@@ -20,7 +20,7 @@
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav">
 					<li class="nav-item active">
-						<a class="nav-link" href="../../play">
+						<a class="nav-link" href="..">
 							<i class="fa fa-gamepad"></i>
 							Play
 						</a>
@@ -44,129 +44,24 @@
 		</nav>
 
 		<div class="container">
-			<h1 class="text-center mt-2">
+			<p id="title" class="text-center mt-2">
 				Binary Explorer
-			</h1>
-			
-			<p style="text-align: left; display: inline">
-				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#learning_binary">
-					Learn About Binary
-				</button>
-
-				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#decimal_letter_conversions">
-					Decimal to Letter Conversions
-				</button>
-			</p>
-			<hr>
-
-			<p style="text-align: right">
-				<button class="btn btn-primary" onclick="addRow()">
-					<i class="fas fa-plus"></i>
-					Add Letter
-				</button>
-
-				<button class="btn btn-success" onclick="addToMessage()">
-					<i class="fas fa-pen"></i>
-					Write Letters to Message
-				</button>
-
-				<button class="btn btn-warning" onclick="deleteMessage()">
-					<i class="fas fa-trash-alt"></i>
-					Delete Message
-				</button>
-
-				<button class="btn btn-secondary" id="copy-button" onclick="copyMessage()" disabled>
-					<i class="fas fa-copy"></i>
-					Copy Message
-				</button>
-
-				<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#options">
-					<i class="fas fa-cog"></i>
-					Options
-				</button>
 			</p>
 
-			<div id="binary-container" class="text-center"></div>
+			<!-- <div class="text-center mt-2"> -->
+				<a class="btn btn-primary btn-large" href="play/">
+					Play
+				</a>
+			<!-- </div> -->
 
-			<div id="message-container" class="text-center"></div>
-
-			<div id="clipboard">
-
-			</div>
-
-			<!-- Learning Binary Modal -->
-			<div class="modal fade" id="learning_binary" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Learning Binary</h4>
-						</div>
-						
-						<div class="modal-body">
-							<p>Binary is the language of computers. In binary, the only possible digits are 1's or 0's, which represent on or off in computers.</p>
-						</div>
-						
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Dec to Letter Table Modal -->
-			<div class="modal fade" id="decimal_letter_conversions" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Decimal to Letter Conversions</h4>
-						</div>
-						
-						<div class="modal-body">
-							<p>A: 65</p>
-							<p>Z: 90</p>
-							<p>a: 97</p>
-							<p>z: 122</p>
-						</div>
-						
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Options Modal -->
-		<div class="modal fade" id="options" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Options</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-
-					<div class="modal-body">
-						<p>Select the way you would like to copy your message.</p>
-						<form>
-							<input type="radio" id="character" name="copy" value="character" checked>
-							<label for="character">Copy Message using Characters</label><br>
-							<input type="radio" id="binary" name="copy" value="binary">
-							<label for="binary">Copy Binary Message (eg. "1001000 1101001")</label><br>
-						</form>
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
+			<div class="text-center mt-2">
+				<a class="btn btn-primary btn-large" href="learn/">
+					Learn
+				</a>
 			</div>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-		
-		<script src="js/app.js"></script>
 	</body>
 </html>

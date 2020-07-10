@@ -1,33 +1,19 @@
-.num {
-    font-size: 40px;
-    
-    border: 1px solid black;
-    border-radius: 4px;
-
-    padding: 5px;
-
-    margin-right: 20px;
-    margin-bottom: 10px;
+body {
+    background-color: #2ca1db;
 }
 
-button {
-    border: 1px solid black;
-    border-radius: 4px;
+.container {
+    font-family: "Bank Gothic", sans-serif;
 }
 
-.result {
-    font-size: 40px;
+#title {
+    padding-top: 220px;
+    color: white;
+    font-size: 80px;
 }
 
-#message {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.letter {
-    margin-bottom: 10px;
-}
-
-.removeButton {
-    margin-right: 10px;
+.btn-large {
+    font-size: 50px;
+    border-radius: 12px;
+    margin-bottom: 30px;
 }
