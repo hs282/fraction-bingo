@@ -3,7 +3,6 @@ const hasLocalStorage = checkForLocalStorage();
 
 
 const INSTRUMENTS = [
-
     {
         name: "DJ-Scrubbing",
         description: "DJ-Scrubbing: Click to a neat sound",
@@ -12,7 +11,6 @@ const INSTRUMENTS = [
         code: `play("DJ-Scrubbing");`,
         link: 'https://en.wikipedia.org/wiki/Scratching'
     },
-
     {
         name: "Electric-Guitar",
         description: "Electric Guitar: Part of the String instrument family",
@@ -21,7 +19,6 @@ const INSTRUMENTS = [
         code: `play("Electric-Guitar");`,
         link: "https://en.wikipedia.org/wiki/Electric_guitar"
     },
-
     {
         name: "Acoustic-Guitar",
         description: "Acoustic-Guitar: Part of the String instrument family",
@@ -182,7 +179,7 @@ function play(instrument) {
     createInstrumentElements();
 
     // bind bootstrap popper.js to the tooltips 
-    $(`[data-toggle="tooltip"]`).tooltip({  delay: {show: 600, hide: 1100}, html:true});
+    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 600, hide: 1100 }, html: true });
 
     document.querySelector("#runCode").onclick = executeCode;
     document.querySelector("#options").onclick = openModal;
@@ -292,9 +289,7 @@ function createInstrumentElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", instrument.description + "<br><a href= {{instrument.link}}>Click to learn more about this instrument</a>"); 
-        //el.setAttribute("title", <a href='www.google.com'>click here</a> ); 
-        //el.setAttribute("delay", 1000);
+        el.setAttribute("title", instrument.description + `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`); 
         
 
         // bind click action to instrument
@@ -323,9 +318,11 @@ function checkForLocalStorage() {
         localStorage.removeItem(test);
 
         hasLocalStorage = true;
-    } catch (e) {
+    } 
+    catch (e) {
         hasLocalStorage = false;
-    } finally {
+    } 
+    finally {
         return hasLocalStorage;
     }
 }
@@ -339,6 +336,7 @@ function commentSelection() {
         from: editor.getCursor(true),
         to: editor.getCursor(false)
     };
+
     for (let i = range.from.line; i <= range.to.line; i++) {
         const line = editor.getLine(i);
 
