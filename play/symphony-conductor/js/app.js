@@ -1,19 +1,130 @@
 const APP_NAME = "symphony-conductor";
 const hasLocalStorage = checkForLocalStorage();
 
+
 const INSTRUMENTS = [
+
     {
-        name: "snare",
-        description: "Snare: Plays a snare drum sound.",
-        img: "img/snare.png",
-        sound: "sounds/snare.wav",
-        code: `play("snare");`
+        name: "DJ-Scrubbing",
+        description: "DJ-Scrubbing: Click to a neat sound",
+        img: "img/DJScrubbing.png",
+        sound: "sounds/DJScrubbing.wav",
+        code: `play("DJ-Scrubbing");`,
+        link: 'https://en.wikipedia.org/wiki/Scratching'
+    },
+
+    {
+        name: "Electric-Guitar",
+        description: "Electric Guitar: Part of the String instrument family",
+        img: "img/ElectricG.png",
+        sound: "sounds/ElGuitar.wav",
+        code: `play("Electric-Guitar");`,
+        link: "https://en.wikipedia.org/wiki/Electric_guitar"
+    },
+
+    {
+        name: "Acoustic-Guitar",
+        description: "Acoustic-Guitar: Part of the String instrument family",
+        img: "img/AcousticGuitar.png",
+        sound: "sounds/AcousticGuitar.wav",
+        code: `play("Acoustic-Guitar");`,
+        link: "https://en.wikipedia.org/wiki/Acoustic_guitar"
+    },
+    {
+        name: 'flute',
+        description: "Flute: Part of the Woodwind instrument family",
+        img: "img/flute.png",
+        sound: "sounds/flute.wav",
+        code: `play("flute");`,
+        link: "https://en.wikipedia.org/wiki/Flute"
+    },
+    {
+        name: 'clarinet',
+        description: "Clarinet: Part of the woodwind instrument family",
+        img: "img/Clarinet.png",
+        sound: "sounds/clarinet.wav",
+        code: `play("clarinet");`,
+        link: "https://en.wikipedia.org/wiki/Clarinet"
+    },
+    {
+        name: 'trumpet',
+        description: "Trumpet: Part of the Brass instrument family",
+        img: "img/trumpet.png",
+        sound: "sounds/trumpet.wav",
+        code: `play("trumpet");`,
+        link: "https://en.wikipedia.org/wiki/Trumpet"
+    },
+    {
+        name: 'saxophone',
+        description: "Saxophone: Part of the Woodwind instrument family",
+        img: "img/Saxophone.png",
+        sound: "sounds/saxophone.wav",
+        code: `play("saxophone");`,
+        link: "https://en.wikipedia.org/wiki/Saxophone"
+    },
+    {
+        name: 'tuba',
+        description: "Tuba: Part of the brass instrument family",
+        img: "img/tuba.png",
+        sound: 'sounds/tuba.wav',
+        code: `play("trumpet");`,
+        link: "https://en.wikipedia.org/wiki/Tuba"
+    },
+    {
+        name: 'french-horn',
+        description: "French Horn: Part of the brass instrument family",
+        img: 'img/frenchHorn.png',
+        sound: 'sounds/FrenchHorn.wav',
+        code: `play("french-horn");`,
+        link: "https://en.wikipedia.org/wiki/French_horn"
+    },
+    {
+        name: 'trombone',
+        description: 'Trombone: Part of the brass instrument family',
+        img: 'img/trombone.png',
+        sound: 'sounds/Trombone.wav',
+        code: `play("trombone");`,
+        link: "https://en.wikipedia.org/wiki/Trombone"
     },
     {
         name: "rest",
         description: "Rest: Waits X amounts of seconds.",
         img: "img/rest.png",
-        code: "await rest(1);"
+        code: "await rest(1);",
+        link: "https://en.wikipedia.org/wiki/Rest_(music)"
+    },
+    {
+        name: "snare",
+        description: "Snare: Part of the percussion instrument family",
+        img: "img/snare.png",
+        sound: "sounds/snare.wav",
+        code: `play("snare");`,
+        link: "https://en.wikipedia.org/wiki/Snare_drum"
+    },
+    {
+        name: "bongo",
+        description: "Bongos: Part of the percussion instrument family",
+        img: "img/bongo.png",
+        sound: "sounds/bongo.wav",
+        code: `play("bongo");`,
+        link: "https://en.wikipedia.org/wiki/Bongo_drum"
+    },
+    {
+        name: 'Xylophone',
+        description: 'Xylophone: Part of the Percussion instrument family',
+        img: 'img/Xylophone.png',
+        sound: 'sounds/Xylophone.wav',
+        code: `play("Xylophone");`,
+        link: "https://en.wikipedia.org/wiki/Xylophone"
+    },
+    {
+        name: 'Gong',
+        description: 'Gong: Part of the Percussion instrument family',
+        img: 'img/Gong.png',
+        sound: 'sounds/gong.wav',
+        code: `play("Gong");`,
+        link: "https://en.wikipedia.org/wiki/Gong"
+        
     }
 ];
 
@@ -24,7 +135,9 @@ const editor = CodeMirror(document.getElementById("editor"), {
     indentWithTabs: true,
     indentUnit: 4,
     lineWrapping: true,
-    styleActiveLine: { nonEmpty: true },
+    styleActiveLine: {
+        nonEmpty: true
+    },
     value: "",
     extraKeys: {
         "Ctrl-/": instance => commentSelection(),
@@ -69,7 +182,7 @@ function play(instrument) {
     createInstrumentElements();
 
     // bind bootstrap popper.js to the tooltips 
-    $(`[data-toggle="tooltip"]`).tooltip();
+    $(`[data-toggle="tooltip"]`).tooltip({  delay: {show: 600, hide: 1100}, html:true});
 
     document.querySelector("#runCode").onclick = executeCode;
     document.querySelector("#options").onclick = openModal;
@@ -102,7 +215,7 @@ function openModal() {
 /**
  * Hide the modal.
  */
-function closeModal() { 
+function closeModal() {
     const modal = document.getElementById("myModal");
     modal.style.display = "none";
 }
@@ -111,6 +224,7 @@ function closeModal() {
  * Execute user code.
  */
 let firstRun;
+
 function executeCode() {
     let code = `(async () => { ${editor.getValue()}\n })().catch(e => console.error(e))`;
 
@@ -122,8 +236,7 @@ function executeCode() {
             // Add script tag
             script.appendChild(document.createTextNode(code));
             document.body.appendChild(script);
-        }
-        else {
+        } else {
             // Remove old code
             document.body.removeChild(document.body.lastChild);
 
@@ -131,14 +244,13 @@ function executeCode() {
             script.appendChild(document.createTextNode(code));
             document.body.appendChild(script);
         }
-                        
+
         firstRun = false;
-    } 
-    catch (e) {
+    } catch (e) {
         script.text = code;
         document.body.appendChild(script);
     }
-}   
+}
 
 /**
  * Enable the editor to have draggable elements dropped on it.
@@ -180,10 +292,13 @@ function createInstrumentElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", instrument.description);
+        el.setAttribute("title", instrument.description + "<br><a href= {{instrument.link}}>Click to learn more about this instrument</a>"); 
+        //el.setAttribute("title", <a href='www.google.com'>click here</a> ); 
+        //el.setAttribute("delay", 1000);
+        
 
         // bind click action to instrument
-        let AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+        let AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
         el.onclick = new AsyncFunction(instrument.code);
 
         // bind drag action with code snippet transfer to instrument
@@ -208,11 +323,9 @@ function checkForLocalStorage() {
         localStorage.removeItem(test);
 
         hasLocalStorage = true;
-    } 
-    catch (e) {
+    } catch (e) {
         hasLocalStorage = false;
-    }
-    finally {
+    } finally {
         return hasLocalStorage;
     }
 }
@@ -222,7 +335,10 @@ function checkForLocalStorage() {
  */
 function commentSelection() {
     // iterate through lines within selected range
-    const range ={ from: editor.getCursor(true), to: editor.getCursor(false) };
+    const range = {
+        from: editor.getCursor(true),
+        to: editor.getCursor(false)
+    };
     for (let i = range.from.line; i <= range.to.line; i++) {
         const line = editor.getLine(i);
 
@@ -233,13 +349,18 @@ function commentSelection() {
             // if comment has trailing space
             if (line.substring(0, 3) == "// ") {
                 uncommentedLine = line.replace("// ", "");
-            }
-            else {
+            } else {
                 uncommentedLine = line.replace("//", "");
             }
 
-            const from = { line: i, ch: 0 };
-            const to   = { line: i, ch: line.length };
+            const from = {
+                line: i,
+                ch: 0
+            };
+            const to = {
+                line: i,
+                ch: line.length
+            };
 
             editor.replaceRange(uncommentedLine, from, to);
         }
@@ -247,8 +368,14 @@ function commentSelection() {
         else if (line.length) {
             const commentedLine = "// " + line;
 
-            const from = { line: i, ch: 0 };
-            const to   = { line: i, ch: line.length };
+            const from = {
+                line: i,
+                ch: 0
+            };
+            const to = {
+                line: i,
+                ch: line.length
+            };
 
             editor.replaceRange(commentedLine, from, to);
         }
