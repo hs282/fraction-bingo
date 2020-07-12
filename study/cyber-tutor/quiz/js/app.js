@@ -1,4 +1,4 @@
-const myQuestions = [
+var myQuestions = [
 
   {
     question: "What does cybersecurity protect?",
@@ -27,7 +27,65 @@ const myQuestions = [
     },
     correctAnswer: " A vulnerability enables hackers to utilize an exploit "
   },
+  {
+    question: "An attacker deploys software that collects keystrokes from a victim's computer; What is this called?",
+    answers: {
+      a: " Keylogging ",
+      b: " Phishing ",
+      c: " Exploit "
+    },
+    correctAnswer: " Keylogging "
+  },
+  {
+    question: "What is patching?",
+    answers: {
+      a: " Debugging a program ",
+      b: " A type of information system used by hackers ",
+      c: " A computer update that fixes bugs and vulnerabilities "
+    },
+    correctAnswer: " A computer update that fixes bugs and vulnerabilities "
+  },
+  {
+    question: "What is NOT a possible effect of social engineering on a victim?",
+    answers: {
+      a: " Stolen passwords or other credentials ",
+      b: " System updates ",
+      c: " Loss of money "
+    },
+    correctAnswer: " System updates "
+  },
+  {
+    question: "A hacker posed as a bank's customer service representative and sent an email to a victim asking them to provide their account information. What is this type of attack called?",
+    answers: {
+      a: " Keylogging ",
+      b: " Phishing ",
+      c: " Vulnerability "
+    },
+    correctAnswer: " Phishing "
+  },
 ];
+
+myQuestions = randomize(myQuestions);
+
+function randomize (obj) {
+	var index;
+	var temp;
+	for (var i = obj.length - 1; i > 0; i--) {
+		//get random number
+		index = Math.floor((Math.random() * i));
+		//swapping
+		temp = obj[index];
+		obj[index] = obj[i];
+		obj[i] = temp;
+	}
+	//Prints the results into the console
+	for (i = 0; i < obj.length; i++) {
+		console.log(obj[i].Question + ": " + obj[i].Answer);
+	}
+//My edit to pass the obj back to the function
+	return obj;
+
+}
 
 function createQuiz() {
 	
