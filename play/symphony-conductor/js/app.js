@@ -179,7 +179,7 @@ function play(instrument) {
     createInstrumentElements();
 
     // bind bootstrap popper.js to the tooltips 
-    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 600, hide: 1100 }, html: true });
+    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 600, hide: 1100 }, html: true, placement: "top", animation: true });
 
     document.querySelector("#runCode").onclick = executeCode;
     document.querySelector("#options").onclick = openModal;
@@ -289,7 +289,8 @@ function createInstrumentElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", instrument.description + `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`); 
+        el.setAttribute("title", instrument.description + 
+        `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`); 
         
 
         // bind click action to instrument
