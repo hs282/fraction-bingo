@@ -387,6 +387,7 @@ class MathClassHandler {
     this.middleSchoolAndUpMax = 1000;
     this.isAlgebra = false;
     this.displayEquation = "";
+    this.answer = "";
   }
 
   //a method for displaying the popup window that shows the equation
@@ -395,8 +396,10 @@ class MathClassHandler {
     const input = document.getElementById("answerInput");
     const answerBtn = document.getElementById("checkAnswer");
     const mainDiv = document.querySelector("main");
+    let runOnce = 0;
     mainDiv.style.opacity = "0.2";
     this.displayEquation = this.getEquation();
+
     if(this.isAlgebra) {
       document.getElementById("answerSpan").textContent = "x = ";
       equationArea.textContent = this.displayEquation;
@@ -404,26 +407,6 @@ class MathClassHandler {
       equationArea.textContent = this.displayEquation + " =";
     }
     document.getElementById("popUpWindow").style.display = "block";
-
-    input.addEventListener("keyup", (e) => {
-      if(e.keyCode === 13) {
-        let answer = input.value;
-        if(this.isAlgebra) {
-          this.checkAlgebraAnswer(this.displayEquation, answer);
-        } else {
-          this.checkAnswer(this.displayEquation, answer);
-        }
-      }
-    });
-
-    answerBtn.addEventListener('click',(e) => {
-      let answer = input.value;
-      if(this.isAlgebra) {
-        this.checkAlgebraAnswer(this.displayEquation, answer);
-      } else {
-        this.checkAnswer(this.displayEquation, answer);
-      }
-    });
   }
 
   /**
@@ -505,10 +488,10 @@ class MathClassHandler {
   * @param {String} equation
   * @param {String} answer
   **/
-  checkAnswer(equation, answer) {
-    console.log(equation);
-    console.log(answer);
-    if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
+  checkAnswer() {
+    console.log(this.displayEquation);
+    console.log(this.answer);
+    if(eval(this.displayEquation).toFixed(2) == parseFloat(this.answer).toFixed(2)) {
       this.rightAnswer();
     } else {
       this.wrongAnswer();
@@ -533,9 +516,9 @@ class MathClassHandler {
   * @param {String} equation
   * @param {String} answer
   **/
-  checkAlgebraAnswer(equation, answer) {
+  checkAlgebraAnswer() {
     let compAnswer;
-    let arr = equation.split(" ");
+    let arr = this.displayEquation.split(" ");
     let a = parseInt(arr[0].charAt(0));
     let sign = arr[1];
     let b = parseInt(arr[2]);
@@ -550,7 +533,7 @@ class MathClassHandler {
         break;
     }
 
-    if(parseFloat(compAnswer).toFixed(2) == parseFloat(answer).toFixed(2)) {
+    if(parseFloat(compAnswer).toFixed(2) == parseFloat(this.answer).toFixed(2)) {
       this.rightAnswer()
     } else {
       this.wrongAnswer();
@@ -795,4 +778,29 @@ let updateGameArea = () => {
 document.getElementById('gameBtn').addEventListener("click", () => {
     document.getElementById('gameMenu').style.display = 'none';
     startGame();
+});
+
+//event listener pop-up gameMenu
+const inputPopUp = document.getElementById("answerInput");
+const answerBtnPopUp = document.getElementById("checkAnswer");
+
+inputPopUp.addEventListener("keyup", (e) => {
+  mathHandler.answer = inputPopUp.value;
+  if(e.keyCode === 13) {
+    this.answer = inputPopUp.value;
+    if(mathHandler.isAlgebra) {
+      mathHandler.checkAlgebraAnswer();
+    } else {
+      mathHandler.checkAnswer();
+    }
+  }
+});
+
+answerBtnPopUp.addEventListener('click',(e) => {
+  mathHandler.answer = inputPopUp.value;
+  if(mathHandler.isAlgebra) {
+    mathHandler.checkAlgebraAnswer();
+  } else {
+    mathHandler.checkAnswer();
+  }
 });
