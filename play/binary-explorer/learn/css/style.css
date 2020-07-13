@@ -40,7 +40,7 @@ button {
     font-family: "Consolas", sans-serif;
 }
 
-#rand-num {
+#rand-num, #rand-letter {
     margin: 0;
 }
 

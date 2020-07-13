@@ -3,6 +3,7 @@
  */
 (function initUI() {
     addRow();
+    generateLetter();
 })();
 
 /**
@@ -11,7 +12,7 @@
 function addRow() {
     // create a letter div
     let div = document.createElement("div");
-    div.className = "letter";
+    div.className = "binary-letter";
     document.getElementById("binary-container").appendChild(div);
 
     // create 7 bit toggle elements
@@ -30,6 +31,14 @@ function addRow() {
     let resultSpan = document.createElement("span");
     resultSpan.className = "result";
     div.appendChild(resultSpan);
+}
+
+/**
+ * Remove a binary string row.
+ * @param {HTMLElement} el
+ */
+function deleteRow(el) {
+    document.querySelector("#binary-container").removeChild(el);
 }
 
 /**
@@ -53,4 +62,40 @@ function translateBinaryString() {
 
     // convert ASCII code to a character and show in result element
     resultEl.innerHTML = String.fromCharCode(asciiCode);
+}
+
+/**
+ * Generate and display random number.
+ */
+function generateLetter() {
+    // generate and convert random number between 65 and 90 to letter
+    let letter = Math.floor(Math.random() * 26) + 65;
+    letter = String.fromCharCode(letter);
+
+    // create div to hold the random number
+    let div = document.createElement("div");
+    div.className = "quiz-letter";
+    document.getElementById("quiz-container").appendChild(div);
+
+    // create span to display random letter
+    let span = document.createElement("span");
+    span.className = "num";
+    span.id = "rand-letter";
+    span.innerText = letter;
+    div.appendChild(span);
+}
+
+/**
+ * Compare the randomly generated letter with user generated letter.
+ */
+function check() {
+    let userLetter = document.querySelector(".result").innerHTML;
+    let quizLetter = document.getElementById("rand-letter").innerHTML;
+    let div = document.querySelector(".quiz-letter");
+    if (userLetter === quizLetter) {
+        document.getElementById("quiz-container").removeChild(div);
+        generateLetter();
+        deleteRow(document.querySelector(".binary-letter"));
+        addRow();
+    }
 }
