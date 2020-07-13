@@ -251,13 +251,13 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
                 <label for="amount">Addition Difficulty:</label>
             </p>
             <div class="radio">
-                <label><input id="easy" type="radio" name="addLevel" value="easy" checked>Easy</label>
+                <label><input id="easy" type="radio" name="addLevel" value="1" checked>Easy</label>
             </div>
             <div class="radio">
-	        <label><input id="medium" type="radio" name="addLevel" value="medium">Medium</label>
+	        <label><input id="medium" type="radio" name="addLevel" value="2">Medium</label>
 	    </div>
             <div class="radio">
-	        <label><input id="hard" type="radio" name="addLevel" value="hard">Hard</label>
+	        <label><input id="hard" type="radio" name="addLevel" value="3">Hard</label>
 	    </div>
         </div>
 
@@ -267,13 +267,13 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
                 <label for="amount">Subtraction Difficulty:</label>
             </p>
             <div class="radio">
-                <label><input id="easy" type="radio" name="subLevel" value="easy" checked>Easy</label>
+                <label><input id="easy" type="radio" name="subLevel" value="1" checked>Easy</label>
             </div>
             <div class="radio">
-                <label><input id="medium" type="radio" name="subLevel" value="medium">Medium</label>
+                <label><input id="medium" type="radio" name="subLevel" value="2">Medium</label>
             </div>
             <div class="radio">
-                <label><input id="hard" type="radio" name="subLevel" value="hard">Hard</label>
+                <label><input id="hard" type="radio" name="subLevel" value="3">Hard</label>
             </div>
         </div>
 
@@ -283,13 +283,13 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
                 <label for="amount">Multiplication Difficulty:</label>
             </p>
             <div class="radio">
-                <label><input id="easy" type="radio" name="multLevel" value="easy" checked>Easy</label>
+                <label><input id="easy" type="radio" name="multLevel" value="1" checked>Easy</label>
             </div>
             <div class="radio">
-                <label><input id="medium" type="radio" name="multLevel" value="medium">Medium</label>
+                <label><input id="medium" type="radio" name="multLevel" value="2">Medium</label>
             </div>
             <div class="radio">
-                <label><input id="hard" type="radio" name="multLevel" value="hard">Hard</label>
+                <label><input id="hard" type="radio" name="multLevel" value="3">Hard</label>
             </div>
         </div>
 
@@ -299,13 +299,13 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
                 <label for="amount">Division Difficulty:</label>
             </p>
             <div class="radio">
-                <label><input id="easy" type="radio" name="divLevel" value="easy" checked>Easy</label>
+                <label><input id="easy" type="radio" name="divLevel" value="1" checked>Easy</label>
             </div>
             <div class="radio">
-                <label><input id="medium" type="radio" name="divLevel" value="medium">Medium</label>
+                <label><input id="medium" type="radio" name="divLevel" value="2">Medium</label>
             </div>
             <div class="radio">
-                <label><input id="hard" type="radio" name="divLevel" value="hard">Hard</label>
+                <label><input id="hard" type="radio" name="divLevel" value="3">Hard</label>
             </div>
         </div>
  
@@ -428,7 +428,7 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
       </div>
 
         <!-- jQuery JavaScript -->
-        <!-- <script>
+        <script>
             !function(a,b){"object"==typeof module&&"object"==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error("jQuery requires a window with a document");return b(a)}:b(a)}("undefined"!=typeof window?window:this,function(a,b){var c=[],d=a.document,e=c.slice,f=c.concat,g=c.push,h=c.indexOf,i={},j=i.toString,k=i.hasOwnProperty,l={},m="1.12.4",n=function(a,b){return new n.fn.init(a,b)},o=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,p=/^-ms-/,q=/-([\da-z])/gi,r=function(a,b){return b.toUpperCase()};n.fn=n.prototype={jquery:m,constructor:n,selector:"",length:0,toArray:function(){return e.call(this)},get:function(a){return null!=a?0>a?this[a+this.length]:this[a]:e.call\
 (this)},pushStack:function(a){var b=n.merge(this.constructor(),a);return b.prevObject=this,b.context=this.context,b},each:function(a){return n.each(this,a)},map:function(a){return this.pushStack(n.map(this,function(b,c){return a.call(b,c,b)}))},slice:function(){return this.pushStack(e.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},eq:function(a){var b=this.length,c=+a+(0>a?b:0);return this.pushStack(c>=0&&b>c?[this[c]]:[])},end:function(){return this.prevObject||this.constructor()},push:g,sort:c.sort,splice:c.splice},n.extend=n.fn.extend=function(){var a,b,c,d,e,f,g=arguments[0]||{},h=1,i=arguments.length,j=!1;for("boolean"==typeof g&&(j=g,g=arguments[h]||{\
 },h++),"object"==typeof g||n.isFunction(g)||(g={}),h===i&&(g=this,h--);i>h;h++)if(null!=(e=arguments[h]))for(d in e)a=g[d],c=e[d],g!==c&&(j&&c&&(n.isPlainObject(c)||(b=n.isArray(c)))?(b?(b=!1,f=a&&n.isArray(a)?a:[]):f=a&&n.isPlainObject(a)?a:{},g[d]=n.extend(j,f,c)):void 0!==c&&(g[d]=c));return g},n.extend({expando:"jQuery"+(m+Math.random()).replace(/\D/g,""),isReady:!0,error:function(a){throw new Error(a)},noop:function(){},isFunction:function(a){return"function"===n.type(a)},isArray:Array.isArray||function(a){return"array"===n.type(a)},isWindow:function(a){return null!=a&&a==a.window},isNumeric:function(a){var b=a&&a.toString();return!n.isArray(a)&&b-parseFloat(b)+1>=0},isEmptyObject:function(a){var b;f\
@@ -568,7 +568,7 @@ ement,n.contains(b,e)?("undefined"!=typeof e.getBoundingClientRect&&(d=e.getBoun
 ,a||"**",c)}}),n.fn.size=function(){return this.length},n.fn.andSelf=n.fn.addBack,"function"==typeof define&&define.amd&&define("jquery",[],function(){return n});var nc=a.jQuery,oc=a.$;return n.noConflict=function(b){return a.$===n&&(a.$=oc),b&&a.jQuery===n&&(a.jQuery=nc),n},b||(a.jQuery=a.$=n),n});                                                                                                                                                                                                                                                                                                                                                                                                                               
         </script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         <!-- jQuery UI JavaScript -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-      <!--  <script>                                                        
+       <script>                                                        
             (function(t){"function"==typeof define&&define.amd?define(["jquery"],t):t(jQuery)})(function(t){function e(t){for(var e=t.css("visibility");"inherit"===e;)t=t.parent(),e=t.css("visibility");return"hidden"!==e}function i(t){for(var e,i;t.length&&t[0]!==document;){if(e=t.css("position"),("absolute"===e||"relative"===e||"fixed"===e)&&(i=parseInt(t.css("zIndex"),10),!isNaN(i)&&0!==i))return i;t=t.parent()}return 0}function s(){this._curInst=null,this._keyEvent=!1,this._disabledInputs=[],this._datepickerShowing=!1,this._inDialog=!1,this._mainDivId="ui-datepicker-div",this._inlineClass="ui-datepicker-inline",this._appendClass="ui-datepicker-append",this._triggerClass="ui-datepicker-trigger",this._di\
 alogClass="ui-datepicker-dialog",this._disableClass="ui-datepicker-disabled",this._unselectableClass="ui-datepicker-unselectable",this._currentClass="ui-datepicker-current-day",this._dayOverClass="ui-datepicker-days-cell-over",this.regional=[],this.regional[""]={closeText:"Done",prevText:"Prev",nextText:"Next",currentText:"Today",monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dayNames:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],dayNamesShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayNamesMin:["Su","Mo","Tu","\
 We","Th","Fr","Sa"],weekHeader:"Wk",dateFormat:"mm/dd/yy",firstDay:0,isRTL:!1,showMonthAfterYear:!1,yearSuffix:""},this._defaults={showOn:"focus",showAnim:"fadeIn",showOptions:{},defaultDate:null,appendText:"",buttonText:"...",buttonImage:"",buttonImageOnly:!1,hideIfNoPrevNext:!1,navigationAsDateFormat:!1,gotoCurrent:!1,changeMonth:!1,changeYear:!1,yearRange:"c-10:c+10",showOtherMonths:!1,selectOtherMonths:!1,showWeek:!1,calculateWeek:this.iso8601Week,shortYearCutoff:"+10",minDate:null,maxDate:null,duration:"fast",beforeShowDay:null,beforeShow:null,onSelect:null,onChangeMonthYear:null,onClose:null,numberOfMonths:1,showCurrentAtPos:0,stepMonths:1,stepBigMonths:12,altField:"",altFormat:"",constrainInput:!0,\
