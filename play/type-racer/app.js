@@ -34,6 +34,17 @@ const ROAD_ANIMATION = "slide 120s linear infinite";
 // number of words typed that will be required to move the player fully to the other side of the screen
 const WORDS_REQUIRED = 50;
 
+// time left on the timer at end of game required to achieve a specific medal
+const MEDAL_GOLD = 25;
+const MEDAL_SILVER = 13;
+const MEDAL_BRONZE = 1;
+
+// medal-earning messages to the player
+const GOLD_MESSAGE = "Congratulations, you earned a Gold medal!!!";
+const SILVER_MESSAGE = "Congratulations, you earned a Silver medal!!";
+const BRONZE_MESSAGE = "Congratulations, you earned a Bronze medal!";
+
+
 (function initUI() {
     // show instructions modal
     $("#myModal").modal("show");
@@ -231,7 +242,6 @@ document.getElementById("input").addEventListener('keyup', () => {
 
         // the width to animate the car every time a word is typed
         let animateWidth = width / WORDS_REQUIRED;
-        console.log(animateWidth);
             
         // if user is at end of screen. end the game
         if (parseInt(left.replace("px", ""), 10) >= width) {
@@ -303,6 +313,29 @@ function endWordRace() {
     // Hide game and show end screen
     document.getElementById("wordRace").style.display = "none";
     document.getElementById("end").style.display = "";
+
+    // display a medal and respective message based on how much time is left on the timer
+    if (timer >= MEDAL_GOLD) {
+        $("#medalModal").modal("show");
+        document.getElementById("medalTitle").innerHTML = GOLD_MESSAGE;
+        document.getElementById("goldMedal").style.display = "block";
+        document.getElementById("silverMedal").style.display = "none";
+        document.getElementById("bronzeMedal").style.display = "none";
+    }
+    else if (timer >= MEDAL_SILVER) {
+        $("#medalModal").modal("show");
+        document.getElementById("medalTitle").innerHTML = SILVER_MESSAGE;
+        document.getElementById("goldMedal").style.display = "none";
+        document.getElementById("silverMedal").style.display = "block";
+        document.getElementById("bronzeMedal").style.display = "none";
+    }
+    else if (timer >= MEDAL_BRONZE) {
+        $("#medalModal").modal("show");
+        document.getElementById("medalTitle").innerHTML = BRONZE_MESSAGE;
+        document.getElementById("goldMedal").style.display = "none";
+        document.getElementById("silverMedal").style.display = "none";
+        document.getElementById("bronzeMedal").style.display = "block";
+    }
     
     // Show stats
     let seconds = 120 - timer;
