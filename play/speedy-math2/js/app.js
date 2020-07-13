@@ -648,6 +648,7 @@ function reset() {
     answeredProblems = [];
     startingEl.classList.toggle("hide");
     countdownEl.classList.toggle("hide");
+    countdownEl.innerHTML = "";
     timerEl.innerHTML = "Time: 60";
     scoreEl.innerHTML = "Score: 0";
 
