@@ -78,13 +78,7 @@ function randomize (obj) {
 		obj[index] = obj[i];
 		obj[i] = temp;
 	}
-	//Prints the results into the console
-	for (i = 0; i < obj.length; i++) {
-		console.log(obj[i].Question + ": " + obj[i].Answer);
-	}
-//My edit to pass the obj back to the function
 	return obj;
-
 }
 
 function createQuiz() {
@@ -99,7 +93,21 @@ function createQuiz() {
 
       // variable to store the list of possible answers
       const answers = [];
-
+	  var arr = [];
+	  var k = 0;
+	  for (letter in currentQuestion.answers) {
+	  arr[k] = currentQuestion.answers[letter];
+	  k = k+1;
+	  }
+	  
+	  arr = randomize(arr);
+	  
+	  var k = 0;
+	  for (letter in currentQuestion.answers) {
+		currentQuestion.answers[letter] = arr[k];
+		k = k+1;
+	  }
+	 
       // and for each available answer...
       for (letter in currentQuestion.answers) {
 
