@@ -261,7 +261,7 @@ class Game_Handler {
     if (myGameArea.framNo === 1 || myGameArea.everyInterval(120- player.roundCount)) {
       if(this.round > 20) {
         enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
-        enemys.push(new Npc(30, 30, randomX2, -5, 'blue'));
+        enemys.push(new Npc(30, 30, randomX2, -12, 'blue'));
       } else {
         enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
       }
@@ -346,19 +346,27 @@ class Game_Handler {
   * use javascript e keycodes to find the key codes online
   **/
   checkKeyCode() {
-    if (myGameArea.key === 37) {
+    if(myGameArea.key === 37 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedX = -5;
-    }
-    if (myGameArea.key === 39) {
+    } else if (myGameArea.key === 39 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedX = 5;
-    }
-    if (myGameArea.key === 38) {
+    } else if(myGameArea.key === 38 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedY = -5;
-    }
-    if (myGameArea.key === 40) {
+    } else if(myGameArea.key === 40 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedY = 5;
-    }
-    if (myGameArea.key === 32) {
+    } else if (myGameArea.key === 37) {
+      player.speedX = -5;
+    } else if (myGameArea.key === 39) {
+      player.speedX = 5;
+    }else if (myGameArea.key === 38) {
+      player.speedY = -5;
+    }else if (myGameArea.key === 40) {
+      player.speedY = 5;
+    }else if (myGameArea.spaceBar == true) {
       gameHandler.spawnBullet();
     }
   }
@@ -396,7 +404,6 @@ class MathClassHandler {
     const input = document.getElementById("answerInput");
     const answerBtn = document.getElementById("checkAnswer");
     const mainDiv = document.querySelector("main");
-    let runOnce = 0;
     mainDiv.style.opacity = "0.2";
     this.displayEquation = this.getEquation();
 
@@ -489,8 +496,6 @@ class MathClassHandler {
   * @param {String} answer
   **/
   checkAnswer() {
-    console.log(this.displayEquation);
-    console.log(this.answer);
     if(eval(this.displayEquation).toFixed(2) == parseFloat(this.answer).toFixed(2)) {
       this.rightAnswer();
     } else {
@@ -506,6 +511,12 @@ class MathClassHandler {
     let num1 = Math.floor(Math.random() * this.kindergartenMax);
     let num2 = Math.floor(Math.random() * this.kindergartenMax);
     let num3 = Math.floor(Math.random() * this.kindergartenMax);
+    if(num1 == 0) {
+      num1 = 2;
+    }
+    if(num2 == 0) {
+      num2 = 1;
+    }
     equation = `${num1}x ${sign} ${num2} = ${num3}`;
     return equation;
 
@@ -568,6 +579,7 @@ class MyGameArea {
     this.arrowLeftButton = document.createElement("button");
     this.arrowRightButton = document.createElement("button");
     this.shootButton = document.createElement("button");
+    this.spaceBar = false;
   }
 
   //function for creating the canavs element and adding event listeners to the canvas element
@@ -702,12 +714,19 @@ class MyGameArea {
     * keyup is to disable the players movement on lift aka stop the player from moving when the arrow is not pressed
     **/
     window.addEventListener("keyup", (e) => {
+      if(e.keyCode == 32) {
+        this.spaceBar = false;
+      }
       if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) {
         myGameArea.key = null;
       }
     });
     window.addEventListener("keydown", (e) => {
-      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 32) {
+      if(e.keyCode == 32) {
+        e.preventDefault();
+        this.spaceBar = true;
+      }
+      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) {
         e.preventDefault();
         myGameArea.key = e.keyCode;
       }
@@ -767,8 +786,8 @@ let updateGameArea = () => {
 
     //add a gameframe if the shoot key is enabled then disable the shoot key this prevents lined bullets!
     myGameArea.framNo += 1;
-    if (myGameArea.key == 32) {
-      myGameArea.key = null;
+    if(myGameArea.spaceBar == true) {
+      myGameArea.spaceBar = false;
     }
   }
 }
