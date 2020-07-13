@@ -36,6 +36,15 @@ button {
     font-family: "Bank Gothic", sans-serif;
 }
 
-.result, p {
+#quiz-container, .result, p {
     font-family: "Consolas", sans-serif;
+}
+
+#rand-num {
+    margin: 0;
+}
+
+.btn-large {
+    font-size: 40px;
+    border-radius: 10px;
 }
