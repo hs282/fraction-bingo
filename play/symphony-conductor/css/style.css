@@ -14,7 +14,10 @@ body {
 }
 
 #instruments img {
-    width: 200px;
+    width: 20%;
+    padding: 7px;
+    overflow: auto;
+    
 }
 
 button {
@@ -54,6 +57,26 @@ button {
     cursor: pointer;
     margin-right: 1px;
 }
+
+/* #learnMore {
+    background-color: salmon;
+    border-color: salmon ;
+    height: 100%;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 1px;
+} */
+
+table, th, td {
+    border: 3px solid black;
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+}
+
 
 .modal { 
     display: none;  
@@ -138,6 +161,7 @@ button {
     background: #eee; 
     color: #fff; 
     padding: 10px;
+    overflow: auto;
 }
 
 .panel-right { 
