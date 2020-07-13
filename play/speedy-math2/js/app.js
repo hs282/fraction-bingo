@@ -464,8 +464,11 @@ function countdown() {
     let count = 3;
     startingEl.classList.toggle("hide");
 
-    const INTERVAL = setInterval( () => {
+    countdownEl.innerHTML = count;
 
+    const INTERVAL = setInterval(() => {
+        count--;
+        
         if (count < 1) {
             clearInterval(INTERVAL);
             countdownEl.classList.toggle("hide");
@@ -476,7 +479,7 @@ function countdown() {
         }
 
         countdownEl.innerHTML = count;
-        count--;
+        
     }, 1000);
 }
 
