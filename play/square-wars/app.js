@@ -257,17 +257,18 @@ class Game_Handler {
   **/
   spawnEnemies() {
     let randomX = Math.floor(Math.random() * 240);
-    if (myGameArea.framNo === 1 || myGameArea.everyInterval(120 - player.roundCount)) {
-      enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
+    let randomX2 = Math.floor(Math.random() * 240);
+    if (myGameArea.framNo === 1 || myGameArea.everyInterval(120- player.roundCount)) {
+      if(this.round > 20) {
+        enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
+        enemys.push(new Npc(30, 30, randomX2, -5, 'blue'));
+      } else {
+        enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
+      }
 
       //spawn boss fomula round % 3 == 0 count is to hold how many are spawn
       if (this.round % 3 == 0 && this.round != 0) {
-        //turn killcount to string to send data to compare
-        let holdData = player.roundCount.toString();
-        holdData = holdData.split('');
-        holdData = holdData.slice(0, 1);
-        parseInt(holdData);
-        this.spawnBoss(holdData)
+        this.spawnBoss();
       }
 
     }
@@ -278,11 +279,16 @@ class Game_Handler {
   updateEnemies() {
     //loop threw enemys and update
     for (let i = 0; i < enemys.length; i++) {
-      //if player has killCount of 100 enemys move faster
-      if (player.killCount >= 100) {
-        enemys[i].y += 1.30;
-      } else {
+      if(this.round < 5) {
         enemys[i].y += 1.25;
+      } else if(this.round < 10) {
+        enemys[i].y += 1.30;
+      } else if(this.round < 15) {
+        enemys[i].y += 1.40;
+      } else if(this.round < 20) {
+        enemys[i].y += 1.50;
+      } else {
+        enemys[i].y += 2;
       }
       enemys[i].update();
     }
@@ -320,13 +326,10 @@ class Game_Handler {
   * this equation and method is only run depending on spawn enemies equation 120-playerkillCount % 1 === 0
   * @param {number} count
   **/
-  spawnBoss(count) {
+  spawnBoss() {
     let randomX = Math.floor(Math.random() * 240);
-    if (count <= this.round) {
       //moved enmy back 500 thats why its 600 + 500 aka 11000
       boss.push(new Npc(30, 30, randomX, -10, "green"));
-      count++;
-    }
   }
 
   /**
@@ -363,8 +366,8 @@ class Game_Handler {
   //write the score to the html
   updateScoreMenu() {
     //show player killCount
-    document.getElementById('killCount').textContent = `Player kill-count: ${player.killCount}`;
-    document.getElementById('roundCounter').textContent = `This Round: ${gameHandler.getRound()}`;
+    document.getElementById('killCount').textContent = `Enemies Defeated: ${player.killCount}`;
+    document.getElementById('roundCounter').textContent = `Round: ${gameHandler.getRound()}`;
   }
 }
 
@@ -383,6 +386,7 @@ class MathClassHandler {
     this.gradeSchoolMax = 100;
     this.middleSchoolAndUpMax = 1000;
     this.isAlgebra = false;
+    this.displayEquation = "";
   }
 
   //a method for displaying the popup window that shows the equation
@@ -392,12 +396,12 @@ class MathClassHandler {
     const answerBtn = document.getElementById("checkAnswer");
     const mainDiv = document.querySelector("main");
     mainDiv.style.opacity = "0.2";
-    let equation = this.getEquation();
+    this.displayEquation = this.getEquation();
     if(this.isAlgebra) {
       document.getElementById("answerSpan").textContent = "x = ";
-      equationArea.textContent = equation;
+      equationArea.textContent = this.displayEquation;
     } else {
-      equationArea.textContent = equation + " =";
+      equationArea.textContent = this.displayEquation + " =";
     }
     document.getElementById("popUpWindow").style.display = "block";
 
@@ -405,9 +409,9 @@ class MathClassHandler {
       if(e.keyCode === 13) {
         let answer = input.value;
         if(this.isAlgebra) {
-          this.checkAlgebraAnswer(equation, answer);
+          this.checkAlgebraAnswer(this.displayEquation, answer);
         } else {
-          this.checkAnswer(equation, answer);
+          this.checkAnswer(this.displayEquation, answer);
         }
       }
     });
@@ -415,9 +419,9 @@ class MathClassHandler {
     answerBtn.addEventListener('click',(e) => {
       let answer = input.value;
       if(this.isAlgebra) {
-        this.checkAlgebraAnswer(equation, answer);
+        this.checkAlgebraAnswer(this.displayEquation, answer);
       } else {
-        this.checkAnswer(equation, answer);
+        this.checkAnswer(this.displayEquation, answer);
       }
     });
   }
@@ -502,6 +506,8 @@ class MathClassHandler {
   * @param {String} answer
   **/
   checkAnswer(equation, answer) {
+    console.log(equation);
+    console.log(answer);
     if(eval(equation).toFixed(2) == parseFloat(answer).toFixed(2)) {
       this.rightAnswer();
     } else {
@@ -553,9 +559,9 @@ class MathClassHandler {
 
   //a method used continue the game if the answer is right!
   rightAnswer() {
-    document.getElementById("popUpWindow").style.borderStyle = "none";
+    document.getElementById("popUpWindow").style.border = ".1em solid black";
     document.getElementById("popUpWindow").style.display = "none";
-    document.getElementById("answerInput").style.borderStyle = "none";
+    document.getElementById("answerInput").style.border = ".1em solid black";
     document.getElementById("answerInput").value = "";
     document.querySelector("main").style.opacity = "1.0";
     gamePlaying = true;
