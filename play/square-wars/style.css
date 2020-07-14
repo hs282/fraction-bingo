@@ -23,6 +23,10 @@ canvas {
   visibility: hidden;
   font-size: 1.5em;
   color: black;
+  padding: 2em;
+  border: .1em solid #696969;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 #gameMenu {
   text-align: center;
@@ -45,13 +49,6 @@ ol {
   display: inline-block;
 }
 
-#gameBtn {
-  display: none;
-  padding: .7em;
-  font-size: 1.3em;
-  background-color: #f00;
-  color: #fff;
-}
 #gameBtn:hover {
   background-color: #330000;
   cursor: pointer;
@@ -67,7 +64,11 @@ button {
 
 h3 {
   text-align: center;
-  padding: 2em;
+}
+
+#rulesAndInstr {
+  padding-top: 1.4em;
+  padding-bottom: .7em;
 }
 
 .difficultyBtn:hover {
@@ -76,6 +77,11 @@ h3 {
 
 .difficultyBtn:focus {
   background-color: #665;
+}
+
+#playAgainBtn {
+  padding-top: 1em;
+  width: 60%;
 }
 
 #popUpWindow {
@@ -91,6 +97,21 @@ h3 {
   z-index: 1;
   border: .1em solid black;
   border-radius: 4px;
+}
+
+.gameControlBtn {
+  padding: 4%;
+}
+.shootBtn {
+  color:white;
+  padding: 6%;
+  border: .1em solid black;
+  background-color: red;
+  border-radius: 50%;
+}
+
+#highScorePopUp {
+  display: none;
 }
 
 
@@ -122,20 +143,6 @@ h3 {
   }
 }
 
-@media only screen and (max-width: 375px) {
-  canvas {
-    width: 60%;
-    height: 100%;
-  }
-  #gameMenu {
-    text-align: center;
-    font-size: 1.5em;
-    border: .2em solid #ddd;
-    margin-left: 2%;
-    margin-right: 2%;
-    padding-bottom: 5em;
-  }
-}
 @media only screen and (max-width: 411px) {
   canvas {
     width: 60%;

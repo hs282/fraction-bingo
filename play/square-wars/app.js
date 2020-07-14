@@ -1,3 +1,5 @@
+const APP_NAME = "square-wars";
+const DM = new DataManager(APP_NAME);
 //global objects for the game
 let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler, myGameArea;
 //global boolean for the game engine
@@ -14,7 +16,8 @@ let difficultyLevel = 1
 function setLevel(level) {
   intLevel = parseInt(level)
   difficultyLevel = intLevel;
-  document.getElementById("gameBtn").style.display = "inline";
+  document.getElementById('gameMenu').style.display = 'none';
+  startGame();
 }
 
 /**
@@ -120,7 +123,8 @@ class Bullet extends MoveableCanvasObject {
     this.y += this.speedY;
   }
   shoot() {
-    this.x = player.x+8;
+    //this.x is set to center of the player
+    this.x = (player.x + player.width - this.width + 2) - (player.width/2);
     this.y = player.y;
     this.speedY = -10;
   }
@@ -261,7 +265,7 @@ class Game_Handler {
     if (myGameArea.framNo === 1 || myGameArea.everyInterval(120- player.roundCount)) {
       if(this.round > 20) {
         enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
-        enemys.push(new Npc(30, 30, randomX2, -5, 'blue'));
+        enemys.push(new Npc(30, 30, randomX2, -12, 'blue'));
       } else {
         enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
       }
@@ -346,20 +350,28 @@ class Game_Handler {
   * use javascript e keycodes to find the key codes online
   **/
   checkKeyCode() {
-    if (myGameArea.key === 37) {
+    if(myGameArea.key === 37 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedX = -5;
-    }
-    if (myGameArea.key === 39) {
+    } else if (myGameArea.key === 39 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedX = 5;
-    }
-    if (myGameArea.key === 38) {
+    } else if(myGameArea.key === 38 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedY = -5;
-    }
-    if (myGameArea.key === 40) {
+    } else if(myGameArea.key === 40 && myGameArea.spaceBar == true) {
+      this.spawnBullet();
       player.speedY = 5;
-    }
-    if (myGameArea.key === 32) {
-      gameHandler.spawnBullet();
+    } else if (myGameArea.key === 37) {
+      player.speedX = -5;
+    } else if (myGameArea.key === 39) {
+      player.speedX = 5;
+    }else if (myGameArea.key === 38) {
+      player.speedY = -5;
+    }else if (myGameArea.key === 40) {
+      player.speedY = 5;
+    }else if (myGameArea.spaceBar == true) {
+      this.spawnBullet();
     }
   }
 
@@ -396,7 +408,6 @@ class MathClassHandler {
     const input = document.getElementById("answerInput");
     const answerBtn = document.getElementById("checkAnswer");
     const mainDiv = document.querySelector("main");
-    let runOnce = 0;
     mainDiv.style.opacity = "0.2";
     this.displayEquation = this.getEquation();
 
@@ -404,6 +415,7 @@ class MathClassHandler {
       document.getElementById("answerSpan").textContent = "x = ";
       equationArea.textContent = this.displayEquation;
     } else {
+      document.getElementById("answerSpan").textContent = "Answer:"
       equationArea.textContent = this.displayEquation + " =";
     }
     document.getElementById("popUpWindow").style.display = "block";
@@ -489,8 +501,6 @@ class MathClassHandler {
   * @param {String} answer
   **/
   checkAnswer() {
-    console.log(this.displayEquation);
-    console.log(this.answer);
     if(eval(this.displayEquation).toFixed(2) == parseFloat(this.answer).toFixed(2)) {
       this.rightAnswer();
     } else {
@@ -506,6 +516,15 @@ class MathClassHandler {
     let num1 = Math.floor(Math.random() * this.kindergartenMax);
     let num2 = Math.floor(Math.random() * this.kindergartenMax);
     let num3 = Math.floor(Math.random() * this.kindergartenMax);
+
+    //so each equation has a complete answer
+    if(num1 == 0 || num1 == 1) {
+      num1 = 2;
+    }
+    if(num2 == 0) {
+      num2 = 1;
+    }
+
     equation = `${num1}x ${sign} ${num2} = ${num3}`;
     return equation;
 
@@ -526,7 +545,7 @@ class MathClassHandler {
 
     switch(sign) {
       case '+':
-        compAnswer = (b - c) / a;
+        compAnswer = (c - b) / a;
         break;
       case '-':
         compAnswer = (b + c) / a;
@@ -560,6 +579,37 @@ class MathClassHandler {
 }
 
 /**
+* The high score handler class handles alll the saving and checking of the players score / highscore
+**/
+class HighScoreHandler {
+  //constructor to get the current high score and if undefined make 0
+  constructor(){
+    this.highScore = parseInt((DM.getItem("score") != undefined) ? DM.getItem("score") : 0);
+  }
+
+  //boolean method for determing highscore
+  ifNewHighScore() {
+    let result = false;
+    if(player.killCount > this.highScore) {
+      result = true;
+    }
+    return result;
+  }
+
+  //save the score if its a highscore
+  saveNewScore() {
+    if(this.ifNewHighScore()) {
+      DM.saveItem("score", player.killCount);
+      this.highScore = player.killCount;
+    }
+    //player logged in but score was not saved
+    else if (DM.saveItem("score", player.killCount) ==  false) {
+      alert("Error: could not save your score. Please login to save your score.");
+    }
+  }
+}
+
+/**
 * Class for handling the Game Area aka the canvas and buttons of the game
 **/
 class MyGameArea {
@@ -568,6 +618,11 @@ class MyGameArea {
     this.arrowLeftButton = document.createElement("button");
     this.arrowRightButton = document.createElement("button");
     this.shootButton = document.createElement("button");
+    this.arrowRightButton.className = "gameControlBtn";
+    this.arrowLeftButton.className = "gameControlBtn";
+    this.shootButton.className = "shootBtn";
+    this.spaceBar = false;
+    this.highScoreHandler = new HighScoreHandler();
   }
 
   //function for creating the canavs element and adding event listeners to the canvas element
@@ -616,13 +671,19 @@ class MyGameArea {
     this.canvas.style.visibility = "hidden";
     document.getElementById("scores").style.display = "none";
     document.getElementById("scores").style.visibility = "hidden";
-    document.getElementById("scoreMenu").style.display = "block";
-    document.getElementById("scoreMenu").style.visibility = "visible";
     this.shootButton.style.display = "none";
     this.arrowLeftButton.style.display = "none";
     this.arrowRightButton.style.display = "none";
+
+    document.getElementById("scoreMenu").style.display = "block";
+    document.getElementById("scoreMenu").style.visibility = "visible";
+    if(this.highScoreHandler.ifNewHighScore()) {
+      document.getElementById("highScoreTextArea").innerHTML = `Your new high score is: ${player.killCount}`;
+      document.getElementById("highScorePopUp").style.display = "block";
+      this.highScoreHandler.saveNewScore();
+    }
     document.getElementById('yourScore').textContent = " " + player.killCount;
-    document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
+    document.getElementById('displayHighScore').textContent = " " + this.highScoreHandler.highScore;
   }
 
   /**
@@ -665,9 +726,6 @@ class MyGameArea {
     //arrow buttons
     this.arrowLeftButton.innerHTML = "Left";
     this.arrowRightButton.innerHTML = "Right";
-    this.arrowLeftButton.style.padding = '4%';
-    this.arrowRightButton.style.padding = '4%';
-    this.shootButton.style.padding = '6%';
     document.querySelector("main").appendChild(this.arrowLeftButton);
     document.querySelector("main").appendChild(this.arrowRightButton);
 
@@ -702,12 +760,19 @@ class MyGameArea {
     * keyup is to disable the players movement on lift aka stop the player from moving when the arrow is not pressed
     **/
     window.addEventListener("keyup", (e) => {
+      if(e.keyCode == 32) {
+        this.spaceBar = false;
+      }
       if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) {
         myGameArea.key = null;
       }
     });
     window.addEventListener("keydown", (e) => {
-      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 32) {
+      if(e.keyCode == 32) {
+        e.preventDefault();
+        this.spaceBar = true;
+      }
+      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) {
         e.preventDefault();
         myGameArea.key = e.keyCode;
       }
@@ -767,27 +832,20 @@ let updateGameArea = () => {
 
     //add a gameframe if the shoot key is enabled then disable the shoot key this prevents lined bullets!
     myGameArea.framNo += 1;
-    if (myGameArea.key == 32) {
-      myGameArea.key = null;
+    if(myGameArea.spaceBar == true) {
+      myGameArea.spaceBar = false;
     }
   }
 }
 //-----------------------------------------------------------------------------------------------------
-
-//Event listener for main menu
-document.getElementById('gameBtn').addEventListener("click", () => {
-    document.getElementById('gameMenu').style.display = 'none';
-    startGame();
-});
 
 //event listener pop-up gameMenu
 const inputPopUp = document.getElementById("answerInput");
 const answerBtnPopUp = document.getElementById("checkAnswer");
 
 inputPopUp.addEventListener("keyup", (e) => {
-  mathHandler.answer = inputPopUp.value;
   if(e.keyCode === 13) {
-    this.answer = inputPopUp.value;
+    mathHandler.answer = inputPopUp.value;
     if(mathHandler.isAlgebra) {
       mathHandler.checkAlgebraAnswer();
     } else {
@@ -804,3 +862,9 @@ answerBtnPopUp.addEventListener('click',(e) => {
     mathHandler.checkAnswer();
   }
 });
+
+document.getElementById("closeHighScoreBtn").addEventListener("click", () => {
+  document.getElementById("highScorePopUp").style.display = "none";
+});
+
+document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
