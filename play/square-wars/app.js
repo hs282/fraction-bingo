@@ -120,7 +120,8 @@ class Bullet extends MoveableCanvasObject {
     this.y += this.speedY;
   }
   shoot() {
-    this.x = player.x+8;
+    //this.x is set to center of the player
+    this.x = (player.x + player.width - this.width + 2) - (player.width/2);
     this.y = player.y;
     this.speedY = -10;
   }
@@ -367,7 +368,7 @@ class Game_Handler {
     }else if (myGameArea.key === 40) {
       player.speedY = 5;
     }else if (myGameArea.spaceBar == true) {
-      gameHandler.spawnBullet();
+      this.spawnBullet();
     }
   }
 
@@ -411,6 +412,7 @@ class MathClassHandler {
       document.getElementById("answerSpan").textContent = "x = ";
       equationArea.textContent = this.displayEquation;
     } else {
+      document.getElementById("answerSpan").textContent = "Answer:"
       equationArea.textContent = this.displayEquation + " =";
     }
     document.getElementById("popUpWindow").style.display = "block";
@@ -511,12 +513,15 @@ class MathClassHandler {
     let num1 = Math.floor(Math.random() * this.kindergartenMax);
     let num2 = Math.floor(Math.random() * this.kindergartenMax);
     let num3 = Math.floor(Math.random() * this.kindergartenMax);
-    if(num1 == 0) {
+
+    //so each equation has a complete answer
+    if(num1 == 0 || num == 1) {
       num1 = 2;
     }
     if(num2 == 0) {
       num2 = 1;
     }
+
     equation = `${num1}x ${sign} ${num2} = ${num3}`;
     return equation;
 
@@ -579,6 +584,9 @@ class MyGameArea {
     this.arrowLeftButton = document.createElement("button");
     this.arrowRightButton = document.createElement("button");
     this.shootButton = document.createElement("button");
+    this.arrowRightButton.className = "gameControlBtn";
+    this.arrowLeftButton.className = "gameControlBtn";
+    this.shootButton.className = "shootBtn";
     this.spaceBar = false;
   }
 
@@ -677,9 +685,6 @@ class MyGameArea {
     //arrow buttons
     this.arrowLeftButton.innerHTML = "Left";
     this.arrowRightButton.innerHTML = "Right";
-    this.arrowLeftButton.style.padding = '4%';
-    this.arrowRightButton.style.padding = '4%';
-    this.shootButton.style.padding = '6%';
     document.querySelector("main").appendChild(this.arrowLeftButton);
     document.querySelector("main").appendChild(this.arrowRightButton);
 
@@ -804,9 +809,8 @@ const inputPopUp = document.getElementById("answerInput");
 const answerBtnPopUp = document.getElementById("checkAnswer");
 
 inputPopUp.addEventListener("keyup", (e) => {
-  mathHandler.answer = inputPopUp.value;
   if(e.keyCode === 13) {
-    this.answer = inputPopUp.value;
+    mathHandler.answer = inputPopUp.value;
     if(mathHandler.isAlgebra) {
       mathHandler.checkAlgebraAnswer();
     } else {
