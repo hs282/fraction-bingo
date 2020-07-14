@@ -56,7 +56,8 @@
 
         <!-- intro menu -->
         <div id="gameMenu">
-          <h3>Rules and Instructions</h3>
+          <h3 id="rulesAndInstr">Rules and Instructions</h3>
+          <hr>
           <ol class="list">
             <li>1. Use arrow keys to move: up, down and side to side (if mobile use buttons)</li><br>
             <li>2. Use space bar to shoot</li><br>
@@ -66,20 +67,22 @@
             <br>
             <li>GOOD LUCK...</li>
           </ol>
+          <hr>
           <button id="1" class="btn btn-secondary difficultyBtn" onclick="setLevel(this.id)">Kindergarten</button>
           <button id="2" class="btn btn-secondary difficultyBtn" onclick="setLevel(this.id)">Grade School</button>
           <button id="3" class="btn btn-secondary difficultyBtn" onclick="setLevel(this.id)">Middle School</button>
           <button id="4" class="btn btn-secondary difficultyBtn" onclick="setLevel(this.id)">High School</button>
           <br>
-          <button class="btn" id="gameBtn">Play now</button>
-          <h3><span id="widthError"></span></h3>
         </div>
 
 
 
         <!-- ending score menu -->
         <div id="scoreMenu">
-          <h1 style="text-align:center">Your score:<span id="yourScore"></span><h1>
+          <h1>Game Over</h1>
+          <hr>
+          <h3 style="text-align:center">Your Score:<span id="yourScore"></span><h3>
+          <h3 style="text-align:center">High Score:<span id="displayHighScore"></span><h3>
           <button id="playAgainBtn" type="button" class="btn btn-secondary">Play Again</button>
         </div>
 
@@ -91,6 +94,24 @@
       <span id="answerSpan">Answer: </span><input id="answerInput" onkeypress="javascript:return isNumber(event)">
       <button id="checkAnswer" class= "btn btn-success">Submit</button><br>
       <span>Round to the 2nd decimal place if needed.</span>
+    </div>
+
+
+    <!-- Modal Error-->
+    <div class="modal" id="highScorePopUp">
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New HighScore!</h5>
+          </div>
+          <div class="modal-body">
+            <p id="highScoreTextArea"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id ="closeHighScoreBtn"class="btn btn-secondary">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 

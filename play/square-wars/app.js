@@ -16,7 +16,8 @@ let difficultyLevel = 1
 function setLevel(level) {
   intLevel = parseInt(level)
   difficultyLevel = intLevel;
-  document.getElementById("gameBtn").style.display = "inline";
+  document.getElementById('gameMenu').style.display = 'none';
+  startGame();
 }
 
 /**
@@ -517,7 +518,7 @@ class MathClassHandler {
     let num3 = Math.floor(Math.random() * this.kindergartenMax);
 
     //so each equation has a complete answer
-    if(num1 == 0 || num == 1) {
+    if(num1 == 0 || num1 == 1) {
       num1 = 2;
     }
     if(num2 == 0) {
@@ -581,34 +582,29 @@ class MathClassHandler {
 * The high score handler class handles alll the saving and checking of the players score / highscore
 **/
 class HighScoreHandler {
-  //constructor to get the current highscore CAN BE UNDEFINED!
+  //constructor to get the current high score and if undefined make 0
   constructor(){
-    this.highScore = DM.getItem("score");
-    console.log(this.highScore);
+    this.highScore = parseInt((DM.getItem("score") != undefined) ? DM.getItem("score") : 0);
   }
 
   //boolean method for determing highscore
   ifNewHighScore() {
     let result = false;
-    if(this.highScore != undefined) {
-      if(player.killCount > this.highScore) {
-        result = true;
-      }
+    if(player.killCount > this.highScore) {
+      result = true;
     }
     return result;
   }
 
   //save the score if its a highscore
   saveNewScore() {
-    if(this.highScore != undefined) {
-      if(this.ifNewHighScore) {
-        DM.saveItem("score", player.killCount);
-      }
+    if(this.ifNewHighScore()) {
+      DM.saveItem("score", player.killCount);
+      this.highScore = player.killCount;
+    }
     //player logged in but score was not saved
-    } else if (DM.saveItem("score", player.killCount) ==  false) {
+    else if (DM.saveItem("score", player.killCount) ==  false) {
       alert("Error: could not save your score. Please login to save your score.");
-    } else {
-      alert("Soemthing went wrong, Score not saved.");
     }
   }
 }
@@ -671,17 +667,23 @@ class MyGameArea {
 
   //the display function for game over
   gameOver() {
-    this.highScoreHandler.saveNewScore();
     this.canvas.style.display = "none";
     this.canvas.style.visibility = "hidden";
     document.getElementById("scores").style.display = "none";
     document.getElementById("scores").style.visibility = "hidden";
-    document.getElementById("scoreMenu").style.display = "block";
-    document.getElementById("scoreMenu").style.visibility = "visible";
     this.shootButton.style.display = "none";
     this.arrowLeftButton.style.display = "none";
     this.arrowRightButton.style.display = "none";
+
+    document.getElementById("scoreMenu").style.display = "block";
+    document.getElementById("scoreMenu").style.visibility = "visible";
+    if(this.highScoreHandler.ifNewHighScore()) {
+      document.getElementById("highScoreTextArea").innerHTML = `Your new high score is: ${player.killCount}`;
+      document.getElementById("highScorePopUp").style.display = "block";
+      this.highScoreHandler.saveNewScore();
+    }
     document.getElementById('yourScore').textContent = " " + player.killCount;
+    document.getElementById('displayHighScore').textContent = " " + this.highScoreHandler.highScore;
   }
 
   /**
@@ -837,12 +839,6 @@ let updateGameArea = () => {
 }
 //-----------------------------------------------------------------------------------------------------
 
-//Event listener for main menu
-document.getElementById('gameBtn').addEventListener("click", () => {
-    document.getElementById('gameMenu').style.display = 'none';
-    startGame();
-});
-
 //event listener pop-up gameMenu
 const inputPopUp = document.getElementById("answerInput");
 const answerBtnPopUp = document.getElementById("checkAnswer");
@@ -866,4 +862,9 @@ answerBtnPopUp.addEventListener('click',(e) => {
     mathHandler.checkAnswer();
   }
 });
+
+document.getElementById("closeHighScoreBtn").addEventListener("click", () => {
+  document.getElementById("highScorePopUp").style.display = "none";
+});
+
 document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
