@@ -1,3 +1,5 @@
+const APP_NAME = "square-wars";
+const DM = new DataManager(APP_NAME);
 //global objects for the game
 let player, enemy, enemys, bullet, bullets, boss, gameHandler, mathHandler, myGameArea;
 //global boolean for the game engine
@@ -576,6 +578,42 @@ class MathClassHandler {
 }
 
 /**
+* The high score handler class handles alll the saving and checking of the players score / highscore
+**/
+class HighScoreHandler {
+  //constructor to get the current highscore CAN BE UNDEFINED!
+  constructor(){
+    this.highScore = DM.getItem("score");
+    console.log(this.highScore);
+  }
+
+  //boolean method for determing highscore
+  ifNewHighScore() {
+    let result = false;
+    if(this.highScore != undefined) {
+      if(player.killCount > this.highScore) {
+        result = true;
+      }
+    }
+    return result;
+  }
+
+  //save the score if its a highscore
+  saveNewScore() {
+    if(this.highScore != undefined) {
+      if(this.ifNewHighScore) {
+        DM.saveItem("score", player.killCount);
+      }
+    //player logged in but score was not saved
+    } else if (DM.saveItem("score", player.killCount) ==  false) {
+      alert("Error: could not save your score. Please login to save your score.");
+    } else {
+      alert("Soemthing went wrong, Score not saved.");
+    }
+  }
+}
+
+/**
 * Class for handling the Game Area aka the canvas and buttons of the game
 **/
 class MyGameArea {
@@ -588,6 +626,7 @@ class MyGameArea {
     this.arrowLeftButton.className = "gameControlBtn";
     this.shootButton.className = "shootBtn";
     this.spaceBar = false;
+    this.highScoreHandler = new HighScoreHandler();
   }
 
   //function for creating the canavs element and adding event listeners to the canvas element
@@ -632,6 +671,7 @@ class MyGameArea {
 
   //the display function for game over
   gameOver() {
+    this.highScoreHandler.saveNewScore();
     this.canvas.style.display = "none";
     this.canvas.style.visibility = "hidden";
     document.getElementById("scores").style.display = "none";
@@ -642,7 +682,6 @@ class MyGameArea {
     this.arrowLeftButton.style.display = "none";
     this.arrowRightButton.style.display = "none";
     document.getElementById('yourScore').textContent = " " + player.killCount;
-    document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
   }
 
   /**
@@ -827,3 +866,4 @@ answerBtnPopUp.addEventListener('click',(e) => {
     mathHandler.checkAnswer();
   }
 });
+document.getElementById("playAgainBtn").addEventListener("click", () => { resetGame() })
