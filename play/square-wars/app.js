@@ -545,7 +545,7 @@ class MathClassHandler {
 
     switch(sign) {
       case '+':
-        compAnswer = (b - c) / a;
+        compAnswer = (c - b) / a;
         break;
       case '-':
         compAnswer = (b + c) / a;
