@@ -2,9 +2,12 @@ const APP_NAME = "type-racer";
 const DM = new DataManager(APP_NAME);
 
 // the list of words that can show up for the user to type
-let words = [
-    "Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"
-];
+let words = [];
+
+// previously used word list
+// let words = [
+//     "Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"
+// ];
 
 // variables to keep track of user typing statistics
 let wordIndex = 0;
@@ -19,8 +22,14 @@ let timerID;
 // prevent startGame() from being called more than once before ending
 let gameStarted = false;
 
+// set difficulty to medium by default
+let difficulty = "medium";
+
 // track window width as the game progresses, so players cannot use resizing to their advantage
 let windowWidth;
+
+// const value for relative link to word list txt file
+const WORD_LIST = "txt/typeracerwordlist.txt";
 
 // offset value needed to center player car and road
 const CENTER_VALUE = "8%";
@@ -44,6 +53,11 @@ const GOLD_MESSAGE = "Congratulations, you earned a Gold medal!!!";
 const SILVER_MESSAGE = "Congratulations, you earned a Silver medal!!";
 const BRONZE_MESSAGE = "Congratulations, you earned a Bronze medal!";
 
+// max length of words allowed in each respective difficulty
+const EASY_LENGTH = 5;
+const MEDIUM_LENGTH = 7;
+const HARD_LENGTH = 20;
+
 
 (function initUI() {
     // show instructions modal
@@ -64,6 +78,67 @@ function adjustPlayerAndRoad() {
     road.style.marginTop = CENTER_VALUE;
     
     road.style.height = 150 + "px";
+}
+
+/**
+ * Read in the wordlist text file in order to use its contents as words in the game
+ */
+async function readTextFile(file) {
+
+    let response = await fetch(file);
+
+    // if HTTP-status is valid
+    if (response.ok) {
+        // get the response body
+        let textInput = await response.text();
+        words = [];
+        let tempWordIndex = 0;
+        let currentWord = "";
+
+        // loop through the entire string retrieved from the text file
+        for (let i = 0; i < textInput.length; i++) {
+
+            if (textInput[i] != " " && textInput[i] != "\n" && textInput[i] != "\r") {
+                currentWord += textInput[i];
+            }
+            else if (currentWord != "") {
+                let tempWord = currentWord;
+                currentWord = "";
+
+                // if ((difficulty == "easy" && tempWord.length > EASY_LENGTH) ||
+                //     (difficulty == "medium" && tempWord.length > MEDIUM_LENGTH) ||
+                //     (difficulty == "hard" && tempWord.length > HARD_LENGTH)) { break; }
+
+                // else if (difficulty == "medium" && tempWord.length > MEDIUM_LENGTH) { tempWordIndex++; break; }
+                // else if (difficulty == "hard" && tempWord.length > HARD_LENGTH) { tempWordIndex++; break; }
+
+                words[tempWordIndex++] = tempWord;
+            }
+        }
+        console.log(words);
+    }
+    // invalid response leads to an HTTP error
+    else { alert("HTTP-Error: " + response.status); return -1;}
+
+    return 0;
+}
+
+/**
+ * Change global difficulty to let the program know to adjust word list appropriately
+ */
+function setDifficulty() {
+    // difficulty = document.getElementById("difficultySelector").value;
+
+    // get each difficulty selector element
+    difficultySelectors = document.getElementsByClassName("difficultySelector");
+
+    // loop through elements to find every displayed difficultySelector
+    for (let i = 0; i < difficultySelectors.length; i++) {
+        if (difficultySelectors[i].style.display != "none") {
+            // set difficulty value based on the selected option
+            difficulty = difficultySelectors[i].value;
+        }
+    }
 }
 
 /*
@@ -120,10 +195,17 @@ function stopLightStart() {
 /**
  * Start the game.
  */
-function startGame() {
+async function startGame() {
     // prevent startGame() from being called multiple times before ending
     if (gameStarted) {return;}
     gameStarted = true;
+
+    // read in the text file
+    let promise = await readTextFile(WORD_LIST);
+
+    if (promise == -1) {alert("Error: Input text file could not be read");}
+
+    //if (!response.ok) {alert("Error: Input text file could not be read");}
 
     // set appropriate global window width
     windowWidth = document.getElementById("wordRace").offsetWidth;

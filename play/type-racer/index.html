@@ -56,8 +56,14 @@
                         </div>
                         <div class="modal-footer">
                             <p class="text-center">
+                                <select name="dropdown" id="difficultySelector" onchange="setDifficulty()"
+                                style="display: inline-block; align-items: center;">
+                                    <option value="easy">Easy</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="hard">Hard</option>
+                                </select>
                                 <button type="button" class="btn btn-success btn-lg" data-dismiss="modal"
-                                    onclick="startGame()">Start Game</button>
+                                    onclick="startGame()" style="display: inline-block;">Start Game</button>
                             </p>
                         </div>
                     </div>
@@ -67,7 +73,7 @@
             <div class="row">
                 <div class="col-sm-2" id="wpmBox"></div>
                 <div class="col-sm-8" style="text-align: center; padding-top: 20px;">
-                    <input id="input" type="text" autofocus autocomplete="false"/>
+                    <input id="input" type="text" autofocus autocomplete="off">
                     <br>
                     <br>
                 </div>
