@@ -86,7 +86,7 @@ function generateFractions() {
 	}
 	let fract1;
 	let fract2;
-	let numer1 = Math.floor(Math.random() * (max - min + 1)) + min;
+ 	let numer1 = Math.floor(Math.random() * (max - min + 1)) + min;
 	min = 1;
 	let denom1 = Math.floor(Math.random() * (max - min + 1)) + min;
 	fract1 = numer1 + "/" + denom1;
@@ -95,15 +95,7 @@ function generateFractions() {
 	min = 1;
 	let denom2 = Math.floor(Math.random() * (max - min + 1)) + min;
 	fract2 = numer2 + "/" + denom2;
-	var solution = (eval(fract1 + op + fract2)).toString();
-	if (solution.includes(".")) {  
-	    var decArr = solution.split(".");
-	    var left = decArr[0];
-	    var right = decArr[1];
-	    var numer = left + right;
-	    var denom = Math.pow(10, right.length);
-	    solution = simplifyFract(numer, denom);
-	}
+	let solution = getSolution(numer1, numer2, denom1, denom2, op);
 	let probObj = {
 	    "operandOne": fract1,
 	    "operandTwo": fract2,
@@ -114,12 +106,44 @@ function generateFractions() {
     }
 }
 
-function simplifyFract(numerator, denominator) {
-    let gcd = function gcd(x, y) {
-	return y ? gcd(y, x%y) : x;
-    };
-    gcd = gcd(numerator, denominator);
-    return numerator/gcd + "/" + denominator/gcd;
+function gcd(x, y) {
+    return y ? gcd(y, x%y) : x;
+}
+
+function getSolution(n1, n2, d1, d2, op) {
+    let n, d, div, lcm;
+    if (op == "*") {
+	n = n1 * n2;
+	d = d1 * d2;
+    } else if (op == "/") {
+	n = n1 * d2;
+	d = d1 * n2;
+	if (d == 0) {
+	    return "Undefined";
+	}
+    } else if (op == "+") {
+        if (d1 == d2) {
+	    n = n1 + n2;
+	    d = d1;
+	} else {
+	    div = gcd(d1, d2);
+	    lcm = (d1 * d2) / div;
+	    n = n1 * lcm/d1 + n2 * lcm/d2;
+	    d = lcm;
+	}
+    } else {
+	if (d1 == d2) {
+	    n = n1 - n2;
+	    d = d1;
+	} else {
+	    div = gcd(d1, d2);
+	    lcm = (d1 * d2) / div;
+	    n = n1 * lcm/d1 - n2 * lcm/d2;
+	    d = lcm;
+	}
+    }
+    let divisor = gcd(n, d);
+    return n/divisor + "/" + d/divisor;
 }
 
 // Fill board table cells with answers to problems
@@ -128,7 +152,6 @@ function fillBoard() {
     var k = 0;
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
-	    //col.innerHTML = problems[k].operandOne + " " + problems[k].operation + " " + problems[k].operandTwo + "=" + problems[k].answer;
 	    col.innerHTML = problems[k].answer;
 	    k++;
 	}
