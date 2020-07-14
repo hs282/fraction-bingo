@@ -91,11 +91,32 @@ function generateLetter() {
 function check() {
     let userLetter = document.querySelector(".result").innerHTML;
     let quizLetter = document.getElementById("rand-letter").innerHTML;
-    let div = document.querySelector(".quiz-letter");
+
+    // displays green and generates new letter if correct, displays red if incorrect
     if (userLetter === quizLetter) {
-        document.getElementById("quiz-container").removeChild(div);
-        generateLetter();
-        deleteRow(document.querySelector(".binary-letter"));
-        addRow();
+        document.getElementById("binary-container").style.color = "green";
+        setTimeout(resetQuiz, 500);
+    } else {
+        document.getElementById("binary-container").style.color = "red";
+        setTimeout(changeColorBlack, 500);
     }
+}
+
+/**
+ * Reset quiz to display new random letter.
+ */
+function resetQuiz() {
+    let div = document.querySelector(".quiz-letter");
+    document.getElementById("quiz-container").removeChild(div);
+    generateLetter();
+    deleteRow(document.querySelector(".binary-letter"));
+    addRow();
+    changeColorBlack();
+}
+
+/**
+ * Changes text color in binary-container to black.
+ */
+function changeColorBlack() {
+    document.getElementById("binary-container").style.color = "black";
 }

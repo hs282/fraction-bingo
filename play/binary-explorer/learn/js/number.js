@@ -87,11 +87,32 @@ function generateNum() {
 function check() {
     let userNum = document.querySelector(".result").innerHTML;
     let quizNum = document.getElementById("rand-num").innerHTML;
-    let div = document.querySelector(".quiz-num");
+
+    // displays green and generates new number if correct, displays red if incorrect
     if (userNum === quizNum) {
-        document.getElementById("quiz-container").removeChild(div);
-        generateNum();
-        deleteRow(document.querySelector(".decimal-number"));
-        addRow();
+        document.getElementById("binary-container").style.color = "green";
+        setTimeout(resetQuiz, 500);
+    } else {
+        document.getElementById("binary-container").style.color = "red";
+        setTimeout(changeColorBlack, 500);
     }
+}
+
+/**
+ * Reset quiz to display new random number.
+ */
+function resetQuiz() {
+    let div = document.querySelector(".quiz-num");
+    document.getElementById("quiz-container").removeChild(div);
+    generateNum();
+    deleteRow(document.querySelector(".decimal-number"));
+    addRow();
+    changeColorBlack();
+}
+
+/**
+ * Changes text color in binary-container to black.
+ */
+function changeColorBlack() {
+    document.getElementById("binary-container").style.color = "black";
 }
