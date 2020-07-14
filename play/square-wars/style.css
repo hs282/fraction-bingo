@@ -1,0 +1,159 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: #white;
+}
+main {
+  text-align: center;
+}
+canvas {
+  border: .2em solid #000;
+  background-color: #fafafa;
+}
+
+#scores {
+  display: none;
+  visibility: hidden;
+  color: black;
+}
+
+#scoreMenu {
+  display: none;
+  visibility: hidden;
+  font-size: 1.5em;
+  color: black;
+  padding: 2em;
+  border: .1em solid #696969;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+#gameMenu {
+  text-align: center;
+  font-size: 1.1em;
+  border: .2em solid #696969;
+  margin-left: 14%;
+  margin-right: 14%;
+  padding-bottom: .7em;
+  background-color: white;
+}
+ol {
+  list-style-type: none;
+  text-align: left;
+}
+
+#killCount {
+  display: inline-block;
+}
+#roundCounter {
+  display: inline-block;
+}
+
+#gameBtn:hover {
+  background-color: #330000;
+  cursor: pointer;
+}
+
+button {
+  margin: .2em;
+}
+
+.difficultyBtn:active {
+  background-color: #666;
+}
+
+h3 {
+  text-align: center;
+}
+
+#rulesAndInstr {
+  padding-top: 1.4em;
+  padding-bottom: .7em;
+}
+
+.difficultyBtn:hover {
+  background-color: #665;
+}
+
+.difficultyBtn:focus {
+  background-color: #665;
+}
+
+#playAgainBtn {
+  padding-top: 1em;
+  width: 60%;
+}
+
+#popUpWindow {
+  text-align: center;
+  display: none;
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  right: 10%;
+  background-color: #dbdbdb;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  z-index: 1;
+  border: .1em solid black;
+  border-radius: 4px;
+}
+
+.gameControlBtn {
+  padding: 4%;
+}
+.shootBtn {
+  color:white;
+  padding: 6%;
+  border: .1em solid black;
+  background-color: red;
+  border-radius: 50%;
+}
+
+#highScorePopUp {
+  display: none;
+}
+
+
+/* For Mobile use */
+
+/*
+* The canvas element is only determ by the percentage but javascipt controls the pixels and
+* general size :max-width and max-height
+*/
+@media only screen and (max-width: 1024px) {
+  canvas {
+    width: 50%;
+    height: 40%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  canvas {
+    width: 60%;
+    height: 80%;
+  }
+
+  #gameMenu {
+    text-align: center;
+    font-size: 1.5em;
+    border: .2em solid #ddd;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-bottom: 5em;
+  }
+}
+
+@media only screen and (max-width: 411px) {
+  canvas {
+    width: 60%;
+    height: 100%;
+  }
+  #gameMenu {
+    text-align: center;
+    font-size: 1.5em;
+    border: .2em solid #ddd;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-bottom: 5em;
+  }
+}

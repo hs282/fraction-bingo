@@ -1,5 +1,6 @@
 body {
     background-color: #3ea01f;
+    overflow-x: hidden;
 }
 
 #timer,
@@ -40,4 +41,29 @@ body {
 
     padding: 5px;
     border-radius: 4px;
+}
+
+#redLight, #yellowLight, #greenLight, #stopLight {
+    z-index: 1;
+    margin: auto;
+    display: none;
+}
+
+#goldMedal, #silverMedal, #bronzeMedal {
+    display: none;
+    margin: auto;
+}
+
+#road {
+    animation: none;
+    left: 0%;
+}
+
+@keyframes slide{
+    0%{
+        transform: translate3d(0, 0, 0);
+    }
+    100%{
+        transform: translate3d(-88%, 0, 0);
+    }
 }
