@@ -90,3 +90,8 @@ ul li {
     text-align: center;
     font-size: 250%;
 }
+
+#endButton{
+  margin-top: 5%;
+  text-align: center;
+}

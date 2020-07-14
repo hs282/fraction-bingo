@@ -88,7 +88,8 @@ const totalScoreEl = document.querySelector("#totalScore");
 const problemsAnsweredEl = document.querySelector("#problemsAnswered");
 const correctProblemsEl = document.querySelector("#correctProblems");
 const correctProblemListEl = document.querySelector("#correctProblemList");
-
+const endButtonEl = document.querySelector("#endButton");
+const resetButtonEl = document.querySelector("#resetButton");
 
 
 /**
@@ -447,23 +448,27 @@ function getProperCapitalization(str) {
 /**
  * Display start screen, then initial countdown.
  */
-function startScreen(){
+function startScreen() {
     // Hide result screen
     resultEl.classList.toggle("hide");
 
     toggleProblems();
     startButtonEl.onclick = countdown;
+    endButtonEl.onclick = endGame;
 }
 
 /**
  * Counts down from 3, then starts game
  */
-function countdown(){
+function countdown() {
     let count = 3;
     startingEl.classList.toggle("hide");
 
-    const INTERVAL = setInterval( () => {
+    countdownEl.innerHTML = count;
 
+    const INTERVAL = setInterval(() => {
+        count--;
+        
         if (count < 1) {
             clearInterval(INTERVAL);
             countdownEl.classList.toggle("hide");
@@ -474,20 +479,21 @@ function countdown(){
         }
 
         countdownEl.innerHTML = count;
-        count--;
+        
     }, 1000);
 }
 
 /**
  * Counts down from 60, then displays result screen
  */
-function startTimer(){
+ let TIMER;
+function startTimer() {
     let timeRemaining = 60;
 
-    const INTERVAL = setInterval( () => {
+    TIMER = setInterval( () => {
 
         if (timeRemaining <= 1) {
-            clearInterval(INTERVAL);
+            clearInterval(TIMER)
             resultScreen();
         }
 
@@ -497,14 +503,23 @@ function startTimer(){
 }
 
 /**
+  * Ends the game
+  */
+function endGame() {
+  clearInterval(TIMER);
+  resultScreen();
+}
+
+/**
  * Toggles the problem, timer, and score elements
  */
-function toggleProblems(){
+function toggleProblems() {
     inputEl.classList.toggle("hide");
     inputEl.focus();
     problemEl.classList.toggle("hide");
     timerEl.classList.toggle("hide");
     scoreEl.classList.toggle("hide");
+    endButtonEl.classList.toggle("hide");
 }
 
 /**
@@ -512,7 +527,7 @@ function toggleProblems(){
  * @param {Boolean} isCorrect is the answer correct or not
  * @param {Number/String} answer either the real answer, or the user's wrong answer
  */
-function storeProblem(isCorrect, answer){
+function storeProblem(isCorrect, answer) {
     // creating a new temporary object for storage
     let tempCurrentProblem = {
         operandOne: currentProblem.operandOne,
@@ -527,8 +542,10 @@ function storeProblem(isCorrect, answer){
 
 /**
  * Ends game, shows all answered problems and score
+ * @param {Interval object} 60 second timer
  */
-function resultScreen(){
+function resultScreen() {
+
     let correctProblems = 0;
 
     toggleProblems();
@@ -536,6 +553,8 @@ function resultScreen(){
 
     totalScoreEl.innerHTML = "Total Score: " + playerScore;
 
+
+    resetButtonEl.onclick = reset;
 
     answeredProblems.forEach( (problem) => {
         let answer;
@@ -576,7 +595,7 @@ function resultScreen(){
  * @param {Number} decimal to be converted
  * @return {string}
  */
-function fractionize(decimal){
+function fractionize(decimal) {
     // desired precision
     let error = 0.000001;
 
@@ -622,4 +641,24 @@ function fractionize(decimal){
             return `${numerator}&frasl;${denominator}`
         }
     }
+}
+
+/**
+ * Resets the game
+ */
+function reset() {
+    playerScore = 0;
+    answeredProblems = [];
+    startingEl.classList.toggle("hide");
+    countdownEl.classList.toggle("hide");
+    countdownEl.innerHTML = "";
+    timerEl.innerHTML = "Time: 60";
+    scoreEl.innerHTML = "Score: 0";
+
+    // clear list of answered problems
+    while (correctProblemListEl.firstChild) {
+        correctProblemListEl.removeChild(correctProblemListEl.lastChild);
+    }
+    toggleProblems();
+    startScreen();
 }

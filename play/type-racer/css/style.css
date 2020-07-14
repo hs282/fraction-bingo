@@ -49,6 +49,11 @@ body {
     display: none;
 }
 
+#goldMedal, #silverMedal, #bronzeMedal {
+    display: none;
+    margin: auto;
+}
+
 #road {
     animation: none;
     left: 0%;
