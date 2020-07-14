@@ -45,41 +45,47 @@
 
         <div class="container">
             <h1 class="text-center mt-2">
-                Counting in Binary
+                Writing Letters in Binary
             </h1>
 
             <p>
-                <button type="button" class="btn btn-success" onclick="location.href='introduction.html'">Previous</button>
-                <button type="button" class="btn btn-success float-right" onclick="location.href='binary-letters.html'">Next</button>
+                <button type="button" class="btn btn-success" onclick="location.href='number.html'">Previous</button>
             </p>
             <hr>
 
             <p>
-                Here, we will learn how to count using binary.
+                Now we know how binary is used to represent numbers. Next, we will discover how to create different letters using binary.
             </p>
             <p>
-                In binary, just like our normal base-10 decimal system, the different places in our numbers have different values. For example, in the number 563, the "5" represents the 100's place, the "6" represents the 10's place, and "3" represents the 1's place. Each place in a decimal number represents a power of 10 (eg. 10^0 = 1, 10^1 = 10, 10^2 = 100). For binary, each place represents a power of 2.
+                The way we use binary to make letters is to represent each letter in the alphabet by a number. The standard way of representing letters with numbers is called ASCII (American Standard Code). ASCII uses 7 digits to represent all the letters in the alphabet and some special characters.
             </p>
             <p>
-                Let's look at the number 1101 in binary. The four different places in this number represent the 1's, 2's, 4's, and 8's places. Starting on the right, we see that the 1's place is turned on. That means our number contains has a 1. The 2's place is turned off, so our number does not contain a 2. The next two places are turned on, so our number contains 4 and 8. To find out what our binary number is, we need to add together the values of the places which are turned on, which are 1, 4, and 8.
+                For example, in ASCII we can say "A" is 65 and "Z" is 90. So, "A" is 1000001 and "Z" is 1011010.
+
             </p>
             <p>
-                1 + 4 + 8 = 13
+                For lowercase letters, "a" is 97 (1100001) and "z" is 122 (1111010).
             </p>
+            <br>
+
             <p>
-                That means 1101 in binary equals 13.
+                Try to match the letter in the top box with the correct binary string by turning the bottom boxes on and off.
             </p>
-            <p>
-                Try to create different numbers in binary by turning the boxes on and off.
-            </p>
+
+            <div id="quiz-container" class="text-center"></div>
 
             <div id="binary-container" class="text-center"></div>
 
+            <div class="text-center mt-2">
+                <button type="button" class="btn btn-success btn-large" onclick="check()">
+                    Check
+                </button>
+            </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-        <script src="js/numbers.js"></script>
+        <script src="js/letter.js"></script>
     </body>
 </html>

@@ -45,33 +45,49 @@
 
         <div class="container">
             <h1 class="text-center mt-2">
-                Writing Letters in Binary
+                Counting in Binary
             </h1>
 
             <p>
-                <button type="button" class="btn btn-success" onclick="location.href='binary-numbers.html'">Previous</button>
+                <button type="button" class="btn btn-success" onclick="location.href='introduction.html'">Previous</button>
+                <button type="button" class="btn btn-success float-right" onclick="location.href='letter.html'">Next</button>
             </p>
             <hr>
 
             <p>
-                Now we know how binary is used to represent numbers. Next, we will discover how to create different letters using binary.
+                Here, we will learn how to count using binary.
             </p>
             <p>
-                The way we use binary to make letters is to represent each letter in the alphabet by a number. The standard way of representing letters with numbers is called ASCII (American Standard Code). ASCII uses 7 digits to represent all the letters in the alphabet and some special characters.
+                In binary, the different places in the number have different values. Staring on the right, the first digit represents the 1's place. The second digit from the right represents the 2's place. The third digit represents the 4's place. The next four places are the 8's, 16's, 32's, and 64's.
+            <p>
+                Let's look at the number 1101 in binary. Starting on the right, we see that the 1's place is turned on. That means our number contains has a 1. The 2's place is turned off, so our number does not contain a 2. The next two places are turned on, so our number contains 4 and 8. To find out what our binary number is, we add together the values of the places which are turned on, which are 1, 4, and 8.
             </p>
             <p>
-                For example, in ASCII we can say "A" is 65 and "Z" is 90. So, "A" is 1000001 and "Z" is 1011010.
+                1 + 4 + 8 = 13
             </p>
             <p>
-                Try to create different letters and characters in binary by turning the boxes on and off.
+                That means 1101 in binary equals 13.
+            </p>
+            <br>
+
+            <p>
+                Try to match the decimal number in the top box with the correct number in binary by turning the bottom boxes on and off.
             </p>
 
+            <div id="quiz-container" class="text-center"></div>
+
             <div id="binary-container" class="text-center"></div>
+
+            <div class="text-center mt-2">
+                <button type="button" class="btn btn-success btn-large" onclick="check()">
+                    Check
+                </button>
+            </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-        <script src="js/letters.js"></script>
+        <script src="js/number.js"></script>
     </body>
 </html>
