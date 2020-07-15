@@ -566,8 +566,8 @@ class MathClassHandler {
       document.getElementById("answerInput").value = "";
       document.querySelector("main").style.opacity = "1.0";
       this.isAlgebra = false;
-      gamePlaying = true;
       this.problemCount = 0;
+      gamePlaying = true;
     } else {
       document.getElementById("popUpWindow").style.border = ".1em solid black";
       document.getElementById("popUpWindow").style.display = "none";
