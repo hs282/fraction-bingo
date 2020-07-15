@@ -80,8 +80,8 @@ h3 {
 }
 
 #playAgainBtn {
-  padding-top: 1em;
   width: 60%;
+  margin-top: 1em;
 }
 
 #popUpWindow {

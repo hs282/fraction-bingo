@@ -390,8 +390,6 @@ class Game_Handler {
 class MathClassHandler {
   constructor(level) {
     this.level = level;
-    //all the equations used depending on level
-    //basic equations right now just for testing use
     this.kindergarten = ["+", "-"];
     this.gradeSchoolAndUp = ["+", "-", "*", "/"];
     this.kindergartenMax = 10;
@@ -400,6 +398,8 @@ class MathClassHandler {
     this.isAlgebra = false;
     this.displayEquation = "";
     this.answer = "";
+    //a counter for displaying equations
+    this.problemCount = 0;
   }
 
   //a method for displaying the popup window that shows the equation
@@ -532,8 +532,6 @@ class MathClassHandler {
 
   /**
   * method used to check algebra equations in format ax(+/-)b=c
-  * @param {String} equation
-  * @param {String} answer
   **/
   checkAlgebraAnswer() {
     let compAnswer;
@@ -561,13 +559,25 @@ class MathClassHandler {
 
   //a method used continue the game if the answer is right!
   rightAnswer() {
-    document.getElementById("popUpWindow").style.border = ".1em solid black";
-    document.getElementById("popUpWindow").style.display = "none";
-    document.getElementById("answerInput").style.border = ".1em solid black";
-    document.getElementById("answerInput").value = "";
-    document.querySelector("main").style.opacity = "1.0";
-    gamePlaying = true;
-    this.isAlgebra = false;
+    if(this.problemCount > 3) {
+      document.getElementById("popUpWindow").style.border = ".1em solid black";
+      document.getElementById("popUpWindow").style.display = "none";
+      document.getElementById("answerInput").style.border = ".1em solid black";
+      document.getElementById("answerInput").value = "";
+      document.querySelector("main").style.opacity = "1.0";
+      this.isAlgebra = false;
+      this.problemCount = 0;
+      gamePlaying = true;
+    } else {
+      document.getElementById("popUpWindow").style.border = ".1em solid black";
+      document.getElementById("popUpWindow").style.display = "none";
+      document.getElementById("answerInput").style.border = ".1em solid black";
+      document.getElementById("answerInput").value = "";
+      this.isAlgebra = false;
+      this.problemCount += 1;
+      this.displayPopUp();
+    }
+    console.log(this.problemCount);
   }
 
   //method to display a redbox when a wrong answer is entered
