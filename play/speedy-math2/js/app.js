@@ -1,5 +1,8 @@
 //jshint esversion: 6
 
+const APP_NAME = "speedyMath";
+const DM = new DataManager(APP_NAME);
+
 const TYPES = [ "integer", "decimal", "fraction", "exponent" ];
 
 const OPERATIONS = [
@@ -85,6 +88,7 @@ const startButtonEl = document.querySelector("#startButton");
 const scoreEl = document.querySelector("#score");
 const resultEl = document.querySelector("#resultScreen");
 const totalScoreEl = document.querySelector("#totalScore");
+const highScoreEl = document.querySelector("#highScore");
 const problemsAnsweredEl = document.querySelector("#problemsAnswered");
 const correctProblemsEl = document.querySelector("#correctProblems");
 const correctProblemListEl = document.querySelector("#correctProblemList");
@@ -552,6 +556,19 @@ function resultScreen() {
     resultEl.classList.toggle("hide");
 
     totalScoreEl.innerHTML = "Total Score: " + playerScore;
+    
+    // If high score exists
+    if (DM.getItem("score") != undefined) {
+        // If high score is less than current score
+        if (DM.getItem("score") < playerScore) {
+            DM.saveItem("score", playerScore);
+        }
+        highScoreEl.innerHTML = "High Score: " + DM.getItem("score");
+    }
+    // Save score if no high score, leave element empty
+    else {
+      DM.saveItem("score", playerScore);
+    }
 
 
     resetButtonEl.onclick = reset;
