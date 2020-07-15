@@ -55,8 +55,8 @@ const BRONZE_MESSAGE = "Congratulations, you earned a Bronze medal!";
 
 // max length of words allowed in each respective difficulty
 const EASY_LENGTH = 5;
-const MEDIUM_LENGTH = 7;
-const HARD_LENGTH = 20;
+const MEDIUM_LENGTH = 8;
+const HARD_LENGTH = 12;
 
 // score multipliers applied to ending score based on the difficulty at which the game is played
 const EASY_MULTIPLIER = 1;
@@ -121,7 +121,7 @@ async function readTextFile(file) {
         }
     }
     // invalid response leads to an HTTP error
-    else { alert("HTTP-Error: " + response.status); return -1;}
+    else { console.log("HTTP-Error: " + response.status); return -1;}
 
     return 0;
 }
@@ -131,7 +131,20 @@ async function readTextFile(file) {
  */
 function setDifficulty(element) {
     // if the id of the calling element is proper, set difficulty based on its value
-    if (element.id == "difficultySelector") {difficulty = element.value;}
+    if (element.id == "difficultySelector") {
+        difficulty = element.value;
+
+        // get all elements of the same difficultySelector id
+        let elements = document.querySelectorAll("#difficultySelector");
+
+        // loop through all dropdown difficultySelector elements and change selected value of all.
+        // this prevents the dropdowns from having differing selected values
+        for (let i = 0; i < elements.length; i++) {
+            if (difficulty == "easy") {elements[i].getElementsByTagName('option')[0].selected = 'selected';}
+            else if (difficulty == "medium") {elements[i].getElementsByTagName('option')[1].selected = 'selected';}
+            else if (difficulty == "hard") {elements[i].getElementsByTagName('option')[2].selected = 'selected';}
+        }
+    }
 }
 
 /*
@@ -197,7 +210,7 @@ async function startGame() {
     let promise = await readTextFile(WORD_LIST);
 
     // let the user know if an error occurred
-    if (promise == -1) {alert("Error: Input text file could not be read");}
+    if (promise == -1) {console.log("Error: Input text file could not be read");}
 
     // set appropriate global window width
     windowWidth = document.getElementById("wordRace").offsetWidth;
@@ -458,7 +471,7 @@ function endWordRace() {
 
     // save playerScore, if unable, then popup a warning message
     else if (DM.saveItem("score", playerScore) == false) {
-        alert("Error: Could not save your score. If you would like to save your score, please login first.");
+        alert("Could not save your score. If you would like to save your score, please login first.");
         document.getElementById("playerHighScore").innerHTML = "Not logged in";
     }
 
