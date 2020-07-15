@@ -58,6 +58,11 @@ const EASY_LENGTH = 5;
 const MEDIUM_LENGTH = 7;
 const HARD_LENGTH = 20;
 
+// score multipliers applied to ending score based on the difficulty at which the game is played
+const EASY_MULTIPLIER = 1;
+const MEDIUM_MULTIPLIER = 1.25;
+const HARD_MULTIPLIER = 1.5;
+
 
 (function initUI() {
     // show instructions modal
@@ -89,6 +94,7 @@ async function readTextFile(file) {
 
     // if HTTP-status is valid
     if (response.ok) {
+
         // get the response body
         let textInput = await response.text();
         words = [];
@@ -98,24 +104,21 @@ async function readTextFile(file) {
         // loop through the entire string retrieved from the text file
         for (let i = 0; i < textInput.length; i++) {
 
+            // if the string element is not a whitespace character, add the character to currentWord
             if (textInput[i] != " " && textInput[i] != "\n" && textInput[i] != "\r") {
                 currentWord += textInput[i];
             }
+            // otherwise if the currentWord isn't empty, add to words list
             else if (currentWord != "") {
                 let tempWord = currentWord;
                 currentWord = "";
 
-                // if ((difficulty == "easy" && tempWord.length > EASY_LENGTH) ||
-                //     (difficulty == "medium" && tempWord.length > MEDIUM_LENGTH) ||
-                //     (difficulty == "hard" && tempWord.length > HARD_LENGTH)) { break; }
-
-                // else if (difficulty == "medium" && tempWord.length > MEDIUM_LENGTH) { tempWordIndex++; break; }
-                // else if (difficulty == "hard" && tempWord.length > HARD_LENGTH) { tempWordIndex++; break; }
-
-                words[tempWordIndex++] = tempWord;
+                // if the difficulty and current word length is acceptable, add the tempWord to words[]
+                if ((difficulty == "easy" && tempWord.length <= EASY_LENGTH) ||
+                    (difficulty == "medium" && tempWord.length <= MEDIUM_LENGTH) ||
+                    (difficulty == "hard" && tempWord.length <= HARD_LENGTH)) { words[tempWordIndex++] = tempWord; }
             }
         }
-        console.log(words);
     }
     // invalid response leads to an HTTP error
     else { alert("HTTP-Error: " + response.status); return -1;}
@@ -126,19 +129,9 @@ async function readTextFile(file) {
 /**
  * Change global difficulty to let the program know to adjust word list appropriately
  */
-function setDifficulty() {
-    // difficulty = document.getElementById("difficultySelector").value;
-
-    // get each difficulty selector element
-    difficultySelectors = document.getElementsByClassName("difficultySelector");
-
-    // loop through elements to find every displayed difficultySelector
-    for (let i = 0; i < difficultySelectors.length; i++) {
-        if (difficultySelectors[i].style.display != "none") {
-            // set difficulty value based on the selected option
-            difficulty = difficultySelectors[i].value;
-        }
-    }
+function setDifficulty(element) {
+    // if the id of the calling element is proper, set difficulty based on its value
+    if (element.id == "difficultySelector") {difficulty = element.value;}
 }
 
 /*
@@ -200,12 +193,11 @@ async function startGame() {
     if (gameStarted) {return;}
     gameStarted = true;
 
-    // read in the text file
+    // wait to finish reading in the text file
     let promise = await readTextFile(WORD_LIST);
 
+    // let the user know if an error occurred
     if (promise == -1) {alert("Error: Input text file could not be read");}
-
-    //if (!response.ok) {alert("Error: Input text file could not be read");}
 
     // set appropriate global window width
     windowWidth = document.getElementById("wordRace").offsetWidth;
@@ -439,6 +431,12 @@ function endWordRace() {
     // calculate current and past playerScore
     let playerScore = 0;
     playerScore = (wpm + seconds) * numWords * (wordAccuracyStat / 100);
+    
+    // multiply user score based on difficulty at which the race was completed
+    if (difficulty == "easy") {playerScore *= EASY_MULTIPLIER;}
+    else if (difficulty == "medium") {playerScore *= MEDIUM_MULTIPLIER;}
+    else if (difficulty == "hard") {playerScore *= HARD_MULTIPLIER;}
+
     playerScore = playerScore.toFixed();
     let pastPlayerScore = DM.getItem("score");
 
