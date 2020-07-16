@@ -1,4 +1,6 @@
 var diffLevel = "",
+    fract1,
+    fract2,
     problem = "",
     boardType = "";
 
@@ -33,8 +35,8 @@ function startGame() {
 }
 
 function generateProblem() {
-    let fract1;
-    let fract2;
+    fract1;
+    fract2;
     if (diffLevel == "easy") {
 	fract1 = getRandomFraction(0, 9);
 	fract2 = getRandomFraction(0, 9); 
@@ -56,7 +58,8 @@ function getRandomFraction(min, max) {
 	min = 1;
     }
     let denominator = Math.floor(Math.random() * (max - min + 1)) + min;
-    num = `${numerator}&frasl;${denominator}`;
+    //num = `${numerator}&frasl;${denominator}`;
+    num = numerator + "/" + denominator;
     return num;
 }
 
@@ -67,12 +70,42 @@ function fillBoard() {
     let op = "";
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
-	    op = operators[Math.floor(Math.random() * 3)];                                                                      
+	    op = operators[Math.floor(Math.random() * 3)];                                                                    
 	    col.innerHTML = op;
+            col.onclick = function () {
+		checkAnswer(this);
+            };
 	}
     }
 }
 
-function checkAnswer() {
+function checkAnswer(cell) {
+    let correctOp = "";
+    let n1 = 0, n2 = 0, d1 = 0, d2 = 0;
+    let arr1 = fract1.split("/");
+    n1 = parseInt(arr1[0]);
+    d1 = parseInt(arr1[1]);
+    let arr2 = fract2.split("/");
+    n2 = parseInt(arr2[0]);
+    d2 = parseInt(arr2[1]);
+    let f1 = n1/d1;
+    let f2 = n2/d2;
+    if (f1 > f2) {
+	correctOp = ">";
+    } else if (f1 < f2) {
+	correctOp = "<";
+    } else {
+	correctOp = "=";
+    }
 
+    if (correctOp == cell.innerText) {
+	cell.className = "green";
+	generateProblem();
+    }
+    else {
+       	cell.className = "red";
+	setTimeout(function() {
+		cell.className = "white";
+	    }, 1000);
+	}
 }
