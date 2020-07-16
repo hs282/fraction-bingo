@@ -8,7 +8,12 @@ let difficulty = "medium";
 let currentWords = [];
 let balloonsPopped = 0;
 let spawnInterval = 3000;
+let animationSpeed = 5000;
 const sectors = ["sector_one", "sector_two", "sector_three"];
+
+const EASY_MULTIPLIER = 1;
+const MEDIUM_MULTIPLIER = 1.25;
+const HARD_MULTIPLIER = 1.5;
 
 (function initUI() {
     // show instructions modal
@@ -21,13 +26,22 @@ const sectors = ["sector_one", "sector_two", "sector_three"];
 function startGame() {
 
     document.getElementById("balloonShooter").style.display = "";
+    document.getElementById('input').disable = false;
+    document.getElementById('input').focus();
+
     // Shuffle words list
     words = shuffle(words);
 
     spawnBalloon();
 
-    // Spawn a new balloon every three seconds
-    setInterval(() => {spawnBalloon();}, spawnInterval);
+    // Spawn a new balloon every spawnInterval / difficulty multiplier seconds
+    setInterval(() => {spawnBalloon();}, spawnInterval / (
+        difficulty == "easy" ? EASY_MULTIPLIER : (
+            difficulty == "medium" ? MEDIUM_MULTIPLIER : (
+                difficulty == "hard" ? HARD_MULTIPLIER : EASY_MULTIPLIER
+    ))));
+
+    console.log(difficulty);
 
     const input = document.getElementById('input');
 
@@ -107,9 +121,42 @@ function spawnBalloon() {
     // Vertically center the text in the balloon
     text.style.position = "relative";
     text.style.top = "30%";
-                
+      
     // Place balloon in random sector based on word difficulty level
-    document.getElementById(sectors[Math.floor(Math.random() * (3 - wordDiffLevel))]).appendChild(balloon);
+    let randSector = Math.floor(Math.random() * (1 + wordDiffLevel)); // 3 -
+    document.getElementById(sectors[randSector]).appendChild(balloon);
+
+    let tempAnimationSpeed = animationSpeed;
+
+    // normalize sector animation speeds to some extent
+    if (randSector == 0) tempAnimationSpeed *= EASY_MULTIPLIER;
+    else if (randSector == 1) tempAnimationSpeed *= MEDIUM_MULTIPLIER;
+    else if (randSector == 2) tempAnimationSpeed *= HARD_MULTIPLIER;
+
+    // increase the speed at which the animations occur based on difficulty
+    if (difficulty == "easy") tempAnimationSpeed /= EASY_MULTIPLIER;
+    else if (difficulty == "medium") tempAnimationSpeed /= MEDIUM_MULTIPLIER;
+    else if (difficulty == "hard") tempAnimationSpeed /= HARD_MULTIPLIER;
+
+    console.log("tempAnimSpd = " + tempAnimationSpeed);
+
+    // animate the newly created balloon
+    $("#" + balloon.id).animate({
+        "top": document.getElementById("spaceship").style.bottom
+    }, tempAnimationSpeed, "linear");
+
+    // delete balloon after it goes out of bounds (WIP)
+    // setTimeout(() => {
+    //     console.log("Balloon dead :(");
+    //     balloon.remove();
+
+    //     // The new currentWord (index 0) becomes the word after it
+    //     currentWords.shift();
+    //     // if there isn't a word to be popped, disable the input text box
+    //     if (currentWords.length == 0) {
+    //         document.getElementById("input").disabled = true;
+    //     }
+    // }, tempAnimationSpeed);
 }
 
 /**
@@ -118,7 +165,7 @@ function spawnBalloon() {
 document.getElementById("input").addEventListener('keyup', () => {
 
     if (currentWords.length == 0) return;
-    
+
     let input = document.getElementById("input").value;
     input = input.trim().toLowerCase();
                     
@@ -141,11 +188,6 @@ document.getElementById("input").addEventListener('keyup', () => {
         if (currentWords.length == 0) {
             document.getElementById("input").disabled = true;
         }
-                    
-        // // Move the player div
-        // $("#player").animate({
-        //     "left": newLeft
-        // }, 200, "linear");
     }
                 
     // If the input is correct

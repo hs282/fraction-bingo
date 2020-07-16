@@ -3,8 +3,19 @@ body {
     overflow-y: hidden;
 }
 
-#sector_one, #sector_two, #sector_three, #city {
-    height: 25%;
+#sector_one, #sector_two, #sector_three {
+    height: 20%;
+}
+
+#city {
+    height: 15%;
+    width: 100%;
+}
+
+#spaceship {
+    height: 10%;
+    /*top: 100px;*/
+    bottom: 200px;
 }
 
 #input {
