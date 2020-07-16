@@ -64,7 +64,7 @@ const INSTRUMENTS = [
         description: "Tuba: Part of the brass instrument family",
         img: "img/tuba.png",
         sound: 'sounds/tuba.wav',
-        code: `play("trumpet");`,
+        code: `play("tuba");`,
         link: "https://en.wikipedia.org/wiki/Tuba"
     },
     {
@@ -122,6 +122,15 @@ const INSTRUMENTS = [
         code: `play("Gong");`,
         link: "https://en.wikipedia.org/wiki/Gong"
         
+    },
+    {
+        name: 'Hand-Clap',
+        description: "Hand-Clap: Considered a percussion instrument",
+        img: 'img/handclap.png',
+        sound: 'sounds/handclap.wav',
+        code: `play("Hand-Clap");`,
+        link: "https://en.wikipedia.org/wiki/Clapping"
+
     }
 ];
 
