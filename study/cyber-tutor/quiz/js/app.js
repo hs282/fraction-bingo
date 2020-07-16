@@ -1,24 +1,85 @@
-const myQuestions = [
+let myQuestions = [
 
   {
     question: "What does cybersecurity protect?",
     answers: {
-      a: "Information systems, programs, and data ",
+      a: " Information systems, programs, and data ",
       b: " Houses and neighborhoods ",
-      c: " Jobs"
+      c: " Jobs "
     },
-    correctAnswer: "a"
+    correctAnswer: " Information systems, programs, and data "
   },
   {
     question: "What does a hacker use to gain access to a system?",
     answers: {
-      a: "Paper and pencil ",
+      a: " Paper and pencil ",
       b: " Computer ",
-      c: " Hammer"
+      c: " Hammer "
     },
-    correctAnswer: "b"
+    correctAnswer: " Computer "
+  },
+  {
+    question: "What is the relationship between a vulnerability and an exploit?",
+    answers: {
+      a: " An exploit is needed for a vulnerability to succeed ",
+      b: " A vulnerability enables hackers to utilize an exploit ",
+      c: " Hackers can use an exploit even without a vulnerability in a system "
+    },
+    correctAnswer: " A vulnerability enables hackers to utilize an exploit "
+  },
+  {
+    question: "An attacker deploys software that collects keystrokes from a victim's computer; What is this called?",
+    answers: {
+      a: " Keylogging ",
+      b: " Phishing ",
+      c: " Exploit "
+    },
+    correctAnswer: " Keylogging "
+  },
+  {
+    question: "What is patching?",
+    answers: {
+      a: " Debugging a program ",
+      b: " A type of information system used by hackers ",
+      c: " A computer update that fixes bugs and vulnerabilities "
+    },
+    correctAnswer: " A computer update that fixes bugs and vulnerabilities "
+  },
+  {
+    question: "What is NOT a possible effect of social engineering on a victim?",
+    answers: {
+      a: " Stolen passwords or other credentials ",
+      b: " System updates ",
+      c: " Loss of money "
+    },
+    correctAnswer: " System updates "
+  },
+  {
+    question: "A hacker posed as a bank's customer service representative and sent an email to a victim asking them to provide their account information. What is this type of attack called?",
+    answers: {
+      a: " Keylogging ",
+      b: " Phishing ",
+      c: " Vulnerability "
+    },
+    correctAnswer: " Phishing "
   },
 ];
+
+myQuestions = randomize(myQuestions);
+
+function randomize (obj) {
+	let index;
+	let temp;
+	for (let i = obj.length - 1; i > 0; i--) {
+		//get random number
+		index = Math.floor((Math.random() * i));
+		//swapping
+		temp = obj[index];
+		obj[index] = obj[i];
+		obj[i] = temp;
+	}
+	return obj;
+}
 
 function createQuiz() {
 	
@@ -32,7 +93,21 @@ function createQuiz() {
 
       // variable to store the list of possible answers
       const answers = [];
-
+	  let arr = [];
+	  let k = 0;
+	  for (letter in currentQuestion.answers) {
+	  arr[k] = currentQuestion.answers[letter];
+	  k = k+1;
+	  }
+	  
+	  arr = randomize(arr);
+	  
+	  k = 0;
+	  for (letter in currentQuestion.answers) {
+		currentQuestion.answers[letter] = arr[k];
+		k = k+1;
+	  }
+	 
       // and for each available answer...
       for (letter in currentQuestion.answers) {
 
@@ -50,8 +125,8 @@ function createQuiz() {
       // add this question and its answers to the output
       output.push (
 	  
-        `<div class="question"> ${currentQuestion.question} </div>
-        <div class="answers"> ${answers.join(' ')} </div>`
+        `<div class="question"> <b> ${currentQuestion.question} </b> </div>
+        <div class="answers"> ${answers.join('<br> ')}  </div>`
 		
       );
     }
@@ -73,12 +148,12 @@ function showAnswers() {
   myQuestions.forEach ( (currentQuestion, questionNumber) => {
 
     // find selected answer
-    const answerContainer = answerContainers[questionNumber];	
+    const answerContainer = answerContainers[questionNumber];
     const selector = `input[name=question${questionNumber}]:checked`;
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
+	
     // if answer is correct
-    if (userAnswer === currentQuestion.correctAnswer) {
+    if (currentQuestion.answers[userAnswer] === currentQuestion.correctAnswer) {
       // add to the number of correct answers
       numCorrect++;
 
