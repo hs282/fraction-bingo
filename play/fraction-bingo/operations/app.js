@@ -8,6 +8,7 @@ var addLevel = "",
     boardType = "",
     numOperandPairs = 0,
     problems = [],
+    ans = "",
     problem = "";
 
 function operationDiffDisplay(operationId, difficultyId) {
@@ -49,8 +50,8 @@ function startGame() {
     }
     getOperations();
     generateFractions();
-    fillBoard();
     generateProblem();
+    fillBoard();
 
     document.getElementById("start").style.display = "none";
     document.getElementById("game").style.display = "";
@@ -97,11 +98,11 @@ function generateFractions() {
 	fract2 = numer2 + "/" + denom2;
 	let solution = getSolution(numer1, numer2, denom1, denom2, op);
 	let probObj = {
-	    "operandOne": fract1,
-	    "operandTwo": fract2,
-	    "operation": op,
-	    "answer": solution
-	}  
+	    operandOne: fract1,
+	    operandTwo: fract2,
+	    operation: op,
+	    answer: solution
+	};  
 	problems.push(probObj);
     }
 }
@@ -153,14 +154,31 @@ function fillBoard() {
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
 	    col.innerHTML = problems[k].answer;
+	    col.onclick = function () {
+		checkAnswer(this);
+	    };
 	    k++;
 	}
+    }
+}
+
+function checkAnswer(cell) {
+    if (ans == cell.innerHTML) {
+	cell.className = "green";
+	generateProblem();
+    }
+    else {
+	cell.className = "red";
+	setTimeout(function() {
+		cell.className = "white";
+	    }, 1000);
     }
 }
 
 function generateProblem() {
     let index = Math.floor(Math.random() * problems.length);
     let randomProb = problems[index];
+    ans = randomProb.answer;
     problem = randomProb.operandOne + " " + randomProb.operation + " " +  randomProb.operandTwo + " = ?";
     document.getElementById("problem").innerHTML = problem;
 }
