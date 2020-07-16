@@ -13,3 +13,14 @@ th, td {
   width: 20%;
 }
 
+.green {
+       background-color: green;
+}
+
+.red {
+     background-color: red;
+}
+
+.white {
+       background-color: white;
+}

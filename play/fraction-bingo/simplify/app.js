@@ -4,6 +4,7 @@ var diffLevel = "",
     multipliers = [],
     boardFractions = [],
     problemFractions = [],
+    fraction = "",
     problem = "";
 
 function startGame() {
@@ -85,8 +86,29 @@ function fillBoard() {
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
 	    col.innerHTML = boardFractions[k];
+	    col.onclick = function () {
+		checkAnswer(this);
+	    };
 	    k++;
 	}
+    }
+}
+
+function checkAnswer(cell) {
+    let arr  = fraction.split("/"); 
+    let n = parseInt(arr[0]);
+    let d = parseInt(arr[1]);
+    let ans = simplifyFract(n, d);
+    
+    if (ans == cell.innerHTML) {
+        cell.className = "green";
+        generateProblem();
+    }
+    else {
+        cell.className = "red";
+        setTimeout(function() {
+                cell.className = "white";
+            }, 1000);
     }
 }
 
@@ -116,6 +138,7 @@ function generateProblemFracts() {
 }
 
 function generateProblem() {
-    problem = problemFractions[Math.floor(Math.random() * problemFractions.length)] + " = ?";
+    fraction = problemFractions[Math.floor(Math.random() * problemFractions.length)];
+    problem = fraction + " = ?";
     document.getElementById("problem").innerHTML = problem;
 }
