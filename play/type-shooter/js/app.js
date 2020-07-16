@@ -3,8 +3,11 @@ let words = [
 ];
             
 let wordDiffLevel;
-let currentWord;
+let difficulty = "medium";
+//let currentWord = undefined;
+let currentWords = [];
 let balloonsPopped = 0;
+let spawnInterval = 3000;
 const sectors = ["sector_one", "sector_two", "sector_three"];
 
 (function initUI() {
@@ -16,31 +19,67 @@ const sectors = ["sector_one", "sector_two", "sector_three"];
  * Starts the Type Shooter game loop
  */
 function startGame() {
+
+    document.getElementById("balloonShooter").style.display = "";
     // Shuffle words list
     words = shuffle(words);
 
-    // Spawn a new balloon every three seconds
-    setInterval(spawnBalloon(), 3000);
+    spawnBalloon();
 
-    const el = document.getElementById('input');
+    // Spawn a new balloon every three seconds
+    setInterval(() => {spawnBalloon();}, spawnInterval);
+
+    const input = document.getElementById('input');
 
     // always be focused on the input
-    el.focus();
-    el.onblur = () => setTimeout(() => el.focus());
+    input.focus();
+    input.onblur = () => setTimeout(() => input.focus());
+}
+
+/**
+ * Change global difficulty to let the program know to adjust game settings appropriately
+ */
+function setDifficulty(element) {
+    // if the id of the calling element is proper, set difficulty based on its value
+    if (element.id == "difficultySelector") {
+        difficulty = element.value;
+
+        // get all elements of the same difficultySelector id
+        let elements = document.querySelectorAll("#difficultySelector");
+
+        // loop through all dropdown difficultySelector elements and change selected value of all.
+        // this prevents the dropdowns from having differing selected values
+        for (let i = 0; i < elements.length; i++) {
+            if (difficulty == "easy") {elements[i].getElementsByTagName('option')[0].selected = 'selected';}
+            else if (difficulty == "medium") {elements[i].getElementsByTagName('option')[1].selected = 'selected';}
+            else if (difficulty == "hard") {elements[i].getElementsByTagName('option')[2].selected = 'selected';}
+        }
+    }
 }
             
 /**
  * Create a balloon and show it on screen.
  */
 function spawnBalloon() {
-    // Get current word
-    currentWord = words.pop().toLowerCase();
+    // Get next word
+    nextWord = words.pop().toLowerCase();
+
+    // set the currentWord if not currently set
+    if (currentWords.length == 0) {
+        let input = document.getElementById("input");
+        input.value = "";
+        input.disabled = false;
+        input.focus();
+    }
+
+    // push the next word onto the list of words that need to be typed
+    currentWords.push(nextWord);
                 
     // Calculate word difficulty
-    if (currentWord.length < 4) {
+    if (nextWord.length < 4) {
         wordDiffLevel = 0;
     }
-    else if (currentWord.length > 4 && currentWord.length < 6) {
+    else if (nextWord.length > 4 && nextWord.length < 6) {
         wordDiffLevel = 1;
     }
     else {
@@ -50,11 +89,11 @@ function spawnBalloon() {
     // Create balloon and add word into it
     let balloon = document.createElement("div");
     let text = document.createElement("span");
-    text.appendChild(document.createTextNode(currentWord));
+    text.appendChild(document.createTextNode(nextWord));
     balloon.appendChild(text);
                 
     // Style the balloon
-    balloon.id = currentWord;
+    balloon.id = nextWord;
     balloon.style.height = "150px";
     balloon.style.width = "150px";
     balloon.style.backgroundImage = "url('balloon.png')";
@@ -77,23 +116,31 @@ function spawnBalloon() {
  * Whenever the user types into the input element.
  */
 document.getElementById("input").addEventListener('keyup', () => {
+
+    if (currentWords.length == 0) return;
+    
     let input = document.getElementById("input").value;
     input = input.trim().toLowerCase();
                     
-    if (input == currentWord) {
+    if (input == currentWords[0]) {
         // Clear input box
         document.getElementById("input").value = "";
         document.getElementById("input").parentNode.style.color = "";
                     
         // Delete balloon
-        document.getElementById(currentWord).remove();
-                    
-        // Spawn new balloon
-        spawnBalloon();
-                    
+        document.getElementById(currentWords[0]).remove();
+
         // Update balloons popped display
         balloonsPopped++;
         document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + balloonsPopped;
+
+        // The new currentWord (index 0) becomes the word after it
+        currentWords.shift();
+
+        // if there isn't a word to be popped, disable the input text box
+        if (currentWords.length == 0) {
+            document.getElementById("input").disabled = true;
+        }
                     
         // // Move the player div
         // $("#player").animate({
@@ -102,11 +149,11 @@ document.getElementById("input").addEventListener('keyup', () => {
     }
                 
     // If the input is correct
-    else if (input == currentWord.substring(0, input.length)) {
+    else if (input == currentWords[0].substring(0, input.length)) {
         document.getElementById("input").style.color = "green";
     }
     // If the input is incorrect
-    else if (input != currentWord.substring(0, input.length)) {
+    else if (input != currentWords[0].substring(0, input.length)) {
         document.getElementById("input").style.color = "red";
     }
 });
