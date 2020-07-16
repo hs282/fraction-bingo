@@ -6,18 +6,28 @@ let wordDiffLevel;
 let currentWord;
 let balloonsPopped = 0;
 const sectors = ["sector_one", "sector_two", "sector_three"];
-            
-// Shuffle words list
-words = shuffle(words);
-            
-// Spawn a new balloon every three seconds
-setInterval(spawnBalloon(), 3000);
-            
-const el = document.getElementById('input');
 
-// always be focused on the input
-el.focus();
-el.onblur = () => setTimeout(() => el.focus());
+(function initUI() {
+    // show instructions modal
+    $("#myModal").modal("show");
+})();
+
+/**
+ * Starts the Type Shooter game loop
+ */
+function startGame() {
+    // Shuffle words list
+    words = shuffle(words);
+
+    // Spawn a new balloon every three seconds
+    setInterval(spawnBalloon(), 3000);
+
+    const el = document.getElementById('input');
+
+    // always be focused on the input
+    el.focus();
+    el.onblur = () => setTimeout(() => el.focus());
+}
             
 /**
  * Create a balloon and show it on screen.

@@ -1,0 +1,24 @@
+body {
+    background-color: #84cae6;
+    overflow-y: hidden;
+}
+
+#sector_one, #sector_two, #sector_three, #city {
+    height: 25%;
+}
+
+#input {
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    background-color: #84cae6;
+}
+
+#input:focus {
+    outline: none;
+}
+
+.sector {
+    font-family: sans-serif;
+    text-align: center;
+}
