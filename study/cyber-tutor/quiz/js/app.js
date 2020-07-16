@@ -1,4 +1,4 @@
-var myQuestions = [
+let myQuestions = [
 
   {
     question: "What does cybersecurity protect?",
@@ -68,9 +68,9 @@ var myQuestions = [
 myQuestions = randomize(myQuestions);
 
 function randomize (obj) {
-	var index;
-	var temp;
-	for (var i = obj.length - 1; i > 0; i--) {
+	let index;
+	let temp;
+	for (let i = obj.length - 1; i > 0; i--) {
 		//get random number
 		index = Math.floor((Math.random() * i));
 		//swapping
@@ -93,8 +93,8 @@ function createQuiz() {
 
       // variable to store the list of possible answers
       const answers = [];
-	  var arr = [];
-	  var k = 0;
+	  let arr = [];
+	  let k = 0;
 	  for (letter in currentQuestion.answers) {
 	  arr[k] = currentQuestion.answers[letter];
 	  k = k+1;
@@ -102,7 +102,7 @@ function createQuiz() {
 	  
 	  arr = randomize(arr);
 	  
-	  var k = 0;
+	  k = 0;
 	  for (letter in currentQuestion.answers) {
 		currentQuestion.answers[letter] = arr[k];
 		k = k+1;
