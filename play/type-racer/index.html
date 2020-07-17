@@ -55,9 +55,16 @@
                             <p>Your goal is to move across the screen before the two minutes run out!</p>
                         </div>
                         <div class="modal-footer">
-                            <p class="text-center">
+                            <p class="text-center container-fluid">
+                                <label style="font-size: x-large;" class="btn-lg">Difficulty:</label>
+                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector"
+                                onchange="setDifficulty(this);">
+                                    <option value="easy" class="btn-success">Easy</option>
+                                    <option value="medium" class="btn-warning" selected>Medium</option>
+                                    <option value="hard" class="btn-danger">Hard</option>
+                                </select>
                                 <button type="button" class="btn btn-success btn-lg" data-dismiss="modal"
-                                    onclick="startGame()">Start Game</button>
+                                onclick="startGame()">Start Game</button>
                             </p>
                         </div>
                     </div>
@@ -67,7 +74,7 @@
             <div class="row">
                 <div class="col-sm-2" id="wpmBox"></div>
                 <div class="col-sm-8" style="text-align: center; padding-top: 20px;">
-                    <input id="input" type="text" autofocus autocomplete="false"/>
+                    <input id="input" type="text" autofocus autocomplete="off">
                     <br>
                     <br>
                 </div>
@@ -137,7 +144,16 @@
             <div class="text-center mt-2">
                 <h3>Race Again?</h3>
 
-                <button onclick="startGame()" class="btn btn-primary btn-lg">Let's Go!</button>
+                <p class="container-fluid">
+                    <label style="font-size: x-large;" class="btn-lg">Difficulty:</label>
+                    <select name="dropdown" class="btn btn-lg btn-dark" id="difficultySelector"
+                    onchange="setDifficulty(this);">
+                        <option value="easy" class="btn-success">Easy</option>
+                        <option value="medium" class="btn-warning" selected>Medium</option>
+                        <option value="hard" class="btn-danger">Hard</option>
+                    </select>
+                    <button onclick="startGame()" class="btn btn-primary btn-lg">Let's Go!</button>
+                </p>
             </div>
             <hr>
             <div class="row mt-3">
