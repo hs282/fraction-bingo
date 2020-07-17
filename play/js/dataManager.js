@@ -193,7 +193,6 @@ class DataManager {
     * @param {String} username
     **/
     deleteUser(username) {
-      console.log("Delete method username : " + username);
       //if storage is available
       if(this.hasLocalStorage) {
         // get userAccounts from localStorage
