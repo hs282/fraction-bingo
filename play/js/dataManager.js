@@ -2,7 +2,7 @@
  * This API module exists so that in the future, if we want to switch to an online database, the code within games will not have
  * to change, but rather just the DataManger code will change to provide minimal code rewrites.
  */
-// export default 
+// export default
 class DataManager {
     /**
      * Initialize class data members and check if the user's browser has localStorage
@@ -54,7 +54,7 @@ class DataManager {
                     </a>
 
                     <div id="userSelection" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        
+
                     </div>
                 </li>
             </ul>
@@ -94,14 +94,19 @@ class DataManager {
 
     /**
      * Create a user account switcher dropdown menu item.
-     * @param {String} username 
+     * @param {String} username
      */
     createUserListElement(username) {
         const userSelectionEl = document.querySelector("#userSelection");
-        
+
         // create dropdown item anchor element
         let el = document.createElement("a");
         el.innerText = username;
+
+        //create the delete button and give it the trashcan icon
+        let sp = document.createElement("button");
+        sp.className = "fa fa-trash";
+        sp.style.float = "right";
 
         // add classes to the drop down item
         el.classList.add("dropdown-item");
@@ -109,28 +114,52 @@ class DataManager {
 
         // set the onclick function to the switchUser functoin
         el.onclick = () => this.switchUser(username);
+        //stopPropagation to stop the event chain and continue with delete user
+        sp.onclick = (e) => {
+          e.stopPropagation();
+          this.deleteUser(username);
+        }
 
         // add the dropdown item to the userSelection element
         userSelectionEl.insertBefore(el, userSelectionEl.lastChild);
+
+        //add the delete button to the users who are not active
+        if(!(el.classList.contains("active"))) {
+          el.appendChild(sp);
+        }
     }
-    
+
     /**
      * Make the user account switcher dropdown item active.
-     * @param {String} username 
+     * @param {String} username
      */
     activateUserElement(username) {
         // go through all the dropdown menu items
         const userSelectionEl = document.querySelector("#userSelection");
+        //create the delete button and give it the trashcan image
+        let sp = document.createElement("button");
+        sp.className = "fa fa-trash";
+        sp.style.float = "right";
+        //attach a new event listener call with its parent node - stopPropagation from html bubble
+        sp.onclick = (e) => {
+          e.stopPropagation();
+          this.deleteUser(sp.parentNode.text);
+        }
+
         Array.from(userSelectionEl.children).forEach(x => {
             // remove the active from the previously selected user
             if (x.classList.contains("active")) {
                 x.classList.remove("active");
+                //add the delete button
+                x.appendChild(sp);
             }
 
             // if the dropdown item has the newly selected username
             if (x.innerText == username) {
                 // make the username active
                 x.classList.add("active");
+                //remove the delete button
+                x.childNodes[1].remove();
 
                 // change the text of the currently selected user element
                 document.querySelector("#currentUsername").innerText = username;
@@ -140,7 +169,7 @@ class DataManager {
 
     /**
      * Switch the currentUser to a given username
-     * @param {String} username 
+     * @param {String} username
      */
     switchUser(username) {
         // try to find the user in the users list
@@ -160,10 +189,62 @@ class DataManager {
     }
 
     /**
-     * Save any kind of item to localStorage and it will automatically stringify it, so 
+    * Method to delete a user and related fields from local storage
+    * @param {String} username
+    **/
+    deleteUser(username) {
+      //if storage is available
+      if(this.hasLocalStorage) {
+        // get userAccounts from localStorage
+        let item = localStorage.getItem("userAccounts");
+
+        // if there was actually an object there
+        if (item) {
+          try {
+            //parse and loop through
+            let itemArr =  JSON.parse(item);
+            Array.from(itemArr).forEach(x => {
+              if(username == x.username) {
+                //splice it from the array and save
+                itemArr.splice(itemArr.indexOf(x), 1);
+                localStorage.setItem("userAccounts", JSON.stringify(itemArr));
+                //reset users after saving
+                this.users = this.retrieveAllUsers();
+              }
+            });
+            //reset the menu with existing users
+            this.clearAndResetMenu();
+          }  catch (e) {
+            return null;
+          }
+        }
+      }
+    }
+
+    //reset the dropdown menu with only existing users
+    clearAndResetMenu() {
+      const userSelectionEl = document.querySelector("#userSelection");
+      //minus one to keep the create user anchor
+      const childrenNodes = userSelectionEl.childElementCount;
+      const lastChild = userSelectionEl.lastChild;
+      //delete all the nodes
+      for(let i = childrenNodes; i > 0; i--) {
+        userSelectionEl.childNodes[i].remove();
+      }
+
+      //add only currentusers to the dropdown menu
+      userSelectionEl.appendChild(lastChild);
+      if (this.users) {
+          this.users.forEach(x => this.createUserListElement(x.username));
+      }
+
+    }
+
+    /**
+     * Save any kind of item to localStorage and it will automatically stringify it, so
      * objects and arrays can be saved as well.
-     * @param {String} key 
-     * @param {Any} value 
+     * @param {String} key
+     * @param {Any} value
      * @returns {Boolean} saved
      */
     saveItem(key, value) {
@@ -195,7 +276,7 @@ class DataManager {
 
     /**
      * Get an value through a key from the current user
-     * @param {String} key 
+     * @param {String} key
      * @returns {Any} item
      */
     getItem(key) {
@@ -214,7 +295,7 @@ class DataManager {
 
     /**
      * Delete a value through a key from the user and save those changes.
-     * @param {String} key 
+     * @param {String} key
      * @returns {Boolean} deleted
      */
     deleteItem(key) {
@@ -242,7 +323,7 @@ class DataManager {
 
     /**
      * Create a user account with a specified username.
-     * @param {String} username 
+     * @param {String} username
      * @throws UsernameValidationError
      */
     createUser(username) {
@@ -276,7 +357,8 @@ class DataManager {
         // save the updated users list
         localStorage.setItem("userAccounts", JSON.stringify(this.users));
 
-        // add the user to the account switch
+        //have in this order to append the delete key active the user then add to the list then activate the new user
+        this.activateUserElement(username);
         this.createUserListElement(username);
         this.activateUserElement(username);
     }
@@ -357,11 +439,11 @@ class DataManager {
             localStorage.removeItem(test);
 
             hasLocalStorage = true;
-        } 
+        }
         catch (e) {
             hasLocalStorage = false;
         }
-    
+
         return hasLocalStorage;
     }
 }
