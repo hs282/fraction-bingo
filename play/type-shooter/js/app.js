@@ -4,6 +4,7 @@ let words = [
             
 let wordDiffLevel;
 let difficulty = "medium";
+let zIndex = 999999;
 //let currentWord = undefined;
 let currentWords = [];
 let balloonsPopped = 0;
@@ -26,7 +27,7 @@ const HARD_MULTIPLIER = 1.5;
 function startGame() {
 
     document.getElementById("balloonShooter").style.display = "";
-    document.getElementById('input').disable = false;
+    document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
 
     // Shuffle words list
@@ -34,20 +35,27 @@ function startGame() {
 
     spawnBalloon();
 
-    // Spawn a new balloon every spawnInterval / difficulty multiplier seconds
-    setInterval(() => {spawnBalloon();}, spawnInterval / (
-        difficulty == "easy" ? EASY_MULTIPLIER : (
-            difficulty == "medium" ? MEDIUM_MULTIPLIER : (
-                difficulty == "hard" ? HARD_MULTIPLIER : EASY_MULTIPLIER
-    ))));
+    let tempInterval = getInterval();
 
-    console.log(difficulty);
+    // Spawn a new balloon every spawnInterval / difficulty multiplier seconds
+    setInterval(() => {spawnBalloon();}, tempInterval);
 
     const input = document.getElementById('input');
 
     // always be focused on the input
     input.focus();
     input.onblur = () => setTimeout(() => input.focus());
+}
+
+/**
+ * Get the true spawnInterval by multiplying it by the respective difficulty's multiplier
+ */
+function getInterval() {
+    return spawnInterval / (
+        difficulty == "easy" ? EASY_MULTIPLIER : (
+            difficulty == "medium" ? MEDIUM_MULTIPLIER : (
+                difficulty == "hard" ? HARD_MULTIPLIER : EASY_MULTIPLIER
+    )));
 }
 
 /**
@@ -117,6 +125,7 @@ function spawnBalloon() {
     balloon.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
     balloon.style.position = "absolute";
     balloon.style.left = Math.random() * 90 + "%";
+    balloon.style.zIndex = zIndex--;
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
@@ -137,8 +146,6 @@ function spawnBalloon() {
     if (difficulty == "easy") tempAnimationSpeed /= EASY_MULTIPLIER;
     else if (difficulty == "medium") tempAnimationSpeed /= MEDIUM_MULTIPLIER;
     else if (difficulty == "hard") tempAnimationSpeed /= HARD_MULTIPLIER;
-
-    console.log("tempAnimSpd = " + tempAnimationSpeed);
 
     // animate the newly created balloon
     $("#" + balloon.id).animate({

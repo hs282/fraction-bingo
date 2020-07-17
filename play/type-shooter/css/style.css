@@ -1,6 +1,7 @@
 body {
     background-color: #84cae6;
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 #sector_one, #sector_two, #sector_three {

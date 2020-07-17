@@ -96,7 +96,7 @@
         <!-- Fixes the bootstrap default behavior, now clicking away from the dialogue box causes
         the game to start instead of pause -->
         <script>
-            $("#myModal").on("hidden.bs.modal", function () {startGame();});
+            $("#myModal").on("hidden.bs.modal", startGame);
         </script>
     </body>
 </html>
