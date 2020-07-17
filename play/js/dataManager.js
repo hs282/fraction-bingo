@@ -102,12 +102,10 @@ class DataManager {
         // create dropdown item anchor element
         let el = document.createElement("a");
         el.innerText = username;
-        el.style.display = "block";
 
-        //create the delete element for each name
+        //create the delete button and give it the trashcan icon
         let sp = document.createElement("button");
         sp.className = "fa fa-trash";
-        sp.style.display = "block";
         sp.style.float = "right";
 
         // add classes to the drop down item
@@ -125,6 +123,7 @@ class DataManager {
         // add the dropdown item to the userSelection element
         userSelectionEl.insertBefore(el, userSelectionEl.lastChild);
 
+        //add the delete button to the users who are not active
         if(!(el.classList.contains("active"))) {
           el.appendChild(sp);
         }
@@ -137,10 +136,9 @@ class DataManager {
     activateUserElement(username) {
         // go through all the dropdown menu items
         const userSelectionEl = document.querySelector("#userSelection");
-        //create the delete for the active node
+        //create the delete button and give it the trashcan image
         let sp = document.createElement("button");
         sp.className = "fa fa-trash";
-        sp.style.display = "inline-block";
         sp.style.float = "right";
         //attach a new event listener call with its parent node - stopPropagation from html bubble
         sp.onclick = (e) => {
@@ -191,7 +189,7 @@ class DataManager {
     }
 
     /**
-    * Method to delete a user from the list
+    * Method to delete a user and related fields from local storage
     * @param {String} username
     **/
     deleteUser(username) {
@@ -203,38 +201,40 @@ class DataManager {
 
         // if there was actually an object there
         if (item) {
-           try {
-             //parse and loop through
-                let itemArr =  JSON.parse(item);
-                Array.from(itemArr).forEach(x => {
-                  if(username == x.username) {
-                    //splice it from the array and save
-                    itemArr.splice(itemArr.indexOf(x), 1);
-                    localStorage.setItem("userAccounts", JSON.stringify(itemArr));
-                    //get all users after saving
-                    this.users = this.retrieveAllUsers();
-                  }
-                });
-                this.clearAndResetMenu();
-            }
-            catch (e) {
-                return null;
-            }
+          try {
+            //parse and loop through
+            let itemArr =  JSON.parse(item);
+            Array.from(itemArr).forEach(x => {
+              if(username == x.username) {
+                //splice it from the array and save
+                itemArr.splice(itemArr.indexOf(x), 1);
+                localStorage.setItem("userAccounts", JSON.stringify(itemArr));
+                //reset users after saving
+                this.users = this.retrieveAllUsers();
+              }
+            });
+            //reset the menu with existing users
+            this.clearAndResetMenu();
+          }  catch (e) {
+            return null;
+          }
         }
       }
     }
 
-    //clear the drop down menu then add the remaining users
+    //reset the dropdown menu with only existing users
     clearAndResetMenu() {
       const userSelectionEl = document.querySelector("#userSelection");
       //minus one to keep the create user anchor
       const childrenNodes = userSelectionEl.childElementCount;
       const lastChild = userSelectionEl.lastChild;
+      //delete all the nodes
       for(let i = childrenNodes; i > 0; i--) {
         userSelectionEl.childNodes[i].remove();
       }
+
+      //add only currentusers to the dropdown menu
       userSelectionEl.appendChild(lastChild);
-      
       if (this.users) {
           this.users.forEach(x => this.createUserListElement(x.username));
       }
