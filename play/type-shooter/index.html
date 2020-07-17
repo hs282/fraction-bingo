@@ -5,12 +5,6 @@
         
         <link rel="stylesheet" href="../css/bootstrap4.5.0.min.css">
         <link rel="stylesheet" href="css/style.css">
-        <style>
-            #sector_one, #sector_two, #sector_three, #city {height: 25%;}
-            div {font-family: sans-serif; text-align: center;}
-            #input {font-size: 20px; border: none;}
-            #input:focus {outline: none;}
-         </style>
 
         <script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
     </head>
@@ -49,20 +43,60 @@
             </div>
         </nav>
 
-        <p id="balloonsPopped" style="text-align: right; padding-right: 20px">Balloons Popped: 0</p>
-        <div id="sector_one"></div>
+        <div class="container-fluid" id="balloonShooter">
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Type Shooter Instructions</h3>
+                        </div>
+                        <div class="modal-body" style="font-size: 16px">
+                            <p>Type the words shown on the balloons to pop them as they appear.</p>
+                            <p>It is your duty to pop the balloons before they reach the spaceship!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <p class="text-center container-fluid">
+                                <!-- To implement later on -->
+                                <label style="font-size: x-large;" class="btn-lg">Difficulty:</label>
+                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector"
+                                onchange="setDifficulty(this);">
+                                    <option value="easy" class="btn-success">Easy</option>
+                                    <option value="medium" class="btn-warning" selected>Medium</option>
+                                    <option value="hard" class="btn-danger">Hard</option>
+                                </select>
+                                <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">
+                                    Start Game</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p id="balloonsPopped" style="text-align: right; padding-right: 20px">Balloons Popped: 0</p>
+
+            <div id="spaceship" style="height: 10%; width: 100%; bottom: 150px;"></div>
+
+            <div id="whitespace" style="height: 5%;"></div>
+
+            <div id="sector_one" class="sector"></div>
         
-        <div id="sector_two"></div>
+            <div id="sector_two" class="sector"></div>
         
-        <div id="sector_three"></div>
+            <div id="sector_three" class="sector"></div>
         
-        <div id="city">
-            <input id="input" type="text" autofocus></input>
+            <div id="city" class="sector">
+                <input id="input" type="text" autocomplete="off" autofocus disabled></input>
+            </div>
         </div>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
         <script src="js/app.js"></script>
+        <!-- Fixes the bootstrap default behavior, now clicking away from the dialogue box causes
+        the game to start instead of pause -->
+        <script>
+            $("#myModal").on("hidden.bs.modal", startGame);
+        </script>
     </body>
 </html>

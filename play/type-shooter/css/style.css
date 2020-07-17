@@ -1,0 +1,36 @@
+body {
+    background-color: #84cae6;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+#sector_one, #sector_two, #sector_three {
+    height: 20%;
+}
+
+#city {
+    height: 15%;
+    width: 100%;
+}
+
+#spaceship {
+    height: 10%;
+    /*top: 100px;*/
+    bottom: 200px;
+}
+
+#input {
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    background-color: #84cae6;
+}
+
+#input:focus {
+    outline: none;
+}
+
+.sector {
+    font-family: sans-serif;
+    text-align: center;
+}
