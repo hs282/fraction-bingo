@@ -48,3 +48,8 @@ button {
     font-size: 40px;
     border-radius: 10px;
 }
+
+img {
+    width: 60%;
+    height: auto;
+}
