@@ -5,7 +5,8 @@ var diffLevel = "",
     boardFractions = [],
     problemFractions = [],
     fraction = "",
-    problem = "";
+    problem = "",
+    ans = "";
 
 function startGame() {
     // Get selected difficulty level
@@ -86,6 +87,7 @@ function fillBoard() {
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
 	    col.innerHTML = boardFractions[k];
+	    col.className = "white";
 	    col.onclick = function () {
 		checkAnswer(this);
 	    };
@@ -95,11 +97,6 @@ function fillBoard() {
 }
 
 function checkAnswer(cell) {
-    let arr  = fraction.split("/"); 
-    let n = parseInt(arr[0]);
-    let d = parseInt(arr[1]);
-    let ans = simplifyFract(n, d);
-    
     if (ans == cell.innerHTML) {
         cell.className = "green";
         generateProblem();
@@ -107,8 +104,8 @@ function checkAnswer(cell) {
     else {
         cell.className = "red";
         setTimeout(function() {
-                cell.className = "white";
-            }, 1000);
+            cell.className = "white";
+        }, 1000);
     }
 }
 
@@ -140,5 +137,33 @@ function generateProblemFracts() {
 function generateProblem() {
     fraction = problemFractions[Math.floor(Math.random() * problemFractions.length)];
     problem = fraction + " = ?";
+    let arr  = fraction.split("/");
+    let n = parseInt(arr[0]);
+    let d = parseInt(arr[1]); 
+    ans = simplifyFract(n, d);
     document.getElementById("problem").innerHTML = problem;
+}
+
+function solNotFound() {
+    let t = document.getElementsByName(boardType)[0];
+    let noSolBtn = document.getElementById("noSolution");
+    for (var i = 0, row; row = t.rows[i]; i++) {
+        for (var j = 0, col; col = row.cells[j]; j++) {
+	    if (col.className == "white") {
+	        if (ans == col.innerHTML) {
+		    noSolBtn.className = "red";
+		    setTimeout(function() {
+		        noSolBtn.className = "white";
+		    }, 1000);
+		    return;
+	        }
+	    }
+        }
+    }
+   
+    noSolBtn.className = "green";
+    setTimeout(function() {
+        noSolBtn.className = "white";
+    }, 500);
+    generateProblem();
 }
