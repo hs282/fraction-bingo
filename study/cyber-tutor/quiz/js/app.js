@@ -1,67 +1,102 @@
 let myQuestions = [
-
   {
     question: "What does cybersecurity protect?",
-    answers: {
-      a: " Information systems, programs, and data ",
-      b: " Houses and neighborhoods ",
-      c: " Jobs "
-    },
+    answers: [
+      " Information systems, programs, and data ",
+      " Houses and neighborhoods ",
+      " Jobs "
+    ],
     correctAnswer: " Information systems, programs, and data "
   },
   {
-    question: "What does a hacker use to gain access to a system?",
-    answers: {
-      a: " Paper and pencil ",
-      b: " Computer ",
-      c: " Hammer "
-    },
+    question: "What does a hacker use to gain access to an information system?",
+    answers: [
+      " Paper and pencil ",
+      " Computer ",
+      " Hammer "
+    ],
     correctAnswer: " Computer "
   },
   {
     question: "What is the relationship between a vulnerability and an exploit?",
-    answers: {
-      a: " An exploit is needed for a vulnerability to succeed ",
-      b: " A vulnerability enables hackers to utilize an exploit ",
-      c: " Hackers can use an exploit even without a vulnerability in a system "
-    },
+    answers: [
+      " An exploit is needed for a vulnerability to succeed ",
+      " A vulnerability enables hackers to utilize an exploit ",
+      " Hackers can use an exploit even without a vulnerability in a system "
+    ],
     correctAnswer: " A vulnerability enables hackers to utilize an exploit "
   },
   {
     question: "An attacker deploys software that collects keystrokes from a victim's computer; What is this called?",
-    answers: {
-      a: " Keylogging ",
-      b: " Phishing ",
-      c: " Exploit "
-    },
+    answers: [
+      " Keylogging ",
+      " Trojan ",
+      " Exploit "
+    ],
     correctAnswer: " Keylogging "
   },
   {
     question: "What is patching?",
-    answers: {
-      a: " Debugging a program ",
-      b: " A type of information system used by hackers ",
-      c: " A computer update that fixes bugs and vulnerabilities "
-    },
+    answers: [
+      " Debugging a program ",
+      " A type of information system used by hackers ",
+      " A computer update that fixes bugs and vulnerabilities "
+    ],
     correctAnswer: " A computer update that fixes bugs and vulnerabilities "
   },
   {
     question: "What is NOT a possible effect of social engineering on a victim?",
-    answers: {
-      a: " Stolen passwords or other credentials ",
-      b: " System updates ",
-      c: " Loss of money "
-    },
+    answers: [
+      " Stolen passwords or other credentials ",
+      " System updates ",
+      " Loss of money "
+    ],
     correctAnswer: " System updates "
   },
   {
     question: "A hacker posed as a bank's customer service representative and sent an email to a victim asking them to provide their account information. What is this type of attack called?",
-    answers: {
-      a: " Keylogging ",
-      b: " Phishing ",
-      c: " Vulnerability "
-    },
+    answers: [
+      " Trojan ",
+      " Phishing ",
+      " Vulnerability "
+    ],
     correctAnswer: " Phishing "
+  },
+  {
+    question: "A term commonly used to describe dangerous software:",
+    answers: [
+      " Malware ",
+      " Vulnerability ",
+      " Patching "
+    ],
+    correctAnswer: " Malware "
+  },
+  {
+    question: "What is the difference between a computer virus and a computer worm?",
+    answers: [
+      " A computer worm attaches itself to a program, while a virus replicates itself ",
+      " They are the same thing ",
+      " A computer worm replicates itself, while a virus attaches itself to a program "
+    ],
+    correctAnswer: " A computer worm replicates itself, while a virus attaches itself to a program "
+  },
+  {
+    question: "Which type of malware allowes the attacker to take over the user's computer and ask them for money?",
+    answers: [
+      " Ransomware ",
+      " Phishing ",
+      " Patching "
+    ],
+    correctAnswer: " Ransomware "
+  },
+  {
+    question: "A user downloaded and opened a program to help them with their taxes. Their computer froze and their documents were being deleted. What kind of malware is this?",
+    answers: [
+      " Computer worm ",
+      " Trojan ",
+      " Exploit "
+    ],
+    correctAnswer: " Trojan "
   },
 ];
 
@@ -93,30 +128,18 @@ function createQuiz() {
 
       // variable to store the list of possible answers
       const answers = [];
-	  let arr = [];
-	  let k = 0;
-	  for (letter in currentQuestion.answers) {
-	  arr[k] = currentQuestion.answers[letter];
-	  k = k+1;
-	  }
 	  
-	  arr = randomize(arr);
+	  currentQuestion.answers = randomize(currentQuestion.answers);
 	  
-	  k = 0;
-	  for (letter in currentQuestion.answers) {
-		currentQuestion.answers[letter] = arr[k];
-		k = k+1;
-	  }
-	 
       // and for each available answer...
-      for (letter in currentQuestion.answers) {
+      for (item in currentQuestion.answers) {
 
         // ...add an HTML radio button
 		 answers.push (
 		 
           `<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${currentQuestion.answers[letter]}
+            <input type="radio" name="question${questionNumber}" value="${item}">
+            ${currentQuestion.answers[item]}
           </label>`
 		  
         );
