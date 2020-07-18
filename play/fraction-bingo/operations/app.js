@@ -154,6 +154,7 @@ function fillBoard() {
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
 	    col.innerHTML = problems[k].answer;
+	    col.className = "white";
 	    col.onclick = function () {
 		checkAnswer(this);
 	    };
@@ -170,8 +171,8 @@ function checkAnswer(cell) {
     else {
 	cell.className = "red";
 	setTimeout(function() {
-		cell.className = "white";
-	    }, 1000);
+	    cell.className = "white";
+	}, 1000);
     }
 }
 
@@ -181,4 +182,27 @@ function generateProblem() {
     ans = randomProb.answer;
     problem = randomProb.operandOne + " " + randomProb.operation + " " +  randomProb.operandTwo + " = ?";
     document.getElementById("problem").innerHTML = problem;
+}
+
+function solNotFound() {
+    let table = document.getElementsByName(boardType)[0];
+    let noSolBtn = document.getElementById("noSolution");
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        for (var j = 0, col; col = row.cells[j]; j++) {
+	    if (col.className == "white") {
+	        if (ans == col.innerHTML) {
+		    noSolBtn.className = "red";
+		    setTimeout(function() {
+			noSolBtn.className = "white";
+		    }, 1000);
+		    return;
+	        }
+	    }
+        }
+    }
+    noSolBtn.className = "green";
+    setTimeout(function() {
+	    noSolBtn.className = "white";
+    }, 500);
+    generateProblem();
 }
