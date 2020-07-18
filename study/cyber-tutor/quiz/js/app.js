@@ -9,7 +9,7 @@ let myQuestions = [
     correctAnswer: " Information systems, programs, and data "
   },
   {
-    question: "What does a hacker use to gain access to a system?",
+    question: "What does a hacker use to gain access to an information system?",
     answers: [
       " Paper and pencil ",
       " Computer ",
@@ -30,7 +30,7 @@ let myQuestions = [
     question: "An attacker deploys software that collects keystrokes from a victim's computer; What is this called?",
     answers: [
       " Keylogging ",
-      " Phishing ",
+      " Trojan ",
       " Exploit "
     ],
     correctAnswer: " Keylogging "
@@ -56,11 +56,47 @@ let myQuestions = [
   {
     question: "A hacker posed as a bank's customer service representative and sent an email to a victim asking them to provide their account information. What is this type of attack called?",
     answers: [
-      " Keylogging ",
+      " Trojan ",
       " Phishing ",
       " Vulnerability "
     ],
     correctAnswer: " Phishing "
+  },
+  {
+    question: "A term commonly used to describe dangerous software:",
+    answers: [
+      " Malware ",
+      " Vulnerability ",
+      " Patching "
+    ],
+    correctAnswer: " Malware "
+  },
+  {
+    question: "What is the difference between a computer virus and a computer worm?",
+    answers: [
+      " A computer worm attaches itself to a program, while a virus replicates itself ",
+      " They are the same thing ",
+      " A computer worm replicates itself, while a virus attaches itself to a program "
+    ],
+    correctAnswer: " A computer worm replicates itself, while a virus attaches itself to a program "
+  },
+  {
+    question: "Which type of malware allowes the attacker to take over the user's computer and ask them for money?",
+    answers: [
+      " Ransomware ",
+      " Phishing ",
+      " Patching "
+    ],
+    correctAnswer: " Ransomware "
+  },
+  {
+    question: "A user downloaded and opened a program to help them with their taxes. Their computer froze and their documents were being deleted. What kind of malware is this?",
+    answers: [
+      " Computer worm ",
+      " Trojan ",
+      " Exploit "
+    ],
+    correctAnswer: " Trojan "
   },
 ];
 
