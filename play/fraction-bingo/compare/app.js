@@ -1,7 +1,8 @@
 var diffLevel = "",
-    fract1,
-    fract2,
+    fract1 = "",
+    fract2 = "",
     problem = "",
+    correctOp = "",
     boardType = "";
 
 function startGame() {
@@ -48,6 +49,22 @@ function generateProblem() {
 	fract2 = getRandomFraction(100, 300);
     }
     problem = fract1 + " ? " + fract2;
+    let n1 = 0, n2 = 0, d1 = 0, d2 = 0;
+    let arr1 = fract1.split("/");
+    n1 = parseInt(arr1[0]);
+    d1 = parseInt(arr1[1]);
+    let arr2 = fract2.split("/");
+    n2 = parseInt(arr2[0]);
+    d2 = parseInt(arr2[1]);
+    let f1 = n1/d1;
+    let f2 = n2/d2;
+    if (f1 > f2) {
+        correctOp = ">";
+    } else if (f1 < f2) {
+        correctOp = "<";
+    } else {
+        correctOp = "=";
+    }
     document.getElementById("problem").innerHTML = problem;
 }
 
@@ -70,7 +87,8 @@ function fillBoard() {
     let op = "";
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
-	    op = operators[Math.floor(Math.random() * 3)];                                                                    
+	    op = operators[Math.floor(Math.random() * 3)];                                                                        
+            col.className = "white";
 	    col.innerHTML = op;
             col.onclick = function () {
 		checkAnswer(this);
@@ -80,24 +98,6 @@ function fillBoard() {
 }
 
 function checkAnswer(cell) {
-    let correctOp = "";
-    let n1 = 0, n2 = 0, d1 = 0, d2 = 0;
-    let arr1 = fract1.split("/");
-    n1 = parseInt(arr1[0]);
-    d1 = parseInt(arr1[1]);
-    let arr2 = fract2.split("/");
-    n2 = parseInt(arr2[0]);
-    d2 = parseInt(arr2[1]);
-    let f1 = n1/d1;
-    let f2 = n2/d2;
-    if (f1 > f2) {
-	correctOp = ">";
-    } else if (f1 < f2) {
-	correctOp = "<";
-    } else {
-	correctOp = "=";
-    }
-
     if (correctOp == cell.innerText) {
 	cell.className = "green";
 	generateProblem();
@@ -105,7 +105,30 @@ function checkAnswer(cell) {
     else {
        	cell.className = "red";
 	setTimeout(function() {
-		cell.className = "white";
-	    }, 1000);
-	}
+	    cell.className = "white";
+	}, 1000);
+    }
+}
+
+function solNotFound() {
+    let table = document.getElementsByName(boardType)[0];
+    let noSolBtn = document.getElementById("noSolution");
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        for (var j = 0, col; col = row.cells[j]; j++) {
+	    if (col.className == "white") { 
+	        if (correctOp == col.innerText) {
+                    noSolBtn.className = "red";
+                    setTimeout(function() {
+                        noSolBtn.className = "white";
+                    }, 1000);
+                    return;
+                }
+	    }
+        }
+    }
+    noSolBtn.className = "green";
+    setTimeout(function() {
+        noSolBtn.className = "white";
+    }, 500);
+    generateProblem();
 }
