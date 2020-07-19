@@ -72,6 +72,7 @@ function getRandomFraction(min, max, simplify) {
 }
 
 function simplifyFract(numerator, denominator) {
+    //let freq = 0;
     let gcd = function gcd(x, y) {
 	return y ? gcd(y, x%y) : x;
     };
@@ -97,15 +98,17 @@ function fillBoard() {
 }
 
 function checkAnswer(cell) {
-    if (ans == cell.innerHTML) {
-        cell.className = "green";
-        generateProblem();
-    }
-    else {
-        cell.className = "red";
-        setTimeout(function() {
-            cell.className = "white";
-        }, 1000);
+    if (cell.className != "green") {
+        if (ans == cell.innerHTML) {
+            cell.className = "green";
+            generateProblem();
+        }
+        else {
+            cell.className = "red";
+            setTimeout(function() {
+                cell.className = "white";
+            }, 1000);
+        }
     }
 }
 
@@ -166,4 +169,20 @@ function solNotFound() {
         noSolBtn.className = "white";
     }, 500);
     generateProblem();
+}
+
+function checkBingo() {
+
+}
+
+function checkRows() {
+
+}
+
+function checkColumns() {
+
+}
+
+function checkDiagonals() {
+
 }
