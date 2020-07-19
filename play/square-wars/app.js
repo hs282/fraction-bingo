@@ -25,7 +25,7 @@ function setLevel(level) {
 * @param (Event) evt
 **/
 function isNumber(evt) {
-  var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+  let iKeyCode = (evt.which) ? evt.which : evt.keyCode
   if ((iKeyCode != 46 && iKeyCode != 45) && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57)) {
     return false;
   }
@@ -44,11 +44,15 @@ class MoveableCanvasObject {
     this.y = y;
     this.color = color;
   }
+
+  //update the canvas
   update() {
     let ctx = myGameArea.context;
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
+
+  //get the new position of the obejct
   newPos() {
     this.x += this.speedX;
     this.y += this.speedY;
@@ -66,7 +70,7 @@ class Player extends MoveableCanvasObject {
     this.speedY = 0;
     this.killCount = killCount;
     this.roundCount = roundCount;
-    this.ArrowButtons = false;
+    this.arrowButtons = false;
     this.booleanEquation = true;
   }
   /**
@@ -75,11 +79,11 @@ class Player extends MoveableCanvasObject {
   * because the game engine is calling it for constant updates this give mobile users better control of the player
   **/
   resetSpeed() {
-    if(!this.ArrowButtons) {
+    if(!this.arrowButtons) {
       player.speedX = 0;
       player.speedY = 0;
     }
-    this.ArrowButtons = false;
+    this.arrowButtons = false;
   }
   //map clipping - check if the player is inside the map
   checkPosition() {
@@ -315,7 +319,7 @@ class Game_Handler {
   //update boss to maintain speed and position on canvas
   updateBoss() {
     if(boss.length != 0) {
-      boss.forEach((el) => {
+      boss.forEach(el => {
         el.y += 1;
         el.newPos();
         el.update();
@@ -746,11 +750,11 @@ class MyGameArea {
     **/
     this.shootButton.addEventListener("click", (e) => { gameHandler.spawnBullet() });
     this.arrowLeftButton.addEventListener("click", (e) => {
-      player.ArrowButtons = true;
+      player.arrowButtons = true;
       player.speedX = -30
     });
     this.arrowRightButton.addEventListener("click", (e) => {
-      player.ArrowButtons = true;
+      player.arrowButtons = true;
       player.speedX = 30
     });
   }
