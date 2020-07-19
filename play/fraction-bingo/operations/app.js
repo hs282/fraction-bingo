@@ -164,15 +164,17 @@ function fillBoard() {
 }
 
 function checkAnswer(cell) {
-    if (ans == cell.innerHTML) {
-	cell.className = "green";
-	generateProblem();
-    }
-    else {
-	cell.className = "red";
-	setTimeout(function() {
-	    cell.className = "white";
-	}, 1000);
+    if (cell.className != "green") {
+        if (ans == cell.innerHTML) {
+	    cell.className = "green";
+	    generateProblem();
+        }
+        else {
+	    cell.className = "red";
+	    setTimeout(function() {
+	        cell.className = "white";
+	    }, 1000);
+        }
     }
 }
 
