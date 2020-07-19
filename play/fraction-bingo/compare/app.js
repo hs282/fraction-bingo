@@ -98,15 +98,17 @@ function fillBoard() {
 }
 
 function checkAnswer(cell) {
-    if (correctOp == cell.innerText) {
-	cell.className = "green";
-	generateProblem();
-    }
-    else {
-       	cell.className = "red";
-	setTimeout(function() {
-	    cell.className = "white";
-	}, 1000);
+    if (cell.className != "green") {
+        if (correctOp == cell.innerText) {
+	    cell.className = "green";
+	    generateProblem();
+        }
+        else {
+       	    cell.className = "red";
+	    setTimeout(function() {
+	        cell.className = "white";
+	    }, 1000);
+        }
     }
 }
 
