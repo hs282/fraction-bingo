@@ -116,6 +116,7 @@ function randomize (obj) {
 	return obj;
 }
 
+
 function createQuiz() {
 	
   // variable to store the HTML output
@@ -191,15 +192,27 @@ function showAnswers() {
   });
 
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+  resultsContainer.innerHTML = `Results: ${numCorrect} out of ${myQuestions.length}`;
 }
 
+function retry(){
+	resultsContainer.innerHTML = ` `;
+	myQuestions = randomize(myQuestions);
+	createQuiz();
+	
+}
+//function refreshPageZ(){
+//	<A HREF="javascript:history.go(0)">Click to refresh the page</A>
+//}
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+const retryButton = document.getElementById('retry');
 
 // display quiz right away
 createQuiz();
 
 // on submit, show answers
 submitButton.addEventListener('click', showAnswers);
+retryButton.addEventListener('click', retry);
+
