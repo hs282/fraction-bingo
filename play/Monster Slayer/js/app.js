@@ -98,7 +98,6 @@ let answeredProblems = [];
 const problemEl = document.querySelector("#problem");
 const inputEl = document.querySelector("#input");
 const changeSettingsEl = document.querySelector("#changeSettingsView");
-const timerEl = document.querySelector("#gameTimer");
 const countdownEl = document.querySelector("#countdown");
 const startingEl = document.querySelector("#startScreen");
 const startButtonEl = document.querySelector("#startButton");
@@ -487,13 +486,6 @@ function startScreen() {
     endButtonEl.onclick = endGame;
 }
 
-// Just for development purposes
-function skipCountdown() {
-    startingEl.classList.toggle("hide");
-    countdownEl.classList.toggle("hide");
-  toggleProblems();
-}
-
 /**
  * Counts down from 3, then starts game
  */
@@ -528,7 +520,7 @@ function endGame() {
 }
 
 /**
- * Toggles the problem, timer, and score elements
+ * Toggles the problem, hp bars, and end button elements
  */
 function toggleProblems() {
     inputEl.classList.toggle("hide");
@@ -558,7 +550,6 @@ function storeProblem(isCorrect, answer) {
 
 /**
  * Ends game, shows all answered problems and score
- * @param {Interval object} 60 second timer
  */
 function resultScreen() {
 
