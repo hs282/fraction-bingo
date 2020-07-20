@@ -69,9 +69,9 @@ function enableCounterDropDetection() {
         // add coin to the counter element
         counterEl.appendChild(el);
 
-        // add the value 
+        // add the value
         currentValue += coin.value;
-
+        console.log(currentValue);
         // remove the coin from the counter and currentValue when clicked
         el.onclick = e => {
             currentValue -= coin.value;
@@ -81,7 +81,7 @@ function enableCounterDropDetection() {
 
         // if the counting process is done
         if (Math.abs(currentValue - (targetValue * 100)) < .00000000000001) {
-            // increment score 
+            // increment score
             score += 10;
             targetValue = getRandomNumber();
 
@@ -109,7 +109,7 @@ function updateReadout() {
 }
 
 /**
- * Create the coin elements in the register element for the user to drag and 
+ * Create the coin elements in the register element for the user to drag and
  * drop onto the counter element.
  */
 function createCoinElements() {
@@ -139,6 +139,6 @@ function getRandomNumber() {
 
     let num = Math.random() * (max - min) + min;
     num = num.toFixed(2);
-    
+
     return num;
 }
