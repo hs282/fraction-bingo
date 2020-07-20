@@ -118,7 +118,7 @@ function spawnBalloon() {
     balloon.id = nextWord;
     balloon.style.height = "150px";
     balloon.style.width = "150px";
-    balloon.style.backgroundImage = "url('balloon.png')";
+    balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
     balloon.style.backgroundSize = "contain";
     balloon.style.backgroundRepeat = "no-repeat";
     balloon.style.backgroundPosition = "center";
