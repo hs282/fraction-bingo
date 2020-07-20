@@ -25,7 +25,7 @@ function setLevel(level) {
 * @param (Event) evt
 **/
 function isNumber(evt) {
-  var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+  let iKeyCode = (evt.which) ? evt.which : evt.keyCode
   if ((iKeyCode != 46 && iKeyCode != 45) && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57)) {
     return false;
   }
@@ -44,11 +44,15 @@ class MoveableCanvasObject {
     this.y = y;
     this.color = color;
   }
+
+  //update the canvas
   update() {
     let ctx = myGameArea.context;
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
+
+  //get the new position of the obejct
   newPos() {
     this.x += this.speedX;
     this.y += this.speedY;
@@ -66,7 +70,7 @@ class Player extends MoveableCanvasObject {
     this.speedY = 0;
     this.killCount = killCount;
     this.roundCount = roundCount;
-    this.ArrowButtons = false;
+    this.arrowButtons = false;
     this.booleanEquation = true;
   }
   /**
@@ -75,25 +79,29 @@ class Player extends MoveableCanvasObject {
   * because the game engine is calling it for constant updates this give mobile users better control of the player
   **/
   resetSpeed() {
-    if(!this.ArrowButtons) {
+    if(!this.arrowButtons) {
       player.speedX = 0;
       player.speedY = 0;
     }
-    this.ArrowButtons = false;
+    this.arrowButtons = false;
   }
   //map clipping - check if the player is inside the map
   checkPosition() {
-    if (this.y <= 0) {
-      this.y = 0;
+    const maxY = 568;
+    const maxX = 295;
+    const minXAndY = 0;
+
+    if (this.y <= minXAndY) {
+      this.y = minXAndY;
     }
-    if (this.y >= 568) {
-      this.y = 568;
+    if (this.y >= maxY) {
+      this.y = maxY;
     }
-    if (this.x <= 0) {
-      this.x = 0;
+    if (this.x <= minXAndY) {
+      this.x = minXAndY;
     }
-    if(this.x >= 295) {
-      this.x = 295;
+    if(this.x >= maxX) {
+      this.x = maxX;
     }
   }
 }
@@ -167,9 +175,11 @@ class Game_Handler {
   * If enemies or boss pass the player and touch the bottom of canavs then game over
   **/
   checkWin() {
+    //if enemies y greater then 590 the game is over
+    const gameWinY = 590;
     //for enemies
     for (let i = 0; i < enemys.length; i++) {
-      if (enemys[i].y > 590 && enemys[i].x != undefined && enemys[i].y != undefined) {
+      if (enemys[i].y > gameWinY && enemys[i].x != undefined && enemys[i].y != undefined) {
         gamePlaying = false;
         myGameArea.gameOver();
         myGameArea.scoreMenu();
@@ -177,7 +187,7 @@ class Game_Handler {
     }
     //for bosses
     for (let i = 0; i < boss.length; i++) {
-      if (boss[i].y > 590 && boss[i].x != undefined && boss[i].y != undefined) {
+      if (boss[i].y > gameWinY && boss[i].x != undefined && boss[i].y != undefined) {
         gamePlaying = false;
         myGameArea.gameOver();
         myGameArea.scoreMenu();
@@ -211,7 +221,7 @@ class Game_Handler {
   * eqution round is every 3 rounds
   **/
   roundHandler() {
-    let maxRound = 80;
+    const maxRound = 80;
     if (player.roundCount < maxRound) {
       player.roundCount += 1;
     }
@@ -260,17 +270,24 @@ class Game_Handler {
   * This allows for enemies to spawn based off of current round
   **/
   spawnEnemies() {
-    let randomX = Math.floor(Math.random() * 240);
-    let randomX2 = Math.floor(Math.random() * 240);
-    if (myGameArea.framNo === 1 || myGameArea.everyInterval(120- player.roundCount)) {
+    const enemiesMaxXPos = 240;
+    const playerDivider = 120;
+    const width = 30;
+    const height = 30;
+    const firstY = -5;
+    const secondY = -12
+
+    let randomX = Math.floor(Math.random() * enemiesMaxXPos);
+    let randomX2 = Math.floor(Math.random() * enemiesMaxXPos);
+    if (myGameArea.framNo === 1 || myGameArea.everyInterval(playerDivider - player.roundCount)) {
       if(this.round > 20) {
-        enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
-        enemys.push(new Npc(30, 30, randomX2, -12, 'blue'));
+        enemys.push(new Npc(width, height, randomX, firstY, 'blue'));
+        enemys.push(new Npc(width, height, randomX2, secondY, 'blue'));
       } else {
-        enemys.push(new Npc(30, 30, randomX, -5, 'blue'));
+        enemys.push(new Npc(width, height, randomX, firstY, 'blue'));
       }
 
-      //spawn boss fomula round % 3 == 0 count is to hold how many are spawn
+      //spawn boss fomula round % 3 == 0
       if (this.round % 3 == 0 && this.round != 0) {
         this.spawnBoss();
       }
@@ -281,7 +298,7 @@ class Game_Handler {
 
   //update enemies method to manage enemies speed on canvas
   updateEnemies() {
-    //loop threw enemys and update
+    //loop threw enemys and update as the rounds increase the speed increases
     for (let i = 0; i < enemys.length; i++) {
       if(this.round < 5) {
         enemys[i].y += 1.25;
@@ -315,7 +332,7 @@ class Game_Handler {
   //update boss to maintain speed and position on canvas
   updateBoss() {
     if(boss.length != 0) {
-      boss.forEach((el) => {
+      boss.forEach(el => {
         el.y += 1;
         el.newPos();
         el.update();
@@ -331,9 +348,12 @@ class Game_Handler {
   * @param {number} count
   **/
   spawnBoss() {
-    let randomX = Math.floor(Math.random() * 240);
-      //moved enmy back 500 thats why its 600 + 500 aka 11000
-      boss.push(new Npc(30, 30, randomX, -10, "green"));
+    const maxX = 240;
+    const width = 30;
+    const height = 30;
+    const spawnY = -10;
+    let randomX = Math.floor(Math.random() * maxX);
+    boss.push(new Npc(width, height, randomX, spawnY, "green"));
   }
 
   /**
@@ -400,6 +420,7 @@ class MathClassHandler {
     this.answer = "";
     //a counter for displaying equations
     this.problemCount = 0;
+    this.algebraChance = .30;
   }
 
   //a method for displaying the popup window that shows the equation
@@ -475,7 +496,7 @@ class MathClassHandler {
       case 4:
         let randomNumber = Math.random();
         //30 percent chance of getting an algebra equation (change to 99 for algebra testing)
-        if(randomNumber <= .30) {
+        if(randomNumber <= this.algebraChance) {
           this.isAlgebra = true;
           equation = this.generateAlgebraEquation();
         } else {
@@ -577,7 +598,6 @@ class MathClassHandler {
       this.problemCount += 1;
       this.displayPopUp();
     }
-    console.log(this.problemCount);
   }
 
   //method to display a redbox when a wrong answer is entered
@@ -644,15 +664,17 @@ class MyGameArea {
     **/
     let width = window.screen.width;
     let height = window.screen.height;
+    const canvasWidth = 320;
+    const canavsHeight = 600;
 
-    if(width > 320) {
-      this.canvas.width = 320;
+    if(width > canvasWidth) {
+      this.canvas.width = canvasWidth;
     } else {
       this.canvas.width = width;
     }
 
-    if(height > 600) {
-      this.canvas.height = 600;
+    if(height > canavsHeight) {
+      this.canvas.height = canavsHeight;
     } else {
       this.canvas.height = height;
     }
@@ -746,11 +768,11 @@ class MyGameArea {
     **/
     this.shootButton.addEventListener("click", (e) => { gameHandler.spawnBullet() });
     this.arrowLeftButton.addEventListener("click", (e) => {
-      player.ArrowButtons = true;
+      player.arrowButtons = true;
       player.speedX = -30
     });
     this.arrowRightButton.addEventListener("click", (e) => {
-      player.ArrowButtons = true;
+      player.arrowButtons = true;
       player.speedX = 30
     });
   }
