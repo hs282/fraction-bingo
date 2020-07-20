@@ -57,7 +57,7 @@ class MoveableCanvasObject {
 }
 
 /**
-* player class used used to update play speed and postion on canvas/map clipping
+* player class used used to update sandbox speed and postion on canvas/map clipping
 **/
 class Player extends MoveableCanvasObject {
   constructor(width, height, x, y, color, killCount, roundCount) {

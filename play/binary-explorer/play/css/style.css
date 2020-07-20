@@ -1,44 +1,17 @@
-.column {
-    padding-left: 20px;
-    width: 50%;
+body {
+    background-color: #2e2e2e;
 }
 
-.num {
-    font-size: 40px;
-    
-    border: 1px solid black;
-    border-radius: 4px;
-
-    padding: 5px;
-
-    margin-right: 20px;
-    margin-bottom: 10px;
+p, h1 {
+    color: #20C20E;
 }
 
 .container {
-    font-family: "Bank Gothic", sans-serif;
+    font-family: "Courier New", sans-serif;
 }
 
-button {
-    border: 1px solid black;
-    border-radius: 4px;
-}
-
-.result {
-    font-size: 40px;
-    font-family: "Consolas", sans-serif;
-}
-
-#message {
-    font-size: 40px;
-    margin-bottom: 10px;
-    font-family: "Consolas", sans-serif;
-}
-
-.letter {
-    margin-bottom: 10px;
-}
-
-.removeButton {
-    margin-right: 10px;
+.btn-large {
+    margin-top: 50px;
+    font-size: 50px;
+    border-radius: 12px;
 }
