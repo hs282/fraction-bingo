@@ -71,7 +71,6 @@ function enableCounterDropDetection() {
 
         // add the value
         currentValue += coin.value;
-        console.log(currentValue);
         // remove the coin from the counter and currentValue when clicked
         el.onclick = e => {
             currentValue -= coin.value;
