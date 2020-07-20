@@ -1,0 +1,112 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100%;
+    background-color: #121213;
+}
+
+.hide {
+    display: none;
+}
+
+section {
+    flex: 1 0 auto;
+}
+
+footer {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+#input {
+    width: 50%;
+    height: 5em;
+    margin: auto;
+}
+
+ul {
+    padding-left: 5px;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+label {
+    margin-bottom: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+input[type="number"] {
+    text-align: center;
+}
+
+footer:hover
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+ul li {
+    display: inline;
+    margin-right: 5px;
+}
+
+#customizeProblemTypes {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+#countdown{
+    margin-top: 30%;
+    text-align: center;
+    font-size: 500%;
+}
+
+#gameTimer{
+    margin: 10% 0 2.5%;
+    text-align: center;
+}
+
+#score{
+    margin: 2.5% 0 5%;
+    text-align: center;
+}
+#problem{
+    margin-bottom: 5%;
+}
+
+#startScreen{
+    margin-top: 25%;
+    text-align: center;
+    font-size: 250%;
+}
+
+#resultScreen{
+    margin: 10% 0 10%;
+    text-align: center;
+    font-size: 250%;
+}
+
+#endButton{
+  margin-top: 5%;
+  text-align: center;
+}
+
+#hpBars{
+    margin: 5% 0 5%;
+    text-align: center;
+}
+
+.progress{
+    margin-bottom: 1%;
+}
+
+.formatImg{
+  width: 200px;
+  height: 200px;
+}
