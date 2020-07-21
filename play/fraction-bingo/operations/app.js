@@ -9,7 +9,10 @@ var addLevel = "",
     numOperandPairs = 0,
     problems = [],
     ans = "",
-    problem = "";
+    problem = "",
+    width = 0,
+    table,
+    noSolBtn;
 
 function operationDiffDisplay(operationId, difficultyId) {
     var checkBox = document.getElementById(operationId);
@@ -37,14 +40,17 @@ function startGame() {
         document.getElementsByName("board3")[0].style.display = ""; 
 	boardType = "board3";
 	numOperandPairs = 18;
+	width = 3;
     } else if (document.getElementById("four").checked) {
 	document.getElementsByName("board4")[0].style.display = "";
 	boardType = "board4";
 	numOperandPairs = 32;
+	width = 4;
     } else if (document.getElementById("five").checked) {
 	document.getElementsByName("board5")[0].style.display = "";
 	boardType = "board5";
 	numOperandPairs = 50;
+	width = 5;
     } else {
 	return;
     }
@@ -149,7 +155,7 @@ function getSolution(n1, n2, d1, d2, op) {
 
 // Fill board table cells with answers to problems
 function fillBoard() {
-    let table = document.getElementsByName(boardType)[0];
+    table = document.getElementsByName(boardType)[0];
     var k = 0;
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
@@ -168,6 +174,7 @@ function checkAnswer(cell) {
         if (ans == cell.innerHTML) {
 	    cell.className = "green";
 	    generateProblem();
+	    checkBingo();
         }
         else {
 	    cell.className = "red";
@@ -187,8 +194,7 @@ function generateProblem() {
 }
 
 function solNotFound() {
-    let table = document.getElementsByName(boardType)[0];
-    let noSolBtn = document.getElementById("noSolution");
+    noSolBtn = document.getElementById("noSolution");
     for (var i = 0, row; row = table.rows[i]; i++) {
         for (var j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") {
@@ -207,4 +213,88 @@ function solNotFound() {
 	    noSolBtn.className = "white";
     }, 500);
     generateProblem();
+}
+
+function checkBingo() {
+    let result;
+    result = checkRows();
+    if (result == true) {
+        return;
+    }
+    result = checkColumns();
+    if (result == true) {
+        return;
+    }
+    result = checkDiagonals();
+    if (result == true) {
+        return;
+    }
+}
+
+function checkRows() {
+    rows: for (var i = 0, row; row = table.rows[i]; i++) {
+        cols: for (var j = 0, col; col = row.cells[j]; j++) {
+            if (col.className != "green") {
+                continue rows;
+            }
+        }
+        bingo();
+        return true;
+    }
+    return false;
+}
+
+function checkColumns() {
+    var row = table.rows[0];
+    cols: for (var i = 0, col; col = row.cells[i]; i++) {
+        rows: for (var j = 0; row = table.rows[j]; j++) {
+            if (row.cells[i].className != "green") {
+                continue cols;
+            }
+        }
+        bingo();
+        return true;
+    }
+    return false;
+}
+
+function checkDiagonals() {
+    let diag = true;
+    let cell = 0;
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        if (row.cells[cell].className != "green") {
+            diag = false;
+            break;
+        }
+        cell++;
+    }
+    if (diag == true) {
+        bingo();
+        return true;
+    }
+    cell = width - 1;
+    for (var j = 0, row; row = table.rows[j]; j++) {
+        if (row.cells[cell].className != "green") {
+            return false;
+        }
+        cell--;
+    }
+    bingo();
+    return true;
+}
+
+function bingo() {
+    table.style.display = "none";
+    noSolBtn.style.display = "none";
+    document.getElementById("problem").innerHTML = "BINGO!!! Onto the next board :)";
+    setTimeout(function() {
+	    operands = [];
+	    boardFractions = [];
+	    problems = [];
+	    table.style.display = "";
+	    noSolBtn.style.display = "";
+	    generateFractions();
+	    generateProblem();
+	    fillBoard();
+    }, 2000);
 }
