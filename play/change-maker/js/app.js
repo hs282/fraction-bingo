@@ -6,22 +6,26 @@ const COINS = [
     {
         name: "Quarter",
         value: 25,
-        img: "quarter.png"
+        img: "quarter.png",
+        description : "The value is $0.25"
     },
     {
         name: "Dime",
         value: 10,
-        img: "dime.png"
+        img: "dime.png",
+        description : "The value is $0.10"
     },
     {
-        name: "Nicket",
+        name: "Nickel",
         value: 5,
-        img: "nickle.png"
+        img: "nickle.png",
+        description : "The value is $0.05"
     },
     {
         name: "Penny",
         value: 1,
-        img: "penny.png"
+        img: "penny.png",
+        description : "The value is $0.01"
     }
 ];
 
@@ -46,6 +50,9 @@ function initUI() {
     targetValue = getRandomNumber();
     updateReadout();
 
+    // bind bootstrap popper.js to the tooltips
+    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 300, hide: 150 }, html: true, placement: "top", animation: true });
+
     if(booleanTimer) {
         document.getElementById("timer").style.display = "inline-block";
         setTimer;
@@ -61,10 +68,11 @@ function setDifficulty(str) {
     }
 }
 
-//fucntion to set the timer for race mode 
+//fucntion to set the timer for race mode
 var setTimer = setInterval(function(){
   if(timeLeft <= 0){
     clearInterval(setTimer);
+    endGame();
   }
   document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
   timeLeft -= 1;
@@ -116,6 +124,10 @@ function enableCounterDropDetection() {
 
             // reset currentValue to zero to reset counting process
             currentValue = 0;
+            //reset the timer
+            if(booleanTimer) {
+                timeLeft = 60;
+            }
 
             // clear counter element to reset counting process
             document.querySelector("#counter").innerHTML = "";
@@ -150,6 +162,11 @@ function createCoinElements() {
         el.className = "coin";
         el.src = coin.img;
 
+        // have tooltip show name on hover
+        el.setAttribute("data-toggle", "tooltip");
+        el.setAttribute("title", coin.name +
+        `<br> ${coin.description}`);
+
         // bind drag action with code snippet transfer to instrument
         el.ondragstart = e => e.dataTransfer.setData("coin", coin.name);
 
@@ -170,4 +187,9 @@ function getRandomNumber() {
     num = num.toFixed(2);
 
     return num;
+}
+
+function endGame() {
+    document.getElementById("readout").style.display = "none";
+    document.getElementById("container").style.display = "none";
 }
