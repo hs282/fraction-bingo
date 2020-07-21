@@ -8,6 +8,7 @@ let zIndex = 999999;
 //let currentWord = undefined;
 let currentWords = [];
 let balloonsPopped = 0;
+let balloonCollisions = 0;
 let spawnInterval = 3000;
 let animationSpeed = 5000;
 const sectors = ["sector_one", "sector_two", "sector_three"];
@@ -29,6 +30,10 @@ function startGame() {
     document.getElementById("balloonShooter").style.display = "";
     document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
+
+    currentWords = [];
+    balloonsPopped = 0;
+    balloonCollisions = 0;
 
     // Shuffle words list
     words = shuffle(words);
@@ -77,6 +82,30 @@ function setDifficulty(element) {
             else if (difficulty == "hard") {elements[i].getElementsByTagName('option')[2].selected = 'selected';}
         }
     }
+}
+
+/**
+ * Function uses the provided balloonID to play a popping animation and then delete the balloon
+ * 
+ * @param {String} balloonID 
+ */
+function popBalloon(balloonID) {
+    let balloon = document.getElementById(balloonID);
+
+    // only the first balloon can be popped (assuming it exists)
+    if (!balloon) return false;
+    else if (balloonID != currentWords[0]) return false;
+
+    // set balloon to remove text and become a popping image
+    balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+    balloon.style.filter = "none";
+    if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
+
+    // the new currentWord (index 0) becomes the word after it
+    currentWords.shift();
+
+    setTimeout(() => {balloon.remove();}, 400);
+    return true;
 }
             
 /**
@@ -161,17 +190,18 @@ function spawnBalloon() {
     }, tempAnimationSpeed, "linear");
 
     // delete balloon after it goes out of bounds (WIP)
-    // setTimeout(() => {
-    //     console.log("Balloon dead :(");
-    //     balloon.remove();
+    setTimeout(() => {
+        if (popBalloon(balloon.id)) {
 
-    //     // The new currentWord (index 0) becomes the word after it
-    //     currentWords.shift();
-    //     // if there isn't a word to be popped, disable the input text box
-    //     if (currentWords.length == 0) {
-    //         document.getElementById("input").disabled = true;
-    //     }
-    // }, tempAnimationSpeed);
+            document.getElementById("input").value = "";
+            document.getElementById("damageTaken").innerHTML = "Damage Taken: " + (++balloonCollisions);
+
+            // if there isn't a word to be popped, disable the input text box
+            if (currentWords.length == 0) {
+                document.getElementById("input").disabled = true;
+            }
+        }
+    }, tempAnimationSpeed);
 }
 
 /**
@@ -185,23 +215,18 @@ document.getElementById("input").addEventListener('keyup', () => {
     input = input.trim().toLowerCase();
                     
     if (input == currentWords[0]) {
-        // Clear input box
+        // clear input box
         document.getElementById("input").value = "";
         document.getElementById("input").parentNode.style.color = "";
-                    
-        // Play popping animation and delete balloon
-        let balloon = document.getElementById(currentWords[0]);
-        balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
-        balloon.style.filter = "none";
-        balloon.removeChild(balloon.firstChild);
-        setTimeout(() => {balloon.remove();}, 500);
 
-        // Update balloons popped display
-        balloonsPopped++;
-        document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + balloonsPopped;
+        // pop the current balloon
+        if (!popBalloon(currentWords[0])) {
+            console.log("Error: Balloon \"" + currentWords[0] + "\" did not get popped");
+            return;
+        }
 
-        // The new currentWord (index 0) becomes the word after it
-        currentWords.shift();
+        // update balloons popped display and increment balloonsPopped
+        document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
 
         // if there isn't a word to be popped, disable the input text box
         if (currentWords.length == 0) {
