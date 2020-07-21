@@ -51,9 +51,9 @@ function initUI() {
     updateReadout();
 
     // bind bootstrap popper.js to the tooltips
-    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 300, hide: 150 }, html: true, placement: "top", animation: true });
+    $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
 
-    if(booleanTimer) {
+    if (booleanTimer) {
         document.getElementById("timer").style.display = "inline-block";
         setTimer;
     }
@@ -69,7 +69,7 @@ function setDifficulty(str) {
 }
 
 //fucntion to set the timer for race mode
-var setTimer = setInterval(function(){
+let setTimer = setInterval(function(){
   if(timeLeft <= 0){
     clearInterval(setTimer);
     endGame();
@@ -125,7 +125,7 @@ function enableCounterDropDetection() {
             // reset currentValue to zero to reset counting process
             currentValue = 0;
             //reset the timer
-            if(booleanTimer) {
+            if (booleanTimer) {
                 timeLeft = 30;
             }
 
@@ -164,8 +164,9 @@ function createCoinElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", coin.name +
-        `<br> ${coin.description}`);
+
+        el.setAttribute("title", `${coin.name}
+        <br> ${coin.description}`);
 
         // bind drag action with code snippet transfer to instrument
         el.ondragstart = e => e.dataTransfer.setData("coin", coin.name);
