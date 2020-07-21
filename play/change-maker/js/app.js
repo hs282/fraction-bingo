@@ -1,24 +1,31 @@
-// coins objects array to hold information about the coins for the game to use
+/**
+* coins objects array to hold information about the coins for the game to use
+* The image source points to the change-maker directory instead of relative path so keep the path static and local
+**/
 const COINS = [
     {
         name: "Quarter",
         value: 25,
-        img: "https://upload.wikimedia.org/wikipedia/commons/4/44/2014_ATB_Quarter_Obv.png"
+        img: "quarter.png",
+        description : "The value is $0.25"
     },
     {
         name: "Dime",
         value: 10,
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/2017-D_Roosevelt_dime_obverse_transparent.png/440px-2017-D_Roosevelt_dime_obverse_transparent.png"
+        img: "dime.png",
+        description : "The value is $0.10"
     },
     {
-        name: "Nicket",
+        name: "Nickel",
         value: 5,
-        img: "https://i.dlpng.com/static/png/94407_thumb.png"
+        img: "nickle.png",
+        description : "The value is $0.05"
     },
     {
         name: "Penny",
         value: 1,
-        img: "https://i.dlpng.com/static/png/303295_preview.png"
+        img: "penny.png",
+        description : "The value is $0.01"
     }
 ];
 
@@ -26,11 +33,15 @@ const COINS = [
 let score = 0;
 let targetValue = 0;
 let currentValue = 0;
+let booleanTimer = false;
+let timeLeft = 30;
 
 /**
  * Initalize the UI on script load.
  */
-(function initUI() {
+function initUI() {
+    const model = document.querySelector(".modal");
+    model.style.display = "none";
     // initialize coin behavior UI stuff
     enableCounterDropDetection();
     createCoinElements();
@@ -38,7 +49,34 @@ let currentValue = 0;
     // get a new target value for the user as their target
     targetValue = getRandomNumber();
     updateReadout();
-})();
+
+    // bind bootstrap popper.js to the tooltips
+    $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
+
+    if (booleanTimer) {
+        document.getElementById("timer").style.display = "inline-block";
+        setTimer;
+    }
+};
+
+//to set the timer to true if race mode is enabled
+function setDifficulty(str) {
+    if(str == "race") {
+        booleanTimer = true;
+    } else {
+        booleanTimer = false;
+    }
+}
+
+//fucntion to set the timer for race mode
+let setTimer = setInterval(function(){
+  if(timeLeft <= 0){
+    clearInterval(setTimer);
+    endGame();
+  }
+  document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
+  timeLeft -= 1;
+}, 1000);
 
 /**
  * Enable the counter element to have draggable elements dropped on it.
@@ -86,6 +124,10 @@ function enableCounterDropDetection() {
 
             // reset currentValue to zero to reset counting process
             currentValue = 0;
+            //reset the timer
+            if (booleanTimer) {
+                timeLeft = 30;
+            }
 
             // clear counter element to reset counting process
             document.querySelector("#counter").innerHTML = "";
@@ -120,6 +162,12 @@ function createCoinElements() {
         el.className = "coin";
         el.src = coin.img;
 
+        // have tooltip show name on hover
+        el.setAttribute("data-toggle", "tooltip");
+
+        el.setAttribute("title", `${coin.name}
+        <br> ${coin.description}`);
+
         // bind drag action with code snippet transfer to instrument
         el.ondragstart = e => e.dataTransfer.setData("coin", coin.name);
 
@@ -140,4 +188,11 @@ function getRandomNumber() {
     num = num.toFixed(2);
 
     return num;
+}
+
+function endGame() {
+    document.getElementById("readout").style.display = "none";
+    document.getElementById("container").style.display = "none";
+    document.getElementById("gameOver").style.display = "block";
+    document.getElementById("userScore").textContent = `Your score: ${score}`;
 }
