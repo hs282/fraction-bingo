@@ -117,7 +117,7 @@ function spawnBalloon() {
     // Style the balloon
     balloon.id = nextWord;
     balloon.style.height = "150px";
-    balloon.style.width = "150px";
+    balloon.style.width = 150 * (nextWord.length / 3) + "px";
     balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
     balloon.style.backgroundSize = "contain";
     balloon.style.backgroundRepeat = "no-repeat";
@@ -126,13 +126,21 @@ function spawnBalloon() {
     balloon.style.position = "absolute";
     balloon.style.left = Math.random() * 90 + "%";
     balloon.style.zIndex = zIndex--;
+
+    // reset zIndex if too low
+    if (zIndex <= 1) {zIndex = 999999;}
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
     text.style.top = "30%";
+    text.style.fontSize = "22px";
+    text.style.fontWeight = "bold";
+    text.style.webkitTextStrokeWidth = "0.5px";
+    text.style.webkitTextStrokeColor = "white";
+    text.style.webkitTextFillColor = "black"
       
     // Place balloon in random sector based on word difficulty level
-    let randSector = Math.floor(Math.random() * (1 + wordDiffLevel)); // 3 -
+    let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel)); // 3 -
     document.getElementById(sectors[randSector]).appendChild(balloon);
 
     let tempAnimationSpeed = animationSpeed;
@@ -181,8 +189,12 @@ document.getElementById("input").addEventListener('keyup', () => {
         document.getElementById("input").value = "";
         document.getElementById("input").parentNode.style.color = "";
                     
-        // Delete balloon
-        document.getElementById(currentWords[0]).remove();
+        // Play popping animation and delete balloon
+        let balloon = document.getElementById(currentWords[0]);
+        balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+        balloon.style.filter = "none";
+        balloon.removeChild(balloon.firstChild);
+        setTimeout(() => {balloon.remove();}, 500);
 
         // Update balloons popped display
         balloonsPopped++;
