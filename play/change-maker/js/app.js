@@ -30,6 +30,7 @@ let score = 0;
 let targetValue = 0;
 let currentValue = 0;
 let booleanTimer = false;
+let timeLeft = 60;
 
 /**
  * Initalize the UI on script load.
@@ -44,6 +45,11 @@ function initUI() {
     // get a new target value for the user as their target
     targetValue = getRandomNumber();
     updateReadout();
+
+    if(booleanTimer) {
+        document.getElementById("timer").style.display = "inline-block";
+        setTimer;
+    }
 };
 
 //to set the timer to true if race mode is enabled
@@ -54,6 +60,15 @@ function setDifficulty(str) {
         booleanTimer = false;
     }
 }
+
+//fucntion to set the timer for race mode 
+var setTimer = setInterval(function(){
+  if(timeLeft <= 0){
+    clearInterval(setTimer);
+  }
+  document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
+  timeLeft -= 1;
+}, 1000);
 
 /**
  * Enable the counter element to have draggable elements dropped on it.

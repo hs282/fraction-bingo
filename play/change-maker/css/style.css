@@ -40,10 +40,14 @@ body {
 }
 
 /**
-*  For the model to display right away 
+*  For the model to display right away
 **/
 .modal {
     display: block;
+}
+
+#timer {
+    display: none;
 }
 
 #counter {
