@@ -34,7 +34,7 @@ let score = 0;
 let targetValue = 0;
 let currentValue = 0;
 let booleanTimer = false;
-let timeLeft = 60;
+let timeLeft = 30;
 
 /**
  * Initalize the UI on script load.
@@ -126,7 +126,7 @@ function enableCounterDropDetection() {
             currentValue = 0;
             //reset the timer
             if(booleanTimer) {
-                timeLeft = 60;
+                timeLeft = 30;
             }
 
             // clear counter element to reset counting process
@@ -192,4 +192,6 @@ function getRandomNumber() {
 function endGame() {
     document.getElementById("readout").style.display = "none";
     document.getElementById("container").style.display = "none";
+    document.getElementById("gameOver").style.display = "block";
+    document.getElementById("userScore").textContent = `Your score: ${score}`;
 }

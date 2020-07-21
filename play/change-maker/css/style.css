@@ -50,6 +50,11 @@ body {
     display: none;
 }
 
+#gameOver {
+    display: none;
+    text-align: center;
+}
+
 #counter {
     border: 1px solid black;
     border-radius: 4px;
