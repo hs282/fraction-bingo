@@ -4,6 +4,7 @@ body {
 
 p, h1 {
     color: #20C20E;
+    margin-bottom: 30px;
 }
 
 .container {
@@ -14,4 +15,29 @@ p, h1 {
     margin-top: 50px;
     font-size: 50px;
     border-radius: 12px;
+}
+
+.num {
+    font-size: 40px;
+    color: #20C20E;
+    background-color: black;
+    font-family: "Bank Gothic", sans-serif;
+
+    border: 1px solid black;
+    border-radius: 4px;
+
+    padding: 5px;
+
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.result {
+    font-size: 40px;
+    font-family: "Consolas", sans-serif;
+    color: #20C20E;
+}
+
+.text-center {
+    margin-bottom: 30px;
 }

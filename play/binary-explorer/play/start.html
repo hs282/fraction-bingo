@@ -11,7 +11,7 @@
 
     </head>
 
-    <body>
+    <body onclick="skip()">
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../..">TeCanal Kids Corner</a>
 
@@ -61,7 +61,7 @@
             <p id="story"></p>
 
             <div class="text-center mt-2">
-                <a class="btn btn-success btn-large" href="">
+                <a class="btn btn-success btn-large" href="level1.html">
                     Start
                 </a>
             </div>
@@ -72,7 +72,7 @@
 
         <script>
             /**
-             * Displays text using a typewriter effect
+             * Displays text using a typewriter effect.
              * @type {number}
              */
             let i = 0;
@@ -87,6 +87,13 @@
                     i++;
                     setTimeout(typeWriter, speed, i);
                 }
+            }
+
+            /**
+             * Fast forwards the text typewriter.
+             */
+            function skip() {
+                speed = 0;
             }
         </script>
     </body>

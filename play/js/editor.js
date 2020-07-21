@@ -102,9 +102,9 @@ window.onload = function() {
         }
     }
 
-    let currentTab = "index.html";
+    let currentTab = "start.html";
     function updatePreview() {
-        if (currentTab == "index.html") {
+        if (currentTab == "start.html") {
             // get current HTML content from editor
             html = editor.getValue();
 
@@ -150,8 +150,8 @@ window.onload = function() {
             e.srcElement.className = "active";
             currentTab = e.srcElement.innerHTML;
 
-            // if just clicked on index.html tab
-            if (currentTab == "index.html") {
+            // if just clicked on start.html tab
+            if (currentTab == "start.html") {
                 // save css content
                 css = editor.getValue();
 
