@@ -249,7 +249,7 @@ function checkDiagonals() {
 function bingo() {
     table.style.display = "none";
     noSolBtn.style.display = "none";
-    document.getElementById("problem").innerHTML = "BINGO!!! Onto the next board :)";
+    document.getElementById("problem").innerHTML = "BINGO!!! On to the next board :)";
     setTimeout(function() {
         boardFractions = [];
 	problemFractions = [];
