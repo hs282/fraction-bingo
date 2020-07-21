@@ -43,7 +43,34 @@
                     </ul>
                 </div>
             </nav>
-            
+
+            <div class="modal" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Change Maker Instructions</h3>
+                        </div>
+                        <div class="modal-body" style="font-size: 16px">
+                            <p>Learning mode is not timed, while Race mode is playing against the clock</p>
+                            <p>Drag and drop the change to make it equal the target value.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <p class="text-center container-fluid">
+                                <label style="font-size: x-large;" class="btn-lg">Difficulty:</label>
+                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector"
+                                    onchange="setDifficulty(this.value);">
+                                    <option value="learn" class="btn-success">Leaning</option>
+                                    <option value="race" class="btn-danger">Race</option>
+                                </select>
+                                <button type="button" class="btn btn-success btn-lg" data-dismiss="modal"
+                                    onclick="initUI()">Start Game</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div id="readout">
                 <span id="score">Score: 0</span>
                 <span>|</span>
@@ -57,6 +84,7 @@
             </section>
         </section>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="js/app.js"></script>
     </body>
 </html>

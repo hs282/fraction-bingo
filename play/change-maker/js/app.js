@@ -1,24 +1,27 @@
-// coins objects array to hold information about the coins for the game to use
+/**
+* coins objects array to hold information about the coins for the game to use
+* The image source points to the change-maker directory instead of relative path so keep the path static and local
+**/
 const COINS = [
     {
         name: "Quarter",
         value: 25,
-        img: "https://upload.wikimedia.org/wikipedia/commons/4/44/2014_ATB_Quarter_Obv.png"
+        img: "quarter.png"
     },
     {
         name: "Dime",
         value: 10,
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/2017-D_Roosevelt_dime_obverse_transparent.png/440px-2017-D_Roosevelt_dime_obverse_transparent.png"
+        img: "dime.png"
     },
     {
         name: "Nicket",
         value: 5,
-        img: "https://i.dlpng.com/static/png/94407_thumb.png"
+        img: "nickle.png"
     },
     {
         name: "Penny",
         value: 1,
-        img: "https://i.dlpng.com/static/png/303295_preview.png"
+        img: "penny.png"
     }
 ];
 
@@ -26,11 +29,14 @@ const COINS = [
 let score = 0;
 let targetValue = 0;
 let currentValue = 0;
+let booleanTimer = false;
 
 /**
  * Initalize the UI on script load.
  */
-(function initUI() {
+function initUI() {
+    const model = document.querySelector(".modal");
+    model.style.display = "none";
     // initialize coin behavior UI stuff
     enableCounterDropDetection();
     createCoinElements();
@@ -38,7 +44,16 @@ let currentValue = 0;
     // get a new target value for the user as their target
     targetValue = getRandomNumber();
     updateReadout();
-})();
+};
+
+//to set the timer to true if race mode is enabled
+function setDifficulty(str) {
+    if(str == "race") {
+        booleanTimer = true;
+    } else {
+        booleanTimer = false;
+    }
+}
 
 /**
  * Enable the counter element to have draggable elements dropped on it.
