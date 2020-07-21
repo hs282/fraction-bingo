@@ -1,12 +1,15 @@
 var diffLevel = "",
     boardType = "",
     numCells = 0,
+    width = 0,
     multipliers = [],
     boardFractions = [],
     problemFractions = [],
     fraction = "",
     problem = "",
-    ans = "";
+    ans = "",
+    table,
+    noSolBtn;
 
 function startGame() {
     // Get selected difficulty level
@@ -22,16 +25,19 @@ function startGame() {
         document.getElementsByName("board3")[0].style.display = ""; 
 	boardType = "board3";
 	numCells = 9;
+	width = 3;
 	multipliers = [1, 2, 3, 4]
     } else if (document.getElementById("four").checked) {
 	document.getElementsByName("board4")[0].style.display = "";
 	boardType = "board4";
 	numCells = 16;
+	width = 4;
 	multipliers = [5, 6, 7, 8];
     } else if (document.getElementById("five").checked) {
 	document.getElementsByName("board5")[0].style.display = "";
 	boardType = "board5";
 	numCells = 25;
+	width = 5;
 	multipliers = [9, 10, 11, 12];
     } else {
 	return;
@@ -83,7 +89,7 @@ function simplifyFract(numerator, denominator) {
 
 // Fill board table cells with simplified fractions
 function fillBoard() {
-    let table = document.getElementsByName(boardType)[0];
+    table = document.getElementsByName(boardType)[0];
     var k = 0;
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
@@ -102,6 +108,7 @@ function checkAnswer(cell) {
         if (ans == cell.innerHTML) {
             cell.className = "green";
             generateProblem();
+	    checkBingo();
         }
         else {
             cell.className = "red";
@@ -148,9 +155,8 @@ function generateProblem() {
 }
 
 function solNotFound() {
-    let t = document.getElementsByName(boardType)[0];
-    let noSolBtn = document.getElementById("noSolution");
-    for (var i = 0, row; row = t.rows[i]; i++) {
+    noSolBtn = document.getElementById("noSolution");
+    for (var i = 0, row; row = table.rows[i]; i++) {
         for (var j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") {
 	        if (ans == col.innerHTML) {
@@ -172,17 +178,86 @@ function solNotFound() {
 }
 
 function checkBingo() {
-
+    let result;
+    result = checkRows();
+    if (result == true) {
+       	return;
+    } 
+    result = checkColumns();
+    if (result == true) {
+	return;
+    }
+    result = checkDiagonals();
+    if (result == true) {
+        return;
+    }
 }
 
 function checkRows() {
-
+    rows: for (var i = 0, row; row = table.rows[i]; i++) {
+        cols: for (var j = 0, col; col = row.cells[j]; j++) {
+	    if (col.className != "green") {
+		continue rows;
+	    }
+	}
+	bingo();
+	return true;
+    }
+    return false;
 }
 
 function checkColumns() {
-
+    var row = table.rows[0];
+    cols: for (var i = 0, col; col = row.cells[i]; i++) {
+	rows: for (var j = 0; row = table.rows[j]; j++) {
+	    if (row.cells[i].className != "green") {
+		continue cols;
+	    }
+	}
+	bingo();
+	return true;
+    }
+    return false;
 }
 
 function checkDiagonals() {
+    let diag = true;
+    let cell = 0;
+    for (var i = 0, row; row = table.rows[i]; i++) {
+	if (row.cells[cell].className != "green") {
+	    diag = false;
+	    break;
+	}
+	cell++;
+    }
+    if (diag == true) {
+        bingo();
+	return true;
+    }
 
+    cell = width - 1;
+    for (var j = 0, row; row = table.rows[j]; j++) {
+	if (row.cells[cell].className != "green") {
+	    return false;
+	}
+	cell--;
+    }
+    bingo();
+    return true;
+}
+
+function bingo() {
+    table.style.display = "none";
+    noSolBtn.style.display = "none";
+    document.getElementById("problem").innerHTML = "BINGO!!! Onto the next board :)";
+    setTimeout(function() {
+        boardFractions = [];
+	problemFractions = [];
+	table.style.display = "";
+	noSolBtn.style.display = "";
+	generateBoardFracts();
+	generateProblemFracts();
+	generateProblem();
+	fillBoard();
+    }, 2000);
 }
