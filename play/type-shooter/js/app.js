@@ -117,22 +117,30 @@ function spawnBalloon() {
     // Style the balloon
     balloon.id = nextWord;
     balloon.style.height = "150px";
-    balloon.style.width = "150px";
-    balloon.style.backgroundImage = "url('balloon.png')";
-    balloon.style.backgroundSize = "contain";
+    balloon.style.width = 150 * (nextWord.length / 4.75) + "px";
+    balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
+    balloon.style.backgroundSize = "100% 100%";
     balloon.style.backgroundRepeat = "no-repeat";
     balloon.style.backgroundPosition = "center";
     balloon.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
     balloon.style.position = "absolute";
-    balloon.style.left = Math.random() * 90 + "%";
+    balloon.style.left = (Math.random() * 70 + 5) + "%";
     balloon.style.zIndex = zIndex--;
+
+    // reset zIndex if too low
+    if (zIndex <= 1) {zIndex = 999999;}
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
     text.style.top = "30%";
+    text.style.fontSize = "22px";
+    text.style.fontWeight = "bold";
+    text.style.webkitTextStrokeWidth = "0.5px";
+    text.style.webkitTextStrokeColor = "white";
+    text.style.webkitTextFillColor = "black"
       
     // Place balloon in random sector based on word difficulty level
-    let randSector = Math.floor(Math.random() * (1 + wordDiffLevel)); // 3 -
+    let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel));
     document.getElementById(sectors[randSector]).appendChild(balloon);
 
     let tempAnimationSpeed = animationSpeed;
@@ -181,8 +189,12 @@ document.getElementById("input").addEventListener('keyup', () => {
         document.getElementById("input").value = "";
         document.getElementById("input").parentNode.style.color = "";
                     
-        // Delete balloon
-        document.getElementById(currentWords[0]).remove();
+        // Play popping animation and delete balloon
+        let balloon = document.getElementById(currentWords[0]);
+        balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+        balloon.style.filter = "none";
+        balloon.removeChild(balloon.firstChild);
+        setTimeout(() => {balloon.remove();}, 500);
 
         // Update balloons popped display
         balloonsPopped++;
