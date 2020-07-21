@@ -6,6 +6,7 @@ body {
 
 #sector_one, #sector_two, #sector_three {
     height: 18%;
+    width: 100%;
 }
 
 #spaceship {

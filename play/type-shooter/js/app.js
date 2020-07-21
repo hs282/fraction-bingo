@@ -117,14 +117,14 @@ function spawnBalloon() {
     // Style the balloon
     balloon.id = nextWord;
     balloon.style.height = "150px";
-    balloon.style.width = 150 * (nextWord.length / 3) + "px";
+    balloon.style.width = 150 * (nextWord.length / 4.75) + "px";
     balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
-    balloon.style.backgroundSize = "contain";
+    balloon.style.backgroundSize = "100% 100%";
     balloon.style.backgroundRepeat = "no-repeat";
     balloon.style.backgroundPosition = "center";
     balloon.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
     balloon.style.position = "absolute";
-    balloon.style.left = Math.random() * 90 + "%";
+    balloon.style.left = (Math.random() * 70 + 5) + "%";
     balloon.style.zIndex = zIndex--;
 
     // reset zIndex if too low
@@ -140,7 +140,7 @@ function spawnBalloon() {
     text.style.webkitTextFillColor = "black"
       
     // Place balloon in random sector based on word difficulty level
-    let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel)); // 3 -
+    let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel));
     document.getElementById(sectors[randSector]).appendChild(balloon);
 
     let tempAnimationSpeed = animationSpeed;
