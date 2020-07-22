@@ -173,8 +173,10 @@ function checkAnswer(cell) {
     if (cell.className != "green") {
         if (ans == cell.innerHTML) {
 	    cell.className = "green";
-	    generateProblem();
-	    checkBingo();
+	    let b = checkBingo();
+	    if (b == false) {
+	        generateProblem();
+	    }
         }
         else {
 	    cell.className = "red";
@@ -189,6 +191,7 @@ function generateProblem() {
     let index = Math.floor(Math.random() * problems.length);
     let randomProb = problems[index];
     ans = randomProb.answer;
+    problems.splice(index, 1);
     problem = randomProb.operandOne + " " + randomProb.operation + " " +  randomProb.operandTwo + " = ?";
     document.getElementById("problem").innerHTML = problem;
 }
@@ -219,16 +222,17 @@ function checkBingo() {
     let result;
     result = checkRows();
     if (result == true) {
-        return;
+        return true;
     }
     result = checkColumns();
     if (result == true) {
-        return;
+        return true;
     }
     result = checkDiagonals();
     if (result == true) {
-        return;
+        return true;
     }
+    return false;
 }
 
 function checkRows() {
