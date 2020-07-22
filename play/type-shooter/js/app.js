@@ -5,17 +5,25 @@ let words = [
 let wordDiffLevel;
 let difficulty = "medium";
 let zIndex = 999999;
-//let currentWord = undefined;
+let spawnIntervalID;
 let currentWords = [];
+
+// stats
 let balloonsPopped = 0;
 let balloonCollisions = 0;
-let spawnInterval = 3000;
-let animationSpeed = 5000;
+let wpmStat = 0;
+let lettersTyped;
+let typingErrors;
+
+const SPAWN_INTERVAL = 3000;
+const ANIMATION_SPEED = 5000;
 const sectors = ["sector_one", "sector_two", "sector_three"];
 
 const EASY_MULTIPLIER = 1;
 const MEDIUM_MULTIPLIER = 1.25;
 const HARD_MULTIPLIER = 1.5;
+
+const STARTING_LIVES = 10;
 
 (function initUI() {
     // show instructions modal
@@ -28,10 +36,12 @@ const HARD_MULTIPLIER = 1.5;
 function startGame() {
 
     document.getElementById("balloonShooter").style.display = "";
+    document.getElementById("endScreen").style.display = "none";
     document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
 
     currentWords = [];
+    zIndex = 999999;
     balloonsPopped = 0;
     balloonCollisions = 0;
 
@@ -40,10 +50,10 @@ function startGame() {
 
     spawnBalloon();
 
-    let tempInterval = getInterval();
+    let tempInterval = getSpawnInterval();
 
     // Spawn a new balloon every spawnInterval / difficulty multiplier seconds
-    setInterval(() => {spawnBalloon();}, tempInterval);
+    spawnIntervalID = setInterval(() => {spawnBalloon();}, tempInterval);
 
     const input = document.getElementById('input');
 
@@ -53,10 +63,48 @@ function startGame() {
 }
 
 /**
+ * 
+ */
+function endGame() {
+
+    // disable input and show end screen
+    document.getElementById('input').disabled = true;
+    document.getElementById('input').value = "";
+    document.getElementById('input').blur();
+    document.getElementById("balloonShooter").style.display = "none";
+    document.getElementById("endScreen").style.display = "";
+
+    clearInterval(spawnIntervalID);
+
+    let tempLength = currentWords.length;
+
+    for (let i = 0; i < tempLength; i++) {
+        console.log("Removing " + currentWords[i]);
+        document.getElementById(currentWords[i]).remove();
+    }
+    currentWords = [];
+
+    // display player stats
+    document.getElementById("wpmStat").innerHTML = wpmStat.toFixed() + " wpm";
+    document.getElementById("wordCountStat").innerHTML = balloonsPopped;
+
+    // set default accuracy to 0
+    let wordAccuracyStat = 0.0;
+
+    // if the lettersTyped are greater than 0, then calculate a proper wordAccuracyStat
+    if (lettersTyped > 0) {
+        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100);
+    }
+
+    // set the actual wordAccuracyStat in HTML
+    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat.toFixed(1) + "%";
+}
+
+/**
  * Get the true spawnInterval by multiplying it by the respective difficulty's multiplier
  */
-function getInterval() {
-    return spawnInterval / (
+function getSpawnInterval() {
+    return SPAWN_INTERVAL / (
         difficulty == "easy" ? EASY_MULTIPLIER : (
             difficulty == "medium" ? MEDIUM_MULTIPLIER : (
                 difficulty == "hard" ? HARD_MULTIPLIER : EASY_MULTIPLIER
@@ -99,6 +147,7 @@ function popBalloon(balloonID) {
     // set balloon to remove text and become a popping image
     balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
     balloon.style.filter = "none";
+    balloon.style.zIndex = 0;
     if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
 
     // the new currentWord (index 0) becomes the word after it
@@ -172,7 +221,7 @@ function spawnBalloon() {
     let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel));
     document.getElementById(sectors[randSector]).appendChild(balloon);
 
-    let tempAnimationSpeed = animationSpeed;
+    let tempAnimationSpeed = ANIMATION_SPEED;
 
     // normalize sector animation speeds to some extent
     if (randSector == 0) tempAnimationSpeed *= EASY_MULTIPLIER;
@@ -194,7 +243,11 @@ function spawnBalloon() {
         if (popBalloon(balloon.id)) {
 
             document.getElementById("input").value = "";
-            document.getElementById("damageTaken").innerHTML = "Damage Taken: " + (++balloonCollisions);
+            let livesLeft = STARTING_LIVES - (++balloonCollisions);
+            document.getElementById("livesLeft").innerHTML = "Lives Left: " + livesLeft;
+
+            // end the game if the player is out of lives
+            if (livesLeft <= 0) { endGame(); return; }
 
             // if there isn't a word to be popped, disable the input text box
             if (currentWords.length == 0) {
