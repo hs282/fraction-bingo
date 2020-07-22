@@ -77,6 +77,56 @@ function deleteRow() {
 }
 
 /**
+ * Displays text using a typewriter effect.
+ * @type {number}
+ */
+let stop = false;
+setTimeout(enabled, (speed + 4) * binaryText.length);
+
+function typeWriter() {
+    text = document.getElementById("hiddenText").innerHTML;
+    i = 0;
+    speed = 65;
+    let binaryText = "";
+    for (let i = 0; i < text.length; i++) {
+        binaryText += text[i].charCodeAt(0).toString(2) + " ";
+    }
+    type(speed, i, binaryText);
+}
+
+function type(speed, i, binaryText) {
+    if (stop) return;
+    if (i < binaryText.length) {
+        document.getElementById("story").innerHTML += binaryText.charAt(i);
+        i++;
+        setTimeout(type, speed, speed, i, binaryText);
+    }
+}
+
+/**
+ * Enables translate button
+ */
+function enabled() {
+    document.getElementById("translateButton").disabled = false;
+}
+
+/**
+ * Displays text and skips the typewriter effect.
+ */
+function skip() {
+    text = document.getElementById("hiddenText").innerHTML;
+    stop = true;
+    let binaryText = "";
+    for (let i = 0; i < text.length; i++) {
+        binaryText += text[i].charCodeAt(0).toString(2) + " ";
+    }
+    document.getElementById("translateButton").disabled = false;
+    clearTimeout(skip);
+    document.getElementById("story").innerHTML = binaryText;
+    document.body.onclick = null;
+}
+
+/**
  * Compares message with desired answer.
  */
 function check(string) {

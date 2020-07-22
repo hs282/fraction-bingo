@@ -11,7 +11,7 @@
 
     </head>
 
-    <body onclick="skip()">
+    <body onclick="skip()" onload="typeWriter()">
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../..">TeCanal Kids Corner</a>
 
@@ -63,6 +63,8 @@
 
             <p id="story"></p>
 
+            <span id="hiddenText" style="visibility: hidden">Hello? Hello? If anyone is receiving this message, please reply "Yes".</span>
+
             <div class="text-center mt-2">
                 <button id="translateButton" class="btn btn-success" onclick="translateStory()" disabled="true">
                     Translate
@@ -86,51 +88,6 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
-        <script>
-            /**
-             * Displays text using a typewriter effect.
-             * @type {number}
-             */
-            let i = 0;
-            let speed = 65;
-            let text = "Hello? Hello? If anyone is receiving this message, please reply \"Yes\".";
-            let binaryText = "";
-            for (let i = 0; i < text.length; i++) {
-                binaryText += text[i].charCodeAt(0).toString(2) + " ";
-            }
-            let stop = false;
-
-            typeWriter(i);
-            setTimeout(enabled, (speed + 4) * binaryText.length);
-
-            function typeWriter(i) {
-                if (stop) return;
-                if (i < binaryText.length) {
-                    document.getElementById("story").innerHTML += binaryText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, speed, i);
-                }
-            }
-
-            /**
-             * Enables translate button
-             */
-            function enabled() {
-                document.getElementById("translateButton").disabled = false;
-            }
-
-            /**
-             * Displays text and skips the typewriter effect.
-             */
-            function skip() {
-                stop = true;
-                document.getElementById("translateButton").disabled = false;
-                clearTimeout(skip);
-                document.getElementById("story").innerHTML = binaryText;
-                document.body.onclick = null;
-            }
-        </script>
 
         <script src="js/app.js"></script>
     </body>
