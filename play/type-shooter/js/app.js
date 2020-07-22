@@ -5,16 +5,27 @@ let words = [
 let wordDiffLevel;
 let difficulty = "medium";
 let zIndex = 999999;
-//let currentWord = undefined;
+let spawnIntervalID;
+let timerIntervalID;
+let timer;
 let currentWords = [];
+
+// stats
 let balloonsPopped = 0;
-let spawnInterval = 3000;
-let animationSpeed = 5000;
+let balloonCollisions = 0;
+let wpmStat;
+let lettersTyped;
+let typingErrors;
+
+const SPAWN_INTERVAL = 3000;
+const ANIMATION_SPEED = 5000;
 const sectors = ["sector_one", "sector_two", "sector_three"];
 
 const EASY_MULTIPLIER = 1;
 const MEDIUM_MULTIPLIER = 1.25;
 const HARD_MULTIPLIER = 1.5;
+
+const STARTING_LIVES = 10;
 
 (function initUI() {
     // show instructions modal
@@ -27,18 +38,33 @@ const HARD_MULTIPLIER = 1.5;
 function startGame() {
 
     document.getElementById("balloonShooter").style.display = "";
+    document.getElementById("endScreen").style.display = "none";
     document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
 
+    currentWords = [];
+    zIndex = 999999;
+    balloonsPopped = 0;
+    balloonCollisions = 0;
+    wpmStat = 0;
+    lettersTyped = 0;
+    typingErrors = 0;
+    timer = 0;
+
     // Shuffle words list
     words = shuffle(words);
-
     spawnBalloon();
 
-    let tempInterval = getInterval();
+    // add one to the timer and update wpmStat every second
+    timerIntervalID = setInterval(() => {
+        wpmStat = (balloonsPopped / (++timer)) * 60;
+        let wpmStats = document.querySelectorAll("#wpmStat");
+        for (let i = 0; i < wpmStats.length; i++) wpmStats[i].style.innerHTML = "WPM: " + wpmStat;
+    }, 1000);
 
+    let tempInterval = getSpawnInterval();
     // Spawn a new balloon every spawnInterval / difficulty multiplier seconds
-    setInterval(() => {spawnBalloon();}, tempInterval);
+    spawnIntervalID = setInterval(() => {spawnBalloon();}, tempInterval);
 
     const input = document.getElementById('input');
 
@@ -48,10 +74,47 @@ function startGame() {
 }
 
 /**
+ * Ends the Type Shooter game loop and displays the endScreen
+ */
+function endGame() {
+
+    // disable input and show end screen
+    document.getElementById('input').disabled = true;
+    document.getElementById('input').value = "";
+    document.getElementById('input').blur();
+    document.getElementById("balloonShooter").style.display = "none";
+    document.getElementById("endScreen").style.display = "";
+
+    clearInterval(spawnIntervalID);
+    clearInterval(timerIntervalID);
+
+    // remove all balloons from the document and reset currentWords
+    for (let i = 0; i < currentWords.length; i++) {
+        document.getElementById(currentWords[i]).remove();
+    }
+    currentWords = [];
+
+    // display player stats
+    document.getElementById("wpmStat").innerHTML = wpmStat.toFixed() + " wpm";
+    document.getElementById("wordCountStat").innerHTML = balloonsPopped;
+
+    // set default accuracy to 0
+    let wordAccuracyStat = 0.0;
+
+    // if the lettersTyped are greater than 0, then calculate a proper wordAccuracyStat
+    if (lettersTyped > 0) {
+        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100);
+    }
+
+    // set the actual wordAccuracyStat in HTML
+    document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat.toFixed(1) + "%";
+}
+
+/**
  * Get the true spawnInterval by multiplying it by the respective difficulty's multiplier
  */
-function getInterval() {
-    return spawnInterval / (
+function getSpawnInterval() {
+    return SPAWN_INTERVAL / (
         difficulty == "easy" ? EASY_MULTIPLIER : (
             difficulty == "medium" ? MEDIUM_MULTIPLIER : (
                 difficulty == "hard" ? HARD_MULTIPLIER : EASY_MULTIPLIER
@@ -77,6 +140,31 @@ function setDifficulty(element) {
             else if (difficulty == "hard") {elements[i].getElementsByTagName('option')[2].selected = 'selected';}
         }
     }
+}
+
+/**
+ * Function uses the provided balloonID to play a popping animation and then delete the balloon
+ * 
+ * @param {String} balloonID 
+ */
+function popBalloon(balloonID) {
+    let balloon = document.getElementById(balloonID);
+
+    // only the first balloon can be popped (assuming it exists)
+    if (!balloon) return false;
+    else if (balloonID != currentWords[0]) return false;
+
+    // set balloon to remove text and become a popping image
+    balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+    balloon.style.filter = "none";
+    balloon.style.zIndex = 0;
+    if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
+
+    // the new currentWord (index 0) becomes the word after it
+    currentWords.shift();
+
+    setTimeout(() => {balloon.remove();}, 400);
+    return true;
 }
             
 /**
@@ -143,7 +231,7 @@ function spawnBalloon() {
     let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel));
     document.getElementById(sectors[randSector]).appendChild(balloon);
 
-    let tempAnimationSpeed = animationSpeed;
+    let tempAnimationSpeed = ANIMATION_SPEED;
 
     // normalize sector animation speeds to some extent
     if (randSector == 0) tempAnimationSpeed *= EASY_MULTIPLIER;
@@ -161,17 +249,22 @@ function spawnBalloon() {
     }, tempAnimationSpeed, "linear");
 
     // delete balloon after it goes out of bounds (WIP)
-    // setTimeout(() => {
-    //     console.log("Balloon dead :(");
-    //     balloon.remove();
+    setTimeout(() => {
+        if (popBalloon(balloon.id)) {
 
-    //     // The new currentWord (index 0) becomes the word after it
-    //     currentWords.shift();
-    //     // if there isn't a word to be popped, disable the input text box
-    //     if (currentWords.length == 0) {
-    //         document.getElementById("input").disabled = true;
-    //     }
-    // }, tempAnimationSpeed);
+            document.getElementById("input").value = "";
+            let livesLeft = STARTING_LIVES - (++balloonCollisions);
+            document.getElementById("livesLeft").innerHTML = "Lives Left: " + livesLeft;
+
+            // end the game if the player is out of lives
+            if (livesLeft <= 0) { endGame(); return; }
+
+            // if there isn't a word to be popped, disable the input text box
+            if (currentWords.length == 0) {
+                document.getElementById("input").disabled = true;
+            }
+        }
+    }, tempAnimationSpeed);
 }
 
 /**
@@ -185,23 +278,18 @@ document.getElementById("input").addEventListener('keyup', () => {
     input = input.trim().toLowerCase();
                     
     if (input == currentWords[0]) {
-        // Clear input box
+        // clear input box
         document.getElementById("input").value = "";
         document.getElementById("input").parentNode.style.color = "";
-                    
-        // Play popping animation and delete balloon
-        let balloon = document.getElementById(currentWords[0]);
-        balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
-        balloon.style.filter = "none";
-        balloon.removeChild(balloon.firstChild);
-        setTimeout(() => {balloon.remove();}, 500);
 
-        // Update balloons popped display
-        balloonsPopped++;
-        document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + balloonsPopped;
+        // pop the current balloon
+        if (!popBalloon(currentWords[0])) {
+            console.log("Error: Balloon \"" + currentWords[0] + "\" did not get popped");
+            return;
+        }
 
-        // The new currentWord (index 0) becomes the word after it
-        currentWords.shift();
+        // update balloons popped display and increment balloonsPopped
+        document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
 
         // if there isn't a word to be popped, disable the input text box
         if (currentWords.length == 0) {
@@ -216,7 +304,9 @@ document.getElementById("input").addEventListener('keyup', () => {
     // If the input is incorrect
     else if (input != currentWords[0].substring(0, input.length)) {
         document.getElementById("input").style.color = "red";
+        typingErrors++;
     }
+    lettersTyped++;
 });
 
 /**
