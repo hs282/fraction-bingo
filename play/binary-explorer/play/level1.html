@@ -76,6 +76,12 @@
             </div>
 
             <div id="binary-container" class="text-center"></div>
+
+            <div class="text-center mt-2">
+                <button id="checkButton" class="btn btn-success" onclick="check()">
+                    Send Message
+                </button>
+            </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -107,13 +113,15 @@
                 }
             }
 
+            /**
+             * Enables translate button
+             */
             function enabled() {
                 document.getElementById("translateButton").disabled = false;
             }
 
-
             /**
-             * Fast forwards the text typewriter.
+             * Displays text and skips the typewriter effect.
              */
             function skip() {
                 stop = true;

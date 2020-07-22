@@ -75,3 +75,19 @@ function deleteRow() {
     div = document.querySelector(".letter");
     document.querySelector("#binary-container").removeChild(div);
 }
+
+function check() {
+    let message = "";
+    let letters = document.querySelectorAll(".result");
+    for (let i = 0; i < letters.length; i++) {
+        message += letters[i].innerHTML;
+
+    }
+    if (message === "Yes") {
+        document.getElementById("binary-container").style.color = "green";
+        alert("MESSAGE SENT")
+    } else {
+        document.getElementById("binary-container").style.color = "red";
+        alert("I don't think this is the right message... Check for spelling and capitalization and try again.")
+    }
+}
