@@ -3,7 +3,11 @@ var diffLevel = "",
     fract2 = "",
     problem = "",
     correctOp = "",
-    boardType = "";
+    boardType = "",
+    width = 0,
+    ans = "",
+    table,
+    noSolBtn;
 
 function startGame() {
     // Get selected difficulty level                                                                                             
@@ -18,12 +22,15 @@ function startGame() {
     if (document.getElementById("three").checked) {
         document.getElementsByName("board3")[0].style.display = "";
 	boardType = "board3";
+	width = 3;
     } else if (document.getElementById("four").checked) {
         document.getElementsByName("board4")[0].style.display = "";
 	boardType = "board4";
+	width = 4;
     } else if (document.getElementById("five").checked) {
         document.getElementsByName("board5")[0].style.display = "";
 	boardType = "board5";
+	width = 5;
     } else {
         return;
     }
@@ -82,14 +89,14 @@ function getRandomFraction(min, max) {
 
 function fillBoard() {
     // Randomly fill board with <, >, and = 
-    let table = document.getElementsByName(boardType)[0];
+    table = document.getElementsByName(boardType)[0];
     let operators = ["<", ">", "="];
     let op = "";
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
-	    op = operators[Math.floor(Math.random() * 3)];                                                                        
+	    op = operators[Math.floor(Math.random() * 3)];                                 
             col.className = "white";
-	    col.innerHTML = op;
+	    col.innerText = op;
             col.onclick = function () {
 		checkAnswer(this);
             };
@@ -102,7 +109,8 @@ function checkAnswer(cell) {
         if (correctOp == cell.innerText) {
 	    cell.className = "green";
 	    generateProblem();
-        }
+	    checkBingo();
+	}
         else {
        	    cell.className = "red";
 	    setTimeout(function() {
@@ -113,8 +121,7 @@ function checkAnswer(cell) {
 }
 
 function solNotFound() {
-    let table = document.getElementsByName(boardType)[0];
-    let noSolBtn = document.getElementById("noSolution");
+    noSolBtn = document.getElementById("noSolution");
     for (var i = 0, row; row = table.rows[i]; i++) {
         for (var j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") { 
@@ -133,4 +140,81 @@ function solNotFound() {
         noSolBtn.className = "white";
     }, 500);
     generateProblem();
+}
+
+function checkBingo() {
+    let result;
+    result = checkRows();
+    if (result == true) {
+        return;
+    }
+    result = checkColumns();
+    if (result == true) {
+        return;
+    }
+    result = checkDiagonals();
+    if (result == true) {
+        return;
+    }
+}
+
+function checkRows() {
+    rows: for (var i = 0, row; row = table.rows[i]; i++) {
+        cols: for (var j = 0, col; col = row.cells[j]; j++) {
+            if (col.className != "green") {
+                continue rows;
+            }
+        }
+        bingo();
+        return true;
+    }
+    return false;
+}
+
+function checkColumns() {
+    var row = table.rows[0];
+    cols: for (var i = 0, col; col = row.cells[i]; i++) {
+        rows: for (var j = 0; row = table.rows[j]; j++) {
+            if (row.cells[i].className != "green") {
+                continue cols;
+            }
+        }
+        bingo();
+        return true;
+    }
+    return false;
+}
+
+function checkDiagonals() {
+    let diag = true;
+    let cell = 0;
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        if (row.cells[cell].className != "green") {
+            diag = false;
+            break;
+        }
+        cell++;
+    }
+    if (diag == true) {
+        bingo();
+        return true;
+    }
+    cell = width - 1;
+    for (var j = 0, row; row = table.rows[j]; j++) {
+        if (row.cells[cell].className != "green") {
+            return false;
+        }
+        cell--;
+    }
+    bingo();
+    return true;
+}
+
+function bingo() {
+    document.getElementById("bingo").style.display = "";
+    setTimeout(function() {
+	    document.getElementById("bingo").style.display = "none";
+	    generateProblem();
+	    fillBoard();
+    }, 2000);
 }
