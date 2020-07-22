@@ -107,8 +107,10 @@ function checkAnswer(cell) {
     if (cell.className != "green") {
         if (ans == cell.innerHTML) {
             cell.className = "green";
-            generateProblem();
-	    checkBingo();
+	    let b = checkBingo();
+	    if (b  == false) {
+		generateProblem();
+	    }
         }
         else {
             cell.className = "red";
@@ -135,6 +137,7 @@ function generateProblemFracts() {
 	    denom = parseInt(denomStr) * mult;
 	    //newFract = `${numer}&frasl;${denom}`
 	    newFract = numer + "/" + denom;
+	    
 	    problemFractions.push(newFract);
 	});
 
@@ -145,12 +148,14 @@ function generateProblemFracts() {
 }
 
 function generateProblem() {
-    fraction = problemFractions[Math.floor(Math.random() * problemFractions.length)];
+    let index = Math.floor(Math.random() * problemFractions.length);
+    fraction = problemFractions[index];
     problem = fraction + " = ?";
     let arr  = fraction.split("/");
     let n = parseInt(arr[0]);
     let d = parseInt(arr[1]); 
     ans = simplifyFract(n, d);
+    problemFractions.splice(index, 1);
     document.getElementById("problem").innerHTML = problem;
 }
 
@@ -181,16 +186,17 @@ function checkBingo() {
     let result;
     result = checkRows();
     if (result == true) {
-       	return;
+       	return true;
     } 
     result = checkColumns();
     if (result == true) {
-	return;
+	return true;
     }
     result = checkDiagonals();
     if (result == true) {
-        return;
+        return true;
     }
+    return false;
 }
 
 function checkRows() {
