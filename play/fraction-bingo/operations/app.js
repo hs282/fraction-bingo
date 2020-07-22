@@ -284,15 +284,12 @@ function checkDiagonals() {
 }
 
 function bingo() {
-    table.style.display = "none";
-    noSolBtn.style.display = "none";
-    document.getElementById("problem").innerHTML = "BINGO!!! On to the next board :)";
+    document.getElementById("bingo").style.display = "";
     setTimeout(function() {
 	    operands = [];
 	    boardFractions = [];
 	    problems = [];
-	    table.style.display = "";
-	    noSolBtn.style.display = "";
+	    document.getElementById("bingo").style.display = "none";
 	    generateFractions();
 	    generateProblem();
 	    fillBoard();
