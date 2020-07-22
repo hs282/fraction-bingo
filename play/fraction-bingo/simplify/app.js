@@ -247,14 +247,11 @@ function checkDiagonals() {
 }
 
 function bingo() {
-    table.style.display = "none";
-    noSolBtn.style.display = "none";
-    document.getElementById("problem").innerHTML = "BINGO!!! On to the next board :)";
+    document.getElementById("bingo").style.display = "";
     setTimeout(function() {
+	document.getElementById("bingo").style.display = "none";
         boardFractions = [];
 	problemFractions = [];
-	table.style.display = "";
-	noSolBtn.style.display = "";
 	generateBoardFracts();
 	generateProblemFracts();
 	generateProblem();
