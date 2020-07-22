@@ -6,12 +6,14 @@ let wordDiffLevel;
 let difficulty = "medium";
 let zIndex = 999999;
 let spawnIntervalID;
+let timerIntervalID;
+let timer;
 let currentWords = [];
 
 // stats
 let balloonsPopped = 0;
 let balloonCollisions = 0;
-let wpmStat = 0;
+let wpmStat;
 let lettersTyped;
 let typingErrors;
 
@@ -44,14 +46,23 @@ function startGame() {
     zIndex = 999999;
     balloonsPopped = 0;
     balloonCollisions = 0;
+    wpmStat = 0;
+    lettersTyped = 0;
+    typingErrors = 0;
+    timer = 0;
 
     // Shuffle words list
     words = shuffle(words);
-
     spawnBalloon();
 
-    let tempInterval = getSpawnInterval();
+    // add one to the timer and update wpmStat every second
+    timerIntervalID = setInterval(() => {
+        wpmStat = (balloonsPopped / (++timer)) * 60;
+        let wpmStats = document.querySelectorAll("#wpmStat");
+        for (let i = 0; i < wpmStats.length; i++) wpmStats[i].style.innerHTML = "WPM: " + wpmStat;
+    }, 1000);
 
+    let tempInterval = getSpawnInterval();
     // Spawn a new balloon every spawnInterval / difficulty multiplier seconds
     spawnIntervalID = setInterval(() => {spawnBalloon();}, tempInterval);
 
@@ -63,7 +74,7 @@ function startGame() {
 }
 
 /**
- * 
+ * Ends the Type Shooter game loop and displays the endScreen
  */
 function endGame() {
 
@@ -75,11 +86,10 @@ function endGame() {
     document.getElementById("endScreen").style.display = "";
 
     clearInterval(spawnIntervalID);
+    clearInterval(timerIntervalID);
 
-    let tempLength = currentWords.length;
-
-    for (let i = 0; i < tempLength; i++) {
-        console.log("Removing " + currentWords[i]);
+    // remove all balloons from the document and reset currentWords
+    for (let i = 0; i < currentWords.length; i++) {
         document.getElementById(currentWords[i]).remove();
     }
     currentWords = [];
@@ -294,7 +304,9 @@ document.getElementById("input").addEventListener('keyup', () => {
     // If the input is incorrect
     else if (input != currentWords[0].substring(0, input.length)) {
         document.getElementById("input").style.color = "red";
+        typingErrors++;
     }
+    lettersTyped++;
 });
 
 /**
