@@ -76,14 +76,17 @@ function deleteRow() {
     document.querySelector("#binary-container").removeChild(div);
 }
 
-function check() {
+/**
+ * Compares message with desired answer.
+ */
+function check(string) {
     let message = "";
     let letters = document.querySelectorAll(".result");
     for (let i = 0; i < letters.length; i++) {
         message += letters[i].innerHTML;
 
     }
-    if (message === "Yes") {
+    if (message === string) {
         document.getElementById("binary-container").style.color = "green";
         alert("MESSAGE SENT")
     } else {
