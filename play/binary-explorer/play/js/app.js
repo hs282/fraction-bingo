@@ -54,3 +54,24 @@ function translateBinaryString() {
     // convert ASCII code to a character and show in result element
     resultEl.innerHTML = String.fromCharCode(asciiCode);
 }
+
+/**
+ * Translate the binary story text into ASCII.
+ */
+function translateStory() {
+    let story = document.getElementById("story");
+    let storyText = story.innerHTML;
+    storyText = storyText.split(' ')
+        .map(bin => String.fromCharCode(parseInt(bin, 2)))
+        .join('');
+    story.innerHTML = storyText;
+    document.getElementById("translateButton").disabled = true;
+}
+
+/**
+ * Remove a binary string row.
+ */
+function deleteRow() {
+    div = document.querySelector(".letter");
+    document.querySelector("#binary-container").removeChild(div);
+}

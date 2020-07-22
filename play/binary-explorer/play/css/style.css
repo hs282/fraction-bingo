@@ -41,3 +41,8 @@ p, h1 {
 .text-center {
     margin-bottom: 30px;
 }
+
+.addButton {
+    margin-right: 10px;
+    background-color: darkgray;
+}

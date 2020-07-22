@@ -55,14 +55,23 @@
                     <i class="fas fa-arrow-left"></i>
                     Main Menu
                 </a>
+                <a class="btn btn-dark" href="start.html">
+                    Back
+                </a>
             </p>
             <hr>
 
             <p id="story"></p>
 
             <div class="text-center mt-2">
-                <button class="btn btn-success" onclick="translateStory()">
+                <button id="translateButton" class="btn btn-success" onclick="translateStory()" disabled="true">
                     Translate
+                </button>
+                <button class="btn btn-success" onclick="addRow()">
+                    Add Letter
+                </button>
+                <button class="btn btn-success" onclick="deleteRow()">
+                    Delete Letter
                 </button>
             </div>
 
@@ -79,15 +88,18 @@
              */
             let i = 0;
             let speed = 65;
-            let text = "Hello? Hello?";
+            let text = "Hello? Hello? If anyone is receiving this message, please reply \"Yes\".";
             let binaryText = "";
             for (let i = 0; i < text.length; i++) {
                 binaryText += text[i].charCodeAt(0).toString(2) + " ";
             }
+            let stop = false;
 
             typeWriter(i);
+            setTimeout(enabled, (speed + 4) * binaryText.length);
 
             function typeWriter(i) {
+                if (stop) return;
                 if (i < binaryText.length) {
                     document.getElementById("story").innerHTML += binaryText.charAt(i);
                     i++;
@@ -95,11 +107,19 @@
                 }
             }
 
+            function enabled() {
+                document.getElementById("translateButton").disabled = false;
+            }
+
+
             /**
              * Fast forwards the text typewriter.
              */
             function skip() {
-                speed = 0;
+                stop = true;
+                document.getElementById("translateButton").disabled = false;
+                clearTimeout(skip);
+                document.getElementById("story").innerHTML = binaryText;
             }
         </script>
 

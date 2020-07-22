@@ -78,10 +78,12 @@
             let i = 0;
             let speed = 65;
             let text = "One day, you visit an old abandoned warehouse and start exploring some of the rooms. One of the rooms you search has the word \"MAINTENANCE\" written on it. You enter the room and discover an old PC on a desk in the middle of the room. You decide to turn it on...";
+            let stop = false;
 
             typeWriter(i);
 
             function typeWriter(i) {
+                if (stop) return;
                 if (i < text.length) {
                     document.getElementById("story").innerHTML += text.charAt(i);
                     i++;
@@ -93,7 +95,8 @@
              * Fast forwards the text typewriter.
              */
             function skip() {
-                speed = 0;
+                stop = true;
+                document.getElementById("story").innerHTML = text;
             }
         </script>
     </body>
