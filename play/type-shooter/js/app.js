@@ -145,9 +145,10 @@ function setDifficulty(element) {
 /**
  * Function uses the provided balloonID to play a popping animation and then delete the balloon
  * 
- * @param {String} balloonID 
+ * @param {String} balloonID
+ * @param {String} popImg
  */
-function popBalloon(balloonID) {
+function popBalloon(balloonID, popImg) {
     let balloon = document.getElementById(balloonID);
 
     // only the first balloon can be popped (assuming it exists)
@@ -155,7 +156,7 @@ function popBalloon(balloonID) {
     else if (balloonID != currentWords[0]) return false;
 
     // set balloon to remove text and become a popping image
-    balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+    balloon.style.backgroundImage = "url('" + popImg + "')";
     balloon.style.filter = "none";
     balloon.style.zIndex = 0;
     if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
@@ -205,14 +206,23 @@ function spawnBalloon() {
     // Style the balloon
     balloon.id = nextWord;
     balloon.style.height = "150px";
-    balloon.style.width = 150 * (nextWord.length / 4.75) + "px";
-    balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
+
+    // adjust width and height of balloon according to # of characters
+    if (nextWord.length <= 5) balloon.style.height = 150 * (nextWord.length / 5.2) + "px";
+    balloon.style.width = 150 * (nextWord.length / 9) + "px";
+
+    balloon.style.backgroundImage = "url('img/typeshooterballoonsmall.png')";
     balloon.style.backgroundSize = "100% 100%";
     balloon.style.backgroundRepeat = "no-repeat";
     balloon.style.backgroundPosition = "center";
     balloon.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
     balloon.style.position = "absolute";
-    balloon.style.left = (Math.random() * 70 + 5) + "%";
+
+    // convert maximum px width to a relative percentage to allow better resizing
+    let maxPX = (document.getElementById("balloonShooter").offsetWidth - parseInt((balloon.style.width).replace("px", ""), 10));
+    let maxPercent = maxPX / document.getElementById("balloonShooter").offsetWidth * 100;
+    balloon.style.left = (Math.random() * maxPercent) + "%";
+
     balloon.style.zIndex = zIndex--;
 
     // reset zIndex if too low
@@ -220,7 +230,7 @@ function spawnBalloon() {
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
-    text.style.top = "30%";
+    text.style.top = "28%";
     text.style.fontSize = "22px";
     text.style.fontWeight = "bold";
     text.style.webkitTextStrokeWidth = "0.5px";
@@ -245,12 +255,12 @@ function spawnBalloon() {
 
     // animate the newly created balloon
     $("#" + balloon.id).animate({
-        "top": document.getElementById("spaceship").style.bottom
+        "top": document.getElementById("spaceship").getBoundingClientRect().bottom
     }, tempAnimationSpeed, "linear");
 
     // delete balloon after it goes out of bounds (WIP)
     setTimeout(() => {
-        if (popBalloon(balloon.id)) {
+        if (popBalloon(balloon.id, "img/typeshooterballoonexplode.png")) {
 
             document.getElementById("input").value = "";
             let livesLeft = STARTING_LIVES - (++balloonCollisions);
@@ -283,7 +293,7 @@ document.getElementById("input").addEventListener('keyup', () => {
         document.getElementById("input").parentNode.style.color = "";
 
         // pop the current balloon
-        if (!popBalloon(currentWords[0])) {
+        if (!popBalloon(currentWords[0], "img/typeshooterballoonpop.png")) {
             console.log("Error: Balloon \"" + currentWords[0] + "\" did not get popped");
             return;
         }

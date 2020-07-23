@@ -5,14 +5,13 @@ body {
 }
 
 #sector_one, #sector_two, #sector_three {
-    height: 18%;
+    height: 30%;
     width: 100%;
 }
 
 #spaceship {
-    height: 10%;
-    /*top: 100px;*/
-    bottom: 200px;
+    height: 75%;
+    width: 100%;
     background-size: 100% 100%;
 }
 
@@ -27,7 +26,28 @@ body {
     outline: none;
 }
 
+.city {
+    background-size: 50% 100%;
+}
+
 .sector {
     font-family: sans-serif;
     text-align: center;
+}
+
+.stats {
+    font-size: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gameTop {
+    height: 25%;
+    width: 100%;
+}
+
+.gameBottom {
+    height: 75%;
+    width: 100%;
 }
