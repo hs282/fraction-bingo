@@ -9,6 +9,7 @@
  * Add a binary string row that can be translated into an ASCII character.
  */
 function addRow() {
+    if (!document.getElementById("binary-container")) return;
     // create a letter div
     let div = document.createElement("div");
     div.className = "letter";
@@ -81,48 +82,54 @@ function deleteRow() {
  * @type {number}
  */
 let stop = false;
-setTimeout(enabled, (speed + 4) * binaryText.length);
 
-function typeWriter() {
+function typeWriter(binary) {
     text = document.getElementById("hiddenText").innerHTML;
     i = 0;
-    speed = 65;
-    let binaryText = "";
-    for (let i = 0; i < text.length; i++) {
-        binaryText += text[i].charCodeAt(0).toString(2) + " ";
+    speed = 25;
+    if (binary) {
+        let binaryText = "";
+        for (let i = 0; i < text.length; i++) {
+            binaryText += text[i].charCodeAt(0).toString(2) + " ";
+        }
+        type(speed, i, binaryText);
+    } else {
+        type(speed, i, text);
     }
-    type(speed, i, binaryText);
-}
 
-function type(speed, i, binaryText) {
-    if (stop) return;
-    if (i < binaryText.length) {
-        document.getElementById("story").innerHTML += binaryText.charAt(i);
-        i++;
-        setTimeout(type, speed, speed, i, binaryText);
-    }
 }
 
 /**
- * Enables translate button
+ * Recursive function to type all letters for typewriter effect
+ * @param speed
+ * @param i index variable
+ * @param binaryText
  */
-function enabled() {
-    document.getElementById("translateButton").disabled = false;
+function type(speed, i, text) {
+    if (stop) return;
+    if (i < text.length) {
+        document.getElementById("story").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, speed, speed, i, text);
+    }
 }
 
 /**
  * Displays text and skips the typewriter effect.
  */
-function skip() {
-    text = document.getElementById("hiddenText").innerHTML;
+function skip(binary) {
+    let text = document.getElementById("hiddenText").innerHTML;
     stop = true;
-    let binaryText = "";
-    for (let i = 0; i < text.length; i++) {
-        binaryText += text[i].charCodeAt(0).toString(2) + " ";
+    if (binary) {
+        let binaryText = "";
+        for (let i = 0; i < text.length; i++) {
+            binaryText += text[i].charCodeAt(0).toString(2) + " ";
+        }
+        document.getElementById("translateButton").disabled = false;
+        text = binaryText;
     }
-    document.getElementById("translateButton").disabled = false;
     clearTimeout(skip);
-    document.getElementById("story").innerHTML = binaryText;
+    document.getElementById("story").innerHTML = text;
     document.body.onclick = null;
 }
 

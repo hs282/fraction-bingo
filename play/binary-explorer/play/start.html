@@ -11,7 +11,7 @@
 
     </head>
 
-    <body onclick="skip()">
+    <body onclick="skip(false)" onload="typeWriter(false)">
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../..">TeCanal Kids Corner</a>
 
@@ -60,8 +60,6 @@
 
             <p id="story"></p>
 
-            <span id="hiddenText" style="visibility: hidden"></span>
-
             <div class="text-center mt-2">
                 <a class="btn btn-success btn-large" href="level1.html">
                     Start
@@ -69,37 +67,11 @@
             </div>
         </div>
 
+        <span id="hiddenText" style="visibility: hidden">One day, you visit an old abandoned warehouse and start exploring some of the rooms. One of the rooms you search has the word "MAINTENANCE" written on it. You enter the room and discover an old PC on a desk in the middle of the room. You decide to turn it on...</span>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-        <script>
-            /**
-             * Displays text using a typewriter effect.
-             * @type {number}
-             */
-            let i = 0;
-            let speed = 65;
-            let text = "One day, you visit an old abandoned warehouse and start exploring some of the rooms. One of the rooms you search has the word \"MAINTENANCE\" written on it. You enter the room and discover an old PC on a desk in the middle of the room. You decide to turn it on...";
-            let stop = false;
-
-            typeWriter(i);
-
-            function typeWriter(i) {
-                if (stop) return;
-                if (i < text.length) {
-                    document.getElementById("story").innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, speed, i);
-                }
-            }
-
-            /**
-             * Displays text and skips the typewriter effect.
-             */
-            function skip() {
-                stop = true;
-                document.getElementById("story").innerHTML = text;
-            }
-        </script>
+        <script src="js/app.js"></script>
     </body>
 </html>
