@@ -75,8 +75,30 @@ let totalPlayerHP = 100;
 
 // array of monster image names
 let monsterArr = [
-  "monster1.jpg", "monster2.png", "monster3.jpg"
-]
+  "monster1.jpg",
+  "monster2.png",
+  "monster3.jpg",
+  "monster4.png",
+  "monster5.jpg",
+  "monster6.png",
+  "monster7.png",
+  "monster8.jpg",
+  "monster9.png",
+  "monster10.png"
+];
+
+let monsterNames = [
+  "Fleshar",
+  "Enar",
+  "Shebo",
+  "Offo",
+  "Medo",
+  "Zorg",
+  "Dream Eater",
+  "Ghast",
+  "Meeve",
+  "Revo"
+];
 
 // current problem
 let currentProblem = {
@@ -115,6 +137,7 @@ const playerHPBarEl = document.querySelector("#playerHPBar");
 const monsterHPBarEl = document.querySelector("#monsterHPBar");
 const monsterImgEl = document.querySelector("#monsterIMG");
 const totalMonstersSlainEl = document.querySelector("#totalMonstersSlain");
+const monsterNameEl = document.querySelector("#monsterName");
 
 /**
  * Initialize the UI components when the script is loaded.
@@ -699,6 +722,7 @@ function getMonster() {
 
     lastMonster = index;
 
+    monsterNameEl.innerHTML = monsterNames[index];
     monsterImgEl.src = "img/" + monsterArr[index];
     monsterImgEl.className = "formatImg"
     monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-success";
