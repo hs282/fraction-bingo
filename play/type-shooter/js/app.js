@@ -145,9 +145,10 @@ function setDifficulty(element) {
 /**
  * Function uses the provided balloonID to play a popping animation and then delete the balloon
  * 
- * @param {String} balloonID 
+ * @param {String} balloonID
+ * @param {String} popImg
  */
-function popBalloon(balloonID) {
+function popBalloon(balloonID, popImg) {
     let balloon = document.getElementById(balloonID);
 
     // only the first balloon can be popped (assuming it exists)
@@ -155,7 +156,7 @@ function popBalloon(balloonID) {
     else if (balloonID != currentWords[0]) return false;
 
     // set balloon to remove text and become a popping image
-    balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+    balloon.style.backgroundImage = "url('" + popImg + "')";
     balloon.style.filter = "none";
     balloon.style.zIndex = 0;
     if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
@@ -250,7 +251,7 @@ function spawnBalloon() {
 
     // delete balloon after it goes out of bounds (WIP)
     setTimeout(() => {
-        if (popBalloon(balloon.id)) {
+        if (popBalloon(balloon.id, "img/typeshooterballoonexplode.png")) {
 
             document.getElementById("input").value = "";
             let livesLeft = STARTING_LIVES - (++balloonCollisions);
@@ -283,7 +284,7 @@ document.getElementById("input").addEventListener('keyup', () => {
         document.getElementById("input").parentNode.style.color = "";
 
         // pop the current balloon
-        if (!popBalloon(currentWords[0])) {
+        if (!popBalloon(currentWords[0], "img/typeshooterballoonpop.png")) {
             console.log("Error: Balloon \"" + currentWords[0] + "\" did not get popped");
             return;
         }
