@@ -206,14 +206,23 @@ function spawnBalloon() {
     // Style the balloon
     balloon.id = nextWord;
     balloon.style.height = "150px";
-    balloon.style.width = 150 * (nextWord.length / 4.75) + "px";
-    balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
+
+    // adjust width and height of balloon according to # of characters
+    if (nextWord.length <= 5) balloon.style.height = 150 * (nextWord.length / 5.2) + "px";
+    balloon.style.width = 150 * (nextWord.length / 9) + "px";
+
+    balloon.style.backgroundImage = "url('img/typeshooterballoonsmall.png')";
     balloon.style.backgroundSize = "100% 100%";
     balloon.style.backgroundRepeat = "no-repeat";
     balloon.style.backgroundPosition = "center";
     balloon.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
     balloon.style.position = "absolute";
-    balloon.style.left = (Math.random() * 70 + 5) + "%";
+
+    // convert maximum px width to a relative percentage to allow better resizing
+    let maxPX = (document.getElementById("balloonShooter").offsetWidth - parseInt((balloon.style.width).replace("px", ""), 10));
+    let maxPercent = maxPX / document.getElementById("balloonShooter").offsetWidth * 100;
+    balloon.style.left = (Math.random() * maxPercent) + "%";
+
     balloon.style.zIndex = zIndex--;
 
     // reset zIndex if too low
@@ -221,7 +230,7 @@ function spawnBalloon() {
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
-    text.style.top = "30%";
+    text.style.top = "28%";
     text.style.fontSize = "22px";
     text.style.fontWeight = "bold";
     text.style.webkitTextStrokeWidth = "0.5px";
@@ -246,7 +255,7 @@ function spawnBalloon() {
 
     // animate the newly created balloon
     $("#" + balloon.id).animate({
-        "top": document.getElementById("spaceship").style.bottom
+        "top": document.getElementById("spaceship").getBoundingClientRect().bottom
     }, tempAnimationSpeed, "linear");
 
     // delete balloon after it goes out of bounds (WIP)
