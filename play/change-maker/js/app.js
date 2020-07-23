@@ -70,14 +70,15 @@ function setDifficulty(str) {
 
 //fucntion to set the timer for race mode
 function setTimer() {
-    setInterval(function(){
+    let interval = setInterval(function(){
         if(timeLeft <= 0){
-            clearInterval(setTimer);
+            clearInterval(interval);
             endGame();
         }
         document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
         timeLeft -= 1;
     }, 1000);
+
 }
 
 /**
