@@ -55,7 +55,7 @@ function initUI() {
 
     if (booleanTimer) {
         document.getElementById("timer").style.display = "inline-block";
-        setTimer;
+        setTimer();
     }
 };
 
@@ -69,14 +69,17 @@ function setDifficulty(str) {
 }
 
 //fucntion to set the timer for race mode
-let setTimer = setInterval(function(){
-  if(timeLeft <= 0){
-    clearInterval(setTimer);
-    endGame();
-  }
-  document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
-  timeLeft -= 1;
-}, 1000);
+function setTimer() {
+    let interval = setInterval(function(){
+        if(timeLeft <= 0){
+            clearInterval(interval);
+            endGame();
+        }
+        document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
+        timeLeft -= 1;
+    }, 1000);
+
+}
 
 /**
  * Enable the counter element to have draggable elements dropped on it.
