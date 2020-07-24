@@ -60,12 +60,10 @@ function translateBinaryString() {
  * Translate the binary story text into ASCII.
  */
 function translateStory() {
+    stop = true;
     let story = document.getElementById("story");
-    let storyText = story.innerHTML;
-    storyText = storyText.split(' ')
-        .map(bin => String.fromCharCode(parseInt(bin, 2)))
-        .join('');
-    story.innerHTML = storyText;
+    let text = document.getElementById("hiddenText").innerHTML;
+    story.innerHTML = text;
     document.getElementById("translateButton").disabled = true;
 }
 
@@ -83,20 +81,13 @@ function deleteRow() {
  */
 let stop = false;
 
-function typeWriter(binary) {
-    text = document.getElementById("hiddenText").innerHTML;
-    i = 0;
-    speed = 25;
-    if (binary) {
-        let binaryText = "";
-        for (let i = 0; i < text.length; i++) {
-            binaryText += text[i].charCodeAt(0).toString(2) + " ";
-        }
-        type(speed, i, binaryText);
-    } else {
-        type(speed, i, text);
-    }
-
+function typeWriter() {
+    let hidden = document.getElementById("hiddenText");
+    let text = hidden.innerHTML;
+    let i = 0;
+    let speed = 25;
+    if (hidden.className == "translate") text = convertToBinary(text);
+    type(speed, i, text);
 }
 
 /**
@@ -117,18 +108,11 @@ function type(speed, i, text) {
 /**
  * Displays text and skips the typewriter effect.
  */
-function skip(binary) {
-    let text = document.getElementById("hiddenText").innerHTML;
+function skip() {
+    let hidden = document.getElementById("hiddenText");
+    let text = hidden.innerHTML;
     stop = true;
-    if (binary) {
-        let binaryText = "";
-        for (let i = 0; i < text.length; i++) {
-            binaryText += text[i].charCodeAt(0).toString(2) + " ";
-        }
-        document.getElementById("translateButton").disabled = false;
-        text = binaryText;
-    }
-    clearTimeout(skip);
+    if (hidden.className == "translate") text = convertToBinary(text);
     document.getElementById("story").innerHTML = text;
     document.body.onclick = null;
 }
@@ -150,4 +134,18 @@ function check(string) {
         document.getElementById("binary-container").style.color = "red";
         alert("I don't think this is the right message... Check for spelling and capitalization and try again.")
     }
+}
+
+/**
+ * Convert text into binary.
+ * @param text
+ */
+function convertToBinary(text) {
+    let binaryText = "";
+    for (let i = 0; i < text.length; i++) {
+        binaryText += text[i].charCodeAt(0).toString(2) + " ";
+    }
+    document.getElementById("translateButton").disabled = false;
+    text = binaryText;
+    return text;
 }

@@ -11,7 +11,7 @@
 
     </head>
 
-    <body onclick="skip(true)" onload="typeWriter(true)">
+    <body onload="typeWriter()">
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../..">TeCanal Kids Corner</a>
 
@@ -61,7 +61,7 @@
             </p>
             <hr>
 
-            <p id="story"></p>
+            <p id="story" onclick="skip()"></p>
 
             <div class="text-center mt-2">
                 <button id="translateButton" class="btn btn-success" onclick="translateStory()">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <span id="hiddenText" style="visibility: hidden">Hello? Hello? If anyone is receiving this message, please reply "Yes".</span>
+        <span id="hiddenText" class="translate" style="visibility: hidden">Hello? Hello? If anyone is receiving this message, please reply "Yes".</span>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
