@@ -1,11 +1,28 @@
-.column {
-    padding-left: 20px;
-    width: 50%;
+body {
+    background-color: #2e2e2e;
+}
+
+p, h1 {
+    color: #20C20E;
+    margin-bottom: 30px;
+}
+
+.container {
+    font-family: "Courier New", sans-serif;
+}
+
+.btn-large {
+    margin-top: 50px;
+    font-size: 50px;
+    border-radius: 12px;
 }
 
 .num {
     font-size: 40px;
-    
+    color: #20C20E;
+    background-color: black;
+    font-family: "Bank Gothic", sans-serif;
+
     border: 1px solid black;
     border-radius: 4px;
 
@@ -15,30 +32,17 @@
     margin-bottom: 10px;
 }
 
-.container {
-    font-family: "Bank Gothic", sans-serif;
-}
-
-button {
-    border: 1px solid black;
-    border-radius: 4px;
-}
-
 .result {
     font-size: 40px;
     font-family: "Consolas", sans-serif;
+    color: #20C20E;
 }
 
-#message {
-    font-size: 40px;
-    margin-bottom: 10px;
-    font-family: "Consolas", sans-serif;
+.text-center {
+    margin-bottom: 30px;
 }
 
-.letter {
-    margin-bottom: 10px;
-}
-
-.removeButton {
+.addButton {
     margin-right: 10px;
+    background-color: darkgray;
 }

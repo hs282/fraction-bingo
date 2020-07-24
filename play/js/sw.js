@@ -1,6 +1,6 @@
 const CACHE_NAME = "v2.9.1";
 const URLS_TO_CACHE = [
-    "../index.html",
+    "../start.html",
 
     "../codemirror/codemirror.css",
     "../css/style.css",
