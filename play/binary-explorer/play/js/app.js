@@ -125,14 +125,25 @@ function check(string) {
     let letters = document.querySelectorAll(".result");
     for (let i = 0; i < letters.length; i++) {
         message += letters[i].innerHTML;
-
     }
     if (message === string) {
-        document.getElementById("binary-container").style.color = "green";
-        alert("MESSAGE SENT")
+        // displays text for user if correct
+        document.getElementById("sent").innerHTML = "MESSAGE SENT";
+        setTimeout(function() {
+            document.getElementById("sent").innerHTML = "DOWNLOADING NEW MESSAGE";
+        }, 1750);
+
+        // follows link to next level
+        setTimeout(function () {
+            link = document.getElementById("hiddenText").getAttribute("href");
+            window.location.href = link;
+            }, 3500);
     } else {
+        // displays red briefly if wrong
         document.getElementById("binary-container").style.color = "red";
-        alert("I don't think this is the right message... Check for spelling and capitalization and try again.")
+        setTimeout(function() {
+            document.getElementById("binary-container").style.color = "#20C20E";
+        }, 500)
     }
 }
 

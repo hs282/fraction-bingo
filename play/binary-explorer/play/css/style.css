@@ -17,9 +17,16 @@ p, h1 {
     border-radius: 12px;
 }
 
+#binary-container, #sent {
+    color: #20C20E;
+}
+
+#sent {
+    font-size: 40px;
+}
+
 .num {
     font-size: 40px;
-    color: #20C20E;
     background-color: black;
     font-family: "Bank Gothic", sans-serif;
 
@@ -35,7 +42,6 @@ p, h1 {
 .result {
     font-size: 40px;
     font-family: "Consolas", sans-serif;
-    color: #20C20E;
 }
 
 .text-center {
