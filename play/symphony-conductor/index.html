@@ -12,6 +12,15 @@
 </head>
 
 <body>
+
+    <!-- <h1 class="ml6">
+        <span class="text-wrapper">
+          <span class="letters">Beautiful Questions</span>
+        </span>
+      </h1>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script> -->
+
     <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
         <a class="navbar-brand" href="../../">TeCanal Kids Corner</a>
 
@@ -106,8 +115,8 @@
                     <button class="btn" onclick="shareCode()">Share</button>
                 </p>
 
-                <h3>Examples</h3>
-                <p id="exampleLine">⬇️ Checkout Some Cool Melodies Examples !!! ⬇️ </p>
+                <h3 style="float: left;">Examples</h3> <h3 style="float: right; ">Video Tutorial</h3> 
+                <!-- <p id="exampleLine">⬇️ Checkout Some Cool Melodies Examples !!! ⬇️ </p> -->
 
 
                 <textarea name="Text1" cols="16" rows="15" id="myInput0">
@@ -191,6 +200,10 @@ await rest(.6);
 
                 <button onclick="myFunction(`myInput2`)" id="exampleButton2">Copy (Complex Example)</button>
 
+                <video width="329" height="190" controls id="tutorialVideo">
+                    <source src="TutorialVideo.mp4" type="video/mp4">
+                  Your browser does not support the MP4 video tag.
+                  </video>
 
                 <script>
                     function myFunction(name) {

@@ -235,15 +235,15 @@ td {
 
 #exampleButton0{
     position: absolute;
-    right: 47%;
-    bottom: 8%;
+    left: 2%;
+    bottom: 10px;
 
 }
 
 #exampleButton1 {
     position: absolute;
-    bottom: 8%;
-    right: 22.99%;
+    bottom: 10px;
+    left: 24%;
     background-color: rgb(237, 237, 55);
     border-color: rgb(237, 237, 55);
     color: black;
@@ -252,8 +252,8 @@ td {
 
 #exampleButton2 {
     position: absolute;
-    bottom: 8%;
-    right: 2%;
+    bottom: 10px;
+    left: 47.5%;
     background-color: red;
     border: red;
 }
@@ -261,19 +261,31 @@ td {
 #myInput0{
     position: absolute;
     border: 3px solid rgb(87, 223, 87);
-    right: 48%;
+    left: 3%;
+    bottom: 130px;
 }
 
 #myInput1 {
     border: 3px solid rgb(237, 237, 55);
     position: absolute;
-    right: 25.5%;
+    left: 25.5%;
+    bottom: 130px;
 
 }
 
 #myInput2 {
     border: 3px solid red;
     position: absolute;
-    right: 3%;
+    left: 48%;
+    bottom: 130px;
 
 }
+
+
+  #tutorialVideo{
+    position: absolute;
+    right: 5%;
+    border: 5px black solid ;
+    padding: 1px;
+    bottom: 40%;
+  }
