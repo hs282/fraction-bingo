@@ -1,17 +1,32 @@
 let myQuestions = [
   {
-    question: "What does cybersecurity protect?",
-    correctAnswer: "Information systems, programs, and data",
-	responseVal: false
-  },
-  {
-    question: "What does a hacker use to gain access to an information system?",
-    correctAnswer: "Computer",
-	responseVal: false
-  },
-  {
-    question: "A user downloaded and opened a program to help them with their taxes. Their computer froze and their documents were being deleted. What kind of malware is this?",
+    question: "A hacker created malware that looks like an adblocker but actually takes over the user's computer. What is this malware called?",
     correctAnswer: "Trojan",
+	responseVal: false
+  },
+  {
+    question: "Keylogging occurs when a program captures what from a victim?",
+    correctAnswer: "Keystrokes",
+	responseVal: false
+  },
+  {
+    question: "Bella receives an email from her insurance company asking her to send them her account information. Little does she know, a hacker is posing as the company so he can get her data. This kind of attack is called: ",
+    correctAnswer: "Phishing",
+	responseVal: false
+  },
+  {
+    question: "Jacob accidentally installs a malware. But, he updated his software and fixed a vulnerability before the malware was activated, so his computer was not taken over. The process of installing system updates is called: ",
+    correctAnswer: "Patching",
+	responseVal: false
+  },
+  {
+    question: "A hacker realizes that Julie's system has a vulnerability; he takes advantage of it using a program. What is this program called?",
+    correctAnswer: "Exploit",
+	responseVal: false
+  },
+  {
+    question: "Henry goes on nvd.nist.gov. What does he find?",
+    correctAnswer: "CVEs",
 	responseVal: false
   },
 ];
@@ -114,7 +129,7 @@ function updatePrompt(code) {
 function wordBank(){
 	let word = "";
 	for(let i=0;i<myQuestions.length;i++){
-		 word= word + myQuestions[i].correctAnswer +" | ";
+		 word= word + myQuestions[i].correctAnswer +" * ";
 	}
 	document.getElementById("wordbank").innerText = word;
 }
@@ -180,7 +195,7 @@ function endQuiz(){
 	var incorrect = "What you got wrong: \n";
 	for(let i = 0;i<myQuestions.length;i++){
 		if(myQuestions[i].responseVal==false){
-			incorrect = incorrect + myQuestions[i].question + " " + myQuestions[i].correctAnswer + "\n";
+			incorrect = incorrect + myQuestions[i].question + " --> " + myQuestions[i].correctAnswer + "\n\n";
 		}
 	}
 	document.getElementById("complete").innerText = "QUIZ COMPLETED!";

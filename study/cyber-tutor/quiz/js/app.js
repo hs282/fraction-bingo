@@ -107,6 +107,15 @@ let myQuestions = [
     ],
     correctAnswer: " An exposure can lead to a vulnerability "
   },
+  {
+    question: "On what two websites can you find vulnerabilities or exploits?",
+    answers: [
+      " exploit-db.com and nvd.nist.gov ",
+      " exploitdb.org and nist.nvd.gov ",
+      " nist.exploit.com and nvd.org "
+    ],
+    correctAnswer: " exploit-db.com and nvd.nist.gov "
+  },
   
 ];
 
