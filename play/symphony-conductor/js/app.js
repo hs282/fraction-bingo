@@ -1,6 +1,24 @@
 const APP_NAME = "symphony-conductor";
 const hasLocalStorage = checkForLocalStorage();
 
+// Wrap every letter in a span
+// var textWrapper = document.querySelector('.ml6 .letters');
+// textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+// anime.timeline({loop: true})
+//   .add({
+//     targets: '.ml6 .letter',
+//     translateY: ["1.1em", 0],
+//     translateZ: 0,
+//     duration: 750,
+//     delay: (el, i) => 50 * i
+//   }).add({
+//     targets: '.ml6',
+//     opacity: 0,
+//     duration: 1000,
+//     easing: "easeOutExpo",
+//     delay: 1000
+//   });
 
 const INSTRUMENTS = [
     {
@@ -64,7 +82,7 @@ const INSTRUMENTS = [
         description: "Tuba: Part of the brass instrument family",
         img: "img/tuba.png",
         sound: 'sounds/tuba.wav',
-        code: `play("trumpet");`,
+        code: `play("tuba");`,
         link: "https://en.wikipedia.org/wiki/Tuba"
     },
     {
@@ -107,21 +125,30 @@ const INSTRUMENTS = [
         link: "https://en.wikipedia.org/wiki/Bongo_drum"
     },
     {
-        name: 'Xylophone',
+        name: 'xylophone',
         description: 'Xylophone: Part of the Percussion instrument family',
         img: 'img/Xylophone.png',
         sound: 'sounds/Xylophone.wav',
-        code: `play("Xylophone");`,
+        code: `play("xylophone");`,
         link: "https://en.wikipedia.org/wiki/Xylophone"
     },
     {
-        name: 'Gong',
+        name: 'gong',
         description: 'Gong: Part of the Percussion instrument family',
         img: 'img/Gong.png',
         sound: 'sounds/gong.wav',
-        code: `play("Gong");`,
+        code: `play("gong");`,
         link: "https://en.wikipedia.org/wiki/Gong"
         
+    },
+    {
+        name: 'hand-clap',
+        description: "Hand-Clap: Considered a percussion instrument",
+        img: 'img/handclap.png',
+        sound: 'sounds/handclap.wav',
+        code: `play("hand-clap");`,
+        link: "https://en.wikipedia.org/wiki/Clapping"
+
     }
 ];
 

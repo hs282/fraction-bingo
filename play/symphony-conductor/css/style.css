@@ -1,23 +1,25 @@
-* { 
-    box-sizing: border-box; 
+* {
+    box-sizing: border-box;
+   
 }
 
-html {  
-    font-family: sans-serif; 
+html {
+    font-family: sans-serif;
 }
 
-body { 
-    margin: 0; 
-    display: flex; 
-    flex-direction: column; 
-    height: 100%; 
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
 }
 
 #instruments img {
     width: 20%;
     padding: 7px;
     overflow: auto;
-    
+
 }
 
 button {
@@ -30,22 +32,50 @@ button {
 
 /* Mobile displays */
 @media only screen and (max-width: 768px) {
-    .splitter { display: none; }
+    .splitter {
+        display: none;
+    }
 
-    .panel-right { display: none; }
+    .panel-right {
+        display: none;
+    }
 
-    .panel-container { height: 93% !important; }
-    #editor, #preview { width: 100vw; }
-    
-    #edit, #execute { width: 50vw; height: 100%; font-size: 1em; }
-    #edit { background-color: #3954AE; color: white; }
-    #execute { background-color: #4CAF50; color: white; float: right; }
+    .panel-container {
+        height: 93% !important;
+    }
 
-    #bottomShelf { display: block; height: 7%; }
+    #editor,
+    #preview {
+        width: 100vw;
+    }
+
+    #edit,
+    #execute {
+        width: 50vw;
+        height: 100%;
+        font-size: 1em;
+    }
+
+    #edit {
+        background-color: #3954AE;
+        color: white;
+    }
+
+    #execute {
+        background-color: #4CAF50;
+        color: white;
+        float: right;
+    }
+
+    #bottomShelf {
+        display: block;
+        height: 7%;
+    }
 }
 
-.pull-right { 
-    margin-left: auto; 
+.pull-right {
+    margin-left: auto;
+    
 }
 
 #optionsButton {
@@ -68,7 +98,9 @@ button {
     margin-right: 1px;
 } */
 
-table, th, td {
+table,
+th,
+td {
     border: 3px solid black;
     border-collapse: collapse;
 }
@@ -78,15 +110,16 @@ td {
 }
 
 
-.modal { 
-    display: none;  
-    position: fixed; 
+.modal {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 4;
     padding-top: 1%;
     width: 100%;
     height: 100%;
+    overflow: auto;
 }
 
 .modal button {
@@ -99,12 +132,13 @@ td {
     cursor: pointer;
 }
 
-.modal h2 { 
-    margin-bottom: 0px; 
+.modal h2 {
+    margin-bottom: 0px;
+    
 }
 
-.modal h1 { 
-    margin: 0px; 
+.modal h1 {
+    margin: 0px;
 }
 
 .modal-content {
@@ -113,7 +147,7 @@ td {
     margin: auto;
     padding: 0;
     width: 80%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     overflow-y: scroll;
 
@@ -123,53 +157,63 @@ td {
     animation-duration: 0.4s;
 }
 
-.modal-body { 
-    height: 80vh; 
-    box-sizing: border-box; 
-    padding: 1rem; 
+.modal-body {
+    height: 80vh;
+    
+    box-sizing: border-box;
+    padding: 1rem;
+    min-height: 650px;
+    /* min-width: 600px; */
+
 }
 
-.modal-footer { 
-    padding: 2px 16px; 
-    background-color: #fefefe; 
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #fefefe;
 }
 
-.close { 
-    float: right; 
-    padding-right: 10px; 
-    font-size: 28px; 
-    font-weight: bold; 
+.close {
+    float: right;
+    padding-right: 10px;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-.close:hover, .close:focus { 
-    text-decoration: none; 
-    cursor: pointer; 
+.close:hover,
+.close:focus {
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.panel-container { 
-    display: flex; 
-    flex-direction: row; 
-    overflow: hidden; 
-    height: 100%; 
-    padding: 0; 
-    margin: 0; 
+.panel-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    
 }
 
-.panel-left { 
-    flex: 0 0 auto; 
-    width: 50%; 
-    background: #eee; 
-    color: #fff; 
+.panel-left {
+    flex: 0 0 auto;
+    width: 50%;
+    background: #eee;
+    color: #fff;
     padding: 10px;
     overflow: auto;
-}
+    background-image: url('../img/background.png');
+    
+}    
 
-.panel-right { 
-    flex: 1 1 auto; 
-    width: 100%; 
-    background: #eee; 
-    overflow: scroll; 
-    white-space: nowrap; 
+.panel-right {
+    flex: 1 1 auto;
+    width: 100%;
+    background: #eee;
+    overflow: scroll;
+    white-space: nowrap;
+    background-image: url('../img/background.png');
+   
 }
 
 .splitter {
@@ -180,10 +224,88 @@ td {
     cursor: col-resize;
 }
 
-.CodeMirror { 
-    height: 100%; 
+.CodeMirror {
+    height: 100%;
 }
 
-.CodeMirror-activeline-background { 
-    background: #f5f5f5; 
+.CodeMirror-activeline-background {
+    background: #f5f5f5;
 }
+
+
+#exampleButton0{
+    position: absolute;
+    right: 437px;
+    bottom: 10px;
+    
+}
+
+#exampleButton1 {
+    position: absolute;
+    bottom: 10px;
+    right: 210px;
+    background-color: rgb(237, 237, 55);
+    border-color: rgb(237, 237, 55);
+    color: black;
+  
+}
+
+#exampleButton2 {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: red;
+    border: red;
+}
+
+#myInput0{
+    position: absolute;
+    border: 3px solid rgb(87, 223, 87);
+    border-radius: 12px;
+    right: 440px;
+    padding: 5px;
+    top: 230px;
+
+}
+
+#myInput1 {
+    border: 3px solid rgb(237, 237, 55);
+    position: absolute;
+    right: 225px;
+    border-radius: 12px;
+    padding: 5px;
+    top: 230px;
+
+}
+
+#myInput2 {
+    border: 3px solid red;
+    position: absolute;
+    right: 10px;
+    top: 230px;
+    border-radius: 12px;
+    padding: 5px;
+
+}
+
+
+  #tutorialVideo{
+    position: absolute;
+    left: 9px;
+    padding: 1px;
+    top: 250px;
+    
+    
+  }
+
+  #label10{
+    left: 120px;
+    position: absolute;
+    text-decoration: underline;
+
+  }
+  #label11{
+    left: 820px;
+    position: absolute;
+    text-decoration: underline;
+  }
