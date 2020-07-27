@@ -305,20 +305,21 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
       
             <div class="row">
 	        <div class="col-sm-6">
-	        <h3 style="text-align: center">Total Score</h3>
-	        <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
-	    </div> 
+	            <h3 style="text-align: center">Total Score</h3>
+	            <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
+	        </div> 
 
-            <div class="col-sm-6">
-	        <h3 style="text-align: center">Problems Solved</h3>
-                <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
+                <div class="col-sm-6">
+	            <h3 style="text-align: center">Problems Solved</h3>
+                    <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
+                </div>
+            </div>
+
+            <div id="wrong">
+	        <h3 style="text-align: center">Incorrect Problems</h3>
+	        <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
             </div>
         </div>
-
-        <div id="wrong" style="display: none">
-	    <h3 style="text-align: center">Incorrect Problems</h3>
-	    <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
-        </div>  
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
