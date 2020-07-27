@@ -11,11 +11,7 @@ var diffLevel = "",
     table,
     noSolBtn,
     score = 0,
-    numCorrect = 0,
-    numIncorrect = 0,
-    numProblems = 0,
-    avgScore = 0,
-    incorrectAnswers = [];
+    numSolved = 0;
 
 function startGame() {
     // Get selected difficulty level
@@ -113,11 +109,10 @@ function checkAnswer(cell) {
     if (cell.className != "green") {
         if (ans == cell.innerHTML) {
             score += 10;
-	    numCorrect++;
-	    numProblems++;
+	    numSolved++;
 	    cell.className = "green";
 	    let b = checkBingo();
-	    if (b  == false) {
+	    if (!b) {
 		setTimeout(function() {
 		    generateProblem();
 		    }, 1000);
@@ -127,21 +122,13 @@ function checkAnswer(cell) {
 	    if (score != 0) {
 	        score -= 10;
 	    }
-	    let tempCurrProb = {
-		prob: problem,
-		answer: ans,
-		userAns: cell.innerHTML
-	    }
-	    if (!incorrectAnswers.some(a => a.prob == problem)) { 
-	        incorrectAnswers.push(tempCurrProb);
-	    }
 	    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerHTML + "<br> <b>Correct: </b>" + ans + "</p> </li>");
 	    cell.className = "red";
             setTimeout(function() {
                 cell.className = "white";
             }, 1000);
         }
-	document.getElementById("score").innerHTML = "Score: " + score.toString();
+	document.getElementById("score").innerHTML = "Score: " + score;
     }
 }
 
@@ -192,7 +179,7 @@ function solNotFound() {
 		    if (score != 0) {
 		        score -= 10;
 		    }
-		    document.getElementById("score").innerHTML = "Score: " + score.toString();
+		    document.getElementById("score").innerHTML = "Score: " + score;
 		    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on board <br> <b>Correct: </b>" + ans + "</p> </li>");
 		    noSolBtn.style.backgroundColor = "red";
 		    setTimeout(function() {
@@ -205,8 +192,8 @@ function solNotFound() {
     }
    
     score += 10;
-    numCorrect++;
-    document.getElementById("score").innerHTML = "Score: " + score.toString();
+    numSolved++;
+    document.getElementById("score").innerHTML = "Score: " + score;
     noSolBtn.style.backgroundColor = "green";
     setTimeout(function() {
         noSolBtn.style.backgroundColor = "";
@@ -301,11 +288,8 @@ function endGame() {
     document.getElementById("game").style.display = "none";
     document.getElementById("end").style.display = "";
     document.getElementById("totalScore").innerHTML = score;
-    document.getElementById("numCorrect").innerHTML = numCorrect;
+    document.getElementById("numSolved").innerHTML = numSolved;
     if (document.getElementById("wrongProblem").innerHTML != "") {
-	document.getElementById("wrong").style.display = "";
-	//document.getElementById("wrongProblem").style.className = "red";
-	//document.getElementById("wrong").style.backgroundColor = "#0FA30F";
-	
+	document.getElementById("wrong").style.display = "";	
     }
 }
