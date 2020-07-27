@@ -89,8 +89,8 @@ function getRandomFraction(min, max) {
     return num;
 }
 
+// Randomly fill board with <, >, and = 
 function fillBoard() {
-    // Randomly fill board with <, >, and = 
     table = document.getElementsByName(boardType)[0];
     let operators = ["<", ">", "="];
     let op = "";
@@ -168,15 +168,15 @@ d <br> <b>Correct: </b>" + correctOp + "</p> </li>");
 function checkBingo() {
     let result;
     result = checkRows();
-    if (result == true) {
+    if (result) {
         return;
     }
     result = checkColumns();
-    if (result == true) {
+    if (result) {
         return;
     }
     result = checkDiagonals();
-    if (result == true) {
+    if (result) {
         return;
     }
 }
@@ -218,7 +218,7 @@ function checkDiagonals() {
         }
         cell++;
     }
-    if (diag == true) {
+    if (diag) {
         bingo();
         return true;
     }
