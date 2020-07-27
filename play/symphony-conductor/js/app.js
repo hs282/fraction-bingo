@@ -125,28 +125,28 @@ const INSTRUMENTS = [
         link: "https://en.wikipedia.org/wiki/Bongo_drum"
     },
     {
-        name: 'Xylophone',
+        name: 'xylophone',
         description: 'Xylophone: Part of the Percussion instrument family',
         img: 'img/Xylophone.png',
         sound: 'sounds/Xylophone.wav',
-        code: `play("Xylophone");`,
+        code: `play("xylophone");`,
         link: "https://en.wikipedia.org/wiki/Xylophone"
     },
     {
-        name: 'Gong',
+        name: 'gong',
         description: 'Gong: Part of the Percussion instrument family',
         img: 'img/Gong.png',
         sound: 'sounds/gong.wav',
-        code: `play("Gong");`,
+        code: `play("gong");`,
         link: "https://en.wikipedia.org/wiki/Gong"
         
     },
     {
-        name: 'Hand-Clap',
+        name: 'hand-clap',
         description: "Hand-Clap: Considered a percussion instrument",
         img: 'img/handclap.png',
         sound: 'sounds/handclap.wav',
-        code: `play("Hand-Clap");`,
+        code: `play("hand-clap");`,
         link: "https://en.wikipedia.org/wiki/Clapping"
 
     }
