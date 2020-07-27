@@ -7,7 +7,9 @@ var diffLevel = "",
     width = 0,
     ans = "",
     table,
-    noSolBtn;
+    noSolBtn,
+    score = 0,
+    numSolved = 0;
 
 function startGame() {
     // Get selected difficulty level                                                                                             
@@ -107,16 +109,28 @@ function fillBoard() {
 function checkAnswer(cell) {
     if (cell.className != "green") {
         if (correctOp == cell.innerText) {
+	    score += 10;
+	    numSolved++;
 	    cell.className = "green";
-	    generateProblem();
-	    checkBingo();
+	    let b = checkBingo();
+	    if (!b) {
+		setTimeout(function() {
+			generateProblem();
+		}, 1000);
+	    }
 	}
         else {
+	    if (score != 0) {
+		score -= 10;
+	    }
+	    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerText + "<br> <b\
+>Correct: </b>" + correctOp + "</p> </li>");
        	    cell.className = "red";
 	    setTimeout(function() {
 	        cell.className = "white";
 	    }, 1000);
         }
+	document.getElementById("score").innerHTML = "Score: " + score;
     }
 }
 
@@ -126,20 +140,29 @@ function solNotFound() {
         for (var j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") { 
 	        if (correctOp == col.innerText) {
-                    noSolBtn.className = "red";
+		    if (score != 0) {
+			score -= 10;
+		    }
+		    document.getElementById("score").innerHTML = "Score: " + score;
+		    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on boar\
+d <br> <b>Correct: </b>" + correctOp + "</p> </li>");
+                    noSolBtn.style.backgroundColor = "red";
                     setTimeout(function() {
-                        noSolBtn.className = "white";
+                        noSolBtn.style.backgroundColor = "";
                     }, 1000);
                     return;
                 }
 	    }
         }
     }
-    noSolBtn.className = "green";
+    score += 10;
+    numSolved++;
+    document.getElementById("score").innerHTML = "Score: " + score;
+    noSolBtn.style.backgroundColor = "green";
     setTimeout(function() {
-        noSolBtn.className = "white";
-    }, 500);
-    generateProblem();
+        noSolBtn.style.backgroundColor = "";
+	generateProblem();
+    }, 1000);
 }
 
 function checkBingo() {
@@ -217,4 +240,14 @@ function bingo() {
 	    generateProblem();
 	    fillBoard();
     }, 2000);
+}
+
+function endGame() {
+    document.getElementById("game").style.display = "none";
+    document.getElementById("end").style.display = "";
+    document.getElementById("totalScore").innerHTML = score;
+    document.getElementById("numSolved").innerHTML = numSolved;
+    if (document.getElementById("wrongProblem").innerHTML != "") {
+        document.getElementById("wrong").style.display = "";
+    }
 }
