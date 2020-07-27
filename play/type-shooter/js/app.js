@@ -8,6 +8,7 @@ let zIndex = 999999;
 let spawnIntervalID;
 let timerIntervalID;
 let timer;
+let currentInputIndex;
 let currentWords = [];
 
 // stats
@@ -50,6 +51,7 @@ function startGame() {
     lettersTyped = 0;
     typingErrors = 0;
     timer = 0;
+    currentInputIndex = 0;
 
     // Shuffle words list
     words = shuffle(words);
@@ -144,16 +146,17 @@ function setDifficulty(element) {
 
 /**
  * Function uses the provided balloonID to play a popping animation and then delete the balloon
- * 
  * @param {String} balloonID
+ * @param {Number} balloonIndex
  * @param {String} popImg
  */
-function popBalloon(balloonID, popImg) {
+function popBalloon(balloonID, balloonIndex, popImg) {
     let balloon = document.getElementById(balloonID);
 
     // only the first balloon can be popped (assuming it exists)
     if (!balloon) return false;
-    else if (balloonID != currentWords[0]) return false;
+    else if (balloonID != currentWords[balloonIndex]) return false;
+    // else if (balloonID != currentWords[0]) return false;
 
     // set balloon to remove text and become a popping image
     balloon.style.backgroundImage = "url('" + popImg + "')";
@@ -161,8 +164,8 @@ function popBalloon(balloonID, popImg) {
     balloon.style.zIndex = 0;
     if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
 
-    // the new currentWord (index 0) becomes the word after it
-    currentWords.shift();
+    // the balloon at balloonIndex is removed from currentWords[]
+    currentWords.splice(balloonIndex, 1);
 
     setTimeout(() => {balloon.remove();}, 400);
     return true;
@@ -260,9 +263,9 @@ function spawnBalloon() {
 
     // delete balloon after it goes out of bounds (WIP)
     setTimeout(() => {
-        if (popBalloon(balloon.id, "img/typeshooterballoonexplode.png")) {
+        if (popBalloon(balloon.id, 0, "img/typeshooterballoonexplode.png")) {
 
-            document.getElementById("input").value = "";
+            //document.getElementById("input").value = "";
             let livesLeft = STARTING_LIVES - (++balloonCollisions);
             document.getElementById("livesLeft").innerHTML = "Lives Left: " + livesLeft;
 
@@ -284,39 +287,51 @@ document.getElementById("input").addEventListener('keyup', () => {
 
     if (currentWords.length == 0) return;
 
+    lettersTyped++;
+
     let input = document.getElementById("input").value;
     input = input.trim().toLowerCase();
-                    
-    if (input == currentWords[0]) {
-        // clear input box
-        document.getElementById("input").value = "";
-        document.getElementById("input").parentNode.style.color = "";
 
-        // pop the current balloon
-        if (!popBalloon(currentWords[0], "img/typeshooterballoonpop.png")) {
-            console.log("Error: Balloon \"" + currentWords[0] + "\" did not get popped");
+    let incorrect = 0;
+
+    for (let i = 0; i < currentWords.length; i++) {
+
+        if (input == currentWords[i]) {
+            // clear input box
+            document.getElementById("input").value = "";
+            document.getElementById("input").parentNode.style.color = "";
+
+            // pop the current balloon
+            if (!popBalloon(currentWords[i], i, "img/typeshooterballoonpop.png")) {
+                console.log("Error: Balloon \"" + currentWords[i] + "\" did not get popped");
+                return;
+            }
+
+            // update balloons popped display and increment balloonsPopped
+            document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
+
+            // if there isn't a word to be popped, disable the input text box
+            if (currentWords.length == 0) {
+                document.getElementById("input").disabled = true;
+            }
             return;
         }
-
-        // update balloons popped display and increment balloonsPopped
-        document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
-
-        // if there isn't a word to be popped, disable the input text box
-        if (currentWords.length == 0) {
-            document.getElementById("input").disabled = true;
-        }
-    }
                 
-    // If the input is correct
-    else if (input == currentWords[0].substring(0, input.length)) {
-        document.getElementById("input").style.color = "green";
+        // If the input is correct
+        else if (input == currentWords[i].substring(0, input.length)) {
+            document.getElementById("input").style.color = "green";
+            currentInputIndex = i;
+        }
+        // add to # of incorrect checks
+        else {incorrect++;}
     }
-    // If the input is incorrect
-    else if (input != currentWords[0].substring(0, input.length)) {
-        document.getElementById("input").style.color = "red";
+
+    // if all checked substrings are incorrect
+    if (incorrect == currentWords.length) {
+        // increment typing errors, set input text color to red
         typingErrors++;
+        document.getElementById("input").style.color = "red";
     }
-    lettersTyped++;
 });
 
 /**
