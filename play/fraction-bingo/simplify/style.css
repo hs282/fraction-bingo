@@ -13,6 +13,15 @@ th, td {
   width: 20%;
 }
 
+#score {
+  margin: 0 2.5% 2.5%;
+  text-align: center;
+}
+
+#noSolution {
+  margin: 1.5%;
+}
+
 .green {
        background-color: green;
 }
@@ -24,3 +33,8 @@ th, td {
 .white {
        background-color: white;
 }
+
+.list-group .list-group-item {
+       background-color: #FFD70F;
+}
+

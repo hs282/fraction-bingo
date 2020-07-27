@@ -9,7 +9,13 @@ var diffLevel = "",
     problem = "",
     ans = "",
     table,
-    noSolBtn;
+    noSolBtn,
+    score = 0,
+    numCorrect = 0,
+    numIncorrect = 0,
+    numProblems = 0,
+    avgScore = 0,
+    incorrectAnswers = [];
 
 function startGame() {
     // Get selected difficulty level
@@ -106,18 +112,36 @@ function fillBoard() {
 function checkAnswer(cell) {
     if (cell.className != "green") {
         if (ans == cell.innerHTML) {
-            cell.className = "green";
+            score += 10;
+	    numCorrect++;
+	    numProblems++;
+	    cell.className = "green";
 	    let b = checkBingo();
 	    if (b  == false) {
-		generateProblem();
+		setTimeout(function() {
+		    generateProblem();
+		    }, 1000);
 	    }
         }
         else {
-            cell.className = "red";
+	    if (score != 0) {
+	        score -= 10;
+	    }
+	    let tempCurrProb = {
+		prob: problem,
+		answer: ans,
+		userAns: cell.innerHTML
+	    }
+	    if (!incorrectAnswers.some(a => a.prob == problem)) { 
+	        incorrectAnswers.push(tempCurrProb);
+	    }
+	    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerHTML + "<br> <b>Correct: </b>" + ans + "</p> </li>");
+	    cell.className = "red";
             setTimeout(function() {
                 cell.className = "white";
             }, 1000);
         }
+	document.getElementById("score").innerHTML = "Score: " + score.toString();
     }
 }
 
@@ -165,9 +189,14 @@ function solNotFound() {
         for (var j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") {
 	        if (ans == col.innerHTML) {
-		    noSolBtn.className = "red";
+		    if (score != 0) {
+		        score -= 10;
+		    }
+		    document.getElementById("score").innerHTML = "Score: " + score.toString();
+		    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on board <br> <b>Correct: </b>" + ans + "</p> </li>");
+		    noSolBtn.style.backgroundColor = "red";
 		    setTimeout(function() {
-		        noSolBtn.className = "white";
+		        noSolBtn.style.backgroundColor = "";
 		    }, 1000);
 		    return;
 	        }
@@ -175,11 +204,14 @@ function solNotFound() {
         }
     }
    
-    noSolBtn.className = "green";
+    score += 10;
+    numCorrect++;
+    document.getElementById("score").innerHTML = "Score: " + score.toString();
+    noSolBtn.style.backgroundColor = "green";
     setTimeout(function() {
-        noSolBtn.className = "white";
-    }, 500);
-    generateProblem();
+        noSolBtn.style.backgroundColor = "";
+	generateProblem();
+    }, 1000);
 }
 
 function checkBingo() {
@@ -263,4 +295,17 @@ function bingo() {
 	generateProblem();
 	fillBoard();
     }, 2000);
+}
+
+function endGame() {
+    document.getElementById("game").style.display = "none";
+    document.getElementById("end").style.display = "";
+    document.getElementById("totalScore").innerHTML = score;
+    document.getElementById("numCorrect").innerHTML = numCorrect;
+    if (document.getElementById("wrongProblem").innerHTML != "") {
+	document.getElementById("wrong").style.display = "";
+	//document.getElementById("wrongProblem").style.className = "red";
+	//document.getElementById("wrong").style.backgroundColor = "#0FA30F";
+	
+    }
 }
