@@ -302,5 +302,11 @@ td {
   #label10{
     left: 120px;
     position: absolute;
-    
+    text-decoration: underline;
+
+  }
+  #label11{
+    left: 820px;
+    position: absolute;
+    text-decoration: underline;
   }
