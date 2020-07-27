@@ -2,7 +2,6 @@
     <head>
         <title>Operations</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
 	<script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
 	<link rel="stylesheet" href="style.css">
@@ -227,6 +226,7 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
             </style>
     </head>
 
+    <!-- TeCanal menu -->
     <body style="background-color: #FFD70F">
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../../../">TeCanal Kids Corner</a>
@@ -263,104 +263,104 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
 
         <!-- Pre-Game Settings Panel -->
         <div id="start" class="container">
-        <h1 class="page-header">Operations</h1>
+            <h1 class="page-header">Operations</h1>
 
-        <!-- Operations checklist-->
-        <b>Fraction Operations:</b><br>
-        <div class="checkbox">
-            <label><input id="fractAdd" type="checkbox" value="add" onclick="operationDiffDisplay('fractAdd', 'fractAddDiff')">Addition</label>
-        </div>
-	<div class="checkbox">
-	      <label><input id="fractSub" type="checkbox" value="sub" onclick="operationDiffDisplay('fractSub', 'fractSubDiff')">Subtraction</label>
-        </div>
-	<div class="checkbox">
-	      <label><input id="fractMult" type="checkbox" value="mult" onclick="operationDiffDisplay('fractMult', 'fractMultDiff')">Multiplication</label>
-        </div>
-	<div class="checkbox">
-	      <label><input id="fractDiv" type="checkbox" value="div" onclick="operationDiffDisplay('fractDiv', 'fractDivDiff')">Division</label>
-        </div>
+            <!-- Operations checklist-->
+            <b>Fraction Operations:</b><br>
+            <div class="checkbox">
+                <label><input id="fractAdd" type="checkbox" value="add" onclick="operationDiffDisplay('fractAdd', 'fractAddDiff')">Addition</label>
+            </div>
+	    <div class="checkbox">
+	        <label><input id="fractSub" type="checkbox" value="sub" onclick="operationDiffDisplay('fractSub', 'fractSubDiff')">Subtraction</label>
+            </div>
+	    <div class="checkbox">
+	        <label><input id="fractMult" type="checkbox" value="mult" onclick="operationDiffDisplay('fractMult', 'fractMultDiff')">Multiplication</label>
+            </div>
+	    <div class="checkbox">
+	        <label><input id="fractDiv" type="checkbox" value="div" onclick="operationDiffDisplay('fractDiv', 'fractDivDiff')">Division</label>
+            </div>
         
-        <!-- Addition Problem Difficulty -->
-        <div id="fractAddDiff"  style="display: none">
-            <p>
-                <label for="amount">Addition Difficulty:</label>
-            </p>
-            <div class="radio">
-                <label><input id="easy" type="radio" name="addLevel" value="1" checked>Easy</label>
+            <!-- Addition Problem Difficulty -->
+            <div id="fractAddDiff" style="display: none">
+                <p>
+                    <label for="amount">Addition Difficulty:</label>
+                </p>
+                <div class="radio">
+                    <label><input id="easy" type="radio" name="addLevel" value="1" checked>Easy</label>
+                </div>
+                <div class="radio">
+	            <label><input id="medium" type="radio" name="addLevel" value="2">Medium</label>
+	        </div>
+                <div class="radio">
+	            <label><input id="hard" type="radio" name="addLevel" value="3">Hard</label>
+	        </div>
             </div>
-            <div class="radio">
-	        <label><input id="medium" type="radio" name="addLevel" value="2">Medium</label>
-	    </div>
-            <div class="radio">
-	        <label><input id="hard" type="radio" name="addLevel" value="3">Hard</label>
-	    </div>
-        </div>
 
-        <!-- Subtraction Problem Difficulty -->
-        <div id="fractSubDiff"  style="display: none">
-            <p>
-                <label for="amount">Subtraction Difficulty:</label>
-            </p>
-            <div class="radio">
-                <label><input id="easy" type="radio" name="subLevel" value="1" checked>Easy</label>
+            <!-- Subtraction Problem Difficulty -->
+            <div id="fractSubDiff"  style="display: none">
+                <p>
+                    <label for="amount">Subtraction Difficulty:</label>
+                </p>
+                <div class="radio">
+                    <label><input id="easy" type="radio" name="subLevel" value="1" checked>Easy</label>
+                </div>
+                <div class="radio">
+                    <label><input id="medium" type="radio" name="subLevel" value="2">Medium</label>
+                </div>
+                <div class="radio">
+                    <label><input id="hard" type="radio" name="subLevel" value="3">Hard</label>
+                </div>
             </div>
-            <div class="radio">
-                <label><input id="medium" type="radio" name="subLevel" value="2">Medium</label>
-            </div>
-            <div class="radio">
-                <label><input id="hard" type="radio" name="subLevel" value="3">Hard</label>
-            </div>
-        </div>
 
-        <!-- Multiplication Problem Difficulty -->
-        <div id="fractMultDiff"  style="display: none">
-            <p>
-                <label for="amount">Multiplication Difficulty:</label>
-            </p>
-            <div class="radio">
-                <label><input id="easy" type="radio" name="multLevel" value="1" checked>Easy</label>
+            <!-- Multiplication Problem Difficulty -->
+            <div id="fractMultDiff"  style="display: none">
+                <p>
+                    <label for="amount">Multiplication Difficulty:</label>
+                </p>
+                <div class="radio">
+                    <label><input id="easy" type="radio" name="multLevel" value="1" checked>Easy</label>
+                </div>
+                <div class="radio">
+                    <label><input id="medium" type="radio" name="multLevel" value="2">Medium</label>
+                </div>
+                <div class="radio">
+                    <label><input id="hard" type="radio" name="multLevel" value="3">Hard</label>
+                </div>
             </div>
-            <div class="radio">
-                <label><input id="medium" type="radio" name="multLevel" value="2">Medium</label>
-            </div>
-            <div class="radio">
-                <label><input id="hard" type="radio" name="multLevel" value="3">Hard</label>
-            </div>
-        </div>
 
-        <!-- Division Problem Difficulty -->
-        <div id="fractDivDiff"  style="display: none">
-            <p>
-                <label for="amount">Division Difficulty:</label>
-            </p>
-            <div class="radio">
-                <label><input id="easy" type="radio" name="divLevel" value="1" checked>Easy</label>
+            <!-- Division Problem Difficulty -->
+            <div id="fractDivDiff"  style="display: none">
+                <p>
+                    <label for="amount">Division Difficulty:</label>
+                </p>
+                <div class="radio">
+                    <label><input id="easy" type="radio" name="divLevel" value="1" checked>Easy</label>
+                </div>
+                <div class="radio">
+                    <label><input id="medium" type="radio" name="divLevel" value="2">Medium</label>
+                </div>
+                <div class="radio">
+                    <label><input id="hard" type="radio" name="divLevel" value="3">Hard</label>
+                </div>
             </div>
-            <div class="radio">
-                <label><input id="medium" type="radio" name="divLevel" value="2">Medium</label>
-            </div>
-            <div class="radio">
-                <label><input id="hard" type="radio" name="divLevel" value="3">Hard</label>
-            </div>
-        </div>
  
-	<!-- Board dimensions -->
-        <b>Board size:</b><br>
-        <div class="radio">
-            <label><input id="three" type="radio" name="size" value="three">3 x 3</label>
-        </div>
-        <div class="radio">
-            <label><input id="four" type="radio" name="size" value="four">4 x 4</label>
-        </div>
-        <div class="radio">
-            <label><input id="five" type="radio" name="size" value="five">5 x 5</label>
-        </div>
+            <!-- Board dimensions -->
+            <b>Board size:</b><br>
+            <div class="radio">
+                <label><input id="three" type="radio" name="size" value="three">3 x 3</label>
+            </div>
+            <div class="radio">
+                <label><input id="four" type="radio" name="size" value="four">4 x 4</label>
+            </div>
+            <div class="radio">
+                <label><input id="five" type="radio" name="size" value="five">5 x 5</label>
+            </div>
 
-        <!-- Start Game Button -->
-        <p style="text-align: left">
-            <button class="btn btn-primary" onclick="startGame()">Start Game</button>
-        </p>
-    </div>
+            <!-- Start Game Button -->
+            <p style="text-align: left">
+                <button class="btn btn-primary" onclick="startGame()">Start Game</button>
+            </p>
+        </div>
 
         <!-- Game Panel -->
         <div id="game" style="display: none">
@@ -368,93 +368,96 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
             <!-- Problem Display -->
             <h2 id="problem" style="text-align: center"></h2>
 
+
+	    <!-- Score -->
             <h3 id="score" style="text-align: right">Score: 0</h3>
 
             <!-- 3x3 Bingo Board -->
             <table id="board" name="board3" style="display: none">
-              <tr>
-                <td id="cell1">&nbsp;</td>
-                <td id="cell2">&nbsp;</td>
-                <td id="cell3">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell4">&nbsp;</td>
-                <td id="cell5">&nbsp;</td>
-                <td id="cell6">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell7">&nbsp;</td>
-                <td id="cell8">&nbsp;</td>
-                <td id="cell9">&nbsp;</td>
-              </tr>
+                <tr>
+                    <td id="cell1">&nbsp;</td>
+                    <td id="cell2">&nbsp;</td>
+                    <td id="cell3">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell4">&nbsp;</td>
+                    <td id="cell5">&nbsp;</td>
+                    <td id="cell6">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell7">&nbsp;</td>
+                    <td id="cell8">&nbsp;</td>
+                    <td id="cell9">&nbsp;</td>
+                </tr>
             </table>
 
             <!-- 4x4 Bingo Board -->
             <table id="board" name="board4" style="display: none">
-              <tr>
-                <td id="cell1">&nbsp;</td>
-                <td id="cell2">&nbsp;</td>
-                <td id="cell3">&nbsp;</td>
-                <td id="cell4">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell5">&nbsp;</td>
-                <td id="cell6">&nbsp;</td>
-                <td id="cell7">&nbsp;</td>
-                <td id="cell8">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell9">&nbsp;</td>
-                <td id="cell10">&nbsp;</td>
-                <td id="cell11">&nbsp;</td>
-                <td id="cell12">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell13">&nbsp;</td>
-                <td id="cell14">&nbsp;</td>
-                <td id="cell15">&nbsp;</td>
-                <td id="cell16">&nbsp;</td>
-              </tr>
+                <tr>
+                    <td id="cell1">&nbsp;</td>
+                    <td id="cell2">&nbsp;</td>
+                    <td id="cell3">&nbsp;</td>
+                    <td id="cell4">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell5">&nbsp;</td>
+                    <td id="cell6">&nbsp;</td>
+                    <td id="cell7">&nbsp;</td>
+                    <td id="cell8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell9">&nbsp;</td>
+                    <td id="cell10">&nbsp;</td>
+                    <td id="cell11">&nbsp;</td>
+                    <td id="cell12">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell13">&nbsp;</td>
+                    <td id="cell14">&nbsp;</td>
+                    <td id="cell15">&nbsp;</td>
+                    <td id="cell16">&nbsp;</td>
+                </tr>
             </table>
 
             <!-- 5x5 Bingo Board -->
             <table id="board" name="board5" style="display: none">
-              <tr>
-                <td id="cell1">&nbsp;</td>
-                <td id="cell2">&nbsp;</td>
-                <td id="cell3">&nbsp;</td>
-                <td id="cell4">&nbsp;</td>
-                <td id="cell5">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell6">&nbsp;</td>
-                <td id="cell7">&nbsp;</td>
-                <td id="cell8">&nbsp;</td>
-                <td id="cell9">&nbsp;</td>
-                <td id="cell10">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell11">&nbsp;</td>
-                <td id="cell12">&nbsp;</td>
-                <td id="cell13">&nbsp;</td>
-                <td id="cell14">&nbsp;</td>
-                <td id="cell15">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell16">&nbsp;</td>
-                <td id="cell17">&nbsp;</td>
-                <td id="cell18">&nbsp;</td>
-                <td id="cell19">&nbsp;</td>
-                <td id="cell20">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell21">&nbsp;</td>
-                <td id="cell22">&nbsp;</td>
-                <td id="cell23">&nbsp;</td>
-                <td id="cell24">&nbsp;</td>
-                <td id="cell25">&nbsp;</td>
-              </tr>
-           </table>
+                <tr>
+                    <td id="cell1">&nbsp;</td>
+                    <td id="cell2">&nbsp;</td>
+                    <td id="cell3">&nbsp;</td>
+                    <td id="cell4">&nbsp;</td>
+                    <td id="cell5">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell6">&nbsp;</td>
+                    <td id="cell7">&nbsp;</td>
+                    <td id="cell8">&nbsp;</td>
+                    <td id="cell9">&nbsp;</td>
+                    <td id="cell10">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell11">&nbsp;</td>
+                    <td id="cell12">&nbsp;</td>
+                    <td id="cell13">&nbsp;</td>
+                    <td id="cell14">&nbsp;</td>
+                    <td id="cell15">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell16">&nbsp;</td>
+                    <td id="cell17">&nbsp;</td>
+                    <td id="cell18">&nbsp;</td>
+                    <td id="cell19">&nbsp;</td>
+                    <td id="cell20">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell21">&nbsp;</td>
+                    <td id="cell22">&nbsp;</td>
+                    <td id="cell23">&nbsp;</td>
+                    <td id="cell24">&nbsp;</td>
+                    <td id="cell25">&nbsp;</td>
+                </tr>
+            </table>
+
             <!-- Button for when board does not contain solution -->
             <p style="text-align: center">
                 <button id="noSolution" onclick="solNotFound()" class="btn btn-info">Solution Not On Board</button>
@@ -467,28 +470,29 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
 
             <!-- Message to be displayed when Bingo is achieved -->
             <h1 id="bingo" style="display: none; text-align: center">BINGO!!! On to the next board :)</h1>
-      </div>
-
-    <!-- Post-game Scoring Panel -->
-    <div id="end" class="container" style="display: none">
-      <h1 class="page-header" style="text-align: center">Results</h1>
-
-      <div class="row">
-        <div class="col-sm-6">
-          <h3 style="text-align: center">Total Score</h3>
-          <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
         </div>
 
-        <div class="col-sm-6">
-          <h3 style="text-align: center">Problems Solved</h3>
-          <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
-        </div>
-      </div>
+        <!-- Post-game Scoring Panel -->
+        <div id="end" class="container" style="display: none">
+            <h1 class="page-header" style="text-align: center">Results</h1>
 
-      <div id="wrong" style="display: none">
-        <h3 style="text-align: center">Incorrect Problems</h3>
-        <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
-      </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 style="text-align: center">Total Score</h3>
+                    <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
+                </div>
+
+                <div class="col-sm-6">
+                    <h3 style="text-align: center">Problems Solved</h3>
+                    <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
+                </div>
+            </div>
+
+            <div id="wrong">
+                <h3 style="text-align: center">Incorrect Problems</h3>
+                <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
+            </div>
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
@@ -992,7 +996,8 @@ f(n,"mouseleave focusout keyup"),n[0]!==this.element[0]&&this._off(n,"remove"),t
 tips[e]:null},_removeTooltip:function(t){t.remove(),delete this.tooltips[t.attr("id")]},_appendTo:function(t){var e=t.closest(".ui-front, dialog");return e.length||(e=this.document[0].body),e},_destroy:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur"),o=s.element;n.target=n.currentTarget=o[0],e.close(n,!0),t("#"+i).remove(),o.data("ui-tooltip-title")&&(o.attr("title")||o.attr("title",o.data("ui-tooltip-title")),o.removeData("ui-tooltip-title"))}),this.liveRegion.remove()}}),t.uiBackCompat!==!1&&t.widget("ui.tooltip",t.ui.tooltip,{options:{tooltipClass:null},_tooltip:function(){var t=this._superApply(arguments);return this.options.tooltipClass&&t.tooltip.addClass(this.options.t\
 ooltipClass),t}}),t.ui.tooltip});
         </script>
-        <!-- App JavaScript -->
+
+	<!-- App JavaScript -->
         <script src="app.js"></script>
     </body>
 </html>  

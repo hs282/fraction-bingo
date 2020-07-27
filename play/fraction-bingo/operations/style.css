@@ -14,15 +14,15 @@ th, td {
 }
 
 .green {
-       background-color: green;
+  background-color: green;
 }
 
 .red {
-     background-color: red;
+  background-color: red;
 }
 
 .white {
-       background-color: white;
+  background-color: white;
 }
 
 #score {
@@ -35,5 +35,5 @@ th, td {
 }
 
 .list-group .list-group-item {
-       background-color: #FFD70F;
+  background-color: #FFD70F;
 }

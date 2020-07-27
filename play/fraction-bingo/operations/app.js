@@ -155,14 +155,12 @@ function getSolution(n1, n2, d1, d2, op) {
     return n/divisor + "/" + d/divisor;
 }
 
-// Fill board table cells with answers to problems. if answer already on board, pick diff prob
+
 function fillBoard() {
     table = document.getElementsByName(boardType)[0];
     var k = 0;
-    //let a;
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
-	    //a = problems[k].answer;
 	    col.innerHTML = problems[k].answer;
 	    col.className = "white";
 	    col.onclick = function () {
@@ -242,15 +240,15 @@ function solNotFound() {
 function checkBingo() {
     let result;
     result = checkRows();
-    if (result == true) {
+    if (result) {
         return true;
     }
     result = checkColumns();
-    if (result == true) {
+    if (result) {
         return true;
     }
     result = checkDiagonals();
-    if (result == true) {
+    if (result) {
         return true;
     }
     return false;
@@ -293,7 +291,7 @@ function checkDiagonals() {
         }
         cell++;
     }
-    if (diag == true) {
+    if (diag) {
         bingo();
         return true;
     }
