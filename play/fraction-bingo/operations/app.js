@@ -12,7 +12,9 @@ var addLevel = "",
     problem = "",
     width = 0,
     table,
-    noSolBtn;
+    noSolBtn,
+    score = 0,
+    numSolved = 0;
 
 function operationDiffDisplay(operationId, difficultyId) {
     var checkBox = document.getElementById(operationId);
@@ -153,12 +155,14 @@ function getSolution(n1, n2, d1, d2, op) {
     return n/divisor + "/" + d/divisor;
 }
 
-// Fill board table cells with answers to problems
+// Fill board table cells with answers to problems. if answer already on board, pick diff prob
 function fillBoard() {
     table = document.getElementsByName(boardType)[0];
     var k = 0;
+    //let a;
     for (var i = 0, row; row = table.rows[i]; i++) {
 	for (var j = 0, col; col = row.cells[j]; j++) {
+	    //a = problems[k].answer;
 	    col.innerHTML = problems[k].answer;
 	    col.className = "white";
 	    col.onclick = function () {
@@ -172,18 +176,27 @@ function fillBoard() {
 function checkAnswer(cell) {
     if (cell.className != "green") {
         if (ans == cell.innerHTML) {
+	    score += 10;
+	    numSolved++;
 	    cell.className = "green";
 	    let b = checkBingo();
-	    if (b == false) {
-	        generateProblem();
+	    if (!b) {
+	        setTimeout(function() {
+                    generateProblem();
+		}, 1000);
 	    }
         }
         else {
+	    if (score != 0) {
+		score -= 10;
+	    }
+            $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerText + "<br> <b>Correct: </b>" + ans + "</p> </li>");
 	    cell.className = "red";
 	    setTimeout(function() {
 	        cell.className = "white";
 	    }, 1000);
         }
+	document.getElementById("score").innerHTML = "Score: " + score;
     }
 }
 
@@ -202,20 +215,28 @@ function solNotFound() {
         for (var j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") {
 	        if (ans == col.innerHTML) {
-		    noSolBtn.className = "red";
+		    if (score != 0) {
+			score -= 10;
+		    }
+                    document.getElementById("score").innerHTML = "Score: " + score;
+		    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on board <br> <b>Correct: </b>" + ans + "</p> </li>");
+		    noSolBtn.style.backgroundColor = "red";
 		    setTimeout(function() {
-			noSolBtn.className = "white";
+			noSolBtn.style.backgroundColor = "";
 		    }, 1000);
 		    return;
 	        }
 	    }
         }
     }
-    noSolBtn.className = "green";
+    score += 10;
+    numSolved++;
+    document.getElementById("score").innerHTML = "Score: " + score;
+    noSolBtn.style.backgroundColor = "green";
     setTimeout(function() {
-	    noSolBtn.className = "white";
-    }, 500);
-    generateProblem();
+	noSolBtn.style.backgroundColor = "";
+        generateProblem();
+    }, 1000);
 }
 
 function checkBingo() {
@@ -298,4 +319,14 @@ function bingo() {
 	    generateProblem();
 	    fillBoard();
     }, 2000);
+}
+
+function endGame() {
+    document.getElementById("game").style.display = "none";
+    document.getElementById("end").style.display = "";
+    document.getElementById("totalScore").innerHTML = score;
+    document.getElementById("numSolved").innerHTML = numSolved;
+    if (document.getElementById("wrongProblem").innerHTML != "") {
+        document.getElementById("wrong").style.display = "";
+    }
 }

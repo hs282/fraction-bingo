@@ -1,8 +1,10 @@
 <html>
     <head>
         <title>Operations</title>
-
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
+	<script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
 	<link rel="stylesheet" href="style.css">
 
         <!-- Special jQuery UI Settings -->
@@ -225,7 +227,40 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
             </style>
     </head>
 
-    <body>
+    <body style="background-color: #FFD70F">
+        <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+            <a class="navbar-brand" href="../../../">TeCanal Kids Corner</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../../../play">
+                            <i class="fa fa-gamepad"></i>
+                            Play
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../../study">
+                            <i class="fa fa-paperclip"></i>
+                            Study
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../../read">
+                            <i class="fa fa-book"></i>
+                            Read
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         <!-- Pre-Game Settings Panel -->
         <div id="start" class="container">
         <h1 class="page-header">Operations</h1>
@@ -322,19 +357,18 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
         </div>
 
         <!-- Start Game Button -->
-        <p style="text-align: center">
+        <p style="text-align: left">
             <button class="btn btn-primary" onclick="startGame()">Start Game</button>
         </p>
     </div>
 
         <!-- Game Panel -->
         <div id="game" style="display: none">
-            <p style="text-align: left">
-                <button id="quitGame" onclick="endGame()" class="btn btn-danger">End Game</button>
-            </p>
 
             <!-- Problem Display -->
             <h2 id="problem" style="text-align: center"></h2>
+
+            <h3 id="score" style="text-align: right">Score: 0</h3>
 
             <!-- 3x3 Bingo Board -->
             <table id="board" name="board3" style="display: none">
@@ -425,9 +459,39 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
             <p style="text-align: center">
                 <button id="noSolution" onclick="solNotFound()" class="btn btn-info">Solution Not On Board</button>
             </p>
+
+            <!-- Button to end game and get feedback -->
+            <p style="text-align: center">
+                <button id="quitGame" onclick="endGame()" class="btn btn-danger">End Game</button>
+            </p>
+
             <!-- Message to be displayed when Bingo is achieved -->
             <h1 id="bingo" style="display: none; text-align: center">BINGO!!! On to the next board :)</h1>
       </div>
+
+    <!-- Post-game Scoring Panel -->
+    <div id="end" class="container" style="display: none">
+      <h1 class="page-header" style="text-align: center">Results</h1>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 style="text-align: center">Total Score</h3>
+          <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
+        </div>
+
+        <div class="col-sm-6">
+          <h3 style="text-align: center">Problems Solved</h3>
+          <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
+        </div>
+      </div>
+
+      <div id="wrong" style="display: none">
+        <h3 style="text-align: center">Incorrect Problems</h3>
+        <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
+      </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
         <!-- jQuery JavaScript -->
         <script>
