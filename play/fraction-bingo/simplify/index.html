@@ -2,7 +2,6 @@
     <head>
         <title>Simplify</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
         <script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
 	<link rel="stylesheet" href="style.css">
@@ -124,6 +123,7 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
     </head>
 
     <body style="background-color: #FFD70F">
+        <!-- TeCanal menu -->
         <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
             <a class="navbar-brand" href="../../../">TeCanal Kids Corner</a>
 
@@ -159,172 +159,172 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
 
         <!-- Pre-Game Settings Panel -->
         <div id="start" class="container">
-        <h1 class="page-header">Simplify</h1>
+            <h1 class="page-header">Simplify</h1>
 
-        <!-- Difficulty Level -->
-        <b>Difficulty Level:</b><br>
-        <div class="radio">
-            <label><input id="easy" type="radio" name="difficulty" value="easy">Easy</label>
-        </div>
-        <div class="radio">
-            <label><input id="medium" type="radio" name="difficulty" value="medium">Medium</label>
-        </div>
-        <div class="radio">
-            <label><input id="hard" type="radio" name="difficulty" value="hard">Hard</label>
-        </div>
+            <!-- Difficulty Level -->
+            <b>Difficulty Level:</b><br>
+            <div class="radio">
+                <label><input id="easy" type="radio" name="difficulty" value="easy">Easy</label>
+            </div>
+            <div class="radio">
+                <label><input id="medium" type="radio" name="difficulty" value="medium">Medium</label>
+            </div>
+            <div class="radio">
+                <label><input id="hard" type="radio" name="difficulty" value="hard">Hard</label>
+            </div>
 
-        <b>Board size:</b><br>
-        <div class="radio">
-            <label><input id="three" type="radio" name="size" value="three">3 x 3</label>
-        </div>
-        <div class="radio">
-            <label><input id="four" type="radio" name="size" value="four">4 x 4</label>
-        </div>
-        <div class="radio">
-            <label><input id="five" type="radio" name="size" value="five">5 x 5</label>
-        </div>
+            <b>Board size:</b><br>
+            <div class="radio">
+                <label><input id="three" type="radio" name="size" value="three">3 x 3</label>
+            </div>
+            <div class="radio">
+                <label><input id="four" type="radio" name="size" value="four">4 x 4</label>
+            </div>
+            <div class="radio">
+                <label><input id="five" type="radio" name="size" value="five">5 x 5</label>
+            </div>
 
-        <!-- Start Game Button -->
-        <p style="text-align: left">
-            <button class="btn btn-primary" onclick="startGame()">Start Game</button>
-        </p>
-    </div>
+            <!-- Start Game Button -->
+            <p style="text-align: left">
+                <button class="btn btn-primary" onclick="startGame()">Start Game</button>
+            </p>
+        </div>
 
         <!-- Game Panel -->
         <div id="game" style="display: none">
-            <!--<p style="text-align: bottom">
-                <button id="quitGame" onclick="endGame()" class="btn btn-danger">End Game</button>
-            </p>-->
         
             <!-- Problem Display -->
             <h2 id="problem" style="text-align: center"></h2>
 
+	    <!-- Score -->
 	    <h3 id="score" style="text-align: right">Score: 0</h3>
 
             <!-- 3x3 Bingo Board -->
             <table id="board" name="board3" style="display: none">
-              <tr>
-                <td id="cell1">&nbsp;</td>
-                <td id="cell2">&nbsp;</td>
-		<td id="cell3">&nbsp;</td>
-              </tr>
-	      <tr>
-	        <td id="cell4">&nbsp;</td>
-		<td id="cell5">&nbsp;</td>
-		<td id="cell6">&nbsp;</td>
-	      </tr>
-	      <tr>
-		<td id="cell7">&nbsp;</td>
-		<td id="cell8">&nbsp;</td>
-		<td id="cell9">&nbsp;</td>
-	      </tr>
+                <tr>
+                    <td id="cell1">&nbsp;</td>
+                    <td id="cell2">&nbsp;</td>
+		    <td id="cell3">&nbsp;</td>
+                </tr>
+	        <tr>
+	            <td id="cell4">&nbsp;</td>
+		    <td id="cell5">&nbsp;</td>
+		    <td id="cell6">&nbsp;</td>
+	        </tr>
+	        <tr>
+		    <td id="cell7">&nbsp;</td>
+                    <td id="cell8">&nbsp;</td>
+		    <td id="cell9">&nbsp;</td>
+	        </tr>
 	    </table>
 
             <!-- 4x4 Bingo Board -->
             <table id="board" name="board4" style="display: none">
-              <tr>
-                <td id="cell1">&nbsp;</td>
-                <td id="cell2">&nbsp;</td>
-                <td id="cell3">&nbsp;</td>
-		<td id="cell4">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell5">&nbsp;</td>
-                <td id="cell6">&nbsp;</td>
-                <td id="cell7">&nbsp;</td>
-		<td id="cell8">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell9">&nbsp;</td>
-                <td id="cell10">&nbsp;</td>
-                <td id="cell11">&nbsp;</td>
-		<td id="cell12">&nbsp;</td>
-              </tr>
-	      <tr>
-                <td id="cell13">&nbsp;</td>
-                <td id="cell14">&nbsp;</td>
-                <td id="cell15">&nbsp;</td>
-		<td id="cell16">&nbsp;</td>
-	      </tr> 
+                <tr>
+                    <td id="cell1">&nbsp;</td>
+                    <td id="cell2">&nbsp;</td>
+                    <td id="cell3">&nbsp;</td>
+		    <td id="cell4">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell5">&nbsp;</td>
+                    <td id="cell6">&nbsp;</td>
+                    <td id="cell7">&nbsp;</td>
+		    <td id="cell8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell9">&nbsp;</td>
+                    <td id="cell10">&nbsp;</td>
+                    <td id="cell11">&nbsp;</td>
+		    <td id="cell12">&nbsp;</td>
+                </tr>
+	        <tr>
+                    <td id="cell13">&nbsp;</td>
+                    <td id="cell14">&nbsp;</td>
+                    <td id="cell15">&nbsp;</td>
+		    <td id="cell16">&nbsp;</td>
+	        </tr> 
             </table>
 
             <!-- 5x5 Bingo Board -->
             <table id="board" name="board5" style="display: none">
-              <tr>
-                <td id="cell1">&nbsp;</td>
-                <td id="cell2">&nbsp;</td>
-                <td id="cell3">&nbsp;</td>
-                <td id="cell4">&nbsp;</td>
-		<td id="cell5">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell6">&nbsp;</td>
-                <td id="cell7">&nbsp;</td>
-                <td id="cell8">&nbsp;</td>
-                <td id="cell9">&nbsp;</td>
-		<td id="cell10">&nbsp;</td>
-              </tr>
-              <tr>
-                <td id="cell11">&nbsp;</td>
-                <td id="cell12">&nbsp;</td>
-                <td id="cell13">&nbsp;</td>
-                <td id="cell14">&nbsp;</td>
-		<td id="cell15">&nbsp;</td>
-              </tr>
-	      <tr>
-                <td id="cell16">&nbsp;</td>
-                <td id="cell17">&nbsp;</td>
-                <td id="cell18">&nbsp;</td>
-                <td id="cell19">&nbsp;</td>
-		<td id="cell20">&nbsp;</td>
-	      </tr>
-	      <tr>
-                <td id="cell21">&nbsp;</td>
-		<td id="cell22">&nbsp;</td>
-                <td id="cell23">&nbsp;</td>
-                <td id="cell24">&nbsp;</td>
-                <td id="cell25">&nbsp;</td>
-	      </tr>
-	   </table> 
+                <tr>
+                    <td id="cell1">&nbsp;</td>
+                    <td id="cell2">&nbsp;</td>
+                    <td id="cell3">&nbsp;</td>
+                    <td id="cell4">&nbsp;</td>
+		    <td id="cell5">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell6">&nbsp;</td>
+                    <td id="cell7">&nbsp;</td>
+                    <td id="cell8">&nbsp;</td>
+                    <td id="cell9">&nbsp;</td>
+		    <td id="cell10">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="cell11">&nbsp;</td>
+                    <td id="cell12">&nbsp;</td>
+                    <td id="cell13">&nbsp;</td>
+                    <td id="cell14">&nbsp;</td>
+		    <td id="cell15">&nbsp;</td>
+                </tr>
+	        <tr>
+                    <td id="cell16">&nbsp;</td>
+                    <td id="cell17">&nbsp;</td>
+                    <td id="cell18">&nbsp;</td>
+                    <td id="cell19">&nbsp;</td>
+		    <td id="cell20">&nbsp;</td>
+	        </tr>
+	        <tr>
+                    <td id="cell21">&nbsp;</td>
+		    <td id="cell22">&nbsp;</td>
+                    <td id="cell23">&nbsp;</td>
+                    <td id="cell24">&nbsp;</td>
+                    <td id="cell25">&nbsp;</td>
+	        </tr>
+            </table> 
+
             <!-- Button for when board does not contain solution -->
             <p style="text-align: center">
                 <button id="noSolution" onclick="solNotFound()" class="btn btn-info">Solution Not On Board</button>
             </p>
 
-	    <!-- Button to end game and get feedback -->
+            <!-- Button to end game and get feedback -->
             <p style="text-align: center">
                 <button id="quitGame" onclick="endGame()" class="btn btn-danger">End Game</button>
             </p>
 
 	    <!-- Message to be displayed when Bingo is achieved -->
 	    <h1 id="bingo" style="display: none; text-align: center">BINGO!!! On to the next board :)</h1>
-      </div>
-
-    <!-- Post-game Scoring Panel -->
-    <div id="end" class="container" style="display: none">
-      <h1 class="page-header" style="text-align: center">Results</h1>
-      
-      <div class="row">
-	<div class="col-sm-6">
-	  <h3 style="text-align: center">Total Score</h3>
-	  <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
-	</div> 
-
-        <div class="col-sm-6">
-	  <h3 style="text-align: center">Problems Solved</h3>
-          <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
         </div>
-      </div>
 
-      <div id="wrong" style="display: none">
-	<h3 style="text-align: center">Incorrect Problems</h3>
-	<div id="wrongProblem" class="list-group list-group-flush text-center"></div>
-      </div>  
+        <!-- Post-game Scoring Panel -->
+        <div id="end" class="container" style="display: none">
+            <h1 class="page-header" style="text-align: center">Results</h1>
+      
+            <div class="row">
+	        <div class="col-sm-6">
+	        <h3 style="text-align: center">Total Score</h3>
+	        <b><h1 id="totalScore" style="text-align: center; color: #1970EE;"></h1></b>
+	    </div> 
+
+            <div class="col-sm-6">
+	        <h3 style="text-align: center">Problems Solved</h3>
+                <b><h1 id="numSolved" style="text-align: center; color: #0FA30F"></h1></b>
+            </div>
+        </div>
+
+        <div id="wrong" style="display: none">
+	    <h3 style="text-align: center">Incorrect Problems</h3>
+	    <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
+        </div>  
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-      <!-- App JavaScript -->
-      <script src="app.js"></script>
+
+        <!-- App JavaScript -->
+        <script src="app.js"></script>
                     
-</body>
+    </body>
 <html>

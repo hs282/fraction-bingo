@@ -204,15 +204,15 @@ function solNotFound() {
 function checkBingo() {
     let result;
     result = checkRows();
-    if (result == true) {
+    if (result) {
        	return true;
     } 
     result = checkColumns();
-    if (result == true) {
+    if (result) {
 	return true;
     }
     result = checkDiagonals();
-    if (result == true) {
+    if (result) {
         return true;
     }
     return false;
@@ -255,7 +255,7 @@ function checkDiagonals() {
 	}
 	cell++;
     }
-    if (diag == true) {
+    if (diag) {
         bingo();
 	return true;
     }
