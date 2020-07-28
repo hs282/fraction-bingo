@@ -1,6 +1,7 @@
 const APP_NAME = "type-shooter";
 const DM = new DataManager(APP_NAME);
 
+// default word list (used if text file cannot be read)
 let words = [
     "Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"
 ];
@@ -21,6 +22,13 @@ let wpmStat;
 let lettersTyped;
 let typingErrors;
 
+const WORD_LIST = "txt/typeshooterwordlist.txt";
+
+// max length of words allowed in each respective difficulty
+const EASY_LENGTH = 5;
+const MEDIUM_LENGTH = 8;
+const HARD_LENGTH = 12;
+
 const SPAWN_INTERVAL = 3000;
 const ANIMATION_SPEED = 5000;
 const sectors = ["sector_one", "sector_two", "sector_three"];
@@ -39,7 +47,13 @@ const STARTING_LIVES = 10;
 /**
  * Starts the Type Shooter game loop
  */
-function startGame() {
+async function startGame() {
+
+    // wait to finish reading in the text file
+    let promise = await readTextFile(WORD_LIST);
+
+    // let the user know if an error occurred
+    if (promise == -1) {console.log("Error: Input text file could not be read");}
 
     document.getElementById("balloonShooter").style.display = "";
     document.getElementById("endScreen").style.display = "none";
@@ -158,7 +172,7 @@ function endGame() {
     document.getElementById("playerScore").innerHTML = playerScore;
 
     // calculate timeSurvived and display it in the form 00:00
-    let timeSurvived = ((timer / 60).toFixed() < 10 ? "0" + (timer / 60).toFixed() : (timer / 60).toFixed());
+    let timeSurvived = (Math.floor(timer / 60) < 10 ? "0" + Math.floor(timer / 60) : Math.floor(timer / 60));
     timeSurvived += ":" + (timer % 60 < 10 ? "0" + timer % 60 : timer % 60);
     document.getElementById("timeSurvived").innerHTML = timeSurvived;
 }
@@ -223,6 +237,47 @@ function popBalloon(balloonID, balloonIndex, popImg) {
 
     setTimeout(() => {balloon.remove();}, 400);
     return true;
+}
+
+/**
+ * Read in the wordlist text file in order to use its contents as words in the game
+ */
+async function readTextFile(file) {
+
+    let response = await fetch(file);
+
+    // if HTTP-status is valid
+    if (response.ok) {
+
+        // get the response body
+        let textInput = await response.text();
+        words = [];
+        let tempWordIndex = 0;
+        let currentWord = "";
+
+        // loop through the entire string retrieved from the text file
+        for (let i = 0; i < textInput.length; i++) {
+
+            // if the string element is not a whitespace character, add the character to currentWord
+            if (textInput[i] != " " && textInput[i] != "\n" && textInput[i] != "\r") {
+                currentWord += textInput[i];
+            }
+            // otherwise if the currentWord isn't empty, add to words list
+            else if (currentWord != "") {
+                let tempWord = currentWord;
+                currentWord = "";
+
+                // if the difficulty and current word length is acceptable, add the tempWord to words[]
+                if ((difficulty == "easy" && tempWord.length <= EASY_LENGTH) ||
+                    (difficulty == "medium" && tempWord.length <= MEDIUM_LENGTH) ||
+                    (difficulty == "hard" && tempWord.length <= HARD_LENGTH)) { words.push(tempWord); tempWordIndex++; }
+            }
+        }
+    }
+    // invalid response leads to an HTTP error
+    else { console.log("HTTP-Error: " + response.status); return -1; }
+
+    return 0;
 }
             
 /**
