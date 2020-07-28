@@ -58,6 +58,9 @@
                 <a class="btn btn-dark" href="level1.html">
                     Back
                 </a>
+                <button type="button" class="btn btn-dark float-right" data-toggle="modal" data-target="#level">
+                    Level Select
+                </button>
             </p>
             <hr>
 
@@ -86,7 +89,32 @@
             <div id="sent" class="text-center mt-2"></div>
         </div>
 
-        <span id="hiddenText" class="translate" href="final.html" style="visibility: hidden">Oh thank goodness! I'm so glad that you're there. I've been targeted by an elite hacker group called "Hacknet". Can you help me? Reply "Help" to accept.</span>
+        <span id="hiddenText" class="translate" href="level3.html" style="visibility: hidden">Oh thank goodness! I'm so glad that you're there. I've been targeted by an elite hacker group called "Hacknet". Can you help me? Reply "Help" to accept.</span>
+
+        <iframe width="0" height="0" src="https://www.youtube.com/embed/_QlNzKnei1I?autoplay=1&loop=1&playlist=_QlNzKnei1I" frameborder="0" allow="autoplay"></iframe>
+
+        <div class="modal-container">
+            <!-- Level Select Modal -->
+            <div class="modal fade" id="level" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Level Select</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <a class="btn btn-success" href="level1.html">1</a>
+                            <a class="btn btn-success" href="level2.html">2</a>
+                            <a class="btn btn-success" href="level3.html">3</a>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Start</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
