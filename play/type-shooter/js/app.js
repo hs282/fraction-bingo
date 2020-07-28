@@ -55,6 +55,8 @@ async function startGame() {
     // let the user know if an error occurred
     if (promise == -1) {console.log("Error: Input text file could not be read");}
 
+    document.querySelector("body").scrollTop = 0;
+    document.querySelector("body").style.overflowY = "hidden";
     document.getElementById("balloonShooter").style.display = "";
     document.getElementById("endScreen").style.display = "none";
     document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: 0";
@@ -99,6 +101,7 @@ async function startGame() {
 function endGame() {
 
     // disable input and show end screen
+    document.querySelector("body").style.overflowY = "auto";
     document.getElementById('input').disabled = true;
     document.getElementById('input').value = "";
     document.getElementById('input').blur();
