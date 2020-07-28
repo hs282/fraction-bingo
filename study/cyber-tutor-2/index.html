@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Cyber Resources</title>
+        <title>Cyber Tutor- Intermediate</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
@@ -49,34 +49,32 @@
 
             <div class="container">
                 <div style="text-align: center;">
-                    <h1 class="text-primary">Cybersecurity Learning Resources</h1>
+                    <h1 style="margin-bottom: 0;">Cyber Tutor- Intermediate</h1>
+                    <p id="score">
+                        Score: 0
+                    </p>
                 </div>
-			<div class="container">
-			
-				<div class="list-group">
-					Click on a resource to access it.
-					<a href="https://online.ctfmagic.org/" class="list-group-item list-group-item-action list-group-item-dark"><b>MAGIC CTF (capture the flag)-</b> A ctf competition for beginners. </a>
-					<a href="https://www.cybrary.it/" class="list-group-item list-group-item-action list-group-item-primary"><b>Cybrary-</b> A cybersecurity platform that provides articles, courses, certifications, and more.</a> 
-					<a href="https://www.sans.org/CyberStartUS/additional-resources" class="list-group-item list-group-item-action list-group-item-dark"><b>SANS Cyberstart Resources-</b> A curated list of competitions and learning activities.</a>
-					<a href="https://www.computersecuritystudent.com/" class="list-group-item list-group-item-action list-group-item-primary"><b>Computer Security Student-</b> Advance from white belt to black belt while learning cybersecurity. </a>
-					<a href="https://owasp.org/" class="list-group-item list-group-item-action list-group-item-dark"><b>Open Web Application Security Project (OWASP)</b>- Provides tools and resources for various cybersecurity domains.</a>
-					<a href="https://beinternetawesome.withgoogle.com/en_us/interland" class="list-group-item list-group-item-action list-group-item-primary"><b>Interland</b>- An interactive tool for younger kids</a>
-					<!--
-					<a href="#" class="list-group-item list-group-item-action list-group-item-primary">Primary item</a>
-					<a href="#" class="list-group-item list-group-item-action list-group-item-dark">Dark item</a>
-					<a href="#" class="list-group-item list-group-item-action list-group-item-light">Light item</a>-->
-				</div>
-            </div>
+
+                <pre id="code"></pre>
 				
+               <h4 id="prompt">Choose your answer from the word bank below.</h4> 
+			   <pre id="wordbank"></pre>
+                <textarea id="answer"></textarea>
+
+                <br><br>
+                <button class="btn btn-success" id="submit">Check Answer</button>
+				<br><br>			
+				<h2 id="complete"></h2>
+				<p id="results"></p>
             </div>
         </section>
-<!--
-        <footer>
+
+        <!--<footer>
             <span style="margin-left: 5px; font-weight: bold;">Customize Problem Types:</span>
 
             <ul id="problemTypes"></ul>
-        </footer>
--->
+        </footer>-->
+
         <script src="../codemirror/codemirror.js"></script>
 
         <script src="../codemirror/addon/runmode/runmode.js"></script>
