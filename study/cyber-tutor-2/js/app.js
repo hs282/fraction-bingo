@@ -2,40 +2,34 @@ let myQuestions = [
   {
     question: "A hacker created malware that looks like an adblocker but actually takes over the user's computer. What is this malware called?",
     correctAnswer: "Trojan",
-	responseVal: false
+    responseVal: false
   },
   {
     question: "Keylogging occurs when a program captures what from a victim?",
     correctAnswer: "Keystrokes",
-	responseVal: false
+    responseVal: false
   },
   {
     question: "Bella receives an email from her insurance company asking her to send them her account information. Little does she know, a hacker is posing as the company so he can get her data. This kind of attack is called: ",
     correctAnswer: "Phishing",
-	responseVal: false
+    responseVal: false
   },
   {
     question: "Jacob accidentally installs a malware. But, he updated his software and fixed a vulnerability before the malware was activated, so his computer was not taken over. The process of installing system updates is called: ",
     correctAnswer: "Patching",
-	responseVal: false
+    responseVal: false
   },
   {
     question: "A hacker realizes that Julie's system has a vulnerability; he takes advantage of it using a program. What is this program called?",
     correctAnswer: "Exploit",
-	responseVal: false
+    responseVal: false
   },
   {
     question: "Henry goes on nvd.nist.gov. What does he find?",
     correctAnswer: "CVEs",
-	responseVal: false
+    responseVal: false
   },
 ];
-
-/*const ALL_PROBLEM_TYPES = [
-    "forLoop",
-    "nestedForLoop",
-    "whileLoop"
-];*/
 
 // globals
 let score = 0;
@@ -53,85 +47,30 @@ wordBank();
 document.getElementById("submit").onclick = checkAnswer;
 
 function showProblem(){
-	problem = myQuestions[number].question;
- // show problem text to user
+    problem = myQuestions[number].question;
+    // show problem text to user
     updatePrompt(problem);
 
 }
 function setAnswer(){
-	answer = myQuestions[number].correctAnswer;
+    answer = myQuestions[number].correctAnswer;
 }
-
-
-/*function createProblemTypeCheckboxes() {
-    // create checkboxes for the user to be able to customize problem types that they practice
-    ALL_PROBLEM_TYPES.forEach(problemType => {
-        // create list item element
-        const li = document.createElement("li");
-
-        // create a checkbox element
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.id = problemType;
-        input.name = problemType;
-        input.value = problemType;
-        input.checked = true;
-
-        // define click action to add/remove problem type from selected problem types
-        input.onclick = () => {
-            // get the value of the input element
-            const val = input.value;
-
-            // if the input is checked, add to list of selected problem types
-            if (input.checked) {
-                selectedProblemTypes.push(val);
-            }
-            // if input is unchecked, remove it from the list of selected problem types
-            else {
-              //  selectedProblemTypes.splice(selectedProblemTypes.indexOf(val), 1);
-            }
-
-            // update prompt
-            promptText = showProblem();//generateProblem();
-            updatePrompt(promptText);
-        }
-
-        // create label for checkbox input
-        const label = document.createElement("label");
-       // label.htmlFor = problemType;
-       // label.innerText = problemType;
-
-        // add checkbox and label to list item
-        li.appendChild(input);
-        li.appendChild(label);
-
-        // add list item to the problem types list element
-        //document.getElementById("problemTypes").appendChild(li);
-    });
-}
-*/
-
 
 function updatePrompt(code) {
     const codeEl = document.getElementById("code");
 
-    // clear out anything that could still be in the code prompt element
-    codeEl.innerHTML = "";
-
-    // add code mirror className so syntax highlighting works
-    codeEl.className = "cm-s-default";
-
-    // run CodeMirror syntax highlighting on the code
-    CodeMirror.runMode(code, { name: "text/x-java" }, codeEl);
+    codeEl.innerHTML = code;
 }
 
-
 function wordBank(){
-	let word = "";
-	for(let i=0;i<myQuestions.length;i++){
-		 word= word + myQuestions[i].correctAnswer +" * ";
-	}
-	document.getElementById("wordbank").innerText = word;
+    /*let word = "";
+    for(let i=0;i<myQuestions.length;i++){
+        word= word + myQuestions[i].correctAnswer +" * ";
+    }
+    document.getElementById("wordbank").innerText = word;*/
+	let words = myQuestions.map(question => question.correctAnswer);
+    
+document.getElementById("wordbank").innerText = words.join(" * ");
 }
 
 /**
@@ -156,10 +95,7 @@ function checkAnswer() {
 
     // get the user's answer
     const val = document.getElementById("answer").value.trim();
-	console.log("QUESTION =",myQuestions[number]);
-	console.log("VAL=",val);
-	console.log("ANSWER=",answer);
-	console.log("NUMBER=",number);
+    
     // if the user's answer is correct
     if (val == answer) {
         // give the user feedback that they're right
@@ -168,37 +104,36 @@ function checkAnswer() {
 
         // add points to the user's score
         setScore(10);
-		myQuestions[number].responseVal = true;
+        myQuestions[number].responseVal = true;
         // clear the user's answer
         document.getElementById("answer").value = "";
-	}
+    }
     else {
         // give the user feedback that they're right
         notif.innerHTML = "That's incorrect.";
         notif.className = "failure";     
        
     }
-	if(number==myQuestions.length-1){
-		endQuiz();
-	}
-	else{
-	number = number + 1;
-	
-	showProblem();
-	setAnswer();
+    if(number==myQuestions.length-1){
+        endQuiz();
+    }
+    else{
+    number = number + 1;
+    
+    showProblem();
+    setAnswer();
     // hide the notification alert after 1 second
     setTimeout(() => notif.style.display = "none", 1000);
-	}
+    }
 }
 function endQuiz(){
-	console.log("Quiz Completed!");
-	var incorrect = "What you got wrong: \n";
-	for(let i = 0;i<myQuestions.length;i++){
-		if(myQuestions[i].responseVal==false){
-			incorrect = incorrect + myQuestions[i].question + " --> " + myQuestions[i].correctAnswer + "\n\n";
-		}
-	}
-	document.getElementById("complete").innerText = "QUIZ COMPLETED!";
-	document.getElementById("results").innerText = incorrect;
+    var incorrect = "What you got wrong: \n";
+    for(let i = 0;i<myQuestions.length;i++){
+        if(myQuestions[i].responseVal==false){
+            incorrect = incorrect + myQuestions[i].question + " --> " + myQuestions[i].correctAnswer + "\n\n";
+        }
+    }
+    document.getElementById("complete").innerText = "QUIZ COMPLETED!";
+    document.getElementById("results").innerText = incorrect;
 }
 
