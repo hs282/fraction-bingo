@@ -58,6 +58,9 @@
                 <a class="btn btn-dark" href="start.html">
                     Back
                 </a>
+                <button type="button" class="btn btn-dark float-right" data-toggle="modal" data-target="#level">
+                    Level Select
+                </button>
             </p>
             <hr>
 
@@ -91,6 +94,29 @@
         <audio autoplay loop>
             <source src="mp3/Riding_a_Radio_Wave.mp3">
         </audio>
+
+        <div class="modal-container">
+            <!-- Level Select Modal -->
+            <div class="modal fade" id="level" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Level Select</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <a class="btn btn-success" href="level1.html">1</a>
+                            <a class="btn btn-success" href="level2.html">2</a>
+                            <a class="btn btn-success" href="level3.html">3</a>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Start</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
