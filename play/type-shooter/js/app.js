@@ -1,3 +1,6 @@
+const APP_NAME = "type-shooter";
+const DM = new DataManager(APP_NAME);
+
 let words = [
     "Adult", "Airplane", "Air", "Aircraft", "Airforce", "Airport", "Album", "Alphabet", "Apple", "Arm", "Army", "Baby", "Baby", "Backpack", "Balloon", "Banana", "Bank", "Barbecue", "Bathroom", "Bathtub", "Bed", "Bee", "Bible", "Bible", "Bird", "Bomb", "Book", "Boss", "Bottle", "Bowl", "Box", "Boy", "Brain", "Bridge", "Butterfly", "Button", "Cappuccino", "Car", "Card", "Carpet", "Carrot", "Cave", "Chair", "Chess", "Chief", "Child", "Chisel", "Chocolates", "Church", "Church", "Circle", "Circus", "Circus", "Clock", "Clown", "Coffee", "Comet", "Compact", "Compass", "Computer", "Crystal", "Cup", "Cycle", "Database", "Desk", "Diamond", "Dress", "Drill", "Drink", "Drum", "Dung", "Ears", "Earth", "Egg", "Electricity", "Elephant", "Eraser", "Explosive", "Eyes", "Family", "Fan", "Feather", "Festival", "Film", "Finger", "Fire", "Floodlight", "Flower", "Foot", "Fork", "Freeway", "Fruit", "Fungus", "Game", "Garden", "Gas", "Gate", "Gemstone", "Girl", "Gloves", "God", "Grapes", "Guitar", "Hammer", "Hat", "Hieroglyph", "Highway", "Horoscope", "Horse", "Hose", "Ice", "Icicle", "Insect", "Jet", "Junk", "Kaleidoscope", "Kitchen", "Knife", "Leather", "Leg", "Library", "Liquid", "Magnet", "Man", "Map", "Maze", "Meat", "Meteor", "Microscope", "Milk", "Milkshake", "Mist", "Money", "Monster", "Mosquito", "Mouth", "Nail", "Navy", "Necklace", "Needle", "Onion", "Paint", "Pants", "Parachute", "Passport", "Pebble", "Pendulum", "Pepper", "Perfume", "Pillow", "Plane", "Planet", "Pocket", "Poster", "Potato", "Printer", "Prison", "Pyramid", "Radar", "Rainbow", "Record", "Restaurant", "Rifle", "Ring", "Robot", "Rock", "Rocket", "Roof", "Room", "Rope", "Saddle", "Salt", "Sandpaper", "Sandwich", "Satellite", "School", "Ship", "Shoes", "Shop", "Shower", "Signature", "Skeleton", "Snail", "Software", "Solid", "Space", "Spectrum", "Sphere", "Spice", "Spiral", "Spoon", "Sports", "Spot", "Square", "Staircase", "Star", "Stomach", "Sun", "Sunglasses", "Surveyor", "Swimming", "Sword", "Table", "Tapestry", "Teeth", "Telescope", "Television", "Tennis", "Thermometer", "Tiger", "Toilet", "Tongue", "Torch", "Torpedo", "Train", "Treadmill", "Triangle", "Tunnel", "Typewriter", "Umbrella", "Vacuum", "Vampire", "Videotape", "Vulture", "Water", "Weapon", "Web", "Wheelchair", "Window", "Woman", "Worm"
 ];
@@ -8,6 +11,7 @@ let zIndex = 999999;
 let spawnIntervalID;
 let timerIntervalID;
 let timer;
+let currentInputIndex;
 let currentWords = [];
 
 // stats
@@ -39,6 +43,7 @@ function startGame() {
 
     document.getElementById("balloonShooter").style.display = "";
     document.getElementById("endScreen").style.display = "none";
+    document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: 0";
     document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
 
@@ -50,6 +55,7 @@ function startGame() {
     lettersTyped = 0;
     typingErrors = 0;
     timer = 0;
+    currentInputIndex = -1;
 
     // Shuffle words list
     words = shuffle(words);
@@ -108,6 +114,53 @@ function endGame() {
 
     // set the actual wordAccuracyStat in HTML
     document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat.toFixed(1) + "%";
+
+    // calculate current and past playerScore
+    let playerScore = 0;
+    playerScore = (wpmStat + timer / 60) * (balloonsPopped) * (wordAccuracyStat / 100);
+    
+    // multiply user score based on difficulty at which the race was completed
+    if (difficulty == "easy") {playerScore *= EASY_MULTIPLIER;}
+    else if (difficulty == "medium") {playerScore *= MEDIUM_MULTIPLIER;}
+    else if (difficulty == "hard") {playerScore *= HARD_MULTIPLIER;}
+
+    playerScore = playerScore.toFixed();
+    let pastPlayerScore = DM.getItem("score");
+
+    // if getItem() didn't return undefined
+    if (pastPlayerScore != undefined) {
+
+        // convert pastPlayerScore to a valid numeric score
+        pastPlayerScore = JSON.stringify(pastPlayerScore).slice(3);
+        pastPlayerScore = parseInt(pastPlayerScore);
+
+        // save playerScore in DM if new score is higher than the old one
+        if (playerScore > pastPlayerScore) {
+            DM.saveItem("score", playerScore);
+        }
+
+        // display the higher score as the player's high score
+        document.getElementById("playerHighScore").innerHTML = playerScore > pastPlayerScore ? playerScore : pastPlayerScore;
+    }
+
+    // save playerScore, if unable, then popup a warning message
+    else if (DM.saveItem("score", playerScore) == false) {
+        alert("Could not save your score. If you would like to save your score, please login first.");
+        document.getElementById("playerHighScore").innerHTML = "Not logged in";
+    }
+
+    // only other behavior would be to display current playerScore as highest
+    else {
+        document.getElementById("playerHighScore").innerHTML = playerScore;
+    }
+
+    // display score and reset gameStarted
+    document.getElementById("playerScore").innerHTML = playerScore;
+
+    // calculate timeSurvived and display it in the form 00:00
+    let timeSurvived = ((timer / 60).toFixed() < 10 ? "0" + (timer / 60).toFixed() : (timer / 60).toFixed());
+    timeSurvived += ":" + (timer % 60 < 10 ? "0" + timer % 60 : timer % 60);
+    document.getElementById("timeSurvived").innerHTML = timeSurvived;
 }
 
 /**
@@ -144,24 +197,29 @@ function setDifficulty(element) {
 
 /**
  * Function uses the provided balloonID to play a popping animation and then delete the balloon
- * 
- * @param {String} balloonID 
+ * @param {String} balloonID
+ * @param {Number} balloonIndex
+ * @param {String} popImg
  */
-function popBalloon(balloonID) {
+function popBalloon(balloonID, balloonIndex, popImg) {
     let balloon = document.getElementById(balloonID);
 
     // only the first balloon can be popped (assuming it exists)
     if (!balloon) return false;
-    else if (balloonID != currentWords[0]) return false;
+    else if (balloonID != currentWords[balloonIndex]) return false;
 
     // set balloon to remove text and become a popping image
-    balloon.style.backgroundImage = "url('img/typeshooterballoonpop.png')";
+    balloon.style.backgroundImage = "url('" + popImg + "')";
     balloon.style.filter = "none";
     balloon.style.zIndex = 0;
     if (balloon.firstChild) balloon.removeChild(balloon.firstChild);
 
-    // the new currentWord (index 0) becomes the word after it
-    currentWords.shift();
+    // the balloon at balloonIndex is removed from currentWords[]
+    currentWords.splice(balloonIndex, 1);
+
+    // reset input box value if currently in the process of typing the word at balloonIndex
+    if (currentInputIndex == balloonIndex) document.getElementById("input").value = "";
+    currentInputIndex--;
 
     setTimeout(() => {balloon.remove();}, 400);
     return true;
@@ -205,14 +263,23 @@ function spawnBalloon() {
     // Style the balloon
     balloon.id = nextWord;
     balloon.style.height = "150px";
-    balloon.style.width = 150 * (nextWord.length / 4.75) + "px";
-    balloon.style.backgroundImage = "url('img/typeshooterballoon.png')";
+
+    // adjust width and height of balloon according to # of characters
+    if (nextWord.length <= 5) balloon.style.height = 150 * (nextWord.length / 5.2) + "px";
+    balloon.style.width = 150 * (nextWord.length / 9) + "px";
+
+    balloon.style.backgroundImage = "url('img/typeshooterballoonsmall.png')";
     balloon.style.backgroundSize = "100% 100%";
     balloon.style.backgroundRepeat = "no-repeat";
     balloon.style.backgroundPosition = "center";
     balloon.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
     balloon.style.position = "absolute";
-    balloon.style.left = (Math.random() * 70 + 5) + "%";
+
+    // convert maximum px width to a relative percentage to allow better resizing
+    let maxPX = (document.getElementById("balloonShooter").offsetWidth - parseInt((balloon.style.width).replace("px", ""), 10));
+    let maxPercent = maxPX / document.getElementById("balloonShooter").offsetWidth * 100;
+    balloon.style.left = (Math.random() * maxPercent) + "%";
+
     balloon.style.zIndex = zIndex--;
 
     // reset zIndex if too low
@@ -220,7 +287,7 @@ function spawnBalloon() {
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
-    text.style.top = "30%";
+    text.style.top = "28%";
     text.style.fontSize = "22px";
     text.style.fontWeight = "bold";
     text.style.webkitTextStrokeWidth = "0.5px";
@@ -245,14 +312,13 @@ function spawnBalloon() {
 
     // animate the newly created balloon
     $("#" + balloon.id).animate({
-        "top": document.getElementById("spaceship").style.bottom
+        "top": document.getElementById("spaceship").getBoundingClientRect().bottom
     }, tempAnimationSpeed, "linear");
 
     // delete balloon after it goes out of bounds (WIP)
     setTimeout(() => {
-        if (popBalloon(balloon.id)) {
+        if (popBalloon(balloon.id, 0, "img/typeshooterballoonexplode.png")) {
 
-            document.getElementById("input").value = "";
             let livesLeft = STARTING_LIVES - (++balloonCollisions);
             document.getElementById("livesLeft").innerHTML = "Lives Left: " + livesLeft;
 
@@ -274,39 +340,51 @@ document.getElementById("input").addEventListener('keyup', () => {
 
     if (currentWords.length == 0) return;
 
+    lettersTyped++;
+
     let input = document.getElementById("input").value;
     input = input.trim().toLowerCase();
-                    
-    if (input == currentWords[0]) {
-        // clear input box
-        document.getElementById("input").value = "";
-        document.getElementById("input").parentNode.style.color = "";
 
-        // pop the current balloon
-        if (!popBalloon(currentWords[0])) {
-            console.log("Error: Balloon \"" + currentWords[0] + "\" did not get popped");
+    let incorrect = 0;
+
+    for (let i = 0; i < currentWords.length; i++) {
+
+        if (input == currentWords[i]) {
+            // clear input box
+            document.getElementById("input").value = "";
+            document.getElementById("input").parentNode.style.color = "";
+
+            // pop the current balloon
+            if (!popBalloon(currentWords[i], i, "img/typeshooterballoonpop.png")) {
+                console.log("Error: Balloon \"" + currentWords[i] + "\" did not get popped");
+                return;
+            }
+
+            // update balloons popped display and increment balloonsPopped
+            document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
+
+            // if there isn't a word to be popped, disable the input text box
+            if (currentWords.length == 0) {
+                document.getElementById("input").disabled = true;
+            }
             return;
         }
-
-        // update balloons popped display and increment balloonsPopped
-        document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
-
-        // if there isn't a word to be popped, disable the input text box
-        if (currentWords.length == 0) {
-            document.getElementById("input").disabled = true;
-        }
-    }
                 
-    // If the input is correct
-    else if (input == currentWords[0].substring(0, input.length)) {
-        document.getElementById("input").style.color = "green";
+        // If the input is correct
+        else if (input == currentWords[i].substring(0, input.length)) {
+            document.getElementById("input").style.color = "green";
+            currentInputIndex = i;
+        }
+        // add to # of incorrect checks
+        else {incorrect++;}
     }
-    // If the input is incorrect
-    else if (input != currentWords[0].substring(0, input.length)) {
-        document.getElementById("input").style.color = "red";
+
+    // if all checked substrings are incorrect
+    if (incorrect == currentWords.length) {
+        // increment typing errors, set input text color to red
         typingErrors++;
+        document.getElementById("input").style.color = "red";
     }
-    lettersTyped++;
 });
 
 /**

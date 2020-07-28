@@ -3,24 +3,17 @@
  */
 (function initUI() {
     addRow();
-    $("#introduction").modal("show");
 })();
 
 /**
  * Add a binary string row that can be translated into an ASCII character.
  */
 function addRow() {
+    if (!document.getElementById("binary-container")) return;
     // create a letter div
     let div = document.createElement("div");
     div.className = "letter";
     document.getElementById("binary-container").appendChild(div);
-
-    // add a letter delete button
-    let button = document.createElement("button");
-    button.className = "removeButton";
-    button.innerHTML = "&times;";
-    button.onclick = () => deleteRow(div);
-    div.appendChild(button);
 
     // create 7 bit toggle elements
     for (let i = 0; i < 7; i++) {
@@ -41,14 +34,6 @@ function addRow() {
 }
 
 /**
- * Remove a binary string row.
- * @param {HTMLElement} el 
- */
-function deleteRow(el) {
-    document.querySelector("#binary-container").removeChild(el);
-}
-
-/**
  * Translate a binary string into its ASCII equivalent.
  */
 function translateBinaryString() {
@@ -60,7 +45,7 @@ function translateBinaryString() {
 
     // create binary string by reading states from cells
     let binaryString = Array.from(cells).map(x => x.innerHTML).join("");
-				
+
     // Show conversion from binary to ASCII character
     let resultEl = this.parentNode.querySelector(".result");
 
@@ -72,69 +57,106 @@ function translateBinaryString() {
 }
 
 /**
- * Add letters translated from binary string rows to the message.
+ * Translate the binary story text into ASCII.
  */
-function addToMessage() {
-    // create message span if not created before
-    let messageContainer = document.getElementById("message-container");
-    if (document.getElementById("message") == null) {
-        let span = document.createElement("span");
-        span.id = "message";
-        messageContainer.appendChild(span);
-    }
+function translateStory() {
+    stop = true;
+    let story = document.getElementById("story");
+    let text = document.getElementById("hiddenText").innerHTML;
+    story.innerHTML = text;
+    document.getElementById("translateButton").disabled = true;
+}
 
-    // insert message to span
+/**
+ * Remove a binary string row.
+ */
+function deleteRow() {
+    div = document.querySelector(".letter");
+    document.querySelector("#binary-container").removeChild(div);
+}
+
+/**
+ * Displays text using a typewriter effect.
+ * @type {number}
+ */
+let stop = false;
+
+function typeWriter() {
+    let hidden = document.getElementById("hiddenText");
+    let text = hidden.innerHTML;
+    let i = 0;
+    let speed = 25;
+    if (hidden.className == "translate") text = convertToBinary(text);
+    type(speed, i, text);
+}
+
+/**
+ * Recursive function to type all letters for typewriter effect
+ * @param speed
+ * @param i index variable
+ * @param binaryText
+ */
+function type(speed, i, text) {
+    if (stop) return;
+    if (i < text.length) {
+        document.getElementById("story").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, speed, speed, i, text);
+    }
+}
+
+/**
+ * Displays text and skips the typewriter effect.
+ */
+function skip() {
+    let hidden = document.getElementById("hiddenText");
+    let text = hidden.innerHTML;
+    stop = true;
+    if (hidden.className == "translate") text = convertToBinary(text);
+    document.getElementById("story").innerHTML = text;
+    document.body.onclick = null;
+}
+
+/**
+ * Compares message with desired answer.
+ */
+function check(string) {
     let message = "";
-    let span = document.getElementById("message");
     let letters = document.querySelectorAll(".result");
     for (let i = 0; i < letters.length; i++) {
         message += letters[i].innerHTML;
     }
-    span.innerHTML += message;
+    if (message === string) {
+        // displays text for user if correct
+        document.getElementById("sent").innerHTML = "MESSAGE SENT";
+        setTimeout(function() {
+            document.getElementById("sent").innerHTML = "DOWNLOADING NEW MESSAGE";
+        }, 1750);
 
-    // reset binary rows
-    let div = document.getElementById("binary-container");
-    while (div.firstChild) {
-        deleteRow(div.querySelector(".letter"));
+        // follows link to next level
+        setTimeout(function () {
+            link = document.getElementById("hiddenText").getAttribute("href");
+            window.location.href = link;
+            }, 3500);
+    } else {
+        // displays red briefly if wrong
+        document.getElementById("binary-container").style.color = "red";
+        setTimeout(function() {
+            document.getElementById("binary-container").style.color = "#20C20E";
+        }, 500)
     }
-    addRow();
-
-    // enable "Copy Message" button
-    if (span.innerHTML) document.getElementById("copy-button").disabled = false;
 }
 
 /**
- * Deletes message.
+ * Convert text into binary.
+ * @param text
  */
-function deleteMessage() {
-    let span = document.getElementById("message");
-    document.getElementById("message-container").removeChild(span);
-
-    // disable "Copy Message" button
-    document.getElementById("copy-button").disabled = true;
-}
-
-/**
- * Copies message to clipboard.
- */
-function copyMessage() {
-    // copy message using characters
-    if (document.getElementById("character").checked) {
-        let copyText = document.getElementById("message").innerHTML;
-        navigator.clipboard.writeText(copyText)
-            .then(() => alert(`Copied the message \"${copyText}\".`))
-            .catch(err => alert("Error in copying text"));
+function convertToBinary(text) {
+    let binaryText = "";
+    for (let i = 0; i < text.length; i++) {
+        binaryText += text[i].charCodeAt(0).toString(2) + " ";
     }
-
-    // copy message using binary
-    if (document.getElementById("binary").checked) {
-        let copyText = document.getElementById("message").innerHTML;
-        let binaryText = "";
-        for (let i = 0; i < copyText.length; i++) {
-            binaryText += copyText[i].charCodeAt(0).toString(2) + " ";
-        }
-        navigator.clipboard.writeText(binaryText)
-            .then(() => alert(`Copied the string \"${binaryText}\", which translates to \"${copyText}\".`))
-            .catch(err => alert("Error in copying text"));
-    }
+    document.getElementById("translateButton").disabled = false;
+    text = binaryText;
+    return text;
 }
