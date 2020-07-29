@@ -58,9 +58,10 @@
                             <p class="text-center container-fluid">
                                 <label style="font-size: x-large;" class="btn-lg">Game Type:</label>
                                 <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector"
-                                    onchange="setDifficulty(this.value);">
+                                    onClick="setDifficulty(this.value);">
                                     <option value="learn" class="btn-success">Learning</option>
                                     <option value="race" class="btn-danger">Race</option>
+                                    <option value="cashier" class="btn-success">Cashier</option>
                                 </select>
                                 <button type="button" class="btn btn-success btn-lg" data-dismiss="modal"
                                     onclick="initUI()">Start Game</button>
@@ -77,6 +78,7 @@
                 <span id="target">Target Value: $0.00</span>
                 <span>|</span>
                 <span id="timer">Time: 60 seconds left</span>
+                <span id="amountOfItem"></span>
             </div>
 
             <section id="container">
@@ -84,6 +86,11 @@
 
                 <div id="counter"></div>
             </section>
+
+            <div id="cashier">
+                <img src="cashReg.jpg" alt="register" id="cashierImg">
+            </div>
+
 
             <div id="gameOver">
                 <h1>Game Over</h1>

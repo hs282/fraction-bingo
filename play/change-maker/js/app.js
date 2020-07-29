@@ -29,12 +29,24 @@ const COINS = [
     }
 ];
 
+const BILLS = [
+        {
+            name: "One Dollar Bill",
+            value: 100,
+            img : "one-dollar.jpg",
+            description : "The value is $1.00"
+        }
+];
+
 // global variables to hold game state
 let score = 0;
 let targetValue = 0;
 let currentValue = 0;
 let booleanTimer = false;
 let timeLeft = 30;
+let cashierBoolean = false;
+let payedAmount = 0;
+let amountOfItem = 0;
 
 /**
  * Initalize the UI on script load.
@@ -61,10 +73,23 @@ function initUI() {
 
 //to set the timer to true if race mode is enabled
 function setDifficulty(str) {
-    if(str == "race") {
+    //set mode
+    //race mode
+    if (str == "race") {
         booleanTimer = true;
-    } else {
+        cashierBoolean = false;
+        normalDisplay();
+    //cashier mode
+    } else if (str == "cashier") {
+        setCashierLayout();
         booleanTimer = false;
+        cashierBoolean = true;
+    }
+    //learning mode
+    else {
+        booleanTimer = false;
+        cashierBoolean = false;
+        normalDisplay();
     }
 }
 
@@ -119,26 +144,30 @@ function enableCounterDropDetection() {
             counterEl.removeChild(el);
         };
 
-        // if the counting process is done
-        if (Math.abs(currentValue - (targetValue * 100)) < .00000000000001) {
-            // increment score
-            score += 10;
-            targetValue = getRandomNumber();
+        checkCoins();
 
-            // reset currentValue to zero to reset counting process
-            currentValue = 0;
-            //reset the timer
-            if (booleanTimer) {
-                timeLeft = 30;
-            }
+    }
+}
 
-            // clear counter element to reset counting process
-            document.querySelector("#counter").innerHTML = "";
+function checkCoins() {
+    // if the counting process is done
+    if (Math.abs(currentValue - (targetValue * 100)) < .00000000000001) {
+        // increment score
+        score += 10;
+        targetValue = getRandomNumber();
+
+        // reset currentValue to zero to reset counting process
+        currentValue = 0;
+        //reset the timer
+        if (booleanTimer) {
+            timeLeft = 30;
         }
 
-        // update the readout
-        updateReadout();
+        // clear counter element to reset counting process
+        document.querySelector("#counter").innerHTML = "";
     }
+    updateReadout();
+
 }
 
 /**
@@ -147,9 +176,15 @@ function enableCounterDropDetection() {
 function updateReadout() {
     const scoreEl = document.querySelector("#score");
     const targetEl = document.querySelector("#target");
-
-    scoreEl.textContent = "Score: " + score;
-    targetEl.textContent = "Target Value: $" + targetValue;
+    const counterEl = document.querySelector("#amountOfItem");
+    if(cashierBoolean) {
+        targetEl.textContent = "Amount payed: $" + payedAmount;
+        counterEl.textContent = "Amount of Item $" + amountOfItem;
+        scoreEl.textContent = "Score: " + score;
+    } else {
+        scoreEl.textContent = "Score: " + score;
+        targetEl.textContent = "Target Value: $" + targetValue;
+    }
 }
 
 /**
@@ -186,13 +221,49 @@ function createCoinElements() {
 function getRandomNumber() {
     const min = 0;
     const max = 4;
+    const MaxBillPay = 19;
+    const Bills = [1, 5, 10, 20];
+    let num;
 
-    let num = Math.random() * (max - min) + min;
-    num = num.toFixed(2);
+    if(!(cashierBoolean)) {
+        num = Math.random() * (max - min) + min;
+        num = num.toFixed(2);
+    } else {
+        //to set the target value as the change amount due
+        num = Math.random() * MaxBillPay;
+        amountOfItem = num.toFixed(2);
+        for(let i = 0; i < Bills.length; i++) {
+            if(Bills[i] >= num) {
+                payedAmount = Bills[i];
+                break;
+            }
+        }
+        num = payedAmount - num;
+        num = num.toFixed(2);
 
+    }
+    //update the html for the cashier
+    updateCashierHtml(num);
     return num;
 }
 
+function updateCashierHtml() {
+    //replace the target value and clock with
+    const targetEl = document.querySelector("#target");
+    const counterEl = document.querySelector("#amountOfItem");
+    targetEl.textContent = "Amount payed: $" + payedAmount;
+    counterEl.textContent = "Amount of Item $" + amountOfItem;
+}
+
+function setCashierLayout() {
+    document.getElementById("cashier").style.display = "inline-block";
+    document.getElementById("amountOfItem").style.display = "inline-block";
+}
+function normalDisplay() {
+    document.getElementById("counter").style.height = "99%";
+    document.getElementById("cashier").style.display = "none";
+    document.getElementById("amountOfItem").style.display = "none";
+}
 function endGame() {
     document.getElementById("readout").style.display = "none";
     document.getElementById("container").style.display = "none";
