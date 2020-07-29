@@ -711,7 +711,6 @@ function getMonster() {
 
     // Generate new monster HP
     totalMonsterHP = Math.floor(Math.random() * 100) + 1;
-    totalMonsterHP = 20;
     currentMonsterHP = totalMonsterHP;
 
     let index = Math.floor(Math.random() * (monsterArr.length));
