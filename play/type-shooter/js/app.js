@@ -48,6 +48,9 @@ const STARTING_LIVES = 10;
     // show instructions modal
     $("#myModal").modal("show");
 
+    // keep page scrolled to the very top
+    document.querySelector("body").scrollTop = 0;
+
     // edit styles for balloonsPopped text and livesLeft text
     let livesLeft = document.getElementById("livesLeft");
     livesLeft.style.fontSize = "25px";
@@ -62,6 +65,13 @@ const STARTING_LIVES = 10;
     poppedBalloons.style.webkitTextStrokeWidth = "1px";
     poppedBalloons.style.webkitTextStrokeColor = "black";
     poppedBalloons.style.webkitTextFillColor = "rgb(255, 255, 255)";
+
+    let timeSurvived = document.querySelector("#timeSurvived");
+    timeSurvived.style.fontSize = "25px";
+    timeSurvived.style.fontWeight = "bold";
+    timeSurvived.style.webkitTextStrokeWidth = "1px";
+    timeSurvived.style.webkitTextStrokeColor = "black";
+    timeSurvived.style.webkitTextFillColor = "rgb(255, 255, 255)";
 
     let input = document.getElementById("input");
     input.style.fontSize = "25px";
@@ -96,6 +106,7 @@ async function startGame() {
     document.getElementById('input').focus();
     document.getElementById("livesLeft").innerHTML = "Lives Left: " + STARTING_LIVES;
     document.getElementById("livesLeft").style.webkitTextFillColor = "rgb(" + redTextColor + ", " + greenTextColor + ", 0)";
+    document.querySelector("#timeSurvived").innerHTML = "Time Survived: 00:00"
 
     currentWords = [];
     zIndex = 999999;
@@ -116,6 +127,16 @@ async function startGame() {
         wpmStat = (balloonsPopped / (++timer)) * 60;
         let wpmStats = document.querySelectorAll("#wpmStat");
         for (let i = 0; i < wpmStats.length; i++) wpmStats[i].style.innerHTML = "WPM: " + wpmStat;
+
+        // if the time played exceeds the maximum displayable time, end the game
+        if (timer % (60 * 60) == 0) {endGame();}
+
+        // calculate timeSurvived and display it in the form 00:00
+        let timeSurvived = (Math.floor(timer / 60) < 10 ? "0" + Math.floor(timer / 60) : Math.floor(timer / 60));
+        timeSurvived += ":" + (timer % 60 < 10 ? "0" + timer % 60 : timer % 60);
+
+        document.querySelector("#timeSurvived").innerHTML = "Time Survived: " + timeSurvived;
+
     }, 1000);
 
     let tempInterval = getSpawnInterval();
@@ -211,7 +232,11 @@ function endGame() {
     // calculate timeSurvived and display it in the form 00:00
     let timeSurvived = (Math.floor(timer / 60) < 10 ? "0" + Math.floor(timer / 60) : Math.floor(timer / 60));
     timeSurvived += ":" + (timer % 60 < 10 ? "0" + timer % 60 : timer % 60);
-    document.getElementById("timeSurvived").innerHTML = timeSurvived;
+
+    let timeStats = document.querySelectorAll("#timeSurvived");
+    timeStats.forEach(timeStat => {
+        timeStat.innerHTML = timeSurvived;
+    });
 }
 
 /**
