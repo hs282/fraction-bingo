@@ -98,6 +98,25 @@ let myQuestions = [
     ],
     correctAnswer: " Trojan "
   },
+  {
+    question: "What's the difference between a vulnerability and an exposure?",
+    answers: [
+      " A vulnerability causes an exposure ",
+      " An exposure can lead to a vulnerability ",
+      " An exposure makes it harder for hackers to gain unauthorized access "
+    ],
+    correctAnswer: " An exposure can lead to a vulnerability "
+  },
+  {
+    question: "On what two websites can you find vulnerabilities or exploits?",
+    answers: [
+      " exploit-db.com and nvd.nist.gov ",
+      " exploitdb.org and nist.nvd.gov ",
+      " nist.exploit.com and nvd.org "
+    ],
+    correctAnswer: " exploit-db.com and nvd.nist.gov "
+  },
+  
 ];
 
 myQuestions = randomize(myQuestions);

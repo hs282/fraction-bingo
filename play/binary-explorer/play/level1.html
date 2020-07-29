@@ -58,6 +58,9 @@
                 <a class="btn btn-dark" href="start.html">
                     Back
                 </a>
+                <button type="button" class="btn btn-dark float-right" data-toggle="modal" data-target="#level">
+                    Level Select
+                </button>
             </p>
             <hr>
 
@@ -87,6 +90,31 @@
         </div>
 
         <span id="hiddenText" class="translate" href="level2.html" style="visibility: hidden">Hello? Hello? If anyone is receiving this message, please reply "Yes".</span>
+
+        <iframe width="0" height="0" src="https://www.youtube.com/embed/_QlNzKnei1I?autoplay=1&loop=1&playlist=_QlNzKnei1I" frameborder="0" allow="autoplay"></iframe>
+
+        <div class="modal-container">
+            <!-- Level Select Modal -->
+            <div class="modal fade" id="level" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Level Select</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <a class="btn btn-success" href="level1.html" type="button">1</a>
+                            <a class="btn btn-success" href="level2.html" type="button">2</a>
+                            <a class="btn btn-success" href="level3.html" type="button">3</a>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Start</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

@@ -1,8 +1,8 @@
-body {
+body, .modal-content {
     background-color: #2e2e2e;
 }
 
-p, h1 {
+p, h1, h4 {
     color: #20C20E;
     margin-bottom: 30px;
 }
@@ -51,4 +51,8 @@ p, h1 {
 .addButton {
     margin-right: 10px;
     background-color: darkgray;
+}
+
+#story {
+    text-align: justify;
 }
