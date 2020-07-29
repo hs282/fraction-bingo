@@ -711,6 +711,7 @@ function getMonster() {
 
     // Generate new monster HP
     totalMonsterHP = Math.floor(Math.random() * 100) + 1;
+    totalMonsterHP = 20;
     currentMonsterHP = totalMonsterHP;
 
     let index = Math.floor(Math.random() * (monsterArr.length));
@@ -728,40 +729,74 @@ function getMonster() {
     monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-success";
     monsterHPBarEl.style.width = (currentMonsterHP / totalMonsterHP).toFixed(2) * 100 + "%";
     monsterHPBarEl.setAttribute("aria-valuenow", (currentMonsterHP / totalMonsterHP).toFixed(2) * 100 + "");
+    monsterImgEl.style.display = "inline";
 }
 
 /**
  * Damages monster
  */
 function damageMonster() {
-   $("#monsterIMG").effect("shake");
+    let num = Math.floor(Math.random() * 3);
+    if (num == 0) {
+        $("#monsterIMG").effect("shake");
+    }
+    else if (num == 1) {
+        $("#monsterIMG").effect("bounce");
+    }
+    else {
+        $("#monsterIMG").effect("pulsate");
+    }
 
-   // Inflict damage
-   currentMonsterHP -= 10;
-   let percentage = ((currentMonsterHP / totalMonsterHP) * 100).toFixed(2);
+    // Inflict damage
+    currentMonsterHP -= 10;
+    let percentage = ((currentMonsterHP / totalMonsterHP) * 100).toFixed(2);
 
-   // Update progress bar
-   monsterHPBarEl.style.width = (currentMonsterHP / totalMonsterHP).toFixed(2) * 100 + "%";
-   monsterHPBarEl.setAttribute("aria-valuenow", (currentMonsterHP / totalMonsterHP).toFixed(2) * 100 + "");
+    // Update progress bar
+    monsterHPBarEl.style.width = (currentMonsterHP / totalMonsterHP).toFixed(2) * 100 + "%";
+    monsterHPBarEl.setAttribute("aria-valuenow", (currentMonsterHP / totalMonsterHP).toFixed(2) * 100 + "");
 
-   if (percentage <= 0) {
-       slainMonsters++;
-       slainMonstersEl.innerHTML = "Monsters Slain: " + slainMonsters;
-       getMonster();
-   }
-   else if (percentage < 33.33)
-       monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-danger";
-   else if (percentage > 66.66)
-       monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-success";
-   else if (33.33 < percentage < 66.66)
-       monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-warning";
+    if (percentage <= 0) {
+        killMonster().done(getMonster);
+        slainMonsters++;
+        slainMonstersEl.innerHTML = "Monsters Slain: " + slainMonsters;
+    }
+    else if (percentage < 33.33)
+        monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-danger";
+    else if (percentage > 66.66)
+        monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-success";
+    else if (33.33 < percentage < 66.66)
+        monsterHPBarEl.className = "progress-bar progress-bar-striped progress-bar-animated bg-warning";
 }
+
+ /**
+ * Kill effect for monster
+ */
+function killMonster() {
+    let animation = $.Deferred();
+
+    $("#monsterIMG").effect("explode");
+
+    setTimeout( () => {
+      animation.resolve();
+    }, 1000);
+
+    return animation;
+};
 
  /**
   * Damages player
   */
 function damagePlayer() {
-   $("#input").effect("shake");
+  let num = Math.floor(Math.random() * 2);
+  if (num == 0) {
+      $("#input").effect("shake");
+  }
+  else if (num == 1) {
+      $("#input").effect("bounce");
+  }
+  else {
+      $("#input").effect("pulsate");
+  }
    currentPlayerHP -= 10;
    updatePlayerHP();
 }
