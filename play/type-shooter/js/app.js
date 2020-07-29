@@ -15,10 +15,10 @@ let timer;
 let currentInputIndex;
 let currentWords = [];
 
-const GREEN_START_COLOR = 200;
+const GREEN_START_COLOR = 220;
 const RED_START_COLOR = 0;
-let greenTextColor = 200;
-let redTextColor = 0;
+let greenTextColor = GREEN_START_COLOR;
+let redTextColor = RED_START_COLOR;
 
 // stats
 let balloonsPopped = 0;
@@ -54,14 +54,23 @@ const STARTING_LIVES = 10;
     livesLeft.style.fontWeight = "bold";
     livesLeft.style.webkitTextStrokeWidth = "1px";
     livesLeft.style.webkitTextStrokeColor = "black";
-    livesLeft.style.webkitTextFillColor = "rgb(0, " + greenTextColor + ", 0)"
+    livesLeft.style.webkitTextFillColor = "rgb(0, " + greenTextColor + ", 0)";
 
     let poppedBalloons = document.getElementById("balloonsPopped");
     poppedBalloons.style.fontSize = "25px";
     poppedBalloons.style.fontWeight = "bold";
     poppedBalloons.style.webkitTextStrokeWidth = "1px";
     poppedBalloons.style.webkitTextStrokeColor = "black";
-    poppedBalloons.style.webkitTextFillColor = "rgb(255, 255, 255)"
+    poppedBalloons.style.webkitTextFillColor = "rgb(255, 255, 255)";
+
+    let input = document.getElementById("input");
+    input.style.fontSize = "25px";
+    input.style.fontWeight = "bold";
+    input.style.webkitTextStrokeWidth = "1px";
+    input.style.webkitTextStrokeColor = "black";
+    input.style.webkitTextFillColor = "rgb(255, 255, 255)";
+    input.size = "" + HARD_LENGTH;
+    input.maxLength = "" + HARD_LENGTH;
 })();
 
 /**
@@ -85,7 +94,8 @@ async function startGame() {
     document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: 0";
     document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
-    document.getElementById("livesLeft").style.webkitTextFillColor = "rgb(" + redTextColor + ", " + greenTextColor + ", 0)"
+    document.getElementById("livesLeft").innerHTML = "Lives Left: " + STARTING_LIVES;
+    document.getElementById("livesLeft").style.webkitTextFillColor = "rgb(" + redTextColor + ", " + greenTextColor + ", 0)";
 
     currentWords = [];
     zIndex = 999999;
@@ -374,7 +384,7 @@ function spawnBalloon() {
     text.style.fontWeight = "bold";
     text.style.webkitTextStrokeWidth = "0.5px";
     text.style.webkitTextStrokeColor = "white";
-    text.style.webkitTextFillColor = "black"
+    text.style.webkitTextFillColor = "black";
       
     // Place balloon in random sector based on word difficulty level
     let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel));
@@ -460,7 +470,7 @@ document.getElementById("input").addEventListener('keyup', () => {
                 
         // If the input is correct
         else if (input == currentWords[i].substring(0, input.length)) {
-            document.getElementById("input").style.color = "green";
+            document.getElementById("input").style.webkitTextFillColor = "rgb(0, " + GREEN_START_COLOR + ", 0)";
             currentInputIndex = i;
         }
         // add to # of incorrect checks
@@ -471,7 +481,7 @@ document.getElementById("input").addEventListener('keyup', () => {
     if (incorrect == currentWords.length) {
         // increment typing errors, set input text color to red
         typingErrors++;
-        document.getElementById("input").style.color = "red";
+        document.getElementById("input").style.webkitTextFillColor = "rgb(" + GREEN_START_COLOR + ", 0, 0)";
     }
 });
 
