@@ -35,7 +35,7 @@ const MEDIUM_LENGTH = 8;
 const HARD_LENGTH = 12;
 
 const SPAWN_INTERVAL = 3000;
-const ANIMATION_SPEED = 5000;
+const ANIMATION_SPEED = 4800;
 const sectors = ["sector_one", "sector_two", "sector_three"];
 
 const EASY_MULTIPLIER = 1;
@@ -336,13 +336,13 @@ function spawnBalloon() {
     currentWords.push(nextWord);
                 
     // Calculate word difficulty
-    if (nextWord.length < 4) {
+    if (nextWord.length <= EASY_LENGTH) {
         wordDiffLevel = 0;
     }
-    else if (nextWord.length > 4 && nextWord.length < 6) {
+    else if (nextWord.length <= MEDIUM_LENGTH) {
         wordDiffLevel = 1;
     }
-    else {
+    else if (nextWord.length <= HARD_LENGTH) {
         wordDiffLevel = 2;
     }
 
@@ -386,8 +386,13 @@ function spawnBalloon() {
     text.style.webkitTextStrokeColor = "white";
     text.style.webkitTextFillColor = "black";
       
-    // Place balloon in random sector based on word difficulty level
-    let randSector = Math.floor(3 - Math.random() * (1 + wordDiffLevel));
+    let randValue = Math.random();
+    // do not allow a random value of exactly 0
+    while (randValue == 0) {randValue = Math.random();}
+
+    // place balloon in random sector based on word difficulty level
+    // hard words can spawn only in sector 2, medium in 1 and 2, and easy in 0, 1, and 2
+    let randSector = Math.floor(3 - randValue * (3 - wordDiffLevel));
     document.getElementById(sectors[randSector]).appendChild(balloon);
 
     let tempAnimationSpeed = ANIMATION_SPEED;
