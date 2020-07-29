@@ -15,6 +15,11 @@ let timer;
 let currentInputIndex;
 let currentWords = [];
 
+const GREEN_START_COLOR = 200;
+const RED_START_COLOR = 0;
+let greenTextColor = 200;
+let redTextColor = 0;
+
 // stats
 let balloonsPopped = 0;
 let balloonCollisions = 0;
@@ -42,6 +47,21 @@ const STARTING_LIVES = 10;
 (function initUI() {
     // show instructions modal
     $("#myModal").modal("show");
+
+    // edit styles for balloonsPopped text and livesLeft text
+    let livesLeft = document.getElementById("livesLeft");
+    livesLeft.style.fontSize = "25px";
+    livesLeft.style.fontWeight = "bold";
+    livesLeft.style.webkitTextStrokeWidth = "1px";
+    livesLeft.style.webkitTextStrokeColor = "black";
+    livesLeft.style.webkitTextFillColor = "rgb(0, " + greenTextColor + ", 0)"
+
+    let poppedBalloons = document.getElementById("balloonsPopped");
+    poppedBalloons.style.fontSize = "25px";
+    poppedBalloons.style.fontWeight = "bold";
+    poppedBalloons.style.webkitTextStrokeWidth = "1px";
+    poppedBalloons.style.webkitTextStrokeColor = "black";
+    poppedBalloons.style.webkitTextFillColor = "rgb(255, 255, 255)"
 })();
 
 /**
@@ -55,6 +75,9 @@ async function startGame() {
     // let the user know if an error occurred
     if (promise == -1) {console.log("Error: Input text file could not be read");}
 
+    greenTextColor = GREEN_START_COLOR;
+    redTextColor = RED_START_COLOR;
+
     document.querySelector("body").scrollTop = 0;
     document.querySelector("body").style.overflowY = "hidden";
     document.getElementById("balloonShooter").style.display = "";
@@ -62,6 +85,7 @@ async function startGame() {
     document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: 0";
     document.getElementById('input').disabled = false;
     document.getElementById('input').focus();
+    document.getElementById("livesLeft").style.webkitTextFillColor = "rgb(" + redTextColor + ", " + greenTextColor + ", 0)"
 
     currentWords = [];
     zIndex = 999999;
@@ -379,6 +403,12 @@ function spawnBalloon() {
 
             let livesLeft = STARTING_LIVES - (++balloonCollisions);
             document.getElementById("livesLeft").innerHTML = "Lives Left: " + livesLeft;
+
+            // Determine appropriate text color depending on lives left
+            let interval = (GREEN_START_COLOR / (STARTING_LIVES - 1));
+            redTextColor += interval;
+            greenTextColor -= interval;
+            document.getElementById("livesLeft").style.webkitTextFillColor = "rgb(" + redTextColor + ", " + greenTextColor +", 0)";
 
             // end the game if the player is out of lives
             if (livesLeft <= 0) { endGame(); return; }
