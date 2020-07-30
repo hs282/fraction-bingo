@@ -61,25 +61,12 @@ let amountOfItem = 0;
  * Initalize the UI on script load.
  */
 function initUI() {
-    const model = document.querySelector(".modal");
-    model.style.display = "none";
-    // initialize coin behavior UI stuff
-    enableCounterDropDetection();
-    createCoinElements();
-
-    // get a new target value for the user as their target
-    targetValue = getRandomNumber();
-    updateReadout();
-
-    // bind bootstrap popper.js to the tooltips
-    $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
-
     let mode = document.getElementById("difficultySelector").value;
     if (mode == "race") {
         booleanTimer = true;
         cashierBoolean = false;
         normalDisplay();
-    } 
+    }
     else if (mode == "cashier") {
         setCashierLayout();
         booleanTimer = false;
@@ -95,6 +82,20 @@ function initUI() {
         document.getElementById("timer").style.display = "inline-block";
         setTimer();
     }
+
+    const model = document.querySelector(".modal");
+    model.style.display = "none";
+    // initialize coin behavior UI stuff
+    enableCounterDropDetection();
+    createCoinElements();
+
+    // get a new target value for the user as their target
+    targetValue = getRandomNumber();
+    updateReadout();
+
+    // bind bootstrap popper.js to the tooltips
+    $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
+
 };
 
 //fucntion to set the timer for race mode
@@ -263,7 +264,7 @@ function getRandomNumber() {
         if(num == 0) {
             num = 1
         }
-        //assign the number 
+        //assign the number
         amountOfItem = num.toFixed(2);
         for(let i = 0; i < Bills.length; i++) {
             if(Bills[i] >= num) {
@@ -274,10 +275,9 @@ function getRandomNumber() {
         //to make the target value the result of the bills minus the change
         num = payedAmount - num;
         num = num.toFixed(2);
-
+        //update the html for the cashier
+        updateCashierHtml(num);
     }
-    //update the html for the cashier
-    updateCashierHtml(num);
     return num;
 }
 
