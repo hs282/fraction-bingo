@@ -39,12 +39,16 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     display: none;
-    float: right;
+    text-align: center;
 }
 #cashierImg {
     width: 10em;
     height: 10em;
     float: right;
+    display: inline-block;
+}
+#cashierDir {
+    display: inline-block;
 }
 
 
