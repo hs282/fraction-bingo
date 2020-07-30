@@ -49,7 +49,7 @@ const STARTING_LIVES = 10;
     $("#myModal").modal("show");
 
     // keep page scrolled to the very top
-    document.querySelector("body").scrollTop = 0;
+    document.body.scrollTop = 0;
 
     // edit styles for balloonsPopped text and livesLeft text
     let livesLeft = document.getElementById("livesLeft");
@@ -66,7 +66,7 @@ const STARTING_LIVES = 10;
     poppedBalloons.style.webkitTextStrokeColor = "black";
     poppedBalloons.style.webkitTextFillColor = "rgb(255, 255, 255)";
 
-    let timeSurvived = document.querySelector("#timeSurvived");
+    let timeSurvived = document.getElementById("timeSurvived");
     timeSurvived.style.fontSize = "25px";
     timeSurvived.style.fontWeight = "bold";
     timeSurvived.style.webkitTextStrokeWidth = "1px";
@@ -92,13 +92,13 @@ async function startGame() {
     let promise = await readTextFile(WORD_LIST);
 
     // let the user know if an error occurred
-    if (promise == -1) {console.log("Error: Input text file could not be read");}
+    if (promise == -1) console.log("Error: Input text file could not be read");
 
     greenTextColor = GREEN_START_COLOR;
     redTextColor = RED_START_COLOR;
 
-    document.querySelector("body").scrollTop = 0;
-    document.querySelector("body").style.overflowY = "hidden";
+    document.body.scrollTop = 0;
+    document.body.style.overflowY = "hidden";
     document.getElementById("balloonShooter").style.display = "";
     document.getElementById("endScreen").style.display = "none";
     document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: 0";
@@ -106,7 +106,7 @@ async function startGame() {
     document.getElementById('input').focus();
     document.getElementById("livesLeft").innerHTML = "Lives Left: " + STARTING_LIVES;
     document.getElementById("livesLeft").style.webkitTextFillColor = "rgb(" + redTextColor + ", " + greenTextColor + ", 0)";
-    document.querySelector("#timeSurvived").innerHTML = "Time Survived: 00:00"
+    document.getElementById("timeSurvived").innerHTML = "Time Survived: 00:00"
 
     currentWords = [];
     zIndex = 999999;
@@ -129,7 +129,7 @@ async function startGame() {
         for (let i = 0; i < wpmStats.length; i++) wpmStats[i].style.innerHTML = "WPM: " + wpmStat;
 
         // if the time played exceeds the maximum displayable time, end the game
-        if (timer % (60 * 60) == 0) {endGame();}
+        if (timer % (60 * 60) == 0) endGame();
 
         // calculate timeSurvived and display it in the form 00:00
         let timeSurvived = (Math.floor(timer / 60) < 10 ? "0" + Math.floor(timer / 60) : Math.floor(timer / 60));
@@ -156,7 +156,7 @@ async function startGame() {
 function endGame() {
 
     // disable input and show end screen
-    document.querySelector("body").style.overflowY = "auto";
+    document.body.style.overflowY = "auto";
     document.getElementById('input').disabled = true;
     document.getElementById('input').value = "";
     document.getElementById('input').blur();
@@ -167,9 +167,7 @@ function endGame() {
     clearInterval(timerIntervalID);
 
     // remove all balloons from the document and reset currentWords
-    for (let i = 0; i < currentWords.length; i++) {
-        document.getElementById(currentWords[i]).remove();
-    }
+    for (let i = 0; i < currentWords.length; i++) document.getElementById(currentWords[i]).remove();
     currentWords = [];
 
     // display player stats
@@ -180,9 +178,7 @@ function endGame() {
     let wordAccuracyStat = 0.0;
 
     // if the lettersTyped are greater than 0, then calculate a proper wordAccuracyStat
-    if (lettersTyped > 0) {
-        wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100);
-    }
+    if (lettersTyped > 0) wordAccuracyStat = (((lettersTyped - typingErrors) / lettersTyped) * 100);
 
     // set the actual wordAccuracyStat in HTML
     document.getElementById("wordAccuracyStat").innerHTML = wordAccuracyStat.toFixed(1) + "%";
@@ -192,9 +188,9 @@ function endGame() {
     playerScore = (wpmStat + timer / 60) * (balloonsPopped) * (wordAccuracyStat / 100);
     
     // multiply user score based on difficulty at which the race was completed
-    if (difficulty == "easy") {playerScore *= EASY_MULTIPLIER;}
-    else if (difficulty == "medium") {playerScore *= MEDIUM_MULTIPLIER;}
-    else if (difficulty == "hard") {playerScore *= HARD_MULTIPLIER;}
+    if (difficulty == "easy") playerScore *= EASY_MULTIPLIER;
+    else if (difficulty == "medium") playerScore *= MEDIUM_MULTIPLIER;
+    else if (difficulty == "hard") playerScore *= HARD_MULTIPLIER;
 
     playerScore = playerScore.toFixed();
     let pastPlayerScore = DM.getItem("score");
@@ -207,9 +203,7 @@ function endGame() {
         pastPlayerScore = parseInt(pastPlayerScore);
 
         // save playerScore in DM if new score is higher than the old one
-        if (playerScore > pastPlayerScore) {
-            DM.saveItem("score", playerScore);
-        }
+        if (playerScore > pastPlayerScore) DM.saveItem("score", playerScore);
 
         // display the higher score as the player's high score
         document.getElementById("playerHighScore").innerHTML = playerScore > pastPlayerScore ? playerScore : pastPlayerScore;
@@ -222,9 +216,7 @@ function endGame() {
     }
 
     // only other behavior would be to display current playerScore as highest
-    else {
-        document.getElementById("playerHighScore").innerHTML = playerScore;
-    }
+    else document.getElementById("playerHighScore").innerHTML = playerScore;
 
     // display score and reset gameStarted
     document.getElementById("playerScore").innerHTML = playerScore;
@@ -233,10 +225,7 @@ function endGame() {
     let timeSurvived = (Math.floor(timer / 60) < 10 ? "0" + Math.floor(timer / 60) : Math.floor(timer / 60));
     timeSurvived += ":" + (timer % 60 < 10 ? "0" + timer % 60 : timer % 60);
 
-    let timeStats = document.querySelectorAll("#timeSurvived");
-    timeStats.forEach(timeStat => {
-        timeStat.innerHTML = timeSurvived;
-    });
+    document.querySelectorAll("#timeSurvived").forEach(timeStat => timeStat.innerHTML = timeSurvived);
 }
 
 /**
@@ -264,9 +253,9 @@ function setDifficulty(element) {
         // loop through all dropdown difficultySelector elements and change selected value of all.
         // this prevents the dropdowns from having differing selected values
         for (let i = 0; i < elements.length; i++) {
-            if (difficulty == "easy") {elements[i].getElementsByTagName('option')[0].selected = 'selected';}
-            else if (difficulty == "medium") {elements[i].getElementsByTagName('option')[1].selected = 'selected';}
-            else if (difficulty == "hard") {elements[i].getElementsByTagName('option')[2].selected = 'selected';}
+            if (difficulty == "easy") elements[i].getElementsByTagName('option')[0].selected = 'selected';
+            else if (difficulty == "medium") elements[i].getElementsByTagName('option')[1].selected = 'selected';
+            else if (difficulty == "hard") elements[i].getElementsByTagName('option')[2].selected = 'selected';
         }
     }
 }
@@ -321,9 +310,7 @@ async function readTextFile(file) {
         for (let i = 0; i < textInput.length; i++) {
 
             // if the string element is not a whitespace character, add the character to currentWord
-            if (textInput[i] != " " && textInput[i] != "\n" && textInput[i] != "\r") {
-                currentWord += textInput[i];
-            }
+            if (textInput[i] != " " && textInput[i] != "\n" && textInput[i] != "\r") currentWord += textInput[i];
             // otherwise if the currentWord isn't empty, add to words list
             else if (currentWord != "") {
                 let tempWord = currentWord;
@@ -361,15 +348,9 @@ function spawnBalloon() {
     currentWords.push(nextWord);
                 
     // Calculate word difficulty
-    if (nextWord.length <= EASY_LENGTH) {
-        wordDiffLevel = 0;
-    }
-    else if (nextWord.length <= MEDIUM_LENGTH) {
-        wordDiffLevel = 1;
-    }
-    else if (nextWord.length <= HARD_LENGTH) {
-        wordDiffLevel = 2;
-    }
+    if (nextWord.length <= EASY_LENGTH) wordDiffLevel = 0;
+    else if (nextWord.length <= MEDIUM_LENGTH) wordDiffLevel = 1;
+    else if (nextWord.length <= HARD_LENGTH) wordDiffLevel = 2;
 
     // Create balloon and add word into it
     let balloon = document.createElement("div");
@@ -400,7 +381,7 @@ function spawnBalloon() {
     balloon.style.zIndex = zIndex--;
 
     // reset zIndex if too low
-    if (zIndex <= 1) {zIndex = 999999;}
+    if (zIndex <= 1) zIndex = 999999;
                 
     // Vertically center the text in the balloon
     text.style.position = "relative";
@@ -413,7 +394,7 @@ function spawnBalloon() {
       
     let randValue = Math.random();
     // do not allow a random value of exactly 0
-    while (randValue == 0) {randValue = Math.random();}
+    while (randValue == 0) randValue = Math.random();
 
     // place balloon in random sector based on word difficulty level
     // hard words can spawn only in sector 2, medium in 1 and 2, and easy in 0, 1, and 2
@@ -454,9 +435,7 @@ function spawnBalloon() {
             if (livesLeft <= 0) { endGame(); return; }
 
             // if there isn't a word to be popped, disable the input text box
-            if (currentWords.length == 0) {
-                document.getElementById("input").disabled = true;
-            }
+            if (currentWords.length == 0) document.getElementById("input").disabled = true;
         }
     }, tempAnimationSpeed);
 }
@@ -492,9 +471,7 @@ document.getElementById("input").addEventListener('keyup', () => {
             document.getElementById("balloonsPopped").innerHTML = "Balloons Popped: " + (++balloonsPopped);
 
             // if there isn't a word to be popped, disable the input text box
-            if (currentWords.length == 0) {
-                document.getElementById("input").disabled = true;
-            }
+            if (currentWords.length == 0) document.getElementById("input").disabled = true;
             return;
         }
                 
@@ -504,7 +481,7 @@ document.getElementById("input").addEventListener('keyup', () => {
             currentInputIndex = i;
         }
         // add to # of incorrect checks
-        else {incorrect++;}
+        else incorrect++;
     }
 
     // if all checked substrings are incorrect
