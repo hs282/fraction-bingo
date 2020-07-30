@@ -95,20 +95,19 @@ function initUI() {
 
     // bind bootstrap popper.js to the tooltips
     $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
-
 };
 
 //fucntion to set the timer for race mode
 function setTimer() {
-    let interval = setInterval(function(){
-        if(timeLeft <= 0){
+    let interval = setInterval(() => {
+        if (timeLeft <= 0){
             clearInterval(interval);
             endGame();
         }
+
         document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
         timeLeft -= 1;
     }, 1000);
-
 }
 
 /**
@@ -188,12 +187,13 @@ function updateReadout() {
     const counterEl = document.querySelector("#amountOfItem");
 
     //for the cashier mode
-    if(cashierBoolean) {
-        targetEl.textContent = "Amount payed: $" + payedAmount;
+    if (cashierBoolean) {
+        targetEl.textContent = "Amount paid: $" + payedAmount;
         counterEl.textContent = "Amount of Item $" + amountOfItem;
         scoreEl.textContent = "Score: " + score;
     //for race and learning mode
-    } else {
+    } 
+    else {
         scoreEl.textContent = "Score: " + score;
         targetEl.textContent = "Target Value: $" + targetValue;
     }
@@ -211,14 +211,14 @@ function createCoinElements() {
     * if cashier mode is active display dollar bills by looping through whole array
     * otherwise just the first 4 items
     **/
-    if(cashierBoolean) {
+    if (cashierBoolean) {
         max = COINS.length;
-    } else {
+    }
+    else {
         max = 4;
     }
 
     COINS.forEach(coin => {
-
         //determin the length of coins to use
         if(i < max) {
             // create an image element
@@ -238,6 +238,7 @@ function createCoinElements() {
             // add the instrument to the instruments element
             registerEl.appendChild(el);
         }
+
         i++;
     });
 }
@@ -253,21 +254,23 @@ function getRandomNumber() {
     const Bills = [1, 5, 10, 20];
     let num;
 
-    if(!(cashierBoolean)) {
+    if (!cashierBoolean) {
         num = Math.random() * (max - min) + min;
         num = num.toFixed(2);
-    } else {
+    } 
+    else {
         //set the target value as the change amount due
         num = Math.random() * MaxBillPay;
 
         //so you never get a 0
-        if(num == 0) {
+        if (num == 0) {
             num = 1
         }
+
         //assign the number
         amountOfItem = num.toFixed(2);
-        for(let i = 0; i < Bills.length; i++) {
-            if(Bills[i] >= num) {
+        for (let i = 0; i < Bills.length; i++) {
+            if (Bills[i] >= num) {
                 payedAmount = Bills[i];
                 break;
             }
@@ -286,7 +289,8 @@ function updateCashierHtml() {
     //replace the target value and clock with
     const targetEl = document.querySelector("#target");
     const counterEl = document.querySelector("#amountOfItem");
-    targetEl.textContent = "Amount payed: $" + payedAmount;
+
+    targetEl.textContent = "Amount paid: $" + payedAmount;
     counterEl.textContent = "Amount of Item $" + amountOfItem;
 }
 
