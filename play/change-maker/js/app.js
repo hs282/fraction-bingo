@@ -74,33 +74,28 @@ function initUI() {
     // bind bootstrap popper.js to the tooltips
     $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
 
+    let mode = document.getElementById("difficultySelector").value;
+    if (mode == "race") {
+        booleanTimer = true;
+        cashierBoolean = false;
+        normalDisplay();
+    } 
+    else if (mode == "cashier") {
+        setCashierLayout();
+        booleanTimer = false;
+        cashierBoolean = true;
+    }
+    else if (mode == "learning") {
+        booleanTimer = false;
+        cashierBoolean = false;
+        normalDisplay();
+    }
+
     if (booleanTimer) {
         document.getElementById("timer").style.display = "inline-block";
         setTimer();
     }
 };
-
-//to set the timer to true if race mode is enabled
-function setDifficulty(str) {
-    //set mode
-    //race mode
-    if (str == "race") {
-        booleanTimer = true;
-        cashierBoolean = false;
-        normalDisplay();
-    //cashier mode
-    } else if (str == "cashier") {
-        setCashierLayout();
-        booleanTimer = false;
-        cashierBoolean = true;
-    }
-    //learning mode
-    else {
-        booleanTimer = false;
-        cashierBoolean = false;
-        normalDisplay();
-    }
-}
 
 //fucntion to set the timer for race mode
 function setTimer() {
