@@ -58,12 +58,13 @@
                         <div class="modal-footer">
                             <p class="text-center container-fluid">
                                 <label style="font-size: x-large;" class="btn-lg">Game Type:</label>
-                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector"
-                                    onClick="setDifficulty(this.value);">
+
+                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector">
                                     <option value="learn" class="btn-success">Learning</option>
                                     <option value="race" class="btn-danger">Race</option>
                                     <option value="cashier" class="btn-success">Cashier</option>
                                 </select>
+                                
                                 <button type="button" class="btn btn-success btn-lg" data-dismiss="modal"
                                     onclick="initUI()">Start Game</button>
                             </p>
