@@ -196,7 +196,7 @@ function updateReadout() {
         targetEl.textContent = "Amount payed: $" + payedAmount;
         counterEl.textContent = "Amount of Item $" + amountOfItem;
         scoreEl.textContent = "Score: " + score;
-    //for race and learning mode 
+    //for race and learning mode
     } else {
         scoreEl.textContent = "Score: " + score;
         targetEl.textContent = "Target Value: $" + targetValue;
@@ -263,6 +263,12 @@ function getRandomNumber() {
     } else {
         //set the target value as the change amount due
         num = Math.random() * MaxBillPay;
+
+        //so you never get a 0
+        if(num == 0) {
+            num = 1
+        }
+        //assign the number 
         amountOfItem = num.toFixed(2);
         for(let i = 0; i < Bills.length; i++) {
             if(Bills[i] >= num) {
