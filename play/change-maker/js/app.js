@@ -146,6 +146,7 @@ function enableCounterDropDetection() {
 
         // add the value
         currentValue += coin.value;
+
         // remove the coin from the counter and currentValue when clicked
         el.onclick = e => {
             currentValue -= coin.value;
@@ -153,6 +154,7 @@ function enableCounterDropDetection() {
             counterEl.removeChild(el);
         };
 
+        //eval the amount of coins the player has dragged over
         checkCoins();
 
     }
@@ -176,6 +178,7 @@ function checkCoins() {
         // clear counter element to reset counting process
         document.querySelector("#counter").innerHTML = "";
     }
+    //update the readout section
     updateReadout();
 
 }
@@ -187,10 +190,13 @@ function updateReadout() {
     const scoreEl = document.querySelector("#score");
     const targetEl = document.querySelector("#target");
     const counterEl = document.querySelector("#amountOfItem");
+
+    //for the cashier mode
     if(cashierBoolean) {
         targetEl.textContent = "Amount payed: $" + payedAmount;
         counterEl.textContent = "Amount of Item $" + amountOfItem;
         scoreEl.textContent = "Score: " + score;
+    //for race and learning mode 
     } else {
         scoreEl.textContent = "Score: " + score;
         targetEl.textContent = "Target Value: $" + targetValue;
