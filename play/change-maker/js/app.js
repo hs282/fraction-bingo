@@ -26,6 +26,24 @@ const COINS = [
         value: 1,
         img: "penny.png",
         description : "The value is $0.01"
+    },
+    {
+        name: "One Dollar Bill",
+        value: 100,
+        img : "one-dollar.jpg",
+        description : "The value is $1.00"
+    },
+    {
+        name: "Five Dollar Bill",
+        value: 500,
+        img : "five-dollar.jpg",
+        description : "The value is $5.00"
+    },
+    {
+        name: "Ten Dollar Bill",
+        value: 1000,
+        img : "ten-dollar.jpg",
+        description : "The value is $10.00"
     }
 ];
 
@@ -35,11 +53,36 @@ let targetValue = 0;
 let currentValue = 0;
 let booleanTimer = false;
 let timeLeft = 30;
+let cashierBoolean = false;
+let payedAmount = 0;
+let amountOfItem = 0;
 
 /**
  * Initalize the UI on script load.
  */
 function initUI() {
+    let mode = document.getElementById("difficultySelector").value;
+    if (mode == "race") {
+        booleanTimer = true;
+        cashierBoolean = false;
+        normalDisplay();
+    }
+    else if (mode == "cashier") {
+        setCashierLayout();
+        booleanTimer = false;
+        cashierBoolean = true;
+    }
+    else if (mode == "learning") {
+        booleanTimer = false;
+        cashierBoolean = false;
+        normalDisplay();
+    }
+
+    if (booleanTimer) {
+        document.getElementById("timer").style.display = "inline-block";
+        setTimer();
+    }
+
     const model = document.querySelector(".modal");
     model.style.display = "none";
     // initialize coin behavior UI stuff
@@ -52,33 +95,19 @@ function initUI() {
 
     // bind bootstrap popper.js to the tooltips
     $(`[data-toggle="tooltip"]`).tooltip({html: true, placement: "top", animation: true });
-
-    if (booleanTimer) {
-        document.getElementById("timer").style.display = "inline-block";
-        setTimer();
-    }
 };
-
-//to set the timer to true if race mode is enabled
-function setDifficulty(str) {
-    if(str == "race") {
-        booleanTimer = true;
-    } else {
-        booleanTimer = false;
-    }
-}
 
 //fucntion to set the timer for race mode
 function setTimer() {
-    let interval = setInterval(function(){
-        if(timeLeft <= 0){
+    let interval = setInterval(() => {
+        if (timeLeft <= 0){
             clearInterval(interval);
             endGame();
         }
+
         document.getElementById("timer").textContent = "Time: " + timeLeft + " seconds left";
         timeLeft -= 1;
     }, 1000);
-
 }
 
 /**
@@ -112,6 +141,7 @@ function enableCounterDropDetection() {
 
         // add the value
         currentValue += coin.value;
+
         // remove the coin from the counter and currentValue when clicked
         el.onclick = e => {
             currentValue -= coin.value;
@@ -119,26 +149,33 @@ function enableCounterDropDetection() {
             counterEl.removeChild(el);
         };
 
-        // if the counting process is done
-        if (Math.abs(currentValue - (targetValue * 100)) < .00000000000001) {
-            // increment score
-            score += 10;
-            targetValue = getRandomNumber();
+        //eval the amount of coins the player has dragged over
+        checkCoins();
 
-            // reset currentValue to zero to reset counting process
-            currentValue = 0;
-            //reset the timer
-            if (booleanTimer) {
-                timeLeft = 30;
-            }
+    }
+}
 
-            // clear counter element to reset counting process
-            document.querySelector("#counter").innerHTML = "";
+//function to check the count of the coins that have been draged over
+function checkCoins() {
+    // if the counting process is done
+    if (Math.abs(currentValue - (targetValue * 100)) < .00000000000001) {
+        // increment score
+        score += 10;
+        targetValue = getRandomNumber();
+
+        // reset currentValue to zero to reset counting process
+        currentValue = 0;
+        //reset the timer
+        if (booleanTimer) {
+            timeLeft = 30;
         }
 
-        // update the readout
-        updateReadout();
+        // clear counter element to reset counting process
+        document.querySelector("#counter").innerHTML = "";
     }
+    //update the readout section
+    updateReadout();
+
 }
 
 /**
@@ -147,9 +184,19 @@ function enableCounterDropDetection() {
 function updateReadout() {
     const scoreEl = document.querySelector("#score");
     const targetEl = document.querySelector("#target");
+    const counterEl = document.querySelector("#amountOfItem");
 
-    scoreEl.textContent = "Score: " + score;
-    targetEl.textContent = "Target Value: $" + targetValue;
+    //for the cashier mode
+    if (cashierBoolean) {
+        targetEl.textContent = "Amount paid: $" + payedAmount;
+        counterEl.textContent = "Amount of Item $" + amountOfItem;
+        scoreEl.textContent = "Score: " + score;
+    //for race and learning mode
+    } 
+    else {
+        scoreEl.textContent = "Score: " + score;
+        targetEl.textContent = "Target Value: $" + targetValue;
+    }
 }
 
 /**
@@ -158,24 +205,41 @@ function updateReadout() {
  */
 function createCoinElements() {
     const registerEl = document.querySelector("#register");
+    let i = 0;
+    let max;
+    /**
+    * if cashier mode is active display dollar bills by looping through whole array
+    * otherwise just the first 4 items
+    **/
+    if (cashierBoolean) {
+        max = COINS.length;
+    }
+    else {
+        max = 4;
+    }
 
     COINS.forEach(coin => {
-        // create an image element
-        let el = document.createElement("img");
-        el.className = "coin";
-        el.src = coin.img;
+        //determin the length of coins to use
+        if(i < max) {
+            // create an image element
+            let el = document.createElement("img");
+            el.className = "coin";
+            el.src = coin.img;
 
-        // have tooltip show name on hover
-        el.setAttribute("data-toggle", "tooltip");
+            // have tooltip show name on hover
+            el.setAttribute("data-toggle", "tooltip");
 
-        el.setAttribute("title", `${coin.name}
-        <br> ${coin.description}`);
+            el.setAttribute("title", `${coin.name}
+            <br> ${coin.description}`);
 
-        // bind drag action with code snippet transfer to instrument
-        el.ondragstart = e => e.dataTransfer.setData("coin", coin.name);
+            // bind drag action with code snippet transfer to instrument
+            el.ondragstart = e => e.dataTransfer.setData("coin", coin.name);
 
-        // add the instrument to the instruments element
-        registerEl.appendChild(el);
+            // add the instrument to the instruments element
+            registerEl.appendChild(el);
+        }
+
+        i++;
     });
 }
 
@@ -186,13 +250,64 @@ function createCoinElements() {
 function getRandomNumber() {
     const min = 0;
     const max = 4;
+    const MaxBillPay = 19;
+    const Bills = [1, 5, 10, 20];
+    let num;
 
-    let num = Math.random() * (max - min) + min;
-    num = num.toFixed(2);
+    if (!cashierBoolean) {
+        num = Math.random() * (max - min) + min;
+        num = num.toFixed(2);
+    } 
+    else {
+        //set the target value as the change amount due
+        num = Math.random() * MaxBillPay;
 
+        //so you never get a 0
+        if (num == 0) {
+            num = 1
+        }
+
+        //assign the number
+        amountOfItem = num.toFixed(2);
+        for (let i = 0; i < Bills.length; i++) {
+            if (Bills[i] >= num) {
+                payedAmount = Bills[i];
+                break;
+            }
+        }
+        //to make the target value the result of the bills minus the change
+        num = payedAmount - num;
+        num = num.toFixed(2);
+        //update the html for the cashier
+        updateCashierHtml(num);
+    }
     return num;
 }
 
+//update the html for cashier display
+function updateCashierHtml() {
+    //replace the target value and clock with
+    const targetEl = document.querySelector("#target");
+    const counterEl = document.querySelector("#amountOfItem");
+
+    targetEl.textContent = "Amount paid: $" + payedAmount;
+    counterEl.textContent = "Amount of Item $" + amountOfItem;
+}
+
+//set the layout for the cashier display
+function setCashierLayout() {
+    document.getElementById("cashier").style.display = "inline-block";
+    document.getElementById("amountOfItem").style.display = "inline-block";
+}
+
+//set the layout for learning and race mode
+function normalDisplay() {
+    document.getElementById("counter").style.height = "99%";
+    document.getElementById("cashier").style.display = "none";
+    document.getElementById("amountOfItem").style.display = "none";
+}
+
+//end game menu
 function endGame() {
     document.getElementById("readout").style.display = "none";
     document.getElementById("container").style.display = "none";

@@ -52,16 +52,19 @@
                         </div>
                         <div class="modal-body" style="font-size: 16px">
                             <p>Learning mode is not timed, while Race mode is playing against the clock</p>
+                            <p>Cashier mode is you playing the role of a cashier and figuring out how to return change</p>
                             <p>Drag and drop the change to make it equal the target value.</p>
                         </div>
                         <div class="modal-footer">
                             <p class="text-center container-fluid">
                                 <label style="font-size: x-large;" class="btn-lg">Game Type:</label>
-                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector"
-                                    onchange="setDifficulty(this.value);">
+
+                                <select name="dropdown" class="btn btn-lg btn-outline-dark" id="difficultySelector">
                                     <option value="learn" class="btn-success">Learning</option>
                                     <option value="race" class="btn-danger">Race</option>
+                                    <option value="cashier" class="btn-success">Cashier</option>
                                 </select>
+
                                 <button type="button" class="btn btn-success btn-lg" data-dismiss="modal"
                                     onclick="initUI()">Start Game</button>
                             </p>
@@ -76,7 +79,8 @@
                 <span>|</span>
                 <span id="target">Target Value: $0.00</span>
                 <span>|</span>
-                <span id="timer">Time: 60 seconds left</span>
+                <span id="timer">Time: 30 seconds left</span>
+                <span id="amountOfItem"></span>
             </div>
 
             <section id="container">
@@ -84,6 +88,12 @@
 
                 <div id="counter"></div>
             </section>
+
+            <div id="cashier">
+                <p id="cashierDir">Subtract the amount of item from the amount paid</p>
+                <img src="cashReg.jpg" alt="register" id="cashierImg">
+            </div>
+
 
             <div id="gameOver">
                 <h1>Game Over</h1>
