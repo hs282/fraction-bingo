@@ -47,28 +47,6 @@ const COINS = [
     }
 ];
 
-//a const to hold all the bills for the game
-const BILLS = [
-        {
-            name: "One Dollar Bill",
-            value: 100,
-            img : "one-dollar.jpg",
-            description : "The value is $1.00"
-        },
-        {
-            name: "Five Dollar Bill",
-            value: 500,
-            img : "five-dollar.jpg",
-            description : "The value is $5.00"
-        },
-        {
-            name: "Ten Dollar Bill",
-            value: 1000,
-            img : "ten-dollar.jpg",
-            description : "The value is $10.00"
-        }
-];
-
 // global variables to hold game state
 let score = 0;
 let targetValue = 0;
@@ -239,7 +217,7 @@ function createCoinElements() {
 
     COINS.forEach(coin => {
 
-        //determin the length
+        //determin the length of coins to use
         if(i < max) {
             // create an image element
             let el = document.createElement("img");
