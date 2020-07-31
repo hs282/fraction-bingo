@@ -745,6 +745,9 @@ function damageMonster() {
     else {
         $("#monsterIMG").effect("pulsate");
     }
+    
+    // Play sound
+    monsterSound();
 
     // Inflict damage
     currentMonsterHP -= 10;
@@ -796,6 +799,10 @@ function damagePlayer() {
   else {
       $("#input").effect("pulsate");
   }
+   
+   // Play sound
+   playerSound();
+    
    currentPlayerHP -= 10;
    updatePlayerHP();
 }
@@ -826,4 +833,55 @@ function updatePlayerHP() {
         playerHPBarEl.className = "progress-bar bg-success";
     else if (33.33 < percentage < 66.66)
         playerHPBarEl.className = "progress-bar bg-warning";
+}
+
+ /**
+ * Monster damage sound
+ */
+function monsterSound() {
+  let num = Math.floor(Math.random() * 6);
+
+  switch (num) {
+    case 0:
+        sound = new Audio("sounds/monsterDamage1.mp3");
+        break;
+    case 1:
+        sound = new Audio("sounds/monsterDamage2.mp3");
+        break;
+    case 2:
+        sound = new Audio("sounds/monsterDamage3.mp3");
+        break;
+    case 3:
+        sound = new Audio("sounds/monsterDamage4.mp3");
+        break;
+    case 4:
+        sound = new Audio("sounds/monsterDamage5.mp3");
+        break;
+    case 5:
+        sound = new Audio("sounds/monsterDamage6.mp3");
+        break;
+  }
+
+  sound.play();
+}
+
+ /**
+ * Player damage sound
+ */
+function playerSound() {
+  let num = Math.floor(Math.random() * 3);
+
+  switch (num) {
+    case 0:
+        sound = new Audio("sounds/playerDamage1.mp3");
+        break;
+    case 1:
+        sound = new Audio("sounds/playerDamage2.mp3");
+        break;
+    case 2:
+        sound = new Audio("sounds/playerDamage3.mp3");
+        break;
+  }
+
+  sound.play();
 }
