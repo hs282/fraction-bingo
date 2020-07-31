@@ -1,5 +1,6 @@
 const APP_NAME = "symphony-conductor";
 const hasLocalStorage = checkForLocalStorage();
+var my_lzma = new LZMA("../js/lzma_worker.js");
 
 // Wrap every letter in a span
 // var textWrapper = document.querySelector('.ml6 .letters');
@@ -406,4 +407,37 @@ function commentSelection() {
             editor.replaceRange(commentedLine, from, to);
         }
     }
+}
+
+function shareCode() {
+    // get user code from editor
+    const editor = document.querySelector('.CodeMirror').CodeMirror;
+    const code = editor.getValue();
+
+    // compress code with LZMA
+    my_lzma.compress(code, 9, result => {
+        // convert ByteArray into string and base64 encode it
+        const base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(result)));
+
+        // get current URL without any hash
+        const url = location.href.replace(location.hash, "");
+
+        // create a textarea element with the share URL
+        const textArea = document.createElement("textarea");
+        textArea.value = url + "#?" + base64String;
+
+        // add to body
+        document.body.appendChild(textArea);
+
+        // focus and select text to and copy to clipboard
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+
+        // cleanup and remove textarea element
+        document.body.removeChild(textArea);
+
+        // let the user know that the text was copied
+        alert("URL copied to clipboard");
+    });
 }
