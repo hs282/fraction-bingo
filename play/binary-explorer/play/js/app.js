@@ -3,6 +3,7 @@
  */
 (function initUI() {
     addRow();
+    enable();
 })();
 
 /**
@@ -159,4 +160,20 @@ function convertToBinary(text) {
     document.getElementById("translateButton").disabled = false;
     text = binaryText;
     return text;
+}
+
+/**
+ * Enable level select buttons when each level is completed.
+ */
+function enable() {
+    if (!document.querySelector(".modal-container")) return;
+
+    let id = document.querySelector("body").id;
+    localStorage.setItem(id, true);
+
+    for (let i = 1; i <= 10; i++) {
+        let id = "level" + i;
+        let completed = window.localStorage.getItem(i);
+        if (completed) document.getElementById(id).className = "btn btn-success";
+    }
 }
