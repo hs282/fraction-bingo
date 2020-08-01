@@ -297,9 +297,8 @@ function checkDiagonals() {
 }
 
 function bingo() {
-    document.getElementById("bingo").style.display = "";
+    document.getElementById("problem").innerHTML = "BINGO!!! On to the next board!";
     setTimeout(function() {
-	document.getElementById("bingo").style.display = "none";
         boardFractions = [];
 	problemFractions = [];
 	generateFracts();

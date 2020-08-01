@@ -151,8 +151,9 @@ function getOperations() {
 }
 
 function generateFractions() {
+    let op, numer1, denom1, fract1, numer2, denom2, fract2, solution;
     for (let i = 0; i < numOperandPairs; i++) {
-	let op = operations[Math.floor(Math.random() * operations.length)];
+	op = operations[Math.floor(Math.random() * operations.length)];
 
 	if (op == "+") {
 	    min = addMin;
@@ -168,16 +169,32 @@ function generateFractions() {
 	    max = multMax;
 	}
 
- 	let numer1 = Math.floor(Math.random() * (max - min + 1)) + min;
-	min = 1;
-	let denom1 = Math.floor(Math.random() * (max - min + 1)) + min;
-	let fract1 = numer1 + "/" + denom1;
-	min = 0;
-	let numer2 = Math.floor(Math.random() * (max - min + 1)) + min;
-	min = 1;
-	let denom2 = Math.floor(Math.random() * (max - min + 1)) + min;
-	let fract2 = numer2 + "/" + denom2;
-	let solution = getSolution(numer1, numer2, denom1, denom2, op);
+	do {
+	    numer1 = Math.floor(Math.random() * (max - min + 1)) + min;
+	    min = 1;
+	    denom1 = Math.floor(Math.random() * (max - min + 1)) + min;
+	    min = 0;
+	    numer2 = Math.floor(Math.random() * (max - min + 1)) + min;
+	    min = 1;
+
+	    if ((op == "+" && addLevel == "1") || (op == "-" && subLevel == "1")) {
+		denom2 = denom1;
+	    } else {
+		denom2 = Math.floor(Math.random() * (max - min + 1)) + min;
+	    }
+	}
+	while (op == "-" && numer1/denom1 < numer2/denom2);
+
+	fract1 = numer1 + "/" + denom1;
+	fract2 = numer2 + "/" + denom2;	
+	solution = getSolution(numer1, numer2, denom1, denom2, op);
+	
+	if (op == "/") {
+	    op = "÷";
+	} else if (op == "*") {
+	    op = "x";
+	}
+
 	let probObj = {
 	    operandOne: fract1,
 	    operandTwo: fract2,
@@ -374,12 +391,11 @@ function checkDiagonals() {
 }
 
 function bingo() {
-    document.getElementById("bingo").style.display = "";
+    document.getElementById("problem").innerHTML = "BINGO!!! On to the next board!";
     setTimeout(function() {
 	    operands = [];
 	    boardFractions = [];
 	    problems = [];
-	    document.getElementById("bingo").style.display = "none";
 	    generateFractions();
 	    generateProblem();
 	    fillBoard();
