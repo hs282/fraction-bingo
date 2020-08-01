@@ -1,4 +1,4 @@
-var addLevel = "",
+let addLevel = "",
     subLevel = "",
     multLevel = "",
     divLevel = "",
@@ -14,10 +14,36 @@ var addLevel = "",
     table,
     noSolBtn,
     score = 0,
-    numSolved = 0;
+    numSolved = 0,
+    numWhite = 0,
+    min = 0,
+    max = 0,
+    addMin = 0,
+    addMax= 0,
+    subMin = 0,
+    subMax = 0,
+    divMin = 0,
+    divMax = 0,
+    multMin = 0,
+    multMax = 0;
+
+const EASY_MIN = 0;
+const EASY_MAX = 9;
+const MED_MIN = 10;
+const MED_MAX = 30;
+const HARD_MIN = 31;
+const HARD_MAX = 60;
+const POINTS = 10;
+const BOARD_THREE_WIDTH = 3;
+const BOARD_FOUR_WIDTH = 4;
+const BOARD_FIVE_WIDTH = 5;
+const BOARD_THREE_OPERAND_PAIRS = 18;
+const BOARD_FOUR_OPERAND_PAIRS = 32;
+const BOARD_FIVE_OPERAND_PAIRS = 50;
 
 function operationDiffDisplay(operationId, difficultyId) {
-    var checkBox = document.getElementById(operationId);
+    let checkBox = document.getElementById(operationId);
+
     if (checkBox.checked == true) {
         document.getElementById(difficultyId).style.display = "";
     } else {
@@ -41,21 +67,22 @@ function startGame() {
     if (document.getElementById("three").checked) {
         document.getElementsByName("board3")[0].style.display = ""; 
 	boardType = "board3";
-	numOperandPairs = 18;
-	width = 3;
+	numOperandPairs = BOARD_THREE_OPERAND_PAIRS;
+	width = BOARD_THREE_WIDTH;
     } else if (document.getElementById("four").checked) {
 	document.getElementsByName("board4")[0].style.display = "";
 	boardType = "board4";
-	numOperandPairs = 32;
-	width = 4;
+	numOperandPairs = BOARD_FOUR_OPERAND_PAIRS;
+	width = BOARD_FOUR_WIDTH;
     } else if (document.getElementById("five").checked) {
 	document.getElementsByName("board5")[0].style.display = "";
 	boardType = "board5";
-	numOperandPairs = 50;
-	width = 5;
+	numOperandPairs = BOARD_FIVE_OPERAND_PAIRS;
+	width = BOARD_FIVE_WIDTH;
     } else {
 	return;
     }
+
     getOperations();
     generateFractions();
     generateProblem();
@@ -68,42 +95,88 @@ function startGame() {
 function getOperations() {
     if (document.getElementById("fractAdd").checked) {
 	operations.push("+");
+	if (addLevel == "1") { 
+	    addMin = 0;
+	    addMax = 9;
+	} else if (addLevel == "2") {
+	    addMin = 10;
+	    addMax = 30;
+	} else {
+	    addMin = 31;
+	    addMax = 60;
+	}
     }
+
     if (document.getElementById("fractSub").checked) {
 	operations.push("-");
+        if (subLevel == "1") {
+	    subMin = 0;
+	    subMax = 9;
+        } else if (subLevel == "2") {
+	    subMin = 10;
+	    subMax = 30;
+	} else {
+	    subMin = 31;
+	    subMax = 60;
+	}
     }
+
     if (document.getElementById("fractDiv").checked) {
 	operations.push("/");
+        if (divLevel == "1") {
+	    divMin = 0;
+	    divMax = 9;
+        } else if (divLevel == "2") {
+	    divMin = 10;
+	    divMax = 30;
+	} else {
+	    divMin = 31;
+	    divMax = 60;
+	}
     }
+
     if (document.getElementById("fractMult").checked) {
 	operations.push("*");
+        if (multLevel == "1") {
+	    multMin = 0;
+	    multMax = 9;
+        } else if (multLevel == "2") {
+	    multMin = 10;
+	    multMax = 30;
+	} else {
+	    multMin = 31;
+	    multMax = 60;
+	}
     }
 }
 
 function generateFractions() {
-    for (var i = 0; i < numOperandPairs; i++) {
-	let min = 0, max = 20;
+    for (let i = 0; i < numOperandPairs; i++) {
 	let op = operations[Math.floor(Math.random() * operations.length)];
+
 	if (op == "+") {
-	    max *= addLevel;
+	    min = addMin;
+	    max = addMax;
 	} else if (op == "-") {
-	    max *= subLevel;
+	    min = subMin;
+	    max = subMax;
 	} else if (op == "/") {
-	    max *= divLevel;
+	    min = divMin;
+	    max = divMax;
 	} else {
-	    max *= multLevel;
+	    min = multMin;
+	    max = multMax;
 	}
-	let fract1;
-	let fract2;
+
  	let numer1 = Math.floor(Math.random() * (max - min + 1)) + min;
 	min = 1;
 	let denom1 = Math.floor(Math.random() * (max - min + 1)) + min;
-	fract1 = numer1 + "/" + denom1;
+	let fract1 = numer1 + "/" + denom1;
 	min = 0;
 	let numer2 = Math.floor(Math.random() * (max - min + 1)) + min;
 	min = 1;
 	let denom2 = Math.floor(Math.random() * (max - min + 1)) + min;
-	fract2 = numer2 + "/" + denom2;
+	let fract2 = numer2 + "/" + denom2;
 	let solution = getSolution(numer1, numer2, denom1, denom2, op);
 	let probObj = {
 	    operandOne: fract1,
@@ -121,6 +194,7 @@ function gcd(x, y) {
 
 function getSolution(n1, n2, d1, d2, op) {
     let n, d, div, lcm;
+
     if (op == "*") {
 	n = n1 * n2;
 	d = d1 * d2;
@@ -151,6 +225,7 @@ function getSolution(n1, n2, d1, d2, op) {
 	    d = lcm;
 	}
     }
+
     let divisor = gcd(n, d);
     return n/divisor + "/" + d/divisor;
 }
@@ -158,14 +233,13 @@ function getSolution(n1, n2, d1, d2, op) {
 
 function fillBoard() {
     table = document.getElementsByName(boardType)[0];
-    var k = 0;
-    for (var i = 0, row; row = table.rows[i]; i++) {
-	for (var j = 0, col; col = row.cells[j]; j++) {
+    let k = 0;
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+	for (let j = 0, col; col = row.cells[j]; j++) {
 	    col.innerHTML = problems[k].answer;
 	    col.className = "white";
-	    col.onclick = function () {
-		checkAnswer(this);
-	    };
+	    col.onclick = function(){checkAnswer(this)};
 	    k++;
 	}
     }
@@ -174,25 +248,21 @@ function fillBoard() {
 function checkAnswer(cell) {
     if (cell.className != "green") {
         if (ans == cell.innerHTML) {
-	    score += 10;
+	    score += POINTS;
 	    numSolved++;
 	    cell.className = "green";
 	    let b = checkBingo();
 	    if (!b) {
-	        setTimeout(function() {
-                    generateProblem();
-		}, 1000);
+	        setTimeout(generateProblem, 1000);
 	    }
         }
         else {
 	    if (score != 0) {
-		score -= 10;
+		score -= POINTS;
 	    }
-            $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerText + "<br> <b>Correct: </b>" + ans + "</p> </li>");
+            document.getElementById("wrongProblem").innerHTML += "<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerText + "<br> <b>Correct: </b>" + ans + "</p> </li>";
 	    cell.className = "red";
-	    setTimeout(function() {
-	        cell.className = "white";
-	    }, 1000);
+	    setTimeout(() => cell.className = "white", 1000);
         }
 	document.getElementById("score").innerHTML = "Score: " + score;
     }
@@ -209,25 +279,24 @@ function generateProblem() {
 
 function solNotFound() {
     noSolBtn = document.getElementById("noSolution");
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        for (var j = 0, col; col = row.cells[j]; j++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        for (let j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") {
 	        if (ans == col.innerHTML) {
 		    if (score != 0) {
-			score -= 10;
+			score -= POINTS;
 		    }
                     document.getElementById("score").innerHTML = "Score: " + score;
-		    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on board <br> <b>Correct: </b>" + ans + "</p> </li>");
+		    document.getElementById("wrongProblem").innerHTML += "<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on board <br> <b>Correct: </b>" + ans + "</p> </li>";
 		    noSolBtn.style.backgroundColor = "red";
-		    setTimeout(function() {
-			noSolBtn.style.backgroundColor = "";
-		    }, 1000);
+		    setTimeout(() => noSolBtn.style.backgroundColor = "", 1000);
 		    return;
 	        }
 	    }
         }
     }
-    score += 10;
+
+    score += POINTS;
     numSolved++;
     document.getElementById("score").innerHTML = "Score: " + score;
     noSolBtn.style.backgroundColor = "green";
@@ -238,70 +307,68 @@ function solNotFound() {
 }
 
 function checkBingo() {
-    let result;
-    result = checkRows();
-    if (result) {
-        return true;
-    }
-    result = checkColumns();
-    if (result) {
-        return true;
-    }
-    result = checkDiagonals();
-    if (result) {
-        return true;
-    }
-    return false;
+    return checkRows() || checkColumns() || checkDiagonals();
 }
 
 function checkRows() {
-    rows: for (var i = 0, row; row = table.rows[i]; i++) {
-        cols: for (var j = 0, col; col = row.cells[j]; j++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        for (let j = 0, col; col = row.cells[j]; j++) {
             if (col.className != "green") {
-                continue rows;
+                numWhite++;
             }
         }
-        bingo();
-        return true;
+
+        if (numWhite == 0) {
+            bingo();
+            return true;
+        }
+
+        numWhite = 0;
     }
+
     return false;
 }
 
 function checkColumns() {
-    var row = table.rows[0];
-    cols: for (var i = 0, col; col = row.cells[i]; i++) {
-        rows: for (var j = 0; row = table.rows[j]; j++) {
+    for (i = 0; i < width; i++) {
+        for (let j = 0; row = table.rows[j]; j++) {
             if (row.cells[i].className != "green") {
-                continue cols;
+                numWhite++;
             }
         }
-        bingo();
-        return true;
+
+        if (numWhite == 0) {
+            bingo();
+            return true;
+        }
+
+        numWhite = 0;
     }
+
     return false;
 }
 
 function checkDiagonals() {
     let diag = true;
-    let cell = 0;
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        if (row.cells[cell].className != "green") {
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        if (row.cells[i].className != "green") {
             diag = false;
             break;
         }
-        cell++;
     }
+
     if (diag) {
         bingo();
         return true;
     }
-    cell = width - 1;
-    for (var j = 0, row; row = table.rows[j]; j++) {
-        if (row.cells[cell].className != "green") {
+
+    for (let j = 0, row; row = table.rows[j]; j++) {
+        if (row.cells[width - j - 1].className != "green") {
             return false;
         }
-        cell--;
     }
+
     bingo();
     return true;
 }
@@ -324,7 +391,8 @@ function endGame() {
     document.getElementById("end").style.display = "";
     document.getElementById("totalScore").innerHTML = score;
     document.getElementById("numSolved").innerHTML = numSolved;
-    if (document.getElementById("wrongProblem").innerHTML != "") {
-        document.getElementById("wrong").style.display = "";
+    if (document.getElementById("wrongProblem").innerHTML == "") {
+	document.getElementById("wrong").style.display = "none";
+        document.getElementById("allCorrect").style.display = "";
     }
 }

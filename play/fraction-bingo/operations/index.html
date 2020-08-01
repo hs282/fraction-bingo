@@ -460,7 +460,7 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
 
             <!-- Button for when board does not contain solution -->
             <p style="text-align: center">
-                <button id="noSolution" onclick="solNotFound()" class="btn btn-info">Solution Not On Board</button>
+                <button id="noSolution" onclick="solNotFound()" class="btn btn-info">Solution Not On Board/Already Green</button>
             </p>
 
             <!-- Button to end game and get feedback -->
@@ -469,7 +469,7 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
             </p>
 
             <!-- Message to be displayed when Bingo is achieved -->
-            <h1 id="bingo" style="display: none; text-align: center">BINGO!!! On to the next board :)</h1>
+            <h1 id="bingo" style="display: none; text-align: center">BINGO!!! On to the next board!</h1>
         </div>
 
         <!-- Post-game Scoring Panel -->
@@ -492,6 +492,10 @@ ckground-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-positio
                 <h3 style="text-align: center">Incorrect Problems</h3>
                 <div id="wrongProblem" class="list-group list-group-flush text-center"></div>
             </div>
+
+	    <div id="allCorrect" style="display: none"> 
+	        <h3 style="text-align: center">Congratulations! All of your answers were correct!</h3>
+	    </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
