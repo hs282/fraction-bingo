@@ -1,0 +1,40 @@
+#board {
+  margin: 0 auto;
+  text-align: center;
+  width: 400px;
+  height: 400px;
+  border-collapse: collapse;
+}
+
+th, td {
+  margin: 0 auto;
+  text-align: center;
+  border: 3px solid black;
+  width: 20%;
+}
+
+#score {
+  margin: 0 2.5% 2.5%;
+  text-align: center;
+}
+
+#noSolution {
+  margin: 1.5%;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.white {
+  background-color: white;
+}
+
+.list-group .list-group-item {
+  background-color: #FFD70F;
+}
+
