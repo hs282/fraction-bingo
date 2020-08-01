@@ -1,4 +1,4 @@
-var diffLevel = "",
+let diffLevel = "",
     fract1 = "",
     fract2 = "",
     problem = "",
@@ -9,7 +9,19 @@ var diffLevel = "",
     table,
     noSolBtn,
     score = 0,
-    numSolved = 0;
+    numSolved = 0,
+    numWhite = 0;
+
+const EASY_MIN = 0;
+const EASY_MAX = 9;
+const MED_MIN = 10;
+const MED_MAX = 40;
+const HARD_MIN = 41;
+const HARD_MAX = 80;
+const POINTS = 10;
+const BOARD_THREE_WIDTH = 3;
+const BOARD_FOUR_WIDTH = 4;
+const BOARD_FIVE_WIDTH = 5;
 
 function startGame() {
     // Get selected difficulty level                                                                                             
@@ -24,15 +36,15 @@ function startGame() {
     if (document.getElementById("three").checked) {
         document.getElementsByName("board3")[0].style.display = "";
 	boardType = "board3";
-	width = 3;
+	width = BOARD_THREE_WIDTH;
     } else if (document.getElementById("four").checked) {
         document.getElementsByName("board4")[0].style.display = "";
 	boardType = "board4";
-	width = 4;
+	width = BOARD_FOUR_WIDTH;
     } else if (document.getElementById("five").checked) {
         document.getElementsByName("board5")[0].style.display = "";
 	boardType = "board5";
-	width = 5;
+	width = BOARD_FIVE_WIDTH;
     } else {
         return;
     }
@@ -45,18 +57,20 @@ function startGame() {
 }
 
 function generateProblem() {
-    fract1;
-    fract2;
+    // Easy level compares fractions with same denominators
     if (diffLevel == "easy") {
-	fract1 = getRandomFraction(0, 9);
-	fract2 = getRandomFraction(0, 9); 
+	fract1 = getRandomFraction(EASY_MIN, EASY_MAX);
+	let numer2 = Math.floor(Math.random() * (EASY_MAX - EASY_MIN + 1)) + EASY_MIN;
+       	let denom2 = fract1.substr(fract1.indexOf('/') + 1);
+	fract2 = numer2 + "/" + denom2;
     } else if (diffLevel == "medium") {
-	fract1 = getRandomFraction(0, 99);
-	fract2 = getRandomFraction(10, 99); 
+	fract1 = getRandomFraction(MED_MIN, MED_MAX);
+	fract2 = getRandomFraction(MED_MIN, MED_MAX); 
     } else {
-	fract1 = getRandomFraction(10, 99);
-	fract2 = getRandomFraction(100, 300);
+	fract1 = getRandomFraction(HARD_MIN, HARD_MAX);
+	fract2 = getRandomFraction(HARD_MIN, HARD_MAX);
     }
+
     problem = fract1 + " ? " + fract2;
     let n1 = 0, n2 = 0, d1 = 0, d2 = 0;
     let arr1 = fract1.split("/");
@@ -67,6 +81,7 @@ function generateProblem() {
     d2 = parseInt(arr2[1]);
     let f1 = n1/d1;
     let f2 = n2/d2;
+
     if (f1 > f2) {
         correctOp = ">";
     } else if (f1 < f2) {
@@ -74,18 +89,19 @@ function generateProblem() {
     } else {
         correctOp = "=";
     }
+
     document.getElementById("problem").innerHTML = problem;
 }
 
 function getRandomFraction(min, max) {
-    let num;
     let numerator = Math.floor(Math.random() * (max - min + 1)) + min;
+
     if (min == 0) {
 	min = 1;
     }
+
     let denominator = Math.floor(Math.random() * (max - min + 1)) + min;
-    //num = `${numerator}&frasl;${denominator}`;
-    num = numerator + "/" + denominator;
+    let num = numerator + "/" + denominator;
     return num;
 }
 
@@ -94,14 +110,13 @@ function fillBoard() {
     table = document.getElementsByName(boardType)[0];
     let operators = ["<", ">", "="];
     let op = "";
-    for (var i = 0, row; row = table.rows[i]; i++) {
-	for (var j = 0, col; col = row.cells[j]; j++) {
-	    op = operators[Math.floor(Math.random() * 3)];                                 
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+	for (let j = 0, col; col = row.cells[j]; j++) {
+	    op = operators[Math.floor(Math.random() * operators.length)];                                 
             col.className = "white";
 	    col.innerText = op;
-            col.onclick = function () {
-		checkAnswer(this);
-            };
+            col.onclick = function(){checkAnswer(this)};
 	}
     }
 }
@@ -109,26 +124,22 @@ function fillBoard() {
 function checkAnswer(cell) {
     if (cell.className != "green") {
         if (correctOp == cell.innerText) {
-	    score += 10;
+	    score += POINTS;
 	    numSolved++;
 	    cell.className = "green";
 	    let b = checkBingo();
 	    if (!b) {
-		setTimeout(function() {
-			generateProblem();
-		}, 1000);
+		setTimeout(generateProblem, 1000);
 	    }
 	}
         else {
 	    if (score != 0) {
-		score -= 10;
+		score -= POINTS;
 	    }
-	    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerText + "<br> <b\
->Correct: </b>" + correctOp + "</p> </li>");
+	    document.getElementById("wrongProblem").innerHTML += "<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b>" + cell.innerText + "<br> <b\
+>Correct: </b>" + correctOp + "</p> </li>";
        	    cell.className = "red";
-	    setTimeout(function() {
-	        cell.className = "white";
-	    }, 1000);
+	    setTimeout(() => cell.className = "white", 1000);
         }
 	document.getElementById("score").innerHTML = "Score: " + score;
     }
@@ -136,26 +147,26 @@ function checkAnswer(cell) {
 
 function solNotFound() {
     noSolBtn = document.getElementById("noSolution");
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        for (var j = 0, col; col = row.cells[j]; j++) {
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        for (let j = 0, col; col = row.cells[j]; j++) {
 	    if (col.className == "white") { 
 	        if (correctOp == col.innerText) {
 		    if (score != 0) {
-			score -= 10;
+			score -= POINTS;
 		    }
 		    document.getElementById("score").innerHTML = "Score: " + score;
-		    $('.list-group').append("<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on boar\
-d <br> <b>Correct: </b>" + correctOp + "</p> </li>");
+		    document.getElementById("wrongProblem").innerHTML += "<li class='list-group-item'><h5 class='list-group-item-heading'>" + problem + "</h5> <p class='list-group-item-text'><b>Your Answer: </b> Solution not on boar\
+d <br> <b>Correct: </b>" + correctOp + "</p> </li>";
                     noSolBtn.style.backgroundColor = "red";
-                    setTimeout(function() {
-                        noSolBtn.style.backgroundColor = "";
-                    }, 1000);
+                    setTimeout(() => noSolBtn.style.backgroundColor = "", 1000);
                     return;
                 }
 	    }
         }
     }
-    score += 10;
+
+    score += POINTS;
     numSolved++;
     document.getElementById("score").innerHTML = "Score: " + score;
     noSolBtn.style.backgroundColor = "green";
@@ -166,69 +177,68 @@ d <br> <b>Correct: </b>" + correctOp + "</p> </li>");
 }
 
 function checkBingo() {
-    let result;
-    result = checkRows();
-    if (result) {
-        return;
-    }
-    result = checkColumns();
-    if (result) {
-        return;
-    }
-    result = checkDiagonals();
-    if (result) {
-        return;
-    }
+    return checkRows() || checkColumns() || checkDiagonals();
 }
 
 function checkRows() {
-    rows: for (var i = 0, row; row = table.rows[i]; i++) {
-        cols: for (var j = 0, col; col = row.cells[j]; j++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
+	for (let j = 0, col; col = row.cells[j]; j++) {
             if (col.className != "green") {
-                continue rows;
+                numWhite++;
             }
         }
-        bingo();
-        return true;
+
+	if (numWhite == 0) { 
+	    bingo();
+	    return true;
+	}
+
+	numWhite = 0;
     }
+
     return false;
 }
 
 function checkColumns() {
-    var row = table.rows[0];
-    cols: for (var i = 0, col; col = row.cells[i]; i++) {
-        rows: for (var j = 0; row = table.rows[j]; j++) {
+    for (let i = 0; i < width; i++) {
+        for (let j = 0; row = table.rows[j]; j++) {
             if (row.cells[i].className != "green") {
-                continue cols;
+		numWhite++;		
             }
         }
-        bingo();
-        return true;
+	
+	if (numWhite == 0) {
+	    bingo();
+	    return true;
+	}
+
+	numWhite = 0;
     }
+
     return false;
 }
 
 function checkDiagonals() {
     let diag = true;
-    let cell = 0;
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        if (row.cells[cell].className != "green") {
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        if (row.cells[i].className != "green") {
             diag = false;
             break;
         }
-        cell++;
     }
+
     if (diag) {
         bingo();
         return true;
     }
-    cell = width - 1;
-    for (var j = 0, row; row = table.rows[j]; j++) {
-        if (row.cells[cell].className != "green") {
+
+    for (let j = 0, row; row = table.rows[j]; j++) {
+        if (row.cells[width - j - 1].className != "green") {
             return false;
         }
-        cell--;
     }
+
     bingo();
     return true;
 }
@@ -247,7 +257,9 @@ function endGame() {
     document.getElementById("end").style.display = "";
     document.getElementById("totalScore").innerHTML = score;
     document.getElementById("numSolved").innerHTML = numSolved;
-    if (document.getElementById("wrongProblem").innerHTML != "") {
-        document.getElementById("wrong").style.display = "";
+
+    if (document.getElementById("wrongProblem").innerHTML == "") {
+	document.getElementById("wrong").style.display = "none";
+	document.getElementById("allCorrect").style.display = "";
     }
 }
