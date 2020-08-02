@@ -3,8 +3,7 @@ const hasLocalStorage = checkForLocalStorage();
 var my_lzma = new LZMA("../js/lzma_worker.js");
 
 
-const INSTRUMENTS = [
-    {
+const INSTRUMENTS = [{
         name: "rest",
         description: "Rest: Waits X amounts of seconds.",
         img: "img/rest.png",
@@ -40,7 +39,7 @@ const INSTRUMENTS = [
         description: 'Banjo: String Instrument',
         img: 'img/banjo.png',
         sound: 'sounds/Banjo.wav',
-        code:`play("banjo");`,
+        code: `play("banjo");`,
         link: "https://en.wikipedia.org/wiki/Banjo"
     },
     {
@@ -48,7 +47,7 @@ const INSTRUMENTS = [
         description: 'Violin: String Instrument',
         img: 'img/violin.png',
         sound: 'sounds/violin.wav',
-        code:`play("violin");`,
+        code: `play("violin");`,
         link: "https://en.wikipedia.org/wiki/violin"
     },
     {
@@ -57,7 +56,7 @@ const INSTRUMENTS = [
         description: 'Harp: String Instrument',
         img: 'img/harp.png',
         sound: 'sounds/harp.wav',
-        code:`play("harp");`,
+        code: `play("harp");`,
         link: "https://en.wikipedia.org/wiki/harp"
     },
     {
@@ -156,15 +155,15 @@ const INSTRUMENTS = [
         sound: 'sounds/gong.wav',
         code: `play("gong");`,
         link: "https://en.wikipedia.org/wiki/Gong"
-        
+
     },
-    
+
     {
         name: 'marcas',
         description: 'Marcas: Percussion Instrument',
         img: 'img/marcas.png',
         sound: 'sounds/marcas.wav',
-        code:`play("marcas");`,
+        code: `play("marcas");`,
         link: "https://en.wikipedia.org/wiki/Maraca"
     }
 ];
@@ -223,7 +222,15 @@ function play(instrument) {
     createInstrumentElements();
 
     // bind bootstrap popper.js to the tooltips 
-    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 600, hide: 1100 }, html: true, placement: "top", animation: true });
+    $(`[data-toggle="tooltip"]`).tooltip({
+        delay: {
+            show: 600,
+            hide: 1100
+        },
+        html: true,
+        placement: "top",
+        animation: true
+    });
 
     document.querySelector("#runCode").onclick = executeCode;
     document.querySelector("#options").onclick = openModal;
@@ -333,9 +340,9 @@ function createInstrumentElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", instrument.description + 
-        `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`); 
-        
+        el.setAttribute("title", instrument.description +
+            `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`);
+
 
         // bind click action to instrument
         let AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
@@ -363,11 +370,9 @@ function checkForLocalStorage() {
         localStorage.removeItem(test);
 
         hasLocalStorage = true;
-    } 
-    catch (e) {
+    } catch (e) {
         hasLocalStorage = false;
-    } 
-    finally {
+    } finally {
         return hasLocalStorage;
     }
 }
