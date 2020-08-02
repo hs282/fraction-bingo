@@ -44,20 +44,15 @@ let myQuestions = [
     correctAnswer: "Whaling",
     responseVal: false
   },
-  {
-    question: "Henry goes on nvd.nist.gov. What does he find?",
-    correctAnswer: "CVEs",
-    responseVal: false
-  },
 ];
 
 // globals
 let score = 0;
-//let selectedProblemTypes = JSON.parse(JSON.stringify(ALL_PROBLEM_TYPES));
+
 let problem, answer;
 let number = 0;
 // initialize UI components
-
+document.getElementById("retry").onclick = retry;
 showProblem();
 
 setAnswer();
@@ -66,6 +61,7 @@ wordBank();
 // bind onclick functions to the buttons
 setScore(0);
 document.getElementById("submit").onclick = checkAnswer;
+
 
 function showProblem(){
     problem = myQuestions[number].question;
@@ -96,16 +92,25 @@ function myFunction() {
   }
 }
 
+function retry(){
+    document.getElementById("complete").innerText = "";
+    document.getElementById("results").innerText = "";
+    number = 0;
+    showProblem();
+    setAnswer();
+    setScore(0);
+}
+
 function wordBank(){
-	let words = myQuestions.map(question => question.correctAnswer);
-	words = randomize(words);
-	 let checkBox = document.getElementById("checkWordBank");
-	 var text = document.getElementById("text");
-	 if (checkBox.checked == true){
+    let words = myQuestions.map(question => question.correctAnswer);
+    words = randomize(words);
+    let checkBox = document.getElementById("checkWordBank");
+    var text = document.getElementById("text");
+    if (checkBox.checked == true){
         text.style.display = "block";
-		document.getElementById("wordbank").innerText= " ";
+        document.getElementById("wordbank").innerText= " ";
    } else {
-	   document.getElementById("wordbank").innerText= words.join(" * ");
+        document.getElementById("wordbank").innerText= words.join(" * ");
         text.style.display = "block";
   }
    
@@ -118,7 +123,9 @@ function wordBank(){
 function setScore(delta) {
     // change score by delta value
     score += delta;
-
+    if(delta == 0){
+        score = 0;
+    }
     // update score UI element
     document.getElementById("score").innerText = "Score: " + score+"/"+ (myQuestions.length)*10;
 }
@@ -152,30 +159,31 @@ function checkAnswer() {
         notif.className = "failure";     
        
     }
-    if(number==myQuestions.length-1){
+    if (number == (myQuestions.length)-1){
         endQuiz();
+        number = 0;
     }
-    else{
-    number = number + 1;
-    
-    showProblem();
-    setAnswer();
-    // hide the notification alert after 1 second
-    setTimeout(() => notif.style.display = "none", 3000);
+    else {
+        number = number + 1;
+        
+        showProblem();
+        setAnswer();
+        // hide the notification alert after 1 second
+        setTimeout(() => notif.style.display = "none", 3000);
     }
 }
 function randomize (obj) {
-	let index;
-	let temp;
-	for (let i = obj.length - 1; i > 0; i--) {
-		//get random number
-		index = Math.floor((Math.random() * i));
-		//swapping
-		temp = obj[index];
-		obj[index] = obj[i];
-		obj[i] = temp;
-	}
-	return obj;
+    let index;
+    let temp;
+    for (let i = obj.length - 1; i > 0; i--) {
+        //get random number
+        index = Math.floor((Math.random() * i));
+        //swapping
+        temp = obj[index];
+        obj[index] = obj[i];
+        obj[i] = temp;
+    }
+    return obj;
 }
 function endQuiz(){
     var incorrect = "What you got wrong: \n";
