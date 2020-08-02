@@ -63,14 +63,9 @@ function updatePrompt(code) {
 }
 
 function wordBank(){
-    /*let word = "";
-    for(let i=0;i<myQuestions.length;i++){
-        word= word + myQuestions[i].correctAnswer +" * ";
-    }
-    document.getElementById("wordbank").innerText = word;*/
 	let words = myQuestions.map(question => question.correctAnswer);
-    
-document.getElementById("wordbank").innerText = words.join(" * ");
+	words = randomize(words);
+   document.getElementById("wordbank").innerText = words.join(" * ");
 }
 
 /**
@@ -125,6 +120,19 @@ function checkAnswer() {
     // hide the notification alert after 1 second
     setTimeout(() => notif.style.display = "none", 1000);
     }
+}
+function randomize (obj) {
+	let index;
+	let temp;
+	for (let i = obj.length - 1; i > 0; i--) {
+		//get random number
+		index = Math.floor((Math.random() * i));
+		//swapping
+		temp = obj[index];
+		obj[index] = obj[i];
+		obj[i] = temp;
+	}
+	return obj;
 }
 function endQuiz(){
     var incorrect = "What you got wrong: \n";
