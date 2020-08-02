@@ -29,6 +29,26 @@ let myQuestions = [
     correctAnswer: "CVEs",
     responseVal: false
   },
+  {
+    question: "Johnny uses his binoculars to see Sally's screen and write down her information. What is this called?",
+    correctAnswer: "Shoulder Surfing",
+    responseVal: false
+  },
+  {
+    question: "An attacker takes over Kyle's computer and says they won't let him access it until he pays 384395843984 dollars. This attack is called:",
+    correctAnswer: "Ransomware",
+    responseVal: false
+  },
+  {
+    question: "A hacker targets the CEO of a hospital. They plan to conduct a phishing attack against the CEO. This can be considered what kind of attack?",
+    correctAnswer: "Whaling",
+    responseVal: false
+  },
+  {
+    question: "Henry goes on nvd.nist.gov. What does he find?",
+    correctAnswer: "CVEs",
+    responseVal: false
+  },
 ];
 
 // globals
@@ -44,6 +64,7 @@ setAnswer();
 //createProblemTypeCheckboxes();
 wordBank();
 // bind onclick functions to the buttons
+setScore(0);
 document.getElementById("submit").onclick = checkAnswer;
 
 function showProblem(){
@@ -99,7 +120,7 @@ function setScore(delta) {
     score += delta;
 
     // update score UI element
-    document.getElementById("score").innerText = "Score: " + score;
+    document.getElementById("score").innerText = "Score: " + score+"/"+ (myQuestions.length)*10;
 }
 
 /**
@@ -114,7 +135,7 @@ function checkAnswer() {
     const val = document.getElementById("answer").value.trim();
     
     // if the user's answer is correct
-    if (val == answer) {
+    if (val.toLowerCase() == answer.toLowerCase()) {
         // give the user feedback that they're right
         notif.innerHTML = "That's right!";
         notif.className = "success";
