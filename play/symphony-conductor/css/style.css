@@ -163,7 +163,8 @@ td {
     padding: 1rem;
     min-height: 650px;
     /* min-width: 600px; */
-
+    width: 100%;
+    min-width: 1090px;
 }
 
 .modal-footer {
@@ -234,7 +235,7 @@ td {
 
 #exampleButton0 {
     position: absolute;
-    right: 437px;
+    right: 442px;
     bottom: 10px;
 
 }
@@ -305,7 +306,7 @@ td {
 }
 
 #label11 {
-    left: 766px;
+    right: 261px;
     position: absolute;
     text-decoration: underline;
 }

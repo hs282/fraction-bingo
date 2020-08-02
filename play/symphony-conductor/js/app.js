@@ -5,6 +5,13 @@ var my_lzma = new LZMA("../js/lzma_worker.js");
 
 const INSTRUMENTS = [
     {
+        name: "rest",
+        description: "Rest: Waits X amounts of seconds.",
+        img: "img/rest.png",
+        code: "await rest(1);",
+        link: "https://en.wikipedia.org/wiki/Rest_(music)"
+    },
+    {
         name: "DJ-Scrubbing",
         description: "DJ-Scrubbing: Click to a neat sound",
         img: "img/DJScrubbing.png",
@@ -14,7 +21,7 @@ const INSTRUMENTS = [
     },
     {
         name: "Electric-Guitar",
-        description: "Electric Guitar: Part of the String instrument family",
+        description: "Electric Guitar: String Instrument",
         img: "img/ElectricG.png",
         sound: "sounds/ElGuitar.wav",
         code: `play("Electric-Guitar");`,
@@ -22,15 +29,40 @@ const INSTRUMENTS = [
     },
     {
         name: "Acoustic-Guitar",
-        description: "Acoustic-Guitar: Part of the String instrument family",
+        description: "Acoustic-Guitar: String Instrument",
         img: "img/AcousticGuitar.png",
         sound: "sounds/AcousticGuitar.wav",
         code: `play("Acoustic-Guitar");`,
         link: "https://en.wikipedia.org/wiki/Acoustic_guitar"
     },
     {
+        name: 'banjo',
+        description: 'Banjo: String Instrument',
+        img: 'img/banjo.png',
+        sound: 'sounds/Banjo.wav',
+        code:`play("banjo");`,
+        link: "https://en.wikipedia.org/wiki/Banjo"
+    },
+    {
+        name: 'violin',
+        description: 'Violin: String Instrument',
+        img: 'img/violin.png',
+        sound: 'sounds/violin.wav',
+        code:`play("violin");`,
+        link: "https://en.wikipedia.org/wiki/violin"
+    },
+    {
+        //hzmo.kimq@ilavana.com pw: 123
+        name: 'harp',
+        description: 'Harp: String Instrument',
+        img: 'img/harp.png',
+        sound: 'sounds/harp.wav',
+        code:`play("harp");`,
+        link: "https://en.wikipedia.org/wiki/harp"
+    },
+    {
         name: 'flute',
-        description: "Flute: Part of the Woodwind instrument family",
+        description: "Flute: Woodwind Instrument",
         img: "img/flute.png",
         sound: "sounds/flute.wav",
         code: `play("flute");`,
@@ -38,7 +70,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'clarinet',
-        description: "Clarinet: Part of the woodwind instrument family",
+        description: "Clarinet: Woodwind Instrument",
         img: "img/Clarinet.png",
         sound: "sounds/clarinet.wav",
         code: `play("clarinet");`,
@@ -46,7 +78,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'trumpet',
-        description: "Trumpet: Part of the Brass instrument family",
+        description: "Trumpet: Brass Instrument",
         img: "img/trumpet.png",
         sound: "sounds/trumpet.wav",
         code: `play("trumpet");`,
@@ -54,7 +86,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'saxophone',
-        description: "Saxophone: Part of the Woodwind instrument family",
+        description: "Saxophone: Woodwind Instrument",
         img: "img/Saxophone.png",
         sound: "sounds/saxophone.wav",
         code: `play("saxophone");`,
@@ -62,7 +94,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'tuba',
-        description: "Tuba: Part of the brass instrument family",
+        description: "Tuba: Brass Instrument",
         img: "img/tuba.png",
         sound: 'sounds/tuba.wav',
         code: `play("tuba");`,
@@ -70,7 +102,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'french-horn',
-        description: "French Horn: Part of the brass instrument family",
+        description: "French Horn: Brass Instrument",
         img: 'img/frenchHorn.png',
         sound: 'sounds/FrenchHorn.wav',
         code: `play("french-horn");`,
@@ -78,22 +110,24 @@ const INSTRUMENTS = [
     },
     {
         name: 'trombone',
-        description: 'Trombone: Part of the brass instrument family',
+        description: 'Trombone: Brass Instrument',
         img: 'img/trombone.png',
         sound: 'sounds/Trombone.wav',
         code: `play("trombone");`,
         link: "https://en.wikipedia.org/wiki/Trombone"
     },
     {
-        name: "rest",
-        description: "Rest: Waits X amounts of seconds.",
-        img: "img/rest.png",
-        code: "await rest(1);",
-        link: "https://en.wikipedia.org/wiki/Rest_(music)"
+        name: 'hand-clap',
+        description: "Hand-Clap: Percussion Instrument",
+        img: 'img/handclap.png',
+        sound: 'sounds/handclap.wav',
+        code: `play("hand-clap");`,
+        link: "https://en.wikipedia.org/wiki/Clapping"
+
     },
     {
         name: "snare",
-        description: "Snare: Part of the percussion instrument family",
+        description: "Snare: Percussion Instrument",
         img: "img/snare.png",
         sound: "sounds/snare.wav",
         code: `play("snare");`,
@@ -101,7 +135,7 @@ const INSTRUMENTS = [
     },
     {
         name: "bongo",
-        description: "Bongos: Part of the percussion instrument family",
+        description: "Bongos: Percussion Instrument",
         img: "img/bongo.png",
         sound: "sounds/bongo.wav",
         code: `play("bongo");`,
@@ -109,7 +143,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'xylophone',
-        description: 'Xylophone: Part of the Percussion instrument family',
+        description: 'Xylophone: Percussion Instrument',
         img: 'img/Xylophone.png',
         sound: 'sounds/Xylophone.wav',
         code: `play("xylophone");`,
@@ -117,21 +151,21 @@ const INSTRUMENTS = [
     },
     {
         name: 'gong',
-        description: 'Gong: Part of the Percussion instrument family',
+        description: 'Gong: Percussion Instrument',
         img: 'img/Gong.png',
         sound: 'sounds/gong.wav',
         code: `play("gong");`,
         link: "https://en.wikipedia.org/wiki/Gong"
         
     },
+    
     {
-        name: 'hand-clap',
-        description: "Hand-Clap: Considered a percussion instrument",
-        img: 'img/handclap.png',
-        sound: 'sounds/handclap.wav',
-        code: `play("hand-clap");`,
-        link: "https://en.wikipedia.org/wiki/Clapping"
-
+        name: 'marcas',
+        description: 'Marcas: Percussion Instrument',
+        img: 'img/marcas.png',
+        sound: 'sounds/marcas.wav',
+        code:`play("marcas");`,
+        link: "https://en.wikipedia.org/wiki/Maraca"
     }
 ];
 
