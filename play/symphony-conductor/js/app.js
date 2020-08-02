@@ -51,7 +51,6 @@ const INSTRUMENTS = [{
         link: "https://en.wikipedia.org/wiki/violin"
     },
     {
-        //hzmo.kimq@ilavana.com pw: 123
         name: 'harp',
         description: 'Harp: String Instrument',
         img: 'img/harp.png',
