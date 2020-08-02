@@ -61,11 +61,33 @@ function updatePrompt(code) {
 
     codeEl.innerHTML = code;
 }
+function myFunction() {
+  // Get the checkbox
+  let checkBox = document.getElementById("checkWordBank");
+  // Get the output text
+  var text = document.getElementById("text");
+
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true){
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+}
 
 function wordBank(){
 	let words = myQuestions.map(question => question.correctAnswer);
 	words = randomize(words);
-   document.getElementById("wordbank").innerText = words.join(" * ");
+	 let checkBox = document.getElementById("checkWordBank");
+	 var text = document.getElementById("text");
+	 if (checkBox.checked == true){
+        text.style.display = "block";
+		document.getElementById("wordbank").innerText= " ";
+   } else {
+	   document.getElementById("wordbank").innerText= words.join(" * ");
+        text.style.display = "block";
+  }
+   
 }
 
 /**
@@ -118,7 +140,7 @@ function checkAnswer() {
     showProblem();
     setAnswer();
     // hide the notification alert after 1 second
-    setTimeout(() => notif.style.display = "none", 1000);
+    setTimeout(() => notif.style.display = "none", 3000);
     }
 }
 function randomize (obj) {
