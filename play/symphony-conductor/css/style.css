@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-   
+
 }
 
 html {
@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    
+
 }
 
 #instruments img {
@@ -75,7 +75,7 @@ button {
 
 .pull-right {
     margin-left: auto;
-    
+
 }
 
 #optionsButton {
@@ -134,7 +134,7 @@ td {
 
 .modal h2 {
     margin-bottom: 0px;
-    
+
 }
 
 .modal h1 {
@@ -146,7 +146,7 @@ td {
     background-color: white;
     margin: auto;
     padding: 0;
-    width: 80%;
+    width: 95%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     overflow-y: scroll;
@@ -159,7 +159,6 @@ td {
 
 .modal-body {
     height: 80vh;
-    
     box-sizing: border-box;
     padding: 1rem;
     min-height: 650px;
@@ -192,7 +191,7 @@ td {
     height: 100%;
     padding: 0;
     margin: 0;
-    
+
 }
 
 .panel-left {
@@ -203,8 +202,8 @@ td {
     padding: 10px;
     overflow: auto;
     background-image: url('../img/background.png');
-    
-}    
+
+}
 
 .panel-right {
     flex: 1 1 auto;
@@ -213,7 +212,7 @@ td {
     overflow: scroll;
     white-space: nowrap;
     background-image: url('../img/background.png');
-   
+
 }
 
 .splitter {
@@ -233,11 +232,11 @@ td {
 }
 
 
-#exampleButton0{
+#exampleButton0 {
     position: absolute;
     right: 437px;
     bottom: 10px;
-    
+
 }
 
 #exampleButton1 {
@@ -247,7 +246,7 @@ td {
     background-color: rgb(237, 237, 55);
     border-color: rgb(237, 237, 55);
     color: black;
-  
+
 }
 
 #exampleButton2 {
@@ -258,7 +257,7 @@ td {
     border: red;
 }
 
-#myInput0{
+#myInput0 {
     position: absolute;
     border: 3px solid rgb(87, 223, 87);
     border-radius: 12px;
@@ -289,23 +288,40 @@ td {
 }
 
 
-  #tutorialVideo{
+#tutorialVideo {
     position: absolute;
     left: 9px;
     padding: 1px;
     top: 250px;
-    
-    
-  }
 
-  #label10{
+
+}
+
+#label10 {
     left: 120px;
     position: absolute;
     text-decoration: underline;
 
-  }
-  #label11{
+}
+
+#label11 {
     left: 766px;
     position: absolute;
     text-decoration: underline;
-  }
+}
+
+#LoadingGif {
+    position: absolute;
+    top: 45%;
+    left: 44%;
+    z-index: 99;
+    border: black solid 6px;
+}
+
+#LoadingBack {
+    position: absolute;
+    z-index: 98;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
