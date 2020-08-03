@@ -186,13 +186,17 @@ function randomize (obj) {
     return obj;
 }
 function endQuiz(){
+	document.getElementById("complete").innerText = "QUIZ COMPLETED!";
+	if(score!=(myQuestions.length)*10){
     var incorrect = "What you got wrong: \n";
     for(let i = 0;i<myQuestions.length;i++){
         if(myQuestions[i].responseVal==false){
             incorrect = incorrect + myQuestions[i].question + " --> " + myQuestions[i].correctAnswer + "\n\n";
         }
     }
-    document.getElementById("complete").innerText = "QUIZ COMPLETED!";
-    document.getElementById("results").innerText = incorrect;
+	 document.getElementById("results").innerText = incorrect;
+	}
+    
+   
 }
 
