@@ -258,7 +258,7 @@ td {
     border: red;
 }
 
-#myInput0 {
+#easyExampleText {
     position: absolute;
     border: 3px solid rgb(87, 223, 87);
     border-radius: 12px;
@@ -268,7 +268,7 @@ td {
 
 }
 
-#myInput1 {
+#mediumExampleText {
     border: 3px solid rgb(237, 237, 55);
     position: absolute;
     right: 225px;
@@ -278,7 +278,7 @@ td {
 
 }
 
-#myInput2 {
+#hardExampleText {
     border: 3px solid red;
     position: absolute;
     right: 10px;

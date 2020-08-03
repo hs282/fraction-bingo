@@ -1,7 +1,16 @@
 const APP_NAME = "symphony-conductor";
 const hasLocalStorage = checkForLocalStorage();
-var my_lzma = new LZMA("../js/lzma_worker.js");
+const my_lzma = new LZMA("../js/lzma_worker.js");
 
+$(document).ready(function () {
+    $("#LoadingGif").show();
+    $("#LoadingBack").show();
+    setTimeout(function () {
+        $("#LoadingGif").fadeOut("slow");
+        $("#LoadingBack").fadeOut("slow");
+
+    }, 3500);
+});
 
 const INSTRUMENTS = [{
         name: "rest",
@@ -75,20 +84,20 @@ const INSTRUMENTS = [{
         link: "https://en.wikipedia.org/wiki/Clarinet"
     },
     {
-        name: 'trumpet',
-        description: "Trumpet: Brass Instrument",
-        img: "img/trumpet.png",
-        sound: "sounds/trumpet.wav",
-        code: `play("trumpet");`,
-        link: "https://en.wikipedia.org/wiki/Trumpet"
-    },
-    {
         name: 'saxophone',
         description: "Saxophone: Woodwind Instrument",
         img: "img/Saxophone.png",
         sound: "sounds/saxophone.wav",
         code: `play("saxophone");`,
         link: "https://en.wikipedia.org/wiki/Saxophone"
+    },
+    {
+        name: 'trumpet',
+        description: "Trumpet: Brass Instrument",
+        img: "img/trumpet.png",
+        sound: "sounds/trumpet.wav",
+        code: `play("trumpet");`,
+        link: "https://en.wikipedia.org/wiki/Trumpet"
     },
     {
         name: 'tuba',
@@ -158,11 +167,11 @@ const INSTRUMENTS = [{
     },
 
     {
-        name: 'marcas',
-        description: 'Marcas: Percussion Instrument',
+        name: 'maracas',
+        description: 'Maracas: Percussion Instrument',
         img: 'img/marcas.png',
         sound: 'sounds/marcas.wav',
-        code: `play("marcas");`,
+        code: `play("maracas");`,
         link: "https://en.wikipedia.org/wiki/Maraca"
     }
 ];
@@ -339,8 +348,7 @@ function createInstrumentElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", instrument.description +
-            `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`);
+        el.setAttribute("title",`${instrument.description} <br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`);
 
 
         // bind click action to instrument
@@ -460,4 +468,12 @@ function shareCode() {
         // let the user know that the text was copied
         alert("URL copied to clipboard");
     });
+}
+
+function copyExampleCode(exampleNumber) {
+    var copyText = document.getElementById(name);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Example Copied ✅");
 }

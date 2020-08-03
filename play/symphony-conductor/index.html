@@ -120,7 +120,7 @@
                 <!-- <p id="exampleLine">⬇️ Checkout Some Cool Melodies Examples !!! ⬇️ </p> -->
 
 
-                <textarea name="Text1" cols="16" rows="15" id="myInput0">
+                <textarea name="Text1" cols="16" rows="15" id="easyExampleText">
 /* Example */
 
 play("DJ-Scrubbing");
@@ -139,7 +139,7 @@ await rest(.4);
 play("hand-clap");
                 </textarea>
 
-                <textarea name="Text1" cols="16" rows="15" id="myInput1">
+                <textarea name="Text1" cols="16" rows="15" id="mediumExampleText">
 /* Example */
 
 play("trumpet");
@@ -160,7 +160,7 @@ play("xylophone");
 play("hand-clap");
 
                     </textarea>
-                <textarea name="Text2" cols="16" rows="15" id="myInput2">
+                <textarea name="Text2" cols="16" rows="15" id="hardExampleText">
 /* Example */
 
 play("snare");
@@ -195,25 +195,14 @@ await rest(.6);
                         
                     </textarea>
 
-                <button onclick="myFunction(`myInput0`)" id="exampleButton0">Copy (Beginner Level)</button>
+                <button onclick="copyExampleCode(`easyExampleText`)" id="exampleButton0">Copy (Beginner Level)</button>
 
-                <button onclick="myFunction(`myInput1`)" id="exampleButton1">Copy (Intermediate Level)</button>
+                <button onclick="copyExampleCode(`mediumExampleText`)" id="exampleButton1">Copy (Intermediate Level)</button>
 
-                <button onclick="myFunction(`myInput2`)" id="exampleButton2">Copy (Complex Level)</button>
+                <button onclick="copyExampleCode(`hardExampleText`)" id="exampleButton2">Copy (Complex Level)</button>
 
                 <iframe width="449" height="310" src="https://www.youtube.com/embed/fRTmOHbHCJM" id="tutorialVideo">
                 </iframe>
-
-                <script>
-                    function myFunction(name) {
-                        var copyText = document.getElementById(name);
-                        copyText.select();
-                        copyText.setSelectionRange(0, 99999)
-                        document.execCommand("copy");
-                        alert("Example Copied ✅");
-                    }
-                </script>
-
             </div>
 
             <div class="modal-header"></div>
@@ -242,19 +231,6 @@ await rest(.6);
     <div id="LoadingGif" style="display:none"> <img src="img/LoadingGif.gif"></div>
     <div id="LoadingBack" style="display:none"> <img src="img/LoadingBack2.png" width="100%" height="100%"></div>
 
-    <script>
-        $(document).ready(function () {
-            $("#LoadingGif").show();
-            $("#LoadingBack").show();
-            setTimeout(function () {
-                $("#LoadingGif").fadeOut("slow");
-                $("#LoadingBack").fadeOut("slow");
-
-                //  document.getElementById("LoadingBack").style.display = "none";
-                //   document.getElementById("LoadingGif").style.display = "none";
-            }, 3500);
-        });
-    </script>
 </body>
 
 </html>
