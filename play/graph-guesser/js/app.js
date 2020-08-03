@@ -1,3 +1,6 @@
+
+let globalEquation = "";
+
 /**
  * Initialize the UI on script load.
  */
@@ -22,13 +25,25 @@ document.getElementById("form").onsubmit = event => {
     let equation = document.querySelector("#eq").value;
 
     draw(equation);
+
+    // console.log("global: " + globalEquation + ", local: " + equation);
+
+    // compare the strings and generate another problem if correct
+    if (globalEquation == equation.trim()) {
+        generateProblem();
+        document.querySelector("#eq").value = "";
+        document.querySelector("#eq").style.color = "black";
+    }
+    // change text color to red if incorrect
+    else {document.querySelector("#eq").style.color = "red";}
 }
 
 /**
  * Generate a random equation and plot it on the graph.
  */
 function generateProblem() {
-    const expr = math.compile(getRandomEquation(Math.floor(Math.random()) ? "linear" : "quadratic"));
+    globalEquation = getRandomEquation(Math.floor(Math.random()) ? "linear" : "quadratic");
+    const expr = math.compile(globalEquation);
 
     const xValues = math.range(-10, 11, 1).toArray();
     const yValues = xValues.map(x => expr.evaluate({ x: x }));
