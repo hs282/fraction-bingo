@@ -1,26 +1,24 @@
 const APP_NAME = "symphony-conductor";
 const hasLocalStorage = checkForLocalStorage();
+const my_lzma = new LZMA("../js/lzma_worker.js");
 
-// Wrap every letter in a span
-// var textWrapper = document.querySelector('.ml6 .letters');
-// textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+$(document).ready(function () {
+    $("#LoadingGif").show();
+    $("#LoadingBack").show();
+    setTimeout(function () {
+        $("#LoadingGif").fadeOut("slow");
+        $("#LoadingBack").fadeOut("slow");
 
-// anime.timeline({loop: true})
-//   .add({
-//     targets: '.ml6 .letter',
-//     translateY: ["1.1em", 0],
-//     translateZ: 0,
-//     duration: 750,
-//     delay: (el, i) => 50 * i
-//   }).add({
-//     targets: '.ml6',
-//     opacity: 0,
-//     duration: 1000,
-//     easing: "easeOutExpo",
-//     delay: 1000
-//   });
+    }, 3500);
+});
 
-const INSTRUMENTS = [
+const INSTRUMENTS = [{
+        name: "rest",
+        description: "Rest: Waits X amounts of seconds.",
+        img: "img/rest.png",
+        code: "await rest(1);",
+        link: "https://en.wikipedia.org/wiki/Rest_(music)"
+    },
     {
         name: "DJ-Scrubbing",
         description: "DJ-Scrubbing: Click to a neat sound",
@@ -31,7 +29,7 @@ const INSTRUMENTS = [
     },
     {
         name: "Electric-Guitar",
-        description: "Electric Guitar: Part of the String instrument family",
+        description: "Electric Guitar: String Instrument",
         img: "img/ElectricG.png",
         sound: "sounds/ElGuitar.wav",
         code: `play("Electric-Guitar");`,
@@ -39,15 +37,39 @@ const INSTRUMENTS = [
     },
     {
         name: "Acoustic-Guitar",
-        description: "Acoustic-Guitar: Part of the String instrument family",
+        description: "Acoustic-Guitar: String Instrument",
         img: "img/AcousticGuitar.png",
         sound: "sounds/AcousticGuitar.wav",
         code: `play("Acoustic-Guitar");`,
         link: "https://en.wikipedia.org/wiki/Acoustic_guitar"
     },
     {
+        name: 'banjo',
+        description: 'Banjo: String Instrument',
+        img: 'img/banjo.png',
+        sound: 'sounds/Banjo.wav',
+        code: `play("banjo");`,
+        link: "https://en.wikipedia.org/wiki/Banjo"
+    },
+    {
+        name: 'violin',
+        description: 'Violin: String Instrument',
+        img: 'img/violin.png',
+        sound: 'sounds/violin.wav',
+        code: `play("violin");`,
+        link: "https://en.wikipedia.org/wiki/violin"
+    },
+    {
+        name: 'harp',
+        description: 'Harp: String Instrument',
+        img: 'img/harp.png',
+        sound: 'sounds/harp.wav',
+        code: `play("harp");`,
+        link: "https://en.wikipedia.org/wiki/harp"
+    },
+    {
         name: 'flute',
-        description: "Flute: Part of the Woodwind instrument family",
+        description: "Flute: Woodwind Instrument",
         img: "img/flute.png",
         sound: "sounds/flute.wav",
         code: `play("flute");`,
@@ -55,31 +77,31 @@ const INSTRUMENTS = [
     },
     {
         name: 'clarinet',
-        description: "Clarinet: Part of the woodwind instrument family",
+        description: "Clarinet: Woodwind Instrument",
         img: "img/Clarinet.png",
         sound: "sounds/clarinet.wav",
         code: `play("clarinet");`,
         link: "https://en.wikipedia.org/wiki/Clarinet"
     },
     {
-        name: 'trumpet',
-        description: "Trumpet: Part of the Brass instrument family",
-        img: "img/trumpet.png",
-        sound: "sounds/trumpet.wav",
-        code: `play("trumpet");`,
-        link: "https://en.wikipedia.org/wiki/Trumpet"
-    },
-    {
         name: 'saxophone',
-        description: "Saxophone: Part of the Woodwind instrument family",
+        description: "Saxophone: Woodwind Instrument",
         img: "img/Saxophone.png",
         sound: "sounds/saxophone.wav",
         code: `play("saxophone");`,
         link: "https://en.wikipedia.org/wiki/Saxophone"
     },
     {
+        name: 'trumpet',
+        description: "Trumpet: Brass Instrument",
+        img: "img/trumpet.png",
+        sound: "sounds/trumpet.wav",
+        code: `play("trumpet");`,
+        link: "https://en.wikipedia.org/wiki/Trumpet"
+    },
+    {
         name: 'tuba',
-        description: "Tuba: Part of the brass instrument family",
+        description: "Tuba: Brass Instrument",
         img: "img/tuba.png",
         sound: 'sounds/tuba.wav',
         code: `play("tuba");`,
@@ -87,7 +109,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'french-horn',
-        description: "French Horn: Part of the brass instrument family",
+        description: "French Horn: Brass Instrument",
         img: 'img/frenchHorn.png',
         sound: 'sounds/FrenchHorn.wav',
         code: `play("french-horn");`,
@@ -95,22 +117,24 @@ const INSTRUMENTS = [
     },
     {
         name: 'trombone',
-        description: 'Trombone: Part of the brass instrument family',
+        description: 'Trombone: Brass Instrument',
         img: 'img/trombone.png',
         sound: 'sounds/Trombone.wav',
         code: `play("trombone");`,
         link: "https://en.wikipedia.org/wiki/Trombone"
     },
     {
-        name: "rest",
-        description: "Rest: Waits X amounts of seconds.",
-        img: "img/rest.png",
-        code: "await rest(1);",
-        link: "https://en.wikipedia.org/wiki/Rest_(music)"
+        name: 'hand-clap',
+        description: "Hand-Clap: Percussion Instrument",
+        img: 'img/handclap.png',
+        sound: 'sounds/handclap.wav',
+        code: `play("hand-clap");`,
+        link: "https://en.wikipedia.org/wiki/Clapping"
+
     },
     {
         name: "snare",
-        description: "Snare: Part of the percussion instrument family",
+        description: "Snare: Percussion Instrument",
         img: "img/snare.png",
         sound: "sounds/snare.wav",
         code: `play("snare");`,
@@ -118,7 +142,7 @@ const INSTRUMENTS = [
     },
     {
         name: "bongo",
-        description: "Bongos: Part of the percussion instrument family",
+        description: "Bongos: Percussion Instrument",
         img: "img/bongo.png",
         sound: "sounds/bongo.wav",
         code: `play("bongo");`,
@@ -126,7 +150,7 @@ const INSTRUMENTS = [
     },
     {
         name: 'xylophone',
-        description: 'Xylophone: Part of the Percussion instrument family',
+        description: 'Xylophone: Percussion Instrument',
         img: 'img/Xylophone.png',
         sound: 'sounds/Xylophone.wav',
         code: `play("xylophone");`,
@@ -134,21 +158,21 @@ const INSTRUMENTS = [
     },
     {
         name: 'gong',
-        description: 'Gong: Part of the Percussion instrument family',
+        description: 'Gong: Percussion Instrument',
         img: 'img/Gong.png',
         sound: 'sounds/gong.wav',
         code: `play("gong");`,
         link: "https://en.wikipedia.org/wiki/Gong"
-        
-    },
-    {
-        name: 'hand-clap',
-        description: "Hand-Clap: Considered a percussion instrument",
-        img: 'img/handclap.png',
-        sound: 'sounds/handclap.wav',
-        code: `play("hand-clap");`,
-        link: "https://en.wikipedia.org/wiki/Clapping"
 
+    },
+
+    {
+        name: 'maracas',
+        description: 'Maracas: Percussion Instrument',
+        img: 'img/marcas.png',
+        sound: 'sounds/marcas.wav',
+        code: `play("maracas");`,
+        link: "https://en.wikipedia.org/wiki/Maraca"
     }
 ];
 
@@ -206,7 +230,15 @@ function play(instrument) {
     createInstrumentElements();
 
     // bind bootstrap popper.js to the tooltips 
-    $(`[data-toggle="tooltip"]`).tooltip({ delay: { show: 600, hide: 1100 }, html: true, placement: "top", animation: true });
+    $(`[data-toggle="tooltip"]`).tooltip({
+        delay: {
+            show: 600,
+            hide: 1100
+        },
+        html: true,
+        placement: "top",
+        animation: true
+    });
 
     document.querySelector("#runCode").onclick = executeCode;
     document.querySelector("#options").onclick = openModal;
@@ -316,9 +348,8 @@ function createInstrumentElements() {
 
         // have tooltip show name on hover
         el.setAttribute("data-toggle", "tooltip");
-        el.setAttribute("title", instrument.description + 
-        `<br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`); 
-        
+        el.setAttribute("title",`${instrument.description} <br><a href="${instrument.link}" target="_blank">Click to learn more about this instrument</a>`);
+
 
         // bind click action to instrument
         let AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
@@ -346,11 +377,9 @@ function checkForLocalStorage() {
         localStorage.removeItem(test);
 
         hasLocalStorage = true;
-    } 
-    catch (e) {
+    } catch (e) {
         hasLocalStorage = false;
-    } 
-    finally {
+    } finally {
         return hasLocalStorage;
     }
 }
@@ -406,4 +435,45 @@ function commentSelection() {
             editor.replaceRange(commentedLine, from, to);
         }
     }
+}
+
+function shareCode() {
+    // get user code from editor
+    const editor = document.querySelector('.CodeMirror').CodeMirror;
+    const code = editor.getValue();
+
+    // compress code with LZMA
+    my_lzma.compress(code, 9, result => {
+        // convert ByteArray into string and base64 encode it
+        const base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(result)));
+
+        // get current URL without any hash
+        const url = location.href.replace(location.hash, "");
+
+        // create a textarea element with the share URL
+        const textArea = document.createElement("textarea");
+        textArea.value = url + "#?" + base64String;
+
+        // add to body
+        document.body.appendChild(textArea);
+
+        // focus and select text to and copy to clipboard
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+
+        // cleanup and remove textarea element
+        document.body.removeChild(textArea);
+
+        // let the user know that the text was copied
+        alert("URL copied to clipboard");
+    });
+}
+
+function copyExampleCode(exampleNumber) {
+    var copyText = document.getElementById(name);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Example Copied ✅");
 }

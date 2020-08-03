@@ -115,11 +115,12 @@
                     <button class="btn" onclick="shareCode()">Share</button>
                 </p>
 
-                <h3 id="label10">Video Tutorial</h3> <h3 id="label11">Examples</h3>
+                <h3 id="label10">Video Tutorial</h3>
+                <h3 id="label11">Examples</h3>
                 <!-- <p id="exampleLine">⬇️ Checkout Some Cool Melodies Examples !!! ⬇️ </p> -->
 
 
-                <textarea name="Text1" cols="16" rows="15" id="myInput0">
+                <textarea name="Text1" cols="16" rows="15" id="easyExampleText">
 /* Example */
 
 play("DJ-Scrubbing");
@@ -138,7 +139,7 @@ await rest(.4);
 play("hand-clap");
                 </textarea>
 
-                <textarea name="Text1" cols="16" rows="15" id="myInput1">
+                <textarea name="Text1" cols="16" rows="15" id="mediumExampleText">
 /* Example */
 
 play("trumpet");
@@ -159,7 +160,7 @@ play("xylophone");
 play("hand-clap");
 
                     </textarea>
-                <textarea name="Text2" cols="16" rows="15" id="myInput2">
+                <textarea name="Text2" cols="16" rows="15" id="hardExampleText">
 /* Example */
 
 play("snare");
@@ -189,30 +190,19 @@ play("snare");
 await rest(.35);
 play("snare");
 await rest(.2);
-play("hand-Clap");
+play("hand-clap");
 await rest(.6);
                         
                     </textarea>
 
-                <button onclick="myFunction(`myInput0`)" id="exampleButton0">Copy (Beginner Level)</button>
+                <button onclick="copyExampleCode(`easyExampleText`)" id="exampleButton0">Copy (Beginner Level)</button>
 
-                <button onclick="myFunction(`myInput1`)" id="exampleButton1">Copy (Intermediate Level)</button>
+                <button onclick="copyExampleCode(`mediumExampleText`)" id="exampleButton1">Copy (Intermediate Level)</button>
 
-                <button onclick="myFunction(`myInput2`)" id="exampleButton2">Copy (Complex Level)</button>
+                <button onclick="copyExampleCode(`hardExampleText`)" id="exampleButton2">Copy (Complex Level)</button>
 
-                <iframe width="449" height="310" src="https://www.youtube.com/embed/0kg-ZQXIpFY" id="tutorialVideo" >
-            </iframe>
-
-                <script>
-                    function myFunction(name) {
-                        var copyText = document.getElementById(name);
-                        copyText.select();
-                        copyText.setSelectionRange(0, 99999)
-                        document.execCommand("copy");
-                        alert("✅ Copied ✅");
-                    }
-                </script>
-
+                <iframe width="449" height="310" src="https://www.youtube.com/embed/fRTmOHbHCJM" id="tutorialVideo">
+                </iframe>
             </div>
 
             <div class="modal-header"></div>
@@ -236,6 +226,11 @@ await rest(.6);
     <script src="../js/lzma.js"></script>
 
     <script src="js/app.js"></script>
+
+
+    <div id="LoadingGif" style="display:none"> <img src="img/LoadingGif.gif"></div>
+    <div id="LoadingBack" style="display:none"> <img src="img/LoadingBack2.png" width="100%" height="100%"></div>
+
 </body>
 
 </html>
