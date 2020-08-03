@@ -471,7 +471,7 @@ function shareCode() {
 }
 
 function copyExampleCode(exampleNumber) {
-    var copyText = document.getElementById(name);
+    var copyText = document.getElementById(exampleNumber);
     copyText.select();
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy");
