@@ -78,11 +78,11 @@ function updatePrompt(code) {
 
     codeEl.innerHTML = code;
 }
-function myFunction() {
+function isCheckboxChecked() {
   // Get the checkbox
   let checkBox = document.getElementById("checkWordBank");
   // Get the output text
-  var text = document.getElementById("text");
+  let text = document.getElementById("text");
 
   // If the checkbox is checked, display the output text
   if (checkBox.checked == true){
@@ -105,7 +105,7 @@ function wordBank(){
     let words = myQuestions.map(question => question.correctAnswer);
     words = randomize(words);
     let checkBox = document.getElementById("checkWordBank");
-    var text = document.getElementById("text");
+    let text = document.getElementById("text");
     if (checkBox.checked == true){
         text.style.display = "block";
         document.getElementById("wordbank").innerText= " ";
@@ -164,7 +164,7 @@ function checkAnswer() {
         number = 0;
     }
     else {
-        number = number + 1;
+        number++;
         
         showProblem();
         setAnswer();
@@ -188,7 +188,7 @@ function randomize (obj) {
 function endQuiz(){
 	document.getElementById("complete").innerText = "QUIZ COMPLETED!";
 	if(score!=(myQuestions.length)*10){
-    var incorrect = "What you got wrong: \n";
+    let incorrect = "What you got wrong: \n";
     for(let i = 0;i<myQuestions.length;i++){
         if(myQuestions[i].responseVal==false){
             incorrect = incorrect + myQuestions[i].question + " --> " + myQuestions[i].correctAnswer + "\n\n";
