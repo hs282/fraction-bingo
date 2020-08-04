@@ -30,7 +30,7 @@ let myQuestions = [
     question: "An attacker deploys software that collects keystrokes from a victim's computer; What is this called?",
     answers: [
       " Keylogging ",
-      " Trojan ",
+      " Watering Hole attack ",
       " Exploit "
     ],
     correctAnswer: " Keylogging "
@@ -58,7 +58,7 @@ let myQuestions = [
     answers: [
       " Trojan ",
       " Phishing ",
-      " Vulnerability "
+      " Shoulder Surfing "
     ],
     correctAnswer: " Phishing "
   },
@@ -70,6 +70,33 @@ let myQuestions = [
       " Patching "
     ],
     correctAnswer: " Malware "
+  },
+  {
+    question: "Which of these attack is done to exploit a group of people having common interests?",
+    answers: [
+      " Malware ",
+      " Watering Hole attack ",
+      " Shoulder Surfing "
+    ],
+    correctAnswer: " Watering Hole attack "
+  },
+  {
+    question: "This kind of social engineering is done on leaders of companies",
+    answers: [
+      " Patching ",
+      " Ransomware ",
+      " Whaling "
+    ],
+    correctAnswer: " Whaling "
+  },
+  {
+    question: "Gaining information from a user directly from their keyboard or screen:",
+    answers: [
+      " Whaling ",
+      " Shoulder Surfing ",
+      " Phishing "
+    ],
+    correctAnswer: " Shoulder Surfing "
   },
   {
     question: "What is the difference between a computer virus and a computer worm?",
