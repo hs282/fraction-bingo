@@ -1,17 +1,21 @@
 
 let globalEquation = "";
+let playerScore = 0;
 
+const PROBLEM_TYPES = ["linear", "quadratic", "cubic", "quartic", "exponential", "logarithmic"];
+const SCORE_INCREASE = 5;
+const SCORE_DECREASE = 1;
 /**
  * Initialize the UI on script load.
  */
 (function initUI() {
+    playerScore = 0;
     generateProblem();
 })();
 
 // TODO make the graph height take up more room on the page
 // TODO footer mode checkboxes like in SpeedyMath
 // TODO footer difficulty modes like in SpeedyMath
-// TODO add other equation types
 // TODO add feedback alerts from Tutor programs
 // TODO Add score from Tutor programs
 // TODO find better place to put the guess input box?
@@ -26,23 +30,36 @@ document.getElementById("form").onsubmit = event => {
 
     draw(equation);
 
-    // console.log("global: " + globalEquation + ", local: " + equation);
+    let globalExpression = math.compile(globalEquation);
+    let localExpression = math.compile(equation);
 
-    // compare the strings and generate another problem if correct
-    if (globalEquation == equation.trim()) {
-        generateProblem();
-        document.querySelector("#eq").value = "";
-        document.querySelector("#eq").style.color = "black";
+    // instead of using string comparison which needs to account for many edge cases, we use the actual
+    // calculated expression value and compare it to that which was provided for each point on the graph
+    for (let i = -10; i <= 10; i++) {
+        // if the values are not the same at a certain point
+        if (globalExpression.evaluate({x: i}) != localExpression.evaluate({x: i})) {
+            document.querySelector("#eq").style.color = "red";
+            playerScore -= SCORE_DECREASE;
+            return;
+        }
     }
-    // change text color to red if incorrect
-    else {document.querySelector("#eq").style.color = "red";}
+
+    // if all of the values are the same, generate another problem, reset values, increase player score
+    generateProblem();
+    document.querySelector("#eq").value = "";
+    document.querySelector("#eq").style.color = "black";
+    playerScore += SCORE_INCREASE;
 }
 
 /**
  * Generate a random equation and plot it on the graph.
  */
 function generateProblem() {
-    globalEquation = getRandomEquation(Math.floor(Math.random()) ? "linear" : "quadratic");
+    // get a random equation from all of the different kinds that can be created
+    globalEquation = getRandomEquation(PROBLEM_TYPES[getRandomNumber(0, PROBLEM_TYPES.length - 1)]);
+    
+    // console.log("global: " + globalEquation);
+    
     const expr = math.compile(globalEquation);
 
     const xValues = math.range(-10, 11, 1).toArray();
@@ -105,18 +122,56 @@ function draw(equation) {
 function getRandomEquation(type) {
     let equation = "";
 
-    if (type == "linear") {
+    // if linear
+    if (type == PROBLEM_TYPES[0]) {
         let m = getRandomNumber(0, 10);
         let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
 
         equation = `${m}x ${b}`;
     }
-    else if (type == "quadratic") {
+    // if quadratic
+    else if (type == PROBLEM_TYPES[1]) {
         let a = getRandomNumber(0, 5);
         let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x` : `- ${getRandomNumber(0, 10)}x`;
         let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
 
         equation = `${a}x^2 ${b} ${c}`;
+    }
+    // if cubic
+    else if (type == PROBLEM_TYPES[2]) {
+        let a = getRandomNumber(0, 5);
+        let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x^2` : `- ${getRandomNumber(0, 10)}x^2`;
+        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x` : `- ${getRandomNumber(0, 10)}x`;
+        let d = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+
+        equation = `${a}x^3 ${b} ${c} ${d}`;
+    }
+    // if quartic
+    else if (type == PROBLEM_TYPES[3]) {
+        let a = getRandomNumber(0, 5);
+        let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x^3` : `- ${getRandomNumber(0, 10)}x^3`;
+        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x^2` : `- ${getRandomNumber(0, 10)}x^2`;
+        let d = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x` : `- ${getRandomNumber(0, 10)}x`;
+        let e = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+
+        equation = `${a}x^4 ${b} ${c} ${d} ${e}`;
+    }
+    // if exponential
+    else if (type == PROBLEM_TYPES[4]) {
+        let a = getRandomNumber(0, 10);
+        let b = Math.round(Math.random()) ? `${getRandomNumber(0, 10)}x` : `-${getRandomNumber(0, 10)}x`;
+        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+
+        equation = `${a}^(${b} ${c})`;
+    }
+    // if logarithmic
+    else if (type == PROBLEM_TYPES[5]) {
+        let a = getRandomNumber(0, 5);
+        let b = Math.round(Math.random()) ? `${getRandomNumber(0, 10)}` : `${getRandomNumber(0, 10)}`;
+        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 5)}` : `- ${getRandomNumber(0, 5)}`;
+        let d = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+
+        equation = `${a}log(${b}x ${c}) ${d}`;
     }
 
     return equation.trim();
