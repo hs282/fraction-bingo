@@ -124,54 +124,54 @@ function getRandomEquation(type) {
 
     // if linear
     if (type == PROBLEM_TYPES[0]) {
-        let m = getRandomNumber(0, 10);
-        let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+        let a = getRandomNumber(0, 10);
+        let b = getRandomNumber(-10, 10);
 
-        equation = `${m}x ${b}`;
+        equation = `${a}x + ${b}`;
     }
     // if quadratic
     else if (type == PROBLEM_TYPES[1]) {
         let a = getRandomNumber(0, 5);
-        let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x` : `- ${getRandomNumber(0, 10)}x`;
-        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+        let b = getRandomNumber(-10, 10);
+        let c = getRandomNumber(-10, 10);
 
-        equation = `${a}x^2 ${b} ${c}`;
+        equation = `${a}x^2 + ${b}x + ${c}`;
     }
     // if cubic
     else if (type == PROBLEM_TYPES[2]) {
         let a = getRandomNumber(0, 5);
-        let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x^2` : `- ${getRandomNumber(0, 10)}x^2`;
-        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x` : `- ${getRandomNumber(0, 10)}x`;
-        let d = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+        let b = getRandomNumber(-10, 10);
+        let c = getRandomNumber(-10, 10);
+        let d = getRandomNumber(-10, 10);
 
-        equation = `${a}x^3 ${b} ${c} ${d}`;
+        equation = `${a}x^3 + ${b}x^2 + ${c}x + ${d}`;
     }
     // if quartic
     else if (type == PROBLEM_TYPES[3]) {
         let a = getRandomNumber(0, 5);
-        let b = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x^3` : `- ${getRandomNumber(0, 10)}x^3`;
-        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x^2` : `- ${getRandomNumber(0, 10)}x^2`;
-        let d = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}x` : `- ${getRandomNumber(0, 10)}x`;
-        let e = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+        let b = getRandomNumber(-10, 10);
+        let c = getRandomNumber(-10, 10);
+        let d = getRandomNumber(-10, 10);
+        let e = getRandomNumber(-10, 10);
 
-        equation = `${a}x^4 ${b} ${c} ${d} ${e}`;
+        equation = `${a}x^4 + ${b}x^3 + ${c}x^2 + ${d}x + ${e}`;
     }
     // if exponential
     else if (type == PROBLEM_TYPES[4]) {
-        let a = getRandomNumber(0, 10);
-        let b = Math.round(Math.random()) ? `${getRandomNumber(0, 10)}x` : `-${getRandomNumber(0, 10)}x`;
-        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+        let a = getRandomNumber(1, 10);
+        let b = getRandomNumber(-10, 10);
+        let c = getRandomNumber(-10, 10);
 
-        equation = `${a}^(${b} ${c})`;
+        equation = `${a}^(${b}x + ${c})`;
     }
     // if logarithmic
     else if (type == PROBLEM_TYPES[5]) {
-        let a = getRandomNumber(0, 5);
-        let b = Math.round(Math.random()) ? `${getRandomNumber(0, 10)}` : `${getRandomNumber(0, 10)}`;
-        let c = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 5)}` : `- ${getRandomNumber(0, 5)}`;
-        let d = Math.round(Math.random()) ? `+ ${getRandomNumber(0, 10)}` : `- ${getRandomNumber(0, 10)}`;
+        let a = getRandomNumber(1, 5);
+        let b = getRandomNumber(-10, 10);
+        let c = getRandomNumber(-5, 5);
+        let d = getRandomNumber(-10, 10);
 
-        equation = `${a}log(${b}x ${c}) ${d}`;
+        equation = `${a}log(${b}x + ${c}) + ${d}`;
     }
 
     return equation.trim();
