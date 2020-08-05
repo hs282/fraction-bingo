@@ -36,8 +36,13 @@ document.getElementById("form").onsubmit = event => {
     // instead of using string comparison which needs to account for many edge cases, we use the actual
     // calculated expression value and compare it to that which was provided for each point on the graph
     for (let i = -10; i <= 10; i++) {
-        // if the values are not the same at a certain point
-        if (globalExpression.evaluate({x: i}) != localExpression.evaluate({x: i})) {
+        let evaluatedGlobal = globalExpression.evaluate({x: i});
+        let evaluatedLocal = localExpression.evaluate({x: i});
+
+        // if one value is finite and the other isn't, or they are both finite but do not equal each other
+        if  (xor(isFinite(evaluatedGlobal), isFinite(evaluatedLocal)) ||
+            (isFinite(evaluatedGlobal) && isFinite(evaluatedLocal) && (evaluatedGlobal != evaluatedLocal))) {
+            // change text color and decrease the score
             document.querySelector("#eq").style.color = "red";
             playerScore -= SCORE_DECREASE;
             return;
@@ -45,7 +50,7 @@ document.getElementById("form").onsubmit = event => {
     }
 
     // if all of the values are the same, generate another problem, reset values, increase player score
-    generateProblem();
+    setTimeout(generateProblem, 3000);
     document.querySelector("#eq").value = "";
     document.querySelector("#eq").style.color = "black";
     playerScore += SCORE_INCREASE;
@@ -185,4 +190,14 @@ function getRandomEquation(type) {
  */
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Performs an exclusive OR operation on the provided booleans.
+ * @param {Boolean} bool1
+ * @param {Boolean} bool2
+ * @returns {Boolean} xor
+ */
+function xor(bool1, bool2) {
+    return bool1 ? (bool2 ? false : true) : (bool2 ? true : false);
 }
