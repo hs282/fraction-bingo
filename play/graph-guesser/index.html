@@ -43,14 +43,21 @@
         </nav>
 
         <section class="container-fluid mt-2">
-            <form id="form">
-                <label for="eq">
-                    Enter your guess for the equation:
-                </label>
-
-                <input type="text" id="eq" value=""/>
-
-                <input type="submit" value="Guess"/>
+            <form id="form" autocomplete="off">
+                <div style="display: flex; justify-content: space-between;">
+                    <span class="form-control-lg" style="text-align: left;">
+                        <label for="eq" style="font-size: x-large;">
+                            Enter your guess for the equation:
+                        </label>
+    
+                        <input type="text" id="eq" value=""/>
+    
+                        <input type="submit" class="btn btn-primary btn-lg" value="Guess"/>
+                    </span>
+                    <span id="playerScore" class="form-control-lg" style="text-align: right; font-size: x-large;">
+                        Score: 0
+                    </span>
+                </div>
             </form>
 
             <div id="plot"></div>
