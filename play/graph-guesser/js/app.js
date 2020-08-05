@@ -3,7 +3,7 @@ let globalEquation = "";
 let playerScore = 0;
 
 const PROBLEM_TYPES = ["linear", "quadratic", "cubic", "quartic", "exponential", "logarithmic"];
-const SCORE_INCREASE = 5;
+const SCORE_INCREASE = 20;
 const SCORE_DECREASE = 1;
 /**
  * Initialize the UI on script load.
@@ -45,15 +45,17 @@ document.getElementById("form").onsubmit = event => {
             // change text color and decrease the score
             document.querySelector("#eq").style.color = "red";
             playerScore -= SCORE_DECREASE;
+            document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
             return;
         }
     }
 
     // if all of the values are the same, generate another problem, reset values, increase player score
-    setTimeout(generateProblem, 3000);
+    setTimeout(generateProblem, 2200);
     document.querySelector("#eq").value = "";
     document.querySelector("#eq").style.color = "black";
     playerScore += SCORE_INCREASE;
+    document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
 }
 
 /**
