@@ -90,6 +90,26 @@ let myQuestions = [
     correctAnswer: " Whaling "
   },
   {
+    question: "What attack makes a computer unavailable by flooding it with information?",
+    answers: [
+      " DoS ",
+      " Phishing ",
+      " Whaling "
+    ],
+    correctAnswer: " DoS "
+  },
+  
+  {
+    question: "What do attackers use for a DDoS attack?",
+    answers: [
+      " Botnet ",
+      " DoS ",
+      " Ransomware "
+    ],
+    correctAnswer: " Botnet "
+  },
+  
+  {
     question: "Gaining information from a user directly from their keyboard or screen:",
     answers: [
       " Whaling ",
