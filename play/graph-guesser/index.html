@@ -42,6 +42,27 @@
             </div>
         </nav>
 
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Graph Guesser Instructions</h3>
+                    </div>
+                    <div class="modal-body" style="font-size: 16px">
+                        <p>Type and enter the equation that you think the graph shown on-screen best represents.</p>
+                        <p>You can view individual point values and general graph shape to help you decide what kind of equation fits best.</p>
+                        <p>Every incorrect guess will subtract 1 from your score, while correct guesses will add 20.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="text-center container-fluid">
+                            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">
+                                Continue</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <section class="container-fluid mt-2">
             <form id="form" autocomplete="off">
                 <div style="display: flex; justify-content: space-between;">
@@ -62,6 +83,9 @@
 
             <div id="plot"></div>
         </section>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
         <script src="https://unpkg.com/mathjs@7.1.0/dist/math.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>

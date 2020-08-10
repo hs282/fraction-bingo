@@ -9,6 +9,9 @@ const SCORE_DECREASE = 1;
  * Initialize the UI on script load.
  */
 (function initUI() {
+    // show instructions modal
+    $("#myModal").modal("show");
+
     playerScore = 0;
     generateProblem();
 })();
