@@ -63,25 +63,30 @@
             </div>
         </div>
 
-        <section class="container-fluid mt-2">
+        <section class="container-fluid mt-2" style="height: 80%;">
             <form id="form" autocomplete="off">
-                <div style="display: flex; justify-content: space-between;">
-                    <span class="form-control-lg" style="text-align: left;">
-                        <label for="eq" style="font-size: x-large;">
-                            Enter your guess for the equation:
-                        </label>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="form-control-lg" style="text-align: left;">
+                            <label for="eq" style="font-size: x-large;">
+                                Enter your guess for the equation:
+                            </label>
     
-                        <input type="text" id="eq" value=""/>
+                            <input type="text" id="eq" value=""/>
     
-                        <input type="submit" class="btn btn-primary btn-lg" value="Guess"/>
-                    </span>
-                    <span id="playerScore" class="form-control-lg" style="text-align: right; font-size: x-large;">
-                        Score: 0
-                    </span>
+                            <input type="submit" class="btn btn-primary btn-lg" value="Guess"/>
+                        </span>
+                    </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-3">
+                        <span id="playerScore" class="form-control-lg" style="text-align: right; font-size: x-large;">
+                            Score: 0
+                        </span>
+                    </div>
                 </div>
             </form>
 
-            <div id="plot"></div>
+            <div id="plot" style="height: 100%; width: 100%;"></div>
         </section>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
