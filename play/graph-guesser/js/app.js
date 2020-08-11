@@ -47,6 +47,13 @@ document.getElementById("form").onsubmit = event => {
             (isFinite(evaluatedGlobal) && isFinite(evaluatedLocal) && (evaluatedGlobal != evaluatedLocal))) {
             // change text color and decrease the score
             document.querySelector("#eq").style.color = "red";
+            
+            // restyle the incorrect trace using attribute strings
+            var update = {
+                'marker.color': 'red'
+            };
+            Plotly.restyle(plot, update, 1);
+
             playerScore -= SCORE_DECREASE;
             document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
             return;
@@ -57,6 +64,13 @@ document.getElementById("form").onsubmit = event => {
     setTimeout(generateProblem, 2200);
     document.querySelector("#eq").value = "";
     document.querySelector("#eq").style.color = "black";
+
+    // restyle the correct trace using attribute strings
+    var update = {
+        'marker.color': 'green'
+    };
+    Plotly.restyle(plot, update, 1);
+
     playerScore += SCORE_INCREASE;
     document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
 }
