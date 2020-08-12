@@ -2,15 +2,48 @@
 let globalEquation = "";
 let playerScore = 0;
 
-const PROBLEM_TYPES = ["linear", "quadratic", "cubic", "quartic", "exponential", "logarithmic"];
+// const PROBLEM_TYPES = ["linear", "quadratic", "cubic", "quartic", "exponential", "logarithmic"];
 const SCORE_INCREASE = 20;
 const SCORE_DECREASE = 1;
+
+// let enabledProblemTypes = [true, true, true, true, true, true];
+// let difficulties = [1, 1, 1, 1, 1, 1];
+
+let graphTypes = [
+    {
+        name: "Linear",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Quadratic",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Cubic",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Quartic",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Exponential",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Logarithmic",
+        enabled: true,
+        difficulty: 1
+    }];
+
 /**
  * Initialize the UI on script load.
  */
 (function initUI() {
     // show instructions modal
     $("#myModal").modal("show");
+
+    createProblemDifficultyAdjusters();
 
     playerScore = 0;
     generateProblem();
@@ -79,8 +112,17 @@ document.getElementById("form").onsubmit = event => {
  * Generate a random equation and plot it on the graph.
  */
 function generateProblem() {
+    // get all enabled graphType indexes
+    let typeIndexArray = [];
+    for (let i = 0; i < graphTypes.length; i++) if (graphTypes[i].enabled) typeIndexArray.push(i);
+
+    if (typeIndexArray.length < 1) {
+        alert("Error: At least one graph type must be enabled to proceed");
+        return;
+    }
+
     // get a random equation from all of the different kinds that can be created
-    globalEquation = getRandomEquation(PROBLEM_TYPES[getRandomNumber(0, PROBLEM_TYPES.length - 1)]);
+    globalEquation = getRandomEquation(graphTypes[typeIndexArray[getRandomNumber(0, typeIndexArray.length - 1)]].name);
     
     // console.log("global: " + globalEquation);
     
@@ -139,6 +181,72 @@ function draw(equation) {
 }
 
 /**
+ * Create the problem difficulty adjuster components in the footer.
+ */
+function createProblemDifficultyAdjusters() {
+    // reference to problemTypes div to show the difficulty adjusters
+    const problemTypesEl = document.getElementById("problemTypes");
+
+    // group by problem types
+    //let problemTypes;
+    // let el = document.createElement("ul");
+    //         el.id = type;
+    //         problemTypesEl.appendChild(el);
+    //         el.className = "hide";
+
+    graphTypes.forEach(graphType => {
+        let li = document.createElement("li");
+        problemTypesEl.appendChild(li);
+
+        // create checkbox to enable or disable
+        let enablingCheckbox = document.createElement("input");
+        enablingCheckbox.type = "checkbox";
+        enablingCheckbox.id = graphType.name;
+        enablingCheckbox.name = graphType.name;
+        enablingCheckbox.value = graphType.name;
+        enablingCheckbox.checked = graphType.enabled;
+
+        // create a function to handle checkbox click
+        enablingCheckbox.onclick = () => {
+            // change the operation enable state to the checkbox checked state
+            graphType.enabled = enablingCheckbox.checked;
+
+            // create problem with new edited operations
+            //newProblem(); // TODO: EDIT ---------------------------------------------------------------
+        }
+
+        // create number input to change the difficulty level
+        let difficultyInput = document.createElement("input");
+        difficultyInput.type = "number";
+        difficultyInput.value = graphType.difficulty;
+        difficultyInput.min = 1;
+        difficultyInput.max = 5;
+        difficultyInput.size = "1";
+        difficultyInput.style.maxLength = "1";
+
+        // create a function to handle number changes
+        difficultyInput.oninput = () => {
+            // set the operation difficulty level to the inputted value
+            graphType.difficulty = difficultyInput.value;
+
+            // create problem with new edited operations
+           // newProblem();
+        }
+
+        // create label with name of the operation
+        let operationLabel = document.createElement("label");
+        operationLabel.htmlFor = graphType.name;
+        operationLabel.innerText = graphType.name;
+
+        // add checkbox and label to list item
+        li.appendChild(enablingCheckbox);
+        li.appendChild(operationLabel);
+        li.appendChild(difficultyInput);
+    });
+    problemTypesEl.querySelectorAll("li")[0].classList.toggle("hide");
+}
+
+/**
  * Get a random equation.
  * @param {String} type 
  * @returns {String} equation
@@ -147,14 +255,14 @@ function getRandomEquation(type) {
     let equation = "";
 
     // if linear
-    if (type == PROBLEM_TYPES[0]) {
+    if (type == graphTypes[0].name) {
         let a = getRandomNumber(0, 10);
         let b = getRandomNumber(-10, 10);
 
         equation = `${a}x + ${b}`;
     }
     // if quadratic
-    else if (type == PROBLEM_TYPES[1]) {
+    else if (type == graphTypes[1].name) {
         let a = getRandomNumber(0, 5);
         let b = getRandomNumber(-10, 10);
         let c = getRandomNumber(-10, 10);
@@ -162,7 +270,7 @@ function getRandomEquation(type) {
         equation = `${a}x^2 + ${b}x + ${c}`;
     }
     // if cubic
-    else if (type == PROBLEM_TYPES[2]) {
+    else if (type == graphTypes[2].name) {
         let a = getRandomNumber(0, 5);
         let b = getRandomNumber(-10, 10);
         let c = getRandomNumber(-10, 10);
@@ -171,7 +279,7 @@ function getRandomEquation(type) {
         equation = `${a}x^3 + ${b}x^2 + ${c}x + ${d}`;
     }
     // if quartic
-    else if (type == PROBLEM_TYPES[3]) {
+    else if (type == graphTypes[3].name) {
         let a = getRandomNumber(0, 5);
         let b = getRandomNumber(-10, 10);
         let c = getRandomNumber(-10, 10);
@@ -181,7 +289,7 @@ function getRandomEquation(type) {
         equation = `${a}x^4 + ${b}x^3 + ${c}x^2 + ${d}x + ${e}`;
     }
     // if exponential
-    else if (type == PROBLEM_TYPES[4]) {
+    else if (type == graphTypes[4].name) {
         let a = getRandomNumber(1, 10);
         let b = getRandomNumber(-10, 10);
         let c = getRandomNumber(-10, 10);
@@ -189,7 +297,7 @@ function getRandomEquation(type) {
         equation = `${a}^(${b}x + ${c})`;
     }
     // if logarithmic
-    else if (type == PROBLEM_TYPES[5]) {
+    else if (type == graphTypes[5].name) {
         let a = getRandomNumber(1, 5);
         let b = getRandomNumber(-10, 10);
         let c = getRandomNumber(-5, 5);

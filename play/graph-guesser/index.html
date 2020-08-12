@@ -5,6 +5,28 @@
 
         <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
 
+        <style>
+            footer {
+                display: flex;
+                flex-shrink: 0;
+                align-items: center;
+                height: 4rem;
+                width: 100%;
+                background-color: #eeeeee;
+            }
+
+            #problemTypes {
+                list-style-type: none;
+                display: flex;
+                justify-content: space-between;
+                padding: 0px 10px 0px 0px;
+            }
+
+            input, label {
+                padding: 0px 5px 0px 5px;
+            }
+        </style>
+
         <script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
     </head>
 
@@ -63,7 +85,19 @@
             </div>
         </div>
 
-        <section class="container-fluid mt-2" style="height: 80%;">
+        <section class="container-fluid-mt-2" id="selection" style="display: inline;">
+            <div id="startScreen">
+                <p>Adjust the types and difficulty of the graphs below. Click Start when ready.</p>
+                <button id="startButton" class="btn btn-success btn-lg">Start</button>
+            </div>
+            <footer class="fixed-bottom">
+                <span id="customizeProblemTypes" style="padding: 0px 10px 0px 10px; width: 20%;">Customize Graph Problem Types:</span>
+            
+                <div id="problemTypes" style="width: 80%;"></div>
+            </footer>
+        </section>
+
+        <section class="container-fluid mt-2" id="game" style="height: 80%; display: none;">
             <form id="form" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-6">
