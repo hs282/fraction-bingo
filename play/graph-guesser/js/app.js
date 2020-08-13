@@ -2,13 +2,10 @@
 let globalEquation = "";
 let playerScore = 0;
 
-// const PROBLEM_TYPES = ["linear", "quadratic", "cubic", "quartic", "exponential", "logarithmic"];
 const SCORE_INCREASE = 20;
 const SCORE_DECREASE = 1;
 
-// let enabledProblemTypes = [true, true, true, true, true, true];
-// let difficulties = [1, 1, 1, 1, 1, 1];
-
+// Every type of graph and identifying factors about it's current state
 let graphTypes = [
     {
         name: "Linear",
@@ -44,13 +41,25 @@ let graphTypes = [
     $("#myModal").modal("show");
 
     createProblemDifficultyAdjusters();
-
-    playerScore = 0;
-    generateProblem();
 })();
 
-// TODO make the graph height take up more room on the page
-// TODO footer mode checkboxes like in SpeedyMath
+/**
+ * Set the proper elements to be diplayed and setup game for its initial state
+ */
+function startGame() {
+    document.querySelector("#startScreen").style.display = "none";
+    document.querySelector("#gameScreen").style.display = "inline";
+
+    // return instantly if the problem isn't properly generated
+    if (!generateProblem()) {
+        document.querySelector("#startScreen").style.display = "inline";
+        document.querySelector("#gameScreen").style.display = "none";
+        return;
+    }
+
+    playerScore = 0;
+}
+
 // TODO footer difficulty modes like in SpeedyMath
 // TODO add feedback alerts from Tutor programs
 // TODO Add score from Tutor programs
@@ -110,6 +119,7 @@ document.getElementById("form").onsubmit = event => {
 
 /**
  * Generate a random equation and plot it on the graph.
+ * @returns {Boolean} didGenerate
  */
 function generateProblem() {
     // get all enabled graphType indexes
@@ -118,7 +128,7 @@ function generateProblem() {
 
     if (typeIndexArray.length < 1) {
         alert("Error: At least one graph type must be enabled to proceed");
-        return;
+        return false;
     }
 
     // get a random equation from all of the different kinds that can be created
@@ -145,6 +155,8 @@ function generateProblem() {
 
     // render the plot using plotly
     Plotly.newPlot("plot", data, layout, config);
+
+    return true;
 }
 
 /**
