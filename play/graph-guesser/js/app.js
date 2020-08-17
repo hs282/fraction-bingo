@@ -132,7 +132,7 @@ function generateProblem() {
     }
 
     // get a random equation from all of the different kinds that can be created
-    globalEquation = getRandomEquation(graphTypes[typeIndexArray[getRandomNumber(0, typeIndexArray.length - 1)]].name);
+    globalEquation = getRandomEquation(graphTypes[typeIndexArray[getRandomNumber(0, typeIndexArray.length - 1)]]);
     
     // console.log("global: " + globalEquation);
     
@@ -266,58 +266,93 @@ function createProblemDifficultyAdjusters() {
 function getRandomEquation(type) {
     let equation = "";
 
+    // the max and min multipliers for acceptable random number ranges (difficulty * multiplier)
+    let maxMult = 4, minMult = -4;
+
+    // protect against incorrect difficulty input if possible
+    if (type.difficulty < 1 || type.difficulty > 5) type.difficulty = 1; // add alerts or error msgs later
+
     // if linear
-    if (type == graphTypes[0].name) {
-        let a = getRandomNumber(0, 10);
-        let b = getRandomNumber(-10, 10);
+    if (type.name == graphTypes[0].name) {
+        let a = getRandomNumber(0, maxMult * type.difficulty);
+        let b = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x + ${b}`;
     }
     // if quadratic
-    else if (type == graphTypes[1].name) {
-        let a = getRandomNumber(0, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[1].name) {
+        let a = getRandomNumber(0, maxMult * type.difficulty);
+        let b = getRandomNumber(0, maxMult * type.difficulty);
+        let c = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) b = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+        else if (type.difficulty >= 3) a = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x^2 + ${b}x + ${c}`;
     }
     // if cubic
-    else if (type == graphTypes[2].name) {
-        let a = getRandomNumber(0, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
-        let d = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[2].name) {
+        let a = getRandomNumber(0, maxMult * type.difficulty);
+        let b = getRandomNumber(0, maxMult * type.difficulty);
+        let c = getRandomNumber(0, maxMult * type.difficulty);
+        let d = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) c = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+        else if (type.difficulty >= 3) b = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+        else if (type.difficulty >= 4) a = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x^3 + ${b}x^2 + ${c}x + ${d}`;
     }
     // if quartic
-    else if (type == graphTypes[3].name) {
-        let a = getRandomNumber(0, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
-        let d = getRandomNumber(-10, 10);
-        let e = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[3].name) {
+        let a = getRandomNumber(0, maxMult * type.difficulty);
+        let b = getRandomNumber(0, maxMult * type.difficulty);
+        let c = getRandomNumber(0, maxMult * type.difficulty);
+        let d = getRandomNumber(0, maxMult * type.difficulty);
+        let e = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) d = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+        else if (type.difficulty >= 3) c = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+        else if (type.difficulty >= 4) b = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+        else if (type.difficulty >= 5) a = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x^4 + ${b}x^3 + ${c}x^2 + ${d}x + ${e}`;
     }
     // if exponential
-    else if (type == graphTypes[4].name) {
-        let a = getRandomNumber(1, 10);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[4].name) {
+        let a = getRandomNumber(0, type.difficulty);
+        let b = getRandomNumber(0, type.difficulty);
+        let c = getRandomNumber(0, type.difficulty);
+        let d = getRandomNumber(type.difficulty * -1, type.difficulty);;
 
-        equation = `${a}^(${b}x + ${c})`;
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) c = getRandomNumber(type.difficulty * -1, type.difficulty);
+        else if (type.difficulty >= 3) b = getRandomNumber(type.difficulty * -1, type.difficulty);
+        else if (type.difficulty >= 4) a = getRandomNumber(type.difficulty * -1, type.difficulty);
+
+        equation = `${a}^(${b}x + ${c}) + ${d}`;
     }
     // if logarithmic
-    else if (type == graphTypes[5].name) {
-        let a = getRandomNumber(1, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-5, 5);
-        let d = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[5].name) {
+        let a = getRandomNumber(0, type.difficulty);
+        let b = getRandomNumber(0, type.difficulty);
+        let c = getRandomNumber(0, type.difficulty);
+        let d = getRandomNumber(type.difficulty * -1, type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) c = getRandomNumber(type.difficulty * -1, type.difficulty);
+        else if (type.difficulty >= 3) b = getRandomNumber(type.difficulty * -1, type.difficulty);
+        else if (type.difficulty >= 4) a = getRandomNumber(type.difficulty * -1, type.difficulty);
 
         equation = `${a}log(${b}x + ${c}) + ${d}`;
     }
-
+    console.log(equation.trim());
     return equation.trim();
 }
 
