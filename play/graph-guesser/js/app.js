@@ -2,19 +2,64 @@
 let globalEquation = "";
 let playerScore = 0;
 
-const PROBLEM_TYPES = ["linear", "quadratic", "cubic", "quartic", "exponential", "logarithmic"];
 const SCORE_INCREASE = 20;
 const SCORE_DECREASE = 1;
+
+// Every type of graph and identifying factors about it's current state
+let graphTypes = [
+    {
+        name: "Linear",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Quadratic",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Cubic",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Quartic",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Exponential",
+        enabled: true,
+        difficulty: 1
+    }, {
+        name: "Logarithmic",
+        enabled: true,
+        difficulty: 1
+    }];
+
 /**
  * Initialize the UI on script load.
  */
 (function initUI() {
-    playerScore = 0;
-    generateProblem();
+    // show instructions modal
+    $("#myModal").modal("show");
+
+    createProblemDifficultyAdjusters();
 })();
 
-// TODO make the graph height take up more room on the page
-// TODO footer mode checkboxes like in SpeedyMath
+/**
+ * Set the proper elements to be diplayed and setup game for its initial state
+ */
+function startGame() {
+    document.querySelector("#startScreen").style.display = "none";
+    document.querySelector("#gameScreen").style.display = "inline";
+
+    // return instantly if the problem isn't properly generated
+    if (!generateProblem()) {
+        document.querySelector("#startScreen").style.display = "inline";
+        document.querySelector("#gameScreen").style.display = "none";
+        return;
+    }
+
+    playerScore = 0;
+}
+
 // TODO footer difficulty modes like in SpeedyMath
 // TODO add feedback alerts from Tutor programs
 // TODO Add score from Tutor programs
@@ -44,6 +89,13 @@ document.getElementById("form").onsubmit = event => {
             (isFinite(evaluatedGlobal) && isFinite(evaluatedLocal) && (evaluatedGlobal != evaluatedLocal))) {
             // change text color and decrease the score
             document.querySelector("#eq").style.color = "red";
+            
+            // restyle the incorrect trace using attribute strings
+            var update = {
+                'marker.color': 'red'
+            };
+            Plotly.restyle(plot, update, 1);
+
             playerScore -= SCORE_DECREASE;
             document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
             return;
@@ -54,16 +106,33 @@ document.getElementById("form").onsubmit = event => {
     setTimeout(generateProblem, 2200);
     document.querySelector("#eq").value = "";
     document.querySelector("#eq").style.color = "black";
+
+    // restyle the correct trace using attribute strings
+    var update = {
+        'marker.color': 'green'
+    };
+    Plotly.restyle(plot, update, 1);
+
     playerScore += SCORE_INCREASE;
     document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
 }
 
 /**
  * Generate a random equation and plot it on the graph.
+ * @returns {Boolean} didGenerate
  */
 function generateProblem() {
+    // get all enabled graphType indexes
+    let typeIndexArray = [];
+    for (let i = 0; i < graphTypes.length; i++) if (graphTypes[i].enabled) typeIndexArray.push(i);
+
+    if (typeIndexArray.length < 1) {
+        alert("Error: At least one graph type must be enabled to proceed");
+        return false;
+    }
+
     // get a random equation from all of the different kinds that can be created
-    globalEquation = getRandomEquation(PROBLEM_TYPES[getRandomNumber(0, PROBLEM_TYPES.length - 1)]);
+    globalEquation = getRandomEquation(graphTypes[typeIndexArray[getRandomNumber(0, typeIndexArray.length - 1)]]);
     
     // console.log("global: " + globalEquation);
     
@@ -86,6 +155,8 @@ function generateProblem() {
 
     // render the plot using plotly
     Plotly.newPlot("plot", data, layout, config);
+
+    return true;
 }
 
 /**
@@ -122,6 +193,72 @@ function draw(equation) {
 }
 
 /**
+ * Create the problem difficulty adjuster components in the footer.
+ */
+function createProblemDifficultyAdjusters() {
+    // reference to problemTypes div to show the difficulty adjusters
+    const problemTypesEl = document.getElementById("problemTypes");
+
+    // group by problem types
+    //let problemTypes;
+    // let el = document.createElement("ul");
+    //         el.id = type;
+    //         problemTypesEl.appendChild(el);
+    //         el.className = "hide";
+
+    graphTypes.forEach(graphType => {
+        let li = document.createElement("li");
+        problemTypesEl.appendChild(li);
+
+        // create checkbox to enable or disable
+        let enablingCheckbox = document.createElement("input");
+        enablingCheckbox.type = "checkbox";
+        enablingCheckbox.id = graphType.name;
+        enablingCheckbox.name = graphType.name;
+        enablingCheckbox.value = graphType.name;
+        enablingCheckbox.checked = graphType.enabled;
+
+        // create a function to handle checkbox click
+        enablingCheckbox.onclick = () => {
+            // change the operation enable state to the checkbox checked state
+            graphType.enabled = enablingCheckbox.checked;
+
+            // create problem with new edited operations
+            //newProblem(); // TODO: EDIT ---------------------------------------------------------------
+        }
+
+        // create number input to change the difficulty level
+        let difficultyInput = document.createElement("input");
+        difficultyInput.type = "number";
+        difficultyInput.value = graphType.difficulty;
+        difficultyInput.min = 1;
+        difficultyInput.max = 5;
+        difficultyInput.size = "1";
+        difficultyInput.style.maxLength = "1";
+
+        // create a function to handle number changes
+        difficultyInput.oninput = () => {
+            // set the operation difficulty level to the inputted value
+            graphType.difficulty = difficultyInput.value;
+
+            // create problem with new edited operations
+           // newProblem();
+        }
+
+        // create label with name of the operation
+        let operationLabel = document.createElement("label");
+        operationLabel.htmlFor = graphType.name;
+        operationLabel.innerText = graphType.name;
+
+        // add checkbox and label to list item
+        li.appendChild(enablingCheckbox);
+        li.appendChild(operationLabel);
+        li.appendChild(difficultyInput);
+    });
+    problemTypesEl.querySelectorAll("li")[0].classList.toggle("hide");
+}
+
+/**
  * Get a random equation.
  * @param {String} type 
  * @returns {String} equation
@@ -129,59 +266,116 @@ function draw(equation) {
 function getRandomEquation(type) {
     let equation = "";
 
+    // immediately convert difficulty to a number to properly perform calculations with it
+    type.difficulty = Number(type.difficulty);
+
+    // the max and min multipliers for acceptable random number ranges (difficulty * multiplier)
+    let maxMult = 4, minMult = -4;
+
+    // protect against incorrect difficulty input if possible
+    if (type.difficulty < 1 || type.difficulty > 5) type.difficulty = 1; // add alerts or error msgs later
+
     // if linear
-    if (type == PROBLEM_TYPES[0]) {
-        let a = getRandomNumber(0, 10);
-        let b = getRandomNumber(-10, 10);
+    if (type.name == graphTypes[0].name) {
+        let a = getNonZeroRandom(0, maxMult * type.difficulty);
+        let b = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x + ${b}`;
     }
     // if quadratic
-    else if (type == PROBLEM_TYPES[1]) {
-        let a = getRandomNumber(0, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[1].name) {
+        let a = getNonZeroRandom(0, maxMult * type.difficulty);
+        let b = 0;
+        let c = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
+        if (type.difficulty >= 3) b = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x^2 + ${b}x + ${c}`;
     }
     // if cubic
-    else if (type == PROBLEM_TYPES[2]) {
-        let a = getRandomNumber(0, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
-        let d = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[2].name) {
+        let a = getNonZeroRandom(0, maxMult * type.difficulty);
+        let b = 0;
+        let c = 0;
+        let d = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
+        if (type.difficulty >= 3) c = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
+        if (type.difficulty >= 4) b = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x^3 + ${b}x^2 + ${c}x + ${d}`;
     }
     // if quartic
-    else if (type == PROBLEM_TYPES[3]) {
-        let a = getRandomNumber(0, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
-        let d = getRandomNumber(-10, 10);
-        let e = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[3].name) {
+        let a = getNonZeroRandom(0, maxMult * type.difficulty);
+        let b = 0;
+        let c = 0;
+        let d = 0;
+        let e = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
+        if (type.difficulty >= 3) d = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
+        if (type.difficulty >= 4) c = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
+        if (type.difficulty >= 5) b = getNonZeroRandom(minMult * type.difficulty, maxMult * type.difficulty);
 
         equation = `${a}x^4 + ${b}x^3 + ${c}x^2 + ${d}x + ${e}`;
     }
     // if exponential
-    else if (type == PROBLEM_TYPES[4]) {
-        let a = getRandomNumber(1, 10);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[4].name) {
+        let a = getRandomNumber(2, type.difficulty + 2);
+        let b = 1;
+        let c = 0;
+        let d = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
 
-        equation = `${a}^(${b}x + ${c})`;
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = (Math.random() >= 0.5 ? getRandomNumber(2, type.difficulty + 2) : getRandomNumber((type.difficulty * -1) - 2, -2));
+        if (type.difficulty >= 3) c = getNonZeroRandom(type.difficulty * -1, type.difficulty);
+        if (type.difficulty >= 4) b = getNonZeroRandom(type.difficulty * -1, type.difficulty);
+
+        equation = `(${a})^(${b}x + ${c}) + ${d}`;
     }
     // if logarithmic
-    else if (type == PROBLEM_TYPES[5]) {
-        let a = getRandomNumber(1, 5);
-        let b = getRandomNumber(-10, 10);
-        let c = getRandomNumber(-5, 5);
-        let d = getRandomNumber(-10, 10);
+    else if (type.name == graphTypes[5].name) {
+        let a = getNonZeroRandom(0, (maxMult / 2) * type.difficulty);
+        let b = 1;
+        let c = 0;
+        let d = getRandomNumber(minMult * type.difficulty, maxMult * type.difficulty);
+
+        // introduce negative values at different difficulties
+        if (type.difficulty >= 2) a = getNonZeroRandom((minMult / 2) * type.difficulty, (maxMult / 2) * type.difficulty);
+        if (type.difficulty >= 3) c = getNonZeroRandom((minMult / 2) * type.difficulty, (maxMult / 2) * type.difficulty);
+        if (type.difficulty >= 4) b = getNonZeroRandom((minMult / 2) * type.difficulty, (maxMult / 2) * type.difficulty);
 
         equation = `${a}log(${b}x + ${c}) + ${d}`;
     }
 
+    // testing
+    //console.log(equation.trim());
+
     return equation.trim();
+}
+
+/**
+ * Gets a random number between min and max not including 0
+ * @param {Number} min 
+ * @param {Number} max 
+ * @returns {Number} nonZeroRandom
+ */
+function getNonZeroRandom(min, max) {
+    if (min < 0 && max > 0) {
+        let a = getRandomNumber(min, -1), b = getRandomNumber(1, max);
+        return Math.random() >= 0.5 ? a : b;
+    }
+    else if (min == 0) return getRandomNumber(1, max);
+    else if (max == 0) return getRandomNumber(min, -1);
+    else return getRandomNumber(min, max);
 }
 
 /**

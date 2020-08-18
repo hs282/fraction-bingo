@@ -5,6 +5,34 @@
 
         <link rel="stylesheet" href="../../css/bootstrap4.5.0.min.css">
 
+        <style>
+            footer {
+                display: flex;
+                flex-shrink: 0;
+                align-items: center;
+                height: 4rem;
+                width: 100%;
+                background-color: #eeeeee;
+            }
+
+            #problemTypes {
+                list-style-type: none;
+                display: flex;
+                justify-content: space-between;
+                padding: 0px 10px 0px 0px;
+            }
+
+            input, label {
+                padding: 0px 5px 0px 5px;
+            }
+
+            #startPrompt {
+                margin-top: 15%;
+                text-align: center;
+                font-size: 200%;
+            }
+        </style>
+
         <script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
     </head>
 
@@ -42,26 +70,69 @@
             </div>
         </nav>
 
-        <section class="container-fluid mt-2">
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Graph Guesser Notes & Instructions</h3>
+                    </div>
+                    <div class="modal-body" style="font-size: 16px">
+                        <p>Type and enter the equation that you think the graph shown on-screen best represents.</p>
+                        <p>Every incorrect guess will subtract 1 from your score, while correct guesses will add 20.</p>
+                        <p>You can view individual point values and general graph shape to help you decide what kind of equation fits best.</p>
+                        <p>On the graph, you can click and drag to change graph scaling or to view different x and y values.</p>
+                        <p>Double-clicking the graph will set its scale and position back to the default.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="text-center container-fluid">
+                            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">
+                                Continue</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="container-fluid-mt-2" id="startScreen" style="display: inline;">
+            <div id="startPrompt">
+                <p>Adjust the types and difficulty of the graphs below. Click Start when ready.</p>
+                <button id="startButton" class="btn btn-success btn-lg" onclick="startGame();">Start</button>
+            </div>
+            <footer class="fixed-bottom">
+                <span id="customizeProblemTypes" style="padding: 0px 10px 0px 10px; width: 20%;">Customize Graph Problem Types:</span>
+            
+                <div id="problemTypes" style="width: 80%;"></div>
+            </footer>
+        </section>
+
+        <section class="container-fluid mt-2" id="gameScreen" style="height: 80%; display: none;">
             <form id="form" autocomplete="off">
-                <div style="display: flex; justify-content: space-between;">
-                    <span class="form-control-lg" style="text-align: left;">
-                        <label for="eq" style="font-size: x-large;">
-                            Enter your guess for the equation:
-                        </label>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="form-control-lg" style="text-align: left;">
+                            <label for="eq" style="font-size: x-large;">
+                                Enter your guess for the equation:
+                            </label>
     
-                        <input type="text" id="eq" value=""/>
+                            <input type="text" id="eq" value=""/>
     
-                        <input type="submit" class="btn btn-primary btn-lg" value="Guess"/>
-                    </span>
-                    <span id="playerScore" class="form-control-lg" style="text-align: right; font-size: x-large;">
-                        Score: 0
-                    </span>
+                            <input type="submit" class="btn btn-primary" value="Guess"/>
+                        </span>
+                    </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-3">
+                        <span id="playerScore" class="form-control-lg" style="text-align: right; font-size: x-large;">
+                            Score: 0
+                        </span>
+                    </div>
                 </div>
             </form>
 
-            <div id="plot"></div>
+            <div id="plot" style="height: 80%; width: 100%;"></div>
         </section>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
         <script src="https://unpkg.com/mathjs@7.1.0/dist/math.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
