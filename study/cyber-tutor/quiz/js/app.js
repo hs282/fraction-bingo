@@ -67,7 +67,7 @@ let myQuestions = [
     answers: [
       " Malware ",
       " Vulnerability ",
-      " Patching "
+      " FTP "
     ],
     correctAnswer: " Malware "
   },
@@ -90,6 +90,26 @@ let myQuestions = [
     correctAnswer: " Whaling "
   },
   {
+    question: "What attack makes a computer unavailable by flooding it with information?",
+    answers: [
+      " DoS ",
+      " Phishing ",
+      " Whaling "
+    ],
+    correctAnswer: " DoS "
+  },
+  
+  {
+    question: "What do attackers use for a DDoS attack?",
+    answers: [
+      " Botnet ",
+      " DoS ",
+      " HTTP "
+    ],
+    correctAnswer: " Botnet "
+  },
+  
+  {
     question: "Gaining information from a user directly from their keyboard or screen:",
     answers: [
       " Whaling ",
@@ -108,7 +128,7 @@ let myQuestions = [
     correctAnswer: " A computer worm replicates itself, while a virus attaches itself to a program "
   },
   {
-    question: "Which type of malware allowes the attacker to take over the user's computer and ask them for money?",
+    question: "Which type of malware allows the attacker to take over the user's computer and ask them for money?",
     answers: [
       " Ransomware ",
       " Phishing ",
@@ -142,6 +162,25 @@ let myQuestions = [
       " nist.exploit.com and nvd.org "
     ],
     correctAnswer: " exploit-db.com and nvd.nist.gov "
+  },
+  {
+    question: "What network protocol is used to transfer files between a client and server computer?",
+    answers: [
+      " HTTP ",
+      " FTP ",
+      " DoS "
+    ],
+    correctAnswer: " FTP "
+  },
+  
+    {
+    question: "What protocol is used to define how messages are formatted and transmitted over the World Wide Web?",
+    answers: [
+      " HTTP ",
+      " DoS ",
+      " FTP "
+    ],
+    correctAnswer: " HTTP "
   },
   
 ];

@@ -44,8 +44,13 @@ let myQuestions = [
     correctAnswer: "Whaling",
     responseVal: false
   },
+  {
+    question: "A group of hackers sent a large amount of data to crash a web application. What is this type of attack called?",
+    correctAnswer: "DoS",
+    responseVal: false
+  },
 ];
-
+myQuestions = randomize(myQuestions);
 // globals
 let score = 0;
 
