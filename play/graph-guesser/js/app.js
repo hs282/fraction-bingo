@@ -75,6 +75,9 @@ document.getElementById("form").onsubmit = event => {
 
     draw(equation);
 
+    const notif = document.querySelector("#notification");
+    notif.style.display = "";
+
     let globalExpression = math.compile(globalEquation);
     let localExpression = math.compile(equation);
 
@@ -98,6 +101,12 @@ document.getElementById("form").onsubmit = event => {
 
             playerScore -= SCORE_DECREASE;
             document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
+
+            // syntax tutor-style user feedback
+            notif.innerHTML = "Incorrect answer.";
+            notif.className = "failure";
+            setTimeout(() => notif.style.display = "none", 2200);
+
             return;
         }
     }
@@ -115,6 +124,11 @@ document.getElementById("form").onsubmit = event => {
 
     playerScore += SCORE_INCREASE;
     document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
+
+    // syntax tutor-style user feedback
+    notif.innerHTML = "Correct!";
+    notif.className = "success";
+    setTimeout(() => notif.style.display = "none", 2200);
 }
 
 /**

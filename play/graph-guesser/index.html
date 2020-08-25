@@ -31,6 +31,28 @@
                 text-align: center;
                 font-size: 200%;
             }
+
+            #notification {
+                position: absolute;
+                right: 5px;
+                width: 20%;
+                padding: .75rem 1.25rem;
+                margin-bottom: 1rem;
+                border: 1px solid transparent;
+                border-radius: .25rem;
+            }
+
+            #notification.success {
+                color: #155724d0;
+                background-color: #d4eddad0;
+                border-color: #c3e6cbd0;
+            }
+
+            #notification.failure {
+                color: #721c24d0;
+                background-color: #f8d7dad0;
+                border-color: #f5c6cbd0;
+            }
         </style>
 
         <script src="https://kit.fontawesome.com/b3cde37b04.js" crossorigin="anonymous"></script>
@@ -106,6 +128,9 @@
         </section>
 
         <section class="container-fluid mt-2" id="gameScreen" style="height: 80%; display: none;">
+
+            <div id="notification" style="display: none; z-index: 100;"></div>
+
             <form id="form" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-6">
