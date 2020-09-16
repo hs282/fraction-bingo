@@ -52,12 +52,24 @@ function startGame() {
 
     // return instantly if the problem isn't properly generated
     if (!generateProblem()) {
-        document.querySelector("#startScreen").style.display = "inline";
-        document.querySelector("#gameScreen").style.display = "none";
+        endGame();
         return;
     }
 
     playerScore = 0;
+    document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
+}
+
+/**
+ * Set the proper screen elements to bring the user back to the start screen
+ */
+function endGame() {
+    let inputText = document.querySelector("#eq");
+    inputText.value = "";
+    inputText.style.color = "black";
+
+    document.querySelector("#gameScreen").style.display = "none";
+    document.querySelector("#startScreen").style.display = "inline";
 }
 
 // TODO footer difficulty modes like in SpeedyMath
