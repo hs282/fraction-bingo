@@ -52,12 +52,24 @@ function startGame() {
 
     // return instantly if the problem isn't properly generated
     if (!generateProblem()) {
-        document.querySelector("#startScreen").style.display = "inline";
-        document.querySelector("#gameScreen").style.display = "none";
+        endGame();
         return;
     }
 
     playerScore = 0;
+    document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
+}
+
+/**
+ * Set the proper screen elements to bring the user back to the start screen
+ */
+function endGame() {
+    let inputText = document.querySelector("#eq");
+    inputText.value = "";
+    inputText.style.color = "black";
+
+    document.querySelector("#gameScreen").style.display = "none";
+    document.querySelector("#startScreen").style.display = "inline";
 }
 
 // TODO footer difficulty modes like in SpeedyMath
@@ -74,6 +86,9 @@ document.getElementById("form").onsubmit = event => {
     let equation = document.querySelector("#eq").value;
 
     draw(equation);
+
+    const notif = document.querySelector("#notification");
+    notif.style.display = "";
 
     let globalExpression = math.compile(globalEquation);
     let localExpression = math.compile(equation);
@@ -98,6 +113,12 @@ document.getElementById("form").onsubmit = event => {
 
             playerScore -= SCORE_DECREASE;
             document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
+
+            // syntax tutor-style user feedback
+            notif.innerHTML = "Incorrect answer.";
+            notif.className = "failure";
+            setTimeout(() => notif.style.display = "none", 2200);
+
             return;
         }
     }
@@ -115,6 +136,11 @@ document.getElementById("form").onsubmit = event => {
 
     playerScore += SCORE_INCREASE;
     document.querySelector("#playerScore").innerHTML = "Score: " + playerScore;
+
+    // syntax tutor-style user feedback
+    notif.innerHTML = "Correct!";
+    notif.className = "success";
+    setTimeout(() => notif.style.display = "none", 2200);
 }
 
 /**
