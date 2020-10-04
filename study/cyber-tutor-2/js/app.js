@@ -49,6 +49,11 @@ let myQuestions = [
     correctAnswer: "DoS",
     responseVal: false
   },
+  {
+    question: "A fake Apple customer service representative tries to trick Lillian into revealing her personal information over a phone call. This is called:",
+    correctAnswer: "Vishing",
+    responseVal: false
+  },
 ];
 myQuestions = randomize(myQuestions);
 // globals

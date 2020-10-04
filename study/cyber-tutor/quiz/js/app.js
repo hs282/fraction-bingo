@@ -183,6 +183,15 @@ let myQuestions = [
     correctAnswer: " HTTP "
   },
   
+  question: "What is a type of phishing that uses texting as a form of exploitation?",
+    answers: [
+      " Smishing ",
+      " Ransomware ",
+      " Vishing "
+    ],
+    correctAnswer: " Smishing "
+  },
+  
 ];
 
 myQuestions = randomize(myQuestions);
