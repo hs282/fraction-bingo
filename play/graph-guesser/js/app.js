@@ -61,6 +61,28 @@ function startGame() {
 }
 
 /**
+ * Set the proper elements to be diplayed for the learning screen
+ */
+function startLearning() {
+    document.querySelector("#startScreen").style.display = "none";
+    document.querySelector("#learnScreen").style.display = "inline";
+}
+
+/*
+* Allow the user to go to the next page when browsing learning pages
+*/
+function pageNext() {
+
+}
+
+/*
+* Allow the user to go to the last page when browsing learning pages
+*/
+function pageBack() {
+
+}
+
+/**
  * Set the proper screen elements to bring the user back to the start screen
  */
 function endGame() {

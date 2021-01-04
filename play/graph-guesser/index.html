@@ -26,8 +26,8 @@
                 padding: 0px 5px 0px 5px;
             }
 
-            #startPrompt {
-                margin-top: 15%;
+            .prompt {
+                margin-top: 5%;
                 text-align: center;
                 font-size: 200%;
             }
@@ -116,9 +116,14 @@
         </div>
 
         <section class="container-fluid-mt-2" id="startScreen" style="display: inline;">
-            <div id="startPrompt">
+            <div id="startPrompt" class="prompt">
                 <p>Adjust the types and difficulty of the graphs below. Click Start when ready.</p>
-                <button id="startButton" class="btn btn-success btn-lg" onclick="startGame();">Start</button>
+                <button id="startButton" class="btn btn-success btn-lg" onclick="startGame();">Start Game</button>
+            </div>
+            <p></p>
+            <div id="learnPrompt" class="prompt">
+                <p>If you would like to learn more about graphs first, click below.</p>
+                <button id="learnButton" class="btn btn-primary btn-lg" onclick="startLearning();">Learn More</button>
             </div>
             <footer class="fixed-bottom">
                 <span id="customizeProblemTypes" style="padding: 0px 10px 0px 10px; width: 20%;">Customize Graph Problem Types:</span>
@@ -152,6 +157,35 @@
                         <span id="playerScore" class="form-control-lg" style="text-align: right; font-size: x-large;">
                             Score: 0
                         </span>
+                    </div>
+                </div>
+            </form>
+
+            <div id="plot" style="height: 80%; width: 100%;"></div>
+        </section>
+
+        <section class="container-fluid mt-2" id="learnScreen" style="height: 80%; display: none;">
+
+            <div id="notification" style="display: none; z-index: 100;"></div>
+
+            <form id="form" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button id="backbtn" class="btn btn-secondary" onclick="pageBack();" style="display: none;">Back</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="form-control-lg" style="text-align: center;">
+                            <label id="learnPageTitle" for="eq" style="font-size: x-large;">
+                                Graph Introduction
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="nextbtn" class="btn btn-primary" onclick="pageNext();">Next</button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2">
+                        <button id="endbtn" class="btn btn-danger" onclick="endGame();">Return to Game</button>
                     </div>
                 </div>
             </form>
