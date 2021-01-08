@@ -5,6 +5,13 @@ let playerScore = 0;
 const SCORE_INCREASE = 20;
 const SCORE_DECREASE = 1;
 
+let currPageNum = 0;
+const minPageNum = 0;
+const maxPageNum = 2;
+
+let nextBtnOn = true;
+let backBtnOn = false;
+
 // Every type of graph and identifying factors about it's current state
 let graphTypes = [
     {
@@ -66,20 +73,56 @@ function startGame() {
 function startLearning() {
     document.querySelector("#startScreen").style.display = "none";
     document.querySelector("#learnScreen").style.display = "inline";
+    document.querySelector('#backbtn').style.display = "none";
+
+    currPageNum = 0;
+    changePageText();
+}
+
+/**
+ * Checks the currPageNum to make sure the proper page locomotion buttons are visible
+ */
+function checkVisibleBtns() {
+    if (currPageNum == maxPageNum && nextBtnOn) {document.querySelector('#nextbtn').style.display = "none"; nextBtnOn = false;}
+    else if (!nextBtnOn) {document.querySelector('#nextbtn').style.display = "inline"; nextBtnOn = true;}
+
+    if (currPageNum == minPageNum && backBtnOn) {document.querySelector('#backbtn').style.display = "none"; backBtnOn = false;}
+    else if (!backBtnOn) {document.querySelector('#backbtn').style.display = "inline"; backBtnOn = true;}
+}
+
+function changePageText() {
+    switch (currPageNum) {
+        case 0:
+            document.querySelector("#learnPageText").innerHTML = "Worked?";
+            break;
+        case 1:
+            document.querySelector("#learnPageText").innerHTML = "Worked??";
+            break;
+        case 2:
+            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            break;
+        default:
+            break;
+    }
 }
 
 /*
 * Allow the user to go to the next page when browsing learning pages
 */
 function pageNext() {
-
+    //console.log("Pressed");
+    currPageNum++;
+    checkVisibleBtns();
+    changePageText();
 }
 
 /*
 * Allow the user to go to the last page when browsing learning pages
 */
 function pageBack() {
-
+    currPageNum--;
+    checkVisibleBtns();
+    changePageText();
 }
 
 /**
@@ -91,7 +134,10 @@ function endGame() {
     inputText.style.color = "black";
 
     document.querySelector("#gameScreen").style.display = "none";
+    document.querySelector("#learnScreen").style.display = "none";
     document.querySelector("#startScreen").style.display = "inline";
+
+    $("#myModal").modal("show");
 }
 
 // TODO footer difficulty modes like in SpeedyMath
