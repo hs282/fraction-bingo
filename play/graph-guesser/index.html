@@ -26,6 +26,10 @@
                 padding: 0px 5px 0px 5px;
             }
 
+            .learn {
+                padding: 10px 20px 10px 20px;
+            }
+
             .prompt {
                 margin-top: 5%;
                 text-align: center;
@@ -165,14 +169,14 @@
         </section>
 
         <section class="container-fluid mt-2" id="learnScreen" style="height: 80%; display: none;">
-            <form id="form" autocomplete="off">
+            <form id="learnForm" class="learn" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-2">
                         <button type="button" id="backbtn" class="btn btn-secondary" onclick="pageBack();">Back</button>
                     </div>
                     <div class="col-sm-4">
                         <span class="form-control-lg" style="text-align: center;">
-                            <label id="learnPageTitle" for="eq" style="font-size: x-large;">
+                            <label id="learnPageTitle" for="eq" style="font-size: 25px;">
                                 Graph Introduction
                             </label>
                         </span>
@@ -187,10 +191,12 @@
                 </div>
             </form>
 
-            <div id="learnPageImage">
-                <img id="learnPageImage1" src="" alt=""/>
+            <div id="learnPageImages" class="learn">
+                <div class="col-sm-4" style="float: left;"><img id="learnPageImage1" src="" alt=""/></div>
+                <div class="col-sm-4" style="float: left;"><img id="learnPageImage2" src="" alt=""/></div>
+                <div class="col-sm-4" style="float: left;"><img id="learnPageImage3" src="" alt=""/></div>
             </div>
-            <div id="learnPageText">
+            <div id="learnPageText" class="learn" style="font-size: 18px;">
             </div>
         </section>
 

@@ -7,7 +7,7 @@ const SCORE_DECREASE = 1;
 
 let currPageNum = 0;
 const minPageNum = 0;
-const maxPageNum = 2;
+const maxPageNum = 6;
 
 let nextBtnOn = true;
 let backBtnOn = false;
@@ -90,15 +90,64 @@ function checkVisibleBtns() {
     else if (!backBtnOn) {document.querySelector('#backbtn').style.display = "inline"; backBtnOn = true;}
 }
 
+/**
+ * Changes the text and image(s) on the screen when a learning page change is requested
+ */
 function changePageText() {
     switch (currPageNum) {
         case 0:
-            document.querySelector("#learnPageText").innerHTML = "Worked?";
+            document.querySelector("#learnPageTitle").innerHTML = "Graph Introduction";
+
+            let img1 = document.querySelector("#learnPageImage1");
+            img1.src = "";
+            let img2 = document.querySelector("#learnPageImage2");
+            img2.src = "";
+            let img3 = document.querySelector("#learnPageImage3");
+            img3.src = "";
+
+            document.querySelector("#learnPageText").innerHTML = "There are many different types of graphs for different mathematical functions. In this learning section we will be taking a look at linear, quadratic, cubic, quartic, exponential, and logarithmic function graphs. You will learn the identifying factors and general shapes of these different kinds of graphs in order to more easily be able to identify them.";
             break;
         case 1:
+            document.querySelector("#learnPageTitle").innerHTML = "Linear Function Graphs";
+            
+            let img1 = document.querySelector("#learnPageImage1");
+            img1.src = "img/linearGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            let img2 = document.querySelector("#learnPageImage2");
+            img2.src = "img/linearGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            let img3 = document.querySelector("#learnPageImage3");
+            img3.src = "img/linearGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
             document.querySelector("#learnPageText").innerHTML = "Worked??";
             break;
         case 2:
+            document.querySelector("#learnPageTitle").innerHTML = "Quadratic Function Graphs";
+            document.querySelector("#learnPageImage1").src = "";
+            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            break;
+        case 3:
+            document.querySelector("#learnPageTitle").innerHTML = "Cubic Function Graphs";
+            document.querySelector("#learnPageImage1").src = "";
+            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            break;
+        case 4:
+            document.querySelector("#learnPageTitle").innerHTML = "Quartic Function Graphs";
+            document.querySelector("#learnPageImage1").src = "";
+            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            break;
+        case 5:
+            document.querySelector("#learnPageTitle").innerHTML = "Exponential Function Graphs";
+            document.querySelector("#learnPageImage1").src = "";
+            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            break;
+        case 6:
+            document.querySelector("#learnPageTitle").innerHTML = "Logarithmic Function Graphs";
+            document.querySelector("#learnPageImage1").src = "";
             document.querySelector("#learnPageText").innerHTML = "Worked???";
             break;
         default:
