@@ -94,60 +94,115 @@ function checkVisibleBtns() {
  * Changes the text and image(s) on the screen when a learning page change is requested
  */
 function changePageText() {
+
+    let img1 = document.querySelector("#learnPageImage1");
+    let img2 = document.querySelector("#learnPageImage2");
+    let img3 = document.querySelector("#learnPageImage3");
+
     switch (currPageNum) {
         case 0:
             document.querySelector("#learnPageTitle").innerHTML = "Graph Introduction";
 
-            let img1 = document.querySelector("#learnPageImage1");
             img1.src = "";
-            let img2 = document.querySelector("#learnPageImage2");
+            img1.height = "0";
+            img1.width = "0";
             img2.src = "";
-            let img3 = document.querySelector("#learnPageImage3");
+            img2.height = "0";
+            img2.width = "0";
             img3.src = "";
+            img3.height = "0";
+            img3.width = "0";
 
-            document.querySelector("#learnPageText").innerHTML = "There are many different types of graphs for different mathematical functions. In this learning section we will be taking a look at linear, quadratic, cubic, quartic, exponential, and logarithmic function graphs. You will learn the identifying factors and general shapes of these different kinds of graphs in order to more easily be able to identify them.";
+            document.querySelector("#learnPageText").innerHTML = "There are many different types of graphs for different mathematical functions. In this learning section we will be taking a look at linear, quadratic, cubic, quartic, exponential, and logarithmic function graphs. You will learn the identifying factors and general shapes of these different kinds of graphs in order to more easily be able to identify them just by shape and structure. You can navigate through these learning pages using the \"Next\" and \"Back\" buttons above. Also, if you would like to quit the learning section and return to the game at any time, press the \"Return to Game\" button at the top.";
             break;
         case 1:
             document.querySelector("#learnPageTitle").innerHTML = "Linear Function Graphs";
             
-            let img1 = document.querySelector("#learnPageImage1");
             img1.src = "img/linearGraph1.jpg";
             img1.height = "350";
             img1.width = "350";
-            let img2 = document.querySelector("#learnPageImage2");
             img2.src = "img/linearGraph2.jpg";
             img2.height = "350";
             img2.width = "350";
-            let img3 = document.querySelector("#learnPageImage3");
             img3.src = "img/linearGraph3.jpg";
             img3.height = "350";
             img3.width = "350";
 
-            document.querySelector("#learnPageText").innerHTML = "Worked??";
+            document.querySelector("#learnPageText").innerHTML = "There are many different types of linear graphs but some examples of the main types are shown above. Linear graphs can be made from any linear functions of the form <b>y = x</b>, <b>y = x + i</b>, or <b>y = i</b> where <b>i</b> is any number. Linear functions basically map <b>y</b> to <b>x</b> directly or <b>y</b> to some constant number. As shown in the first example graph <b>y = x</b>, we can see that every coordinate on the graphed line has a matching <b>y</b> and <b>x</b> value since <b>y = x</b>. Many linear functions use this form and transformations can be made to change the way the graph looks as well. The simplest looking linear graph is one like the second graph <b>y = 1</b> shown above. Graphs like this simply map every <b>y</b> coordinate to a specific value for every <b>x</b>, in this case, <b>1</b>. As for transformations of linear graphs, <b>x</b> can be multiplied to change the slope of the graph and numbers can be added or subtracted in order to shift the graph left or right. Such a transformation is shown in the third example, <b>y = -x - 1</b>, where we can see that multiplying <b>x</b> by <b>-1</b> has made the slope of the graph negative and then subtracting <b>1</b> has shifted the whole graph over to the left by <b>1</b> unit.";
             break;
         case 2:
             document.querySelector("#learnPageTitle").innerHTML = "Quadratic Function Graphs";
-            document.querySelector("#learnPageImage1").src = "";
-            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            
+            img1.src = "img/quadraticGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/quadraticGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/quadraticGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Quadratic graphs are those of quadratic functions of the form <b>y = x^2</b> like <b>y = x^2 + x + 1</b>. The first example shown above is a graph of <b>y = x^2</b>. The shape this graph makes is known as a <b>\"parabola\"</b> and is usually very distinct to quadratic functions. The graph makes this shape because every <b>y</b> coordinate is equal to an <b>x coordinate squared</b>, and since negative numbers squared cannot be negative, the graph looks mirrored. A simple example of the most common quadratic form graph is shown in the second example where <b>y = x^2 + x - 1</b>. In this example the <b>- 1</b> at the end shifts the graph downwards by one unit and the added <b>x</b> throws a linear offset of <b>x</b> into the mix. Thinking about how each coordinate is calculated is helpful in determining graphs, especially when it comes to quadratic graphs. Finally, the third example of <b>y = -x^2 + 3x</b> shows how multiplying the <b>x^2</b> factor by a negative number flips the graph upside-down and the <b>3x</b> adds an extra <b>3x</b> to every coordinate.";
             break;
         case 3:
             document.querySelector("#learnPageTitle").innerHTML = "Cubic Function Graphs";
-            document.querySelector("#learnPageImage1").src = "";
-            document.querySelector("#learnPageText").innerHTML = "Worked???";
+            
+            img1.src = "img/cubicGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/cubicGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/cubicGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Cubic graphs are graphs of cubic functions, in other words any function of the form <b>x^3</b> like <b>x^3 + x^2 + x + 1</b>. Shown above, the first example of a graph of one of these kinds of functions is simply the graph of <b>y = x^3</b>. The graph actually looks similar to quadratic graphs because it is a similar exponent graph, but this cubic graph looks like it is mirrored diagonally whereas quadratic graphs appear to be mirrored horizontally over the <b>y</b> axis and sometimes vertically over the <b>x</b> axis if rotated. This shape is prevalent because coordinates are exponentiated to the third power, but unlike the <b>x^2</b> in quadratic functions, the <b>x^3</b> in cubic functions can be negative, and it is negative for all negative <b>x</b> values. This usually gives cubic functions a diagonally mirrored appearance. In the second example, we can see that when <b>y = x^3 + x^2 + x + 1</b>, the graph gets a little bit diluted by the <b>x^2</b> and <b>x</b> factors while the <b>+ 1</b> at the end simply shifts the graph upwards by one unit. Moving on to the last example, <b>y = -x^3 + x^2 + x - 1</b> shows us that once again, the graph is flipped upside-down when the <b>x^3</b> factor is multiplied by a negative value. Since the <b>x^2</b> and <b>x</b> factors are added to an already negative <b>x^3</b> value, the middle of the graph gets a bit distorted upwards. The remaining <b>- 1</b> shifts the graph downwards by one unit.";
             break;
         case 4:
             document.querySelector("#learnPageTitle").innerHTML = "Quartic Function Graphs";
-            document.querySelector("#learnPageImage1").src = "";
+            
+            img1.src = "img/quarticGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/quarticGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/quarticGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
             document.querySelector("#learnPageText").innerHTML = "Worked???";
             break;
         case 5:
             document.querySelector("#learnPageTitle").innerHTML = "Exponential Function Graphs";
-            document.querySelector("#learnPageImage1").src = "";
+            
+            img1.src = "img/exponentialGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/exponentialGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/exponentialGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
             document.querySelector("#learnPageText").innerHTML = "Worked???";
             break;
         case 6:
             document.querySelector("#learnPageTitle").innerHTML = "Logarithmic Function Graphs";
-            document.querySelector("#learnPageImage1").src = "";
+            
+            img1.src = "img/logarithmicGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/logarithmicGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/logarithmicGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
             document.querySelector("#learnPageText").innerHTML = "Worked???";
             break;
         default:
