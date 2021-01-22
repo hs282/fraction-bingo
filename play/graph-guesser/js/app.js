@@ -5,6 +5,13 @@ let playerScore = 0;
 const SCORE_INCREASE = 20;
 const SCORE_DECREASE = 1;
 
+let currPageNum = 0;
+const minPageNum = 0;
+const maxPageNum = 6;
+
+let nextBtnOn = true;
+let backBtnOn = false;
+
 // Every type of graph and identifying factors about it's current state
 let graphTypes = [
     {
@@ -61,6 +68,168 @@ function startGame() {
 }
 
 /**
+ * Set the proper elements to be diplayed for the learning screen
+ */
+function startLearning() {
+    document.querySelector("#startScreen").style.display = "none";
+    document.querySelector("#learnScreen").style.display = "inline";
+    document.querySelector('#backbtn').style.display = "none";
+
+    currPageNum = 0;
+    changePageText();
+}
+
+/**
+ * Checks the currPageNum to make sure the proper page locomotion buttons are visible
+ */
+function checkVisibleBtns() {
+    if (currPageNum == maxPageNum && nextBtnOn) {document.querySelector('#nextbtn').style.display = "none"; nextBtnOn = false;}
+    else if (!nextBtnOn) {document.querySelector('#nextbtn').style.display = "inline"; nextBtnOn = true;}
+
+    if (currPageNum == minPageNum && backBtnOn) {document.querySelector('#backbtn').style.display = "none"; backBtnOn = false;}
+    else if (!backBtnOn) {document.querySelector('#backbtn').style.display = "inline"; backBtnOn = true;}
+}
+
+/**
+ * Changes the text and image(s) on the screen when a learning page change is requested
+ */
+function changePageText() {
+
+    let img1 = document.querySelector("#learnPageImage1");
+    let img2 = document.querySelector("#learnPageImage2");
+    let img3 = document.querySelector("#learnPageImage3");
+
+    switch (currPageNum) {
+        case 0:
+            document.querySelector("#learnPageTitle").innerHTML = "Graph Introduction";
+
+            img1.src = "";
+            img1.height = "0";
+            img1.width = "0";
+            img2.src = "";
+            img2.height = "0";
+            img2.width = "0";
+            img3.src = "";
+            img3.height = "0";
+            img3.width = "0";
+
+            document.querySelector("#learnPageText").innerHTML = "There are many different types of graphs for different mathematical functions. In this learning section we will be taking a look at linear, quadratic, cubic, quartic, exponential, and logarithmic function graphs. You will learn the identifying factors and general shapes of these different kinds of graphs in order to more easily be able to identify them just by shape and structure. You can navigate through these learning pages using the <b>\"Next\"</b> and <b>\"Back\"</b> buttons above. Also, if you would like to quit the learning section and return to the game at any time, press the <b>\"Return to Game\"</b> button at the top.";
+            break;
+        case 1:
+            document.querySelector("#learnPageTitle").innerHTML = "Linear Function Graphs";
+            
+            img1.src = "img/linearGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/linearGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/linearGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "There are many different types of linear graphs but some examples of the main types are shown above. Linear graphs can be made from any linear functions of the form <b>y = x</b>, <b>y = x + i</b>, or <b>y = i</b> where <b>i</b> is any number. Linear functions basically map <b>y</b> to <b>x</b> directly or <b>y</b> to some constant number. As shown in the first example graph <b>y = x</b>, we can see that every coordinate on the graphed line has a matching <b>y</b> and <b>x</b> value since <b>y = x</b>. Many linear functions use this form and transformations can be made to change the way the graph looks as well. The simplest looking linear graph is one like the second graph <b>y = 1</b> shown above. Graphs like this simply map every <b>y</b> coordinate to a specific value for every <b>x</b>, in this case, <b>1</b>. As for transformations of linear graphs, <b>x</b> can be multiplied to change the slope of the graph and numbers can be added or subtracted in order to shift the graph left or right. Such a transformation is shown in the third example, <b>y = -x - 1</b>, where we can see that multiplying <b>x</b> by <b>-1</b> has made the slope of the graph negative and then subtracting <b>1</b> has shifted the whole graph over to the left by <b>1</b> unit.";
+            break;
+        case 2:
+            document.querySelector("#learnPageTitle").innerHTML = "Quadratic Function Graphs";
+            
+            img1.src = "img/quadraticGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/quadraticGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/quadraticGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Quadratic graphs are those of quadratic functions of the form <b>y = x^2</b> like <b>y = x^2 + x + 1</b>. The first example shown above is a graph of <b>y = x^2</b>. The shape this graph makes is known as a <b>\"parabola\"</b> and is usually very distinct to quadratic functions. The graph makes this shape because every <b>y</b> coordinate is equal to an <b>x coordinate squared</b>, and since negative numbers squared cannot be negative, the graph looks mirrored. A simple example of the most common quadratic form graph is shown in the second example where <b>y = x^2 + x - 1</b>. In this example the <b>- 1</b> at the end shifts the graph downwards by one unit and the added <b>x</b> throws a linear offset of <b>x</b> into the mix. Thinking about how each coordinate is calculated is helpful in determining graphs, especially when it comes to quadratic graphs. Finally, the third example of <b>y = -x^2 + 3x</b> shows how multiplying the <b>x^2</b> factor by a negative number flips the graph upside-down and the <b>3x</b> adds an extra <b>3x</b> to every coordinate.";
+            break;
+        case 3:
+            document.querySelector("#learnPageTitle").innerHTML = "Cubic Function Graphs";
+            
+            img1.src = "img/cubicGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/cubicGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/cubicGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Cubic graphs are graphs of cubic functions, in other words any function of the form <b>x^3</b> like <b>x^3 + x^2 + x + 1</b>. Shown above, the first example of a graph of one of these kinds of functions is simply the graph of <b>y = x^3</b>. The graph actually looks similar to quadratic graphs because it is a similar exponent graph, but this cubic graph looks like it is mirrored diagonally whereas quadratic graphs appear to be mirrored horizontally over the <b>y</b> axis and sometimes vertically over the <b>x</b> axis if rotated. This shape is prevalent because coordinates are exponentiated to the third power, but unlike the <b>x^2</b> in quadratic functions, the <b>x^3</b> in cubic functions can be negative, and it is negative for all negative <b>x</b> values. This usually gives cubic functions a diagonally mirrored appearance. In the second example, we can see that when <b>y = x^3 + x^2 + x + 1</b>, the graph gets a little bit diluted by the <b>x^2</b> and <b>x</b> factors while the <b>+ 1</b> at the end simply shifts the graph upwards by one unit. Moving on to the last example, <b>y = -x^3 + x^2 + x - 1</b> shows us that once again, the graph is flipped upside-down when the <b>x^3</b> factor is multiplied by a negative value. Since the <b>x^2</b> and <b>x</b> factors are added to an already negative <b>x^3</b> value, the middle of the graph gets a bit distorted upwards. The remaining <b>- 1</b> shifts the graph downwards by one unit.";
+            break;
+        case 4:
+            document.querySelector("#learnPageTitle").innerHTML = "Quartic Function Graphs";
+            
+            img1.src = "img/quarticGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/quarticGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/quarticGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Quartic graphs like those shown above are graphs of quartic functions which are functions of the form <b>y = x^4</b> like <b>y = x^4 + x^3 + x^2 + x + 1</b>. The first example above is the basic <b>y = x^4</b> function which shows the general shape of quartic functions. These functions looks much like a <b>parabola</b> when nothing extra is added, just with more extreme value increases since <b>x^4 > x^2</b>. Moving on to the second example, <b>y = x^4 + 2x^3 + x^2 + x + 1</b> is very long but shows us all of the factors a fully sized quartic function could include. All of the values <b>2x^3, x^2, and x</b> cause general distortion in the shape of the graph. In addition, the <b>+ 1</b> at the end shifts the graph up by one unit. Quartic graphs can be hard to determine the function for since they can include cubic and quadratic factors which distort the graph shape, but if you take a look at specific coordinates and think about how those values are reached, the answer can be determined with just a little critical thinking. Moving on to the final example of a quartic function, we have <b>y = -x^4 - x^3 + 2x^2 + x</b>. This function also exhibits an odd shape on account of its distortions. The first thing we can see is that because the <b>x^4</b> factor is negative, the graph is flipped upside-down. After that, all of the other factors distort the graph shape to include elements of a cubic, quadratic, and linear function. Quartic functions are among the hardest to guess due to all of their possible irregularities, but with a little bit of time and calculation they can still be determined.";
+            break;
+        case 5:
+            document.querySelector("#learnPageTitle").innerHTML = "Exponential Function Graphs";
+            
+            img1.src = "img/exponentialGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/exponentialGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/exponentialGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Exponential graphs use exponential functions to determine where the coordinates will be set. For background, an exponential function is one where instead of a variable <b>x</b> being exponentiated to a constant power, a constant number is exponentiated to whatever <b>x</b>'s value is. Simple exponential functions look like our first example which is <b>y = 2^x</b>. As can be seen, exponential functions usually approach zero as they go to negative infinity due to the fractional nature of negative exponents. Though not much of the graph is shown in this small example, exponential functions grow in value extremely quickly and can usually be guessed based on how large they get quickly. In the next example <b>y = 3^(x+1) + 1</b> we can see the basic transformations of exponential functions and how they change the shape of the graph. In this case, the <b>3^x</b> part just makes the increasing values more extreme than <b>2^x</b> while the <b>(x + 1)</b> part inside of the exponent moves the graph to the left by one unit. Then the <b>- 1</b> factor at the end moves the whole graph downwards by one unit. These transformations are relatively easy to determine once an exponential number has been determined. In the last example <b>y = -4^x + 2</b> we can see the negative at the beginning flips the graph upside-down once again and the <b>+ 2</b> at the end shifts the whole graph upwards by two units.";
+            break;
+        case 6:
+            document.querySelector("#learnPageTitle").innerHTML = "Logarithmic Function Graphs";
+            
+            img1.src = "img/logarithmicGraph1.jpg";
+            img1.height = "350";
+            img1.width = "350";
+            img2.src = "img/logarithmicGraph2.jpg";
+            img2.height = "350";
+            img2.width = "350";
+            img3.src = "img/logarithmicGraph3.jpg";
+            img3.height = "350";
+            img3.width = "350";
+
+            document.querySelector("#learnPageText").innerHTML = "Logarithmic graphs show what happens when logarithmic functions are mapped onto graphs. Logarithmic functions are really their own specific kind of function that is related to natural logarithms and <b>e</b> but we will only touch upon basic logarithms. A basic log is log base ten, or as it is more commonly written in our first example, simply <b>y = logx</b>. The graph of logarithms generally approaches negative infinity in the negative <b>y</b> direction as <b>x</b> gets closer to zero. Logarithms also stop at a certain <b>x</b> point unlike the other functions we have gone over, as is shown in our first example stopping at <b>x = 0</b>. For the second example <b>y = log(4x + 3) + 1</b>, we take a look at logarithmic transformations. The <b>+ 1</b> at the end shifts the graph upwards by <b>1</b> unit while the <b>4x + 3</b> factor offsets the graph to the left by <b>3/4</b> since <b>4(-3/4) + 3 = 0</b> and it also increases values over time due to the multiplication of <b>x</b> by four and addition of three. In the final example, we see again that having a negative value at the front of the function flips the graph upside-down, but this time the factor of <b>2</b> that it is multiplied by increases all of the normal logarithmic values by a multiplied factor of two. Similar to the last example, the transformation inside the logarithm also shifts the graph to the left. This time it is shifted by two units since <b>2(-4/2) + 4 = 0</b>.";
+            break;
+        default:
+            break;
+    }
+}
+
+/*
+* Allow the user to go to the next page when browsing learning pages
+*/
+function pageNext() {
+    //console.log("Pressed");
+    currPageNum++;
+    checkVisibleBtns();
+    changePageText();
+}
+
+/*
+* Allow the user to go to the last page when browsing learning pages
+*/
+function pageBack() {
+    currPageNum--;
+    checkVisibleBtns();
+    changePageText();
+}
+
+/**
  * Set the proper screen elements to bring the user back to the start screen
  */
 function endGame() {
@@ -69,7 +238,10 @@ function endGame() {
     inputText.style.color = "black";
 
     document.querySelector("#gameScreen").style.display = "none";
+    document.querySelector("#learnScreen").style.display = "none";
     document.querySelector("#startScreen").style.display = "inline";
+
+    $("#myModal").modal("show");
 }
 
 // TODO footer difficulty modes like in SpeedyMath

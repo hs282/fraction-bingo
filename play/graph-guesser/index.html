@@ -26,8 +26,12 @@
                 padding: 0px 5px 0px 5px;
             }
 
-            #startPrompt {
-                margin-top: 15%;
+            .learn {
+                padding: 10px 20px 10px 20px;
+            }
+
+            .prompt {
+                margin-top: 5%;
                 text-align: center;
                 font-size: 200%;
             }
@@ -116,9 +120,14 @@
         </div>
 
         <section class="container-fluid-mt-2" id="startScreen" style="display: inline;">
-            <div id="startPrompt">
+            <div id="startPrompt" class="prompt">
                 <p>Adjust the types and difficulty of the graphs below. Click Start when ready.</p>
-                <button id="startButton" class="btn btn-success btn-lg" onclick="startGame();">Start</button>
+                <button id="startButton" class="btn btn-success btn-lg" onclick="startGame();">Start Game</button>
+            </div>
+            <p></p>
+            <div id="learnPrompt" class="prompt">
+                <p>If you would like to learn more about graphs first, click below.</p>
+                <button id="learnButton" class="btn btn-primary btn-lg" onclick="startLearning();">Learn More</button>
             </div>
             <footer class="fixed-bottom">
                 <span id="customizeProblemTypes" style="padding: 0px 10px 0px 10px; width: 20%;">Customize Graph Problem Types:</span>
@@ -157,6 +166,38 @@
             </form>
 
             <div id="plot" style="height: 80%; width: 100%;"></div>
+        </section>
+
+        <section class="container-fluid mt-2" id="learnScreen" style="height: 80%; display: none;">
+            <form id="learnForm" class="learn" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button type="button" id="backbtn" class="btn btn-secondary" onclick="pageBack();">Back</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="form-control-lg" style="text-align: center;">
+                            <label id="learnPageTitle" for="eq" style="font-size: 25px;">
+                                Graph Introduction
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" id="nextbtn" class="btn btn-primary" onclick="pageNext();">Next</button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2">
+                        <button type="button" id="endbtn" class="btn btn-danger" onclick="endGame();">Return to Game</button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="learnPageImages" class="learn">
+                <div class="col-sm-4" style="float: left;"><img id="learnPageImage1" src="" alt=""/></div>
+                <div class="col-sm-4" style="float: left;"><img id="learnPageImage2" src="" alt=""/></div>
+                <div class="col-sm-4" style="float: left;"><img id="learnPageImage3" src="" alt=""/></div>
+            </div>
+            <div id="learnPageText" class="learn" style="font-size: 18px;">
+            </div>
         </section>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
