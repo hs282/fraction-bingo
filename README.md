@@ -1,14 +1,2 @@
-# kids-corner
-An online platform where students can play educational games or read free educational books.
-
-
-
-## Games
-A series of games that teach STEM topics.
-
-## STEM Library
-A series of free, downloadable books that discuss or are related to STEM topics.
-
-## Contributors
-* Created by [Rees Draminski](https://github.com/reesdraminski)
-* Homepage and Type Racer UI by [Priyanka Kargupta](https://github.com/pkargupta)
+# Fraction Bingo
+An educational math web game for K-12 students in the form of bingo with three problem modes and difficulty levels written in JavaScript, HTML, and CSS. I developed this in 2020 for TeCanal, a nonprofit organization dedicated to providing STEM education to underserved communities through an online platform featuring educational games.
